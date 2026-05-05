@@ -1,0 +1,360 @@
+:root {
+    --primary-gold: #D4AF37; /* အနည်းငယ် နူးညံ့သော ရွှေရောင် */
+    --bg-dark: #080808;
+    --card-bg: rgba(255, 255, 255, 0.03);
+    --text-main: #e0e0e0;
+    --text-muted: #888;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    font-family: 'Inter', 'Pyidaungsu', sans-serif;
+    margin: 0;
+    
+    -webkit-font-smoothing: antialiased;
+}
+
+.main-wrapper {
+    width: 100%;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+    /* အရှင်ဘုရား အလိုရှိတဲ့ အတိုင်းအတာများ */
+    margin-top: 120px !important;
+    margin-bottom: 400px; 
+    padding: 0 1rem; /* ဘေးဘောင်အတွက်ပဲ padding သုံးပါမည် */
+    display: block; 
+    box-sizing: border-box;
+}
+
+
+/* Profile Section */
+.profile-header {
+    text-align: center;
+    margin-top: 120px; 
+    margin-bottom: 50px;
+}
+
+.avatar-container {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    border: 1px solid var(--primary-gold);
+    padding: 5px;
+}
+
+.avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    filter: grayscale(20%);
+}
+
+
+
+.profile-tagline {
+    color: var(--primary-gold);
+    font-size: 0.85rem;
+    margin-top: 8px;
+    opacity: 0.8;
+}
+
+/* Cards */
+.bio-card, .focus-card {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 16px;
+    margin-bottom: 25px;
+    border: 1px solid rgba(212, 175, 55, 0.1);
+}
+
+.label {
+    font-size: 1rem;
+    text-transform: uppercase;
+    color: var(--primary-gold);
+    letter-spacing: 2.5px;
+    margin-bottom: 15px;
+    display: block;
+    opacity: 0.7;
+}
+
+/* စာသားအရောင် အဝါရောင်မဖြစ်စေရန် အသေသတ်မှတ်ချက် */
+.bio-content {
+    line-height: 1.8;
+    font-size: 1rem;
+    color: var(--text-main) !important; /* ဤနေရာတွင် အဖြူ/မီးခိုးရောင်သို့ အသေပြောင်းထားပါသည် */
+    margin: 0;
+}
+
+/* Dharma List */
+.dharma-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dharma-list li {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    font-size: 1rem;
+    color: #bbb !important; /* ဤနေရာတွင်လည်း အဝါရောင်မဖြစ်စေရန် ပြင်ထားပါသည် */
+}
+
+.dharma-list li:last-child {
+    border-bottom: none;
+}
+
+/* Navigation Buttons */
+.nav-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--card-bg);
+    padding: 18px 25px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: white;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: 0.3s ease;
+}
+
+.nav-button:hover {
+    border-color: var(--primary-gold);
+    background: rgba(212, 175, 55, 0.05);
+}
+
+.footer {
+    text-align: center;
+    margin-top: 60px;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    font-style: italic;
+}
+
+/* --- အရောင်မှိန်ခြင်းနှင့် ခလုတ်ပျောက်ခြင်း ပြင်ဆင်ချက် --- */
+
+body.reading-mode .bio-content,
+body.reading-mode .dharma-list li {
+    color: #5b4636 !important; /* Read mode အတွက် အညိုရင့် */
+}
+
+body:not(.dark-mode):not(.reading-mode) .bio-content,
+body:not(.dark-mode):not(.reading-mode) .dharma-list li,
+body:not(.dark-mode):not(.reading-mode) .profile-name {
+    color: #111111 !important; /* Light mode အတွက် အမည်းရောင် */
+}
+
+body:not(.dark-mode) .label {
+    opacity: 1 !important;
+    color: #8b4513 !important;
+}
+
+.nav-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--primary-gold) !important;
+    padding: 18px 25px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: #000000 !important;
+    margin-bottom: 15px;
+    border: 1px solid rgba(0,0,0,0.1);
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.nav-button .icon {
+    color: #000000 !important;
+}
+
+body.dark-mode .nav-button {
+    background: #FFD700 !important;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
+}
+
+body.reading-mode .bio-card, 
+body.reading-mode .focus-card {
+    background: rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(139, 69, 19, 0.2);
+}
+
+body:not(.dark-mode):not(.reading-mode) .bio-card,
+body:not(.dark-mode):not(.reading-mode) .focus-card {
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+}
+
+/* 📚 Bottom Navigation */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  background-color: #222;
+  padding: 0.8rem 0; 
+  z-index: 9999;
+}
+
+.bottom-nav a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #FFD700;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 4px 6px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease; 
+  font-size: 16px;
+}
+
+.bottom-nav a .icon {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+/* 🌟 Active link style */
+.bottom-nav a.active {
+  background-color: rgba(255, 215, 0, 0.2) !important;
+  box-shadow: 0 0 6px rgba(255, 215, 0, 0.3) !important;
+  text-decoration: none !important;
+  opacity: 1 !important;
+}
+
+/* --- ဓာတ်ပုံဘေးဆွဲ Gallery CSS အစ --- */
+
+.gallery-list {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    padding: 10px 5px;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.gallery-list::-webkit-scrollbar {
+    display: none;
+}
+
+.gallery-item {
+    flex: 0 0 250px;
+    background: var(--card-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    transition: 0.3s ease;
+}
+
+.gallery-item img {
+    width: 100%;
+    height: 280px;        /* ၁၅၀ မှ ၂၈၀ သို့ တိုးလိုက်ပါ (ပုံပိုရှည်သွားပါမည်) */
+    object-fit: cover;    /* ဘောင်အတွင်း အချိုးကျဖြည့်ရန် */
+    object-position: top; /* အရေးကြီးသည် - ဦးခေါင်းပိုင်းကို အဓိကထားပြရန် */
+    display: block;
+}
+
+
+.gallery-item .text {
+    padding: 8px;
+    font-size: 13px;
+    text-align: center;
+    color: var(--text-main);
+}
+
+body:not(.dark-mode) .gallery-item .text {
+    color: #111111 !important;
+}
+
+/* --- ဓာတ်ပုံဘေးဆွဲ Gallery CSS အဆုံး --- */
+
+/* 🔝 Fixed Top-Left Title */
+#fixedTitle {
+  position: fixed;
+  top: 0rem;           /* အပေါ် margin – လိုချင်သလို ပြင်နိုင် */
+  left: 0.5rem;        /* ဘယ်ဘက် margin */
+  font-size: 1rem;   /* စာအရွယ် */
+  font-weight: bold;
+  background-color: black;
+  color: #FFD700;
+  padding: 3px 7px;
+  border-radius: 6px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.fixed-logo {
+  position: fixed; /* နေရာကို ပုံသေထားရန် */
+  bottom: 110px;    /* အောက်ခြေ menu bar ရဲ့ အမြင့်ထက် နည်းနည်းပိုထားပါ */
+  left: 10px;      /* ပင်မခလုတ်ရှိမယ့် ဘယ်ဘက်အခြမ်းမှာ ထားရန် */
+  z-index: 1000;   /* တခြားအရာတွေရဲ့ အပေါ်မှာ ပေါ်နေစေရန် */
+}
+
+.fixed-logo img {
+  width: 80px;     /* 8mm ခန့်ရှိသော pixel အတိုင်းအတာ (လိုအပ်သလို ပြင်နိုင်သည်) */
+  height: 80px;
+  border-radius: 50%; /* လိုဂိုကို အဝိုင်းပုံစံ ဖြစ်စေချင်လျှင် သုံးပါ */
+  object-fit: cover;
+}
+
+/*စာပို့ခလုပ် အစ*/
+/* 📜 Fixed Manuscript Button Style */
+.fixed-manuscript-btn {
+    position: fixed;
+    bottom: 120px;          /* အောက်ခြေမှ ၁၂၀ pixel အကွာ */
+    left: 50%;              /* ဘယ်ဘက်မှ ၅၀ ရာခိုင်နှုန်း */
+    transform: translateX(-50%); /* အလယ်ဗဟို ကွက်တိဖြစ်အောင် ညှိခြင်း */
+    z-index: 20;            /* အပေါ်ဆုံးမှာ ပေါ်နေစေရန် */
+}
+
+.fixed-manuscript-btn a {
+    font-size: 2.5rem;      /* ခလုတ်အရွယ်အစား */
+    text-decoration: none;  /* မျဉ်းတားဖျောက်ရန် */
+    display: block;
+    transition: transform 0.2s ease; /* နှိပ်လိုက်ရင် တုံ့ပြန်မှု ရှိစေရန် */
+}
+
+.fixed-manuscript-btn a:active {
+    transform: scale(0.9);  /* နှိပ်လိုက်ရင် နည်းနည်းကျုံ့သွားစေရန် */
+}
+/*စာပို့ခလုပ် အဆုံး*/
+
+/* စာသားကို Select လုပ်လိုက်တဲ့အခါ ပေါ်မယ့်အရောင် အစ */
+::selection {
+    background-color: #ffcc00 !important; /* အရှင်ဘုရား ကြိုက်နှစ်သက်သော အဝါရောင် */
+    color: #000000 !important;           /* စာလုံးအရောင်ကို အမည်းရောင်ပြောင်းခြင်း */
+}
+
+/* Safari browser အတွက်ပါ ထည့်သွင်းခြင်း */
+::-moz-selection {
+    background-color: #ffcc00 !important;
+    color: #000000 !important;
+}
+/* စာသားကို Select လုပ်လိုက်တဲ့အခါ ပေါ်မယ့်အရောင် အဆုံး */
+
+/* နှိပ်လိုက်ရင် အဝါရောင် ပေါ်ရန် အစ*/
+/* ၁။ တစ်ကမ္ဘာလုံးရှိ နှိပ်သမျှ အရာအားလုံးအတွက် (Safari အပါအဝင်) */
+* {
+    /* ဖုန်းမှာ နှိပ်လိုက်ရင် ပေါ်တဲ့ အပြာရောင်ကို အဝါဖျော့ပြောင်းခြင်း (iOS Safari အတွက် အဓိက) */
+    -webkit-tap-highlight-color: rgba(255, 204, 0, 0.4) !important;
+}
+
+/* ၂။ Desktop မှာ Tab ခလုတ်နှိပ်လို့ဖြစ်ဖြစ်၊ Mouse နဲ့နှိပ်လို့ဖြစ်ဖြစ် ပေါ်တဲ့ အပြာရောင်ဘောင်ကို ဖျောက်ခြင်း */
+*:focus {
+    outline: 2px solid #ffcc00 !important; /* အပြာရောင်အစား အဝါရောင်ဘောင်ပြောင်းခြင်း */
+    outline-offset: 1px;
+}
+
+/* ၃။ Safari မှာ ခလုတ်တွေ နှိပ်လိုက်တဲ့အခါ အပြာရောင် Highlight ဖြစ်တာကို တားဆီးရန် */
+button:active, a:active {
+    background-color: rgba(255, 204, 0, 0.2) !important;
+}
+
+/* နှိပ်လိုက်ရင် အဝါရောင် ပေါ်ရန် အဆုံး*/
