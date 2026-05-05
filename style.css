@@ -1,0 +1,298 @@
+body {
+  font-family: "Myanmar Text", sans-serif;
+  background-color: #ffffff;
+  color: #FFD700; /* စာအဝါ */
+  margin: 0;
+  padding: 0;
+}
+
+/* 🌗 Dark mode toggle fixed top-right */
+#modeToggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* 📝 Main content */
+main {
+  padding: 5rem 0.5rem 5rem; /* bottom padding = 5rem, category bar အောက် မဖုံးအောင် */
+  text-align: center;
+}
+
+/* 🌟 Active link style (soft gold) */
+.bottom-nav a.active {
+  background-color: rgba(255, 215, 0, 0.2); /* အဖျော့ အဝါ */
+  box-shadow: 0 0 6px rgba(255, 215, 0, 0.3); /* အဖျော့ shadow */
+  text-decoration: none;
+}
+
+/* 📚 Bottom Category Bar */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  background-color: #222;
+  padding: 0.8rem 0; 
+  z-index: 5;
+}
+
+/*အပေါ်ဆုံးက လိုဂို ပုံအတွက် အစ*/
+/* Avatar အတွက် လိုအပ်သော CSS */
+.avatar-container {
+    width: 120px;
+    height: 120px;
+    margin: 1rem auto;
+    border-radius: 50%;
+    border: 1px solid #FFD700;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+/*အပေါ်ဆုံးက လိုဂို ပုံအတွက် အဆုံး*/
+
+.bottom-nav a {
+  display: flex;            /* vertical layout */
+  flex-direction: column;   /* emoji အပေါ်၊ စာ အောက် */
+  align-items: center;
+  color: #FFD700;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 4px 6px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease; font-size: 16px;
+}
+
+.bottom-nav a .icon {
+  font-size: 18px;       /* emoji အရွယ်အစား */
+  margin-bottom: 4px;    /* emoji နဲ့ စာကြား အကွာအဝေး */
+}
+
+/* 🔝 Fixed Top-Left Title */
+#fixedTitle {
+  position: fixed;
+  top: 0rem;           /* အပေါ် margin – လိုချင်သလို ပြင်နိုင် */
+  left: 0.5rem;        /* ဘယ်ဘက် margin */
+  font-size: 1rem;   /* စာအရွယ် */
+  font-weight: bold;
+  background-color: black;
+  color: #FFD700;
+  padding: 3px 7px;
+  border-radius: 6px;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+/* အခြားမူရင်း style မတွေ့ရင် */
+body {
+  margin: 0;
+  
+}
+.fixed-logo {
+  position: fixed; /* နေရာကို ပုံသေထားရန် */
+  bottom: 110px;    /* အောက်ခြေ menu bar ရဲ့ အမြင့်ထက် နည်းနည်းပိုထားပါ */
+  left: 10px;      /* ပင်မခလုတ်ရှိမယ့် ဘယ်ဘက်အခြမ်းမှာ ထားရန် */
+  z-index: 1000;   /* တခြားအရာတွေရဲ့ အပေါ်မှာ ပေါ်နေစေရန် */
+}
+
+/* စာသားကို Select လုပ်လိုက်တဲ့အခါ ပေါ်မယ့်အရောင် */
+::selection {
+    background-color: #ffcc00 !important; /* အရှင်ဘုရား ကြိုက်နှစ်သက်သော အဝါရောင် */
+    color: #000000 !important;           /* စာလုံးအရောင်ကို အမည်းရောင်ပြောင်းခြင်း */
+}
+
+/* Safari browser အတွက်ပါ ထည့်သွင်းခြင်း */
+::-moz-selection {
+    background-color: #ffcc00 !important;
+    color: #000000 !important;
+}
+
+
+.fixed-logo img {
+  width: 80px;     /* 8mm ခန့်ရှိသော pixel အတိုင်းအတာ (လိုအပ်သလို ပြင်နိုင်သည်) */
+  height: 80px;
+  border-radius: 50%; /* လိုဂိုကို အဝိုင်းပုံစံ ဖြစ်စေချင်လျှင် သုံးပါ */
+  object-fit: cover;
+}
+
+/* --- ဓာတ်ပုံဘေးဆွဲ CSS အစ --- */
+
+/* ၁။ စာမျက်နှာ အခြေခံ သတ်မှတ်ချက် */
+body {
+    font-family: 'Pyidaungsu', sans-serif;
+    background-color: #fcfaf5;
+    margin: 0;
+    padding: 10px;
+}
+
+/* ၂။ ခေါင်းစဉ် အလှပြင်ဆင်ခြင်း */
+.section-title {
+    font-size: 1.1rem;
+    margin: 60px 0 10px 5px;
+    border-left: 5px solid #ffc107; /* အဝါရောင် ဘေးလိုင်းလေး */
+    padding-left: 12px;
+}
+
+/* ၃။ ပုံများကို ဘေးတိုက် Scroll ဆွဲနိုင်အောင် လုပ်ဆောင်ခြင်း (Container) */
+.gallery-list {
+    display: flex;             /* ပုံများကို ဘေးချင်းကပ်စီရန် */
+    overflow-x: auto;          /* ပိုနေသောပုံများကို ဘေးသို့ဆွဲကြည့်ရန် */
+    gap: 15px;                 /* ပုံတစ်ပုံနှင့်တစ်ပုံကြား အကွာအဝေး */
+    padding: 10px 5px;
+    scroll-behavior: smooth;   /* ဆွဲလိုက်ရင် ချောမွေ့စွာသွားရန် */
+      margin-top: 20px; /* အပေါ်က ပုံနဲ့ အကွာအဝေး */
+    /* Scroll bar အစင်းကြောင်းကို ဖျောက်ရန် */
+    scrollbar-width: none;     /* Firefox အတွက် */
+    -ms-overflow-style: none;  /* IE အတွက် */
+    -webkit-overflow-scrolling: touch; /* iPhone မှာ ဆွဲရတာ ချောမွေ့စေရန် */
+}
+
+/* Chrome နှင့် Safari ဘောက်ဇာများအတွက် Scroll bar ဖျောက်ရန် */
+.gallery-list::-webkit-scrollbar {
+    display: none;
+}
+
+/* ၄။ ဓာတ်ပုံကတ် တစ်ခုချင်းစီ၏ အရွယ်အစားနှင့် အလှအပ (Link ပါဝင်သည်) */
+.gallery-item {
+    flex: 0 0 240px;           /* ပုံတစ်ပုံ၏ အကျယ်ကို ၁၆၀ pixel အသေထားရန် */
+    background: #ffffff;
+    border-radius: 12px;       /* ထောင့်များကို ဝိုင်းရန် */
+    overflow: hidden;          /* ပုံများ ဘောင်အပြင်မထွက်ရန် */
+    border: 1px solid #eee;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    
+    /* Link ချိတ်ထားလျှင် စာသားမျဉ်းတားဖျောက်ရန် */
+    text-decoration: none; 
+    display: flex;
+    flex-direction: column;
+}
+
+/* ၅။ ဓာတ်ပုံများ ဖုန်း Screen ပေါ်တွင် အံကိုက်ဖြစ်အောင် ထိန်းခြင်း */
+.gallery-item img {
+    width: 100%;               /* ကတ်အကျယ်အတိုင်း ဖြန့်ရန် */
+    height: 250px;             /* အမြင့်ကို ၁၈၀ မှ ၂၅၀ သို့ တိုးလိုက်ပါ (3464x3464 ပုံများအတွက် ပိုအဆင်ပြေစေရန်) */
+    object-fit: cover;         /* ပုံစံမပျက်ဘဲ အကွက်ထဲ အပြည့်ဖြည့်ရန် */
+    object-position: top;      /* အပေါ်ပိုင်း (ဦးခေါင်းပိုင်း) ကို အဓိကပြရန် */
+    display: block;
+}
+
+
+/* ၆။ ပုံအောက်မှ စာသား */
+.gallery-item .text {
+    padding: 10px;
+    font-size: 13px;
+    text-align: center;
+    color: #333;
+    font-weight: 500;
+}
+
+/* --- ဓာတ်ပုံဘေးဆွဲ CSS အဆုံး --- */
+
+
+
+/* ---ခလုပ်ဘေးဆွဲ style.css အစ --- */
+
+/* ၁။ ခလုတ်များအားလုံးကို အုပ်ထားသော အပြင်ဘက်ဘောင် (Container) */
+.scroll-wrapper {
+    display: flex;                   /* ခလုတ်များကို ဘေးတိုက်စီရန် */
+    overflow-x: auto;                /* ဘေးတိုက် Scroll ဆွဲနိုင်ရန် */
+    white-space: nowrap;             /* ခလုတ်များ အောက်ကြောင်းမဆင်းစေရန် */
+    gap: 10px;                       /* ခလုတ်တစ်ခုချင်းစီကြား အကွာအဝေး */
+    padding: 10px;                   /* ဘေးပတ်လည် အကွာအဝေး */
+    -webkit-overflow-scrolling: touch; /* ဖုန်းတွင် ချောမွေ့စွာ Scroll ဆွဲနိုင်ရန် */
+    
+    /* အခုအောက်ပါ စာကြောင်းတစ်ကြောင်းကို ထပ်ထည့်လိုက်ပါဘုရား */
+    margin-top: 50px; 
+}
+
+
+/* ၂။ ခလုတ်တစ်ခုချင်းစီ၏ ပုံစံ (Button Style) */
+.app-link {
+    display: flex;                   /* စာသားကို အလယ်ဗဟို ပို့ရန် */
+    align-items: center;             /* စာသားကို အထက်/အောက် ဗဟိုညှိရန် */
+    justify-content: center;         /* စာသားကို ဘယ်/ညာ ဗဟိုညှိရန် */
+    text-align: center;              /* စာသားကို ဗဟိုချက်ထားရန် */
+    width: 150px;                    /* အလျား ၁၅၀ */
+    height: 150px;                   /* အနံ ၁၅၀ (စတုရန်းပုံစံ) */
+    flex: 0 0 150px;                 /* Scroll ထဲတွင် အရွယ်အစား မပြောင်းလဲရန် */
+    background-color: #E0E0E0;       /* နောက်ခံအရောင် */
+    color: rgba(0, 136, 204, 0.7);   /* စာသားအရောင် */
+    text-decoration: none;           /* လင့်ခ်မျဉ်းတားကို ဖျောက်ရန် */
+    font-size: 1.2rem;               /* စာသားအရွယ်အစား */
+    border-radius: 8px;              /* ထောင့်ဝိုင်းပုံစံ */
+    border: 2px solid #E0E0E0;       /* အနားသတ်ဘောင် */
+    white-space: normal;             /* စာသားရှည်လျှင် အောက်ကြောင်းဆင်းရန် */
+    padding: 10px;                   /* ခလုတ်အတွင်း စာသားအကွာအဝေး */
+}
+
+
+/* --- အရောင်အတွက် အပိုင်း အစ --- */
+
+.viber-text {
+color:rgba(115, 96, 242, 0.6) !important; /* စာသားကို အမဲရောင် ဖြစ်စေရန် */
+}
+
+/* --- အရောင်အတွက် အပိုင်း အဆုံး --- */
+
+/* --- အရောင်အတွက် အပိုင်း အစ --- */
+
+.tiktok-text {
+    color: #121212 !important; /* စာသားကို အမဲရောင် ဖြစ်စေရန် */
+}
+
+/* --- အရောင်အတွက် အပိုင်း အဆုံး --- */
+
+/* --- အရောင်အတွက် အပိုင်း အစ --- */
+
+.youtube-text {
+    color:rgba(255, 0, 51, 0.6) !important; /* စာသားကို အမဲရောင် ဖြစ်စေရန် */
+}
+
+/* --- အရောင်အတွက် အပိုင်း အဆုံး --- */
+
+/* --- အရောင်အတွက် အပိုင်း အစ --- */
+
+.facebook-text {
+    color:rgba(24, 119, 242, 0.6) !important; /* စာသားကို အမဲရောင် ဖြစ်စေရန် */
+}
+
+/* --- အရောင်အတွက် အပိုင်း အဆုံး --- */
+
+
+/* ---ခလုပ်ဘေးဆွဲ style.css အဆုံး --- */
+
+
+/* နှိပ်လိုက်ရင် အဝါရောင် ပေါ်ရန် အစ*/
+/* ၁။ တစ်ကမ္ဘာလုံးရှိ နှိပ်သမျှ အရာအားလုံးအတွက် (Safari အပါအဝင်) */
+* {
+    /* ဖုန်းမှာ နှိပ်လိုက်ရင် ပေါ်တဲ့ အပြာရောင်ကို အဝါဖျော့ပြောင်းခြင်း (iOS Safari အတွက် အဓိက) */
+    -webkit-tap-highlight-color: rgba(255, 204, 0, 0.4) !important;
+}
+
+/* ၂။ Desktop မှာ Tab ခလုတ်နှိပ်လို့ဖြစ်ဖြစ်၊ Mouse နဲ့နှိပ်လို့ဖြစ်ဖြစ် ပေါ်တဲ့ အပြာရောင်ဘောင်ကို ဖျောက်ခြင်း */
+*:focus {
+    outline: 2px solid #ffcc00 !important; /* အပြာရောင်အစား အဝါရောင်ဘောင်ပြောင်းခြင်း */
+    outline-offset: 1px;
+}
+
+/* ၃။ Safari မှာ ခလုတ်တွေ နှိပ်လိုက်တဲ့အခါ အပြာရောင် Highlight ဖြစ်တာကို တားဆီးရန် */
+button:active, a:active {
+    background-color: rgba(255, 204, 0, 0.2) !important;
+}
+
+/* နှိပ်လိုက်ရင် အဝါရောင် ပေါ်ရန် အဆုံး*/
