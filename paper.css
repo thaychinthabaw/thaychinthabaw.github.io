@@ -201,32 +201,34 @@ body.sepia-mode {
     font-size: 16px !important;
 }
 
-/* ၂။ ပိတ်ရန် ခလုတ် (Close) */
-.setting-menu-close {
+
+/* Setting Header နှင့် ပိတ်ရန်ခလုတ် */
+.setting-header {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    justify-content: center;
-    gap: 8px;
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0;
-    background: #eadebc; /* အရှင်ဘုရား လိုချင်တဲ့ အရောင် */
-color: #443300;
-    border: 1px solid #443300;
-    border-radius: 6px;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #d4c5a0;
+}
+
+.setting-title {
+    margin: 0;
+    color: #443300;
+}
+
+.setting-close-btn {
+    font-size: 32px;
+    color: #443300;
     cursor: pointer;
+    line-height: 1;
     font-weight: bold;
 }
 
-.setting-menu-close .nav-icon {
-    font-size: 20px !important;
-    line-height: 1;
+.setting-close-btn:hover {
+    color: #b38b00;
 }
-
-.setting-menu-close .nav-text {
-    font-size: 16px !important;
-}
-
+/*စက်တင် ထွက် ခလုပ်အဆုံး*/
 
 /* ၄။ Floating Buttons (Left Side) */
 .floating-left-group {
@@ -515,18 +517,20 @@ body.focus-mode .top-controls {
 
 /* စာလုံးအထူအပါး အတွက် Style အစ */
 .setting-item-group {
-    padding: 15px;
+    padding: 12px;
     background: #eadebc;
     border: 1px solid #443300;
-    border-radius: 8px;
-    margin: 10px 0;
+    border-radius: 6px;
+    margin: 8px 0;
     text-align: center;
 }
+
+
 
 .setting-title {
     display: block;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     color: #443300;
     font-size: 16px !important;
 }
@@ -615,3 +619,16 @@ article {
     -webkit-tap-highlight-color: transparent;
 }
 /* paper.html ထဲတွင် ဖိထားမှ စာရွေးလိုတဲ့ ကုဒ် အဆုံး*/
+
+
+
+/* စာကြောင်းကြားအကွာအဝေး ချိန်ညှိရန် အစ*/
+#lh-display {
+    min-width: 40px; 
+    text-align: center;
+    border: 1px solid #443300;
+    border-radius: 4px;
+    background: #f4ecd8;
+    color: #443300;
+}
+/* စာကြောင်းကြားအကွာအဝေး ချိန်ညှိရန် အဆုံး*/
