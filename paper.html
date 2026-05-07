@@ -2398,8 +2398,20 @@
     </div>
 
     <div id="setting-overlay" class="setting-overlay" onclick="toggleSetting()">
-        <div class="setting-content" onclick="event.stopPropagation()">
-            <h3 style="margin-top:0; color:#443300;">ချိန်ညှိချက်များ</h3>
+    <div class="setting-content" onclick="event.stopPropagation()">
+        
+        <div class="setting-header">
+            <h1 class="setting-title">ချိန်ညှိချက်များ</h1>
+            <span class="setting-close-btn" onclick="toggleSetting()">×</span>
+        </div>
+
+            
+            <button class="setting-menu-refresh" onclick="location.reload()">
+    <span class="nav-icon">⟳</span>
+    <span class="nav-text">အသစ်ဖြစ်အောင်လုပ်ရန်</span>
+            </button>
+
+            
             <button class="setting-item" onclick="downloadPDF()">📄 စာအုပ်အဖြစ်သိမ်းရန်</button>
             <div class="setting-item-group">
     <span class="setting-title">စာလုံးအထူ ချိန်ညှိရန်</span>
@@ -2429,25 +2441,29 @@
     </div>
 </div>
 
-<button class="setting-menu-refresh" onclick="location.reload()">
-    <span class="nav-icon">⟳</span>
-    <span class="nav-text">အသစ်ဖြစ်အောင်လုပ်ရန်</span>
-</button>
-
-<button class="setting-menu-close" onclick="toggleSetting()">
-    <span class="nav-icon">×</span>
-    <span class="nav-text">ပိတ်ရန်</span>
-</button>
-
-            
-            
+                    <div class="setting-item-group">
+    <span class="setting-title">စာကြောင်းကြား အကွာအဝေး</span>
+    <div class="weight-presets">
+        <button onclick="setLineHeight(1.5)">ကျဉ်း</button>
+        <button onclick="setLineHeight(2.0)">သင့်</button>
+        <button onclick="setLineHeight(2.5)">ကျဲ</button>
+    </div>
+    <div class="weight-presets">
+        <button onclick="spinLineHeight(-0.1)">-</button>
+        <span id="lh-display" style="padding: 5px 15px; font-weight: bold; color: #443300;">2.0</span>
+        <button onclick="spinLineHeight(0.1)">+</button>
+    </div>
+</div>
            </div>
     </div>
 
-    <div id="toc-overlay" class="toc-overlay">
-        <div class="toc-content">
-            <span class="close-btn" onclick="toggleTOC()">&times;</span>
-            <h1 style="color:#443300;">မာတိကာ</h1>
+
+
+    <div id="toc-overlay" class="toc-overlay" onclick="toggleTOC()" style="display: none;">
+    <div class="toc-content" onclick="event.stopPropagation()">
+        <h1 style="color:#443300;">မာတိကာ</h1>
+        <span class="close-btn" onclick="toggleTOC()">×</span>
+        
             <ul class="toc-list" id="toc-list">
                 
                
