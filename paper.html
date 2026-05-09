@@ -2704,6 +2704,21 @@
            </div>
     </div>
 
+<div class="control-group">
+    <label>စာလုံးခြား</label>
+    <div class="font-options">
+        <button onclick="setLetterSpacing(-0.5, this)" class="ls-opt">ကျဉ်း</button>
+        <button onclick="setLetterSpacing(0, this)" class="ls-opt active">သင့်</button>
+        <button onclick="setLetterSpacing(1, this)" class="ls-opt">ကျဲ</button>
+    </div>
+    <div class="spacing-controls" style="margin-top: 10px;">
+        <button onclick="adjustLS(-0.1)">-</button>
+        <span id="ls-display">0</span>
+        <button onclick="adjustLS(0.1)">+</button>
+    </div>
+</div>
+
+    
 
 
     <div id="toc-overlay" class="toc-overlay" onclick="toggleTOC()" style="display: none;">
