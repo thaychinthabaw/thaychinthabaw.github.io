@@ -356,4 +356,103 @@ window.addEventListener('DOMContentLoaded', () => {
 // စာကြောင်း ကြား အကွာအဝေး အဆုံး
 
 
+// စာလုံး ကြား အကွာအဝေး အစ
 
+let currentLetterSpacing = 0;
+
+function setLetterSpacing(value) {
+    currentLetterSpacing = value;
+    applyLetterSpacing();
+}
+
+function spinLetterSpacing(amount) {
+
+    let nextValue =
+        Math.round((currentLetterSpacing + amount) * 10) / 10;
+
+    if (nextValue >= 0 && nextValue <= 10) {
+
+        currentLetterSpacing = nextValue;
+
+        applyLetterSpacing();
+    }
+}
+
+function applyLetterSpacing() {
+
+    const contentArea =
+        document.getElementById('reading-content');
+
+    if (contentArea) {
+
+        contentArea.style.letterSpacing =
+            currentLetterSpacing + 'px';
+    }
+
+    const display =
+        document.getElementById('ls-display');
+
+    if (display) {
+
+        display.innerText =
+            currentLetterSpacing;
+    }
+
+    // active button color
+
+    const buttons =
+        document.querySelectorAll('.weight-presets button');
+
+    buttons.forEach(btn => {
+
+        if (
+            (currentLetterSpacing == 0 &&
+             btn.innerText === 'ကျဉ်း')
+
+            ||
+
+            (currentLetterSpacing == 1 &&
+             btn.innerText === 'သင့်')
+
+            ||
+
+            (currentLetterSpacing == 2 &&
+             btn.innerText === 'ကျဲ')
+        ) {
+
+            btn.classList.add('active-preset');
+
+        } else if (
+
+            btn.innerText === 'ကျဉ်း' ||
+
+            btn.innerText === 'သင့်' ||
+
+            btn.innerText === 'ကျဲ'
+        ) {
+
+            btn.classList.remove('active-preset');
+        }
+    });
+
+    localStorage.setItem(
+        'userLetterSpacing',
+        currentLetterSpacing
+    );
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+
+    const savedValue =
+        localStorage.getItem('userLetterSpacing');
+
+    if (savedValue !== null) {
+
+        currentLetterSpacing =
+            parseFloat(savedValue);
+
+        applyLetterSpacing();
+    }
+});
+
+// စာလုံး ကြား အကွာအဝေး အဆုံး
