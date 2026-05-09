@@ -147,7 +147,9 @@ body {
     border-left: 5px solid #ffc107; /* အဝါရောင် ဘေးလိုင်းလေး */
     padding-left: 12px;
   background-color:#121212; 
-  border-radius:5px;"
+  border-radius:5px;
+  margin-top: 100px; 
+  
 }
 
 /* ၃။ ပုံများကို ဘေးတိုက် Scroll ဆွဲနိုင်အောင် လုပ်ဆောင်ခြင်း (Container) */
@@ -219,7 +221,7 @@ body {
     -webkit-overflow-scrolling: touch; /* ဖုန်းတွင် ချောမွေ့စွာ Scroll ဆွဲနိုင်ရန် */
     
     /* အခုအောက်ပါ စာကြောင်းတစ်ကြောင်းကို ထပ်ထည့်လိုက်ပါဘုရား */
-    margin-top: 50px; 
+    margin-top: 20px; 
 }
 
 
