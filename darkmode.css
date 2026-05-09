@@ -109,7 +109,42 @@ body.reading-mode.is-paper .book-header p {
   color: #5b4636 !important; /* အညိုရင့်ရောင် */
 }
 
-
-
-
 /* --- darkmode.css အဆုံး --- */
+
+
+
+/* --- Portfolio Cards Colors for Dark Mode ---အစ */
+
+/* Dark Mode မှာ ကတ်နောက်ခံကို မှိန်ပေးရန် */
+body.dark-mode .bio-card, 
+body.dark-mode .focus-card {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(212, 175, 55, 0.2) !important;
+}
+
+/* Dark Mode မှာ ခေါင်းစဉ် (Label) အရောင် */
+body.dark-mode .label {
+    color: #D4AF37 !important; /* ရွှေရောင်မှိန်မှိန် */
+    opacity: 0.8;
+}
+
+/* Dark Mode မှာ စာသားအရောင် */
+body.dark-mode .bio-content {
+    color: #e0e0e0 !important;
+}
+
+/* Dark Mode မှာ List စာသားအရောင် */
+body.dark-mode .dharma-list li {
+    color: #bbb !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Dark Mode မှာ ခလုတ်အရောင် (ဝါဝါဝင်းဝင်းလေး ဖြစ်စေရန်) */
+body.dark-mode .nav-button {
+    background: #FFD700 !important;
+    color: #000000 !important;
+    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
+}
+/* --- Portfolio Cards Colors for Dark Mode ---အဆုံး */
+
+
