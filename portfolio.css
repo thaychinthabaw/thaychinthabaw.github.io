@@ -361,6 +361,14 @@ button:active, a:active {
 
 
 
-.section-title { 
-    background-color:#121212; padding:10px; border-radius:5px;
+/* ၂။ ခေါင်းစဉ် အလှပြင်ဆင်ခြင်း */
+.section-title {
+    font-size: 1.1rem;
+    margin: 60px 0 10px 5px;
+    border-left: 5px solid #ffc107; /* အဝါရောင် ဘေးလိုင်းလေး */
+    padding-left: 12px;
+  background-color:#121212; 
+  border-radius:5px;"
 }
+
+
