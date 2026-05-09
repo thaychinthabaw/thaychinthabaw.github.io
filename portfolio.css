@@ -358,3 +358,9 @@ button:active, a:active {
 }
 
 /* နှိပ်လိုက်ရင် အဝါရောင် ပေါ်ရန် အဆုံး*/
+
+
+
+.section-title { 
+    background-color:#121212; padding:10px; border-radius:5px;
+}
