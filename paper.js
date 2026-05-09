@@ -221,7 +221,9 @@ function applyWeightUpdate() {
     document.getElementById('digit-ones').innerText = ones;
 
     // Preset ခလုတ်များ Highlight ပြခြင်း
-    document.querySelectorAll('.weight-presets button').forEach(btn => {
+    document.querySelectorAll(
+    '.font-weight-presets button'
+).forEach(btn => {
         btn.classList.remove('active-preset');
         if (btn.getAttribute('onclick') === `setWeightPreset(${currentWeight})`) {
             btn.classList.add('active-preset');
@@ -328,7 +330,10 @@ function applyLineHeight() {
     }
     
     // Active Button ဖြစ်အောင် အရောင်ပြောင်းခြင်း (အသစ်ထည့်ရန်)
-    const buttons = document.querySelectorAll('.weight-presets button');
+    const buttons =
+    document.querySelectorAll(
+        '.line-spacing-presets button'
+    );
     buttons.forEach(btn => {
         // ခလုတ်ထဲက စာသားကို စစ်ဆေးပြီး အရောင်ပြောင်းခြင်း
         if ((currentLineHeight == 1.5 && btn.innerText === 'ကျဉ်း') ||
