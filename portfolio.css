@@ -368,7 +368,8 @@ button:active, a:active {
     border-left: 5px solid #ffc107; /* အဝါရောင် ဘေးလိုင်းလေး */
     padding-left: 12px;
   background-color:#121212; 
-  border-radius:5px;"
+  border-radius:5px;
+    margin-top: 100px; 
 }
 
 
