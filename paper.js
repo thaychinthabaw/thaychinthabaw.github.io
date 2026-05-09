@@ -401,8 +401,10 @@ function applyLetterSpacing() {
     // active button color
 
     const buttons =
-        document.querySelectorAll('.weight-presets button');
-
+    document.querySelectorAll(
+        '.letter-spacing-presets button'
+    );
+    
     buttons.forEach(btn => {
 
         if (
