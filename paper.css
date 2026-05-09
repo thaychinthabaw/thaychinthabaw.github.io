@@ -155,6 +155,8 @@ body.sepia-mode {
     position: absolute;
     top: 65px; right: 20px;
     padding: 20px;
+    max-height: 80vh;
+overflow-y: auto;
     border-radius: 12px;
     border: 2px solid #443300;
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
@@ -632,3 +634,17 @@ article {
     color: #443300;
 }
 /* စာကြောင်းကြားအကွာအဝေး ချိန်ညှိရန် အဆုံး*/
+
+
+/* စာလုံးကြား အကွာအဝေး အစ */
+
+#ls-display {
+    min-width: 40px;
+    text-align: center;
+    border: 1px solid #443300;
+    border-radius: 4px;
+    background: #f4ecd8;
+    color: #443300;
+}
+
+/* စာလုံးကြား အကွာအဝေး အဆုံး */
