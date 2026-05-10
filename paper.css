@@ -207,7 +207,7 @@ overflow-y: auto;
 
 /* Setting Header နှင့် ပိတ်ရန်ခလုတ် */
 .setting-header {
-    position: sticky;
+    position: absolute;
     top: -20px;
     z-index: 100;
     display: flex;
