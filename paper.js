@@ -468,6 +468,53 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderFontSize();
 
+    
+const sizeTens =
+    document.getElementById('size-tens');
+
+const sizeOnes =
+    document.getElementById('size-ones');
+
+function renderSizeDigits() {
+
+    sizeTens.textContent =
+        Math.floor(fontSize / 10);
+
+    sizeOnes.textContent =
+        fontSize % 10;
+}
+
+function changeFontSize(amount) {
+
+    const next = fontSize + amount;
+
+    if (next >= 10 && next <= 70) {
+
+        fontSize = next;
+
+        renderFontSize();
+
+        renderSizeDigits();
+    }
+}
+
+document
+    .getElementById('size-plus-10')
+    .onclick = () => changeFontSize(10);
+
+document
+    .getElementById('size-minus-10')
+    .onclick = () => changeFontSize(-10);
+
+document
+    .getElementById('size-plus-1')
+    .onclick = () => changeFontSize(1);
+
+document
+    .getElementById('size-minus-1')
+    .onclick = () => changeFontSize(-1);
+
+renderSizeDigits();
 
     // ===== FONT WEIGHT =====
 
