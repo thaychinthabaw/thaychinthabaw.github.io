@@ -207,14 +207,14 @@ overflow-y: auto;
 
 /* Setting Header နှင့် ပိတ်ရန်ခလုတ် */
 .setting-header {
-    position: absolute;
+    position: sticky;
     top: -20px;
     z-index: 100;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-    padding: 10px 0 12px 0;
+    margin-bottom: 15px;
+    padding: 10px 0 50px 0;
     background: #f4ecd8;
     border-bottom: 1px solid #d4c5a0;
 }
