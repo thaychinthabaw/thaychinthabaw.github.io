@@ -187,7 +187,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
 
 // စာလုံးအထူအပါး အစ
-let currentWeight = 400;
+let currentWeight = 500;
 
 // ၁။ အမြန်ရွေးချယ်သည့်စနစ်
 function setWeightPreset(weight) {
@@ -302,7 +302,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
          // paper.html ထဲတွင် ဖိထားမှ စာရွေးလို့ ရမဲ့ကုဒ် အဆုံး               
 
+
 // စာကြောင်း ကြား အကွာအဝေး အစ
+
+
+let currentLineHeight = 2.0;
 
 function setLineHeight(height) {
     currentLineHeight = height;
@@ -337,10 +341,10 @@ function applyLineHeight() {
     buttons.forEach(btn => {
         // ခလုတ်ထဲက စာသားကို စစ်ဆေးပြီး အရောင်ပြောင်းခြင်း
         if ((currentLineHeight == 1.5 && btn.innerText === 'ကျဉ်း') ||
-            (currentLineHeight == 2.0 && btn.innerText === 'သင့်') ||
-            (currentLineHeight == 2.5 && btn.innerText === 'ကျဲ')) {
+            (currentLineHeight == 2.0 && btn.innerText === 'အလတ်') ||
+            (currentLineHeight == 2.5 && btn.innerText === 'ကျယ်')) {
             btn.classList.add('active-preset'); // CSS ရှိပြီးသား Class ကို သုံးပေးခြင်း
-        } else if (btn.innerText === 'ကျဉ်း' || btn.innerText === 'သင့်' || btn.innerText === 'ကျဲ') {
+        } else if (btn.innerText === 'ကျဥ်း' || btn.innerText === 'အလတ်' || btn.innerText === 'ကျယ်') {
             btn.classList.remove('active-preset');
         }
     });
