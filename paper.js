@@ -426,7 +426,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let fontSize =
         parseInt(
             localStorage.getItem('userFontSize')
-        ) || 19;
+        ) || 25;
 
     function renderFontSize() {
 
