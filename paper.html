@@ -24,12 +24,6 @@
             <div class="right-controls">
     <button class="setting-btn" onclick="toggleSetting()">​⚙</button>
 
-    <div class="font-controls">
-        
-        <button onclick="changeFontSize('small')">-</button>
-        <span id="font-size-display" style="margin: 0 2px; font-weight: bold; color: #443300;">20</span>
-        <button onclick="changeFontSize('large')">+</button>
-    </div>
 
    <button id="modeToggle">☀️</button>    
 
@@ -2659,6 +2653,31 @@
             
             <button class="setting-item" onclick="downloadPDF()">📄 စာအုပ်အဖြစ်သိမ်းရန်   </button>
           
+
+<!-- Font Size -->
+<div class="setting-item-group">
+
+    <span class="setting-title">
+        စာလုံးအရွယ်အစား
+    </span>
+
+    <div class="font-size-control">
+
+        <button id="font-decrease">
+            −
+        </button>
+
+        <span id="font-size-display">
+            19
+        </span>
+
+        <button id="font-increase">
+            +
+        </button>
+
+    </div>
+
+</div>
         
         <!-- Font Weight -->
 <div class="setting-item-group">
@@ -2744,30 +2763,7 @@
 </div>
 
 
-<!-- Font Size -->
-<div class="setting-item-group">
 
-    <span class="setting-title">
-        စာလုံးအရွယ်အစား
-    </span>
-
-    <div class="font-size-control">
-
-        <button id="font-decrease">
-            −
-        </button>
-
-        <span id="font-size-display">
-            19
-        </span>
-
-        <button id="font-increase">
-            +
-        </button>
-
-    </div>
-
-</div>
 
                     <!-- စာကြောင်းကြား -->
 <div class="setting-item-group">
