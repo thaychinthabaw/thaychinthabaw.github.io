@@ -624,27 +624,63 @@ article {
 
 
 
-/* စာကြောင်းကြားအကွာအဝေး ချိန်ညှိရန် အစ*/
-#lh-display {
-    min-width: 40px; 
-    text-align: center;
-    border: 1px solid #443300;
-    border-radius: 4px;
-    background: #f4ecd8;
-    color: #443300;
+/* ===== Modern Preset System ===== */
+
+.preset-group,
+.adjust-group {
+
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 12px;
 }
-/* စာကြောင်းကြားအကွာအဝေး ချိန်ညှိရန် အဆုံး*/
 
+.preset-btn,
+.adjust-group button {
 
-/* စာလုံးကြား အကွာအဝေး အစ */
+    background: #f4ecd8;
+    border: 1px solid #443300;
+    color: #443300;
 
+    padding: 8px 14px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+    transition: 0.2s;
+}
+
+.preset-btn:hover,
+.adjust-group button:hover {
+
+    transform: translateY(-1px);
+}
+
+.preset-btn.active-preset {
+
+    background: #443300;
+    color: #f4ecd8;
+}
+
+#lh-display,
 #ls-display {
-    min-width: 40px;
+
+    min-width: 55px;
+
     text-align: center;
-    border: 1px solid #443300;
-    border-radius: 4px;
+
     background: #f4ecd8;
+
+    border: 1px solid #443300;
+
+    border-radius: 6px;
+
+    padding: 8px 10px;
+
+    font-weight: bold;
+
     color: #443300;
 }
-
-/* စာလုံးကြား အကွာအဝေး အဆုံး */
