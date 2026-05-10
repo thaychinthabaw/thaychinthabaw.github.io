@@ -214,18 +214,13 @@ overflow-y: auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 18px 0;
-    margin-bottom: 16px;
+    padding: 24px 0 18px 0;
     background: #f4ecd8;
     border-bottom: 2px solid #d4c5a0;
     box-shadow: 0 2px 0 #f4ecd8;
+    margin-top: -20px;
 }
 
-.setting-body {
-    overflow-y: auto;
-    flex: 1;
-    padding-right: 4px;
-}
 
 .setting-title {
 
