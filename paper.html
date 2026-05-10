@@ -2660,32 +2660,113 @@
             <button class="setting-item" onclick="downloadPDF()">📄 စာအုပ်အဖြစ်သိမ်းရန်   </button>
           
         
-        <div class="setting-item-group">
-    <span class="setting-title">စာလုံးအထူ ချိန်ညှိရန်</span>
-    
-    <div class="weight-presets font-weight-presets">
-        <button onclick="setWeightPreset(300)">အပါး</button>
-        <button onclick="setWeightPreset(500)">အလတ်</button>
-        <button onclick="setWeightPreset(900)">အထူ</button>
+        <!-- Font Weight -->
+<div class="setting-item-group">
+
+    <span class="setting-title">
+        စာလုံးအထူ
+    </span>
+
+    <div class="preset-group" id="weight-buttons">
+
+        <button
+            class="preset-btn"
+            data-weight="300">
+            အပါး
+        </button>
+
+        <button
+            class="preset-btn active-preset"
+            data-weight="500">
+            အလတ်
+        </button>
+
+        <button
+            class="preset-btn"
+            data-weight="900">
+            အထူ
+        </button>
+
     </div>
 
-    <div class="weight-spinner-wrapper">
+    <div class="spinner-wrapper">
+
         <div class="spinner-box">
-            <button onclick="spinWeight(100)">▲</button>
-            <span id="digit-hundreds">5</span>
-            <button onclick="spinWeight(-100)">▼</button>
+
+            <button id="weight-plus-100">
+                ▲
+            </button>
+
+            <span id="digit-hundreds">
+                5
+            </span>
+
+            <button id="weight-minus-100">
+                ▼
+            </button>
+
         </div>
+
         <div class="spinner-box">
-            <button onclick="spinWeight(10)">▲</button>
-            <span id="digit-tens">0</span>
-            <button onclick="spinWeight(-10)">▼</button>
+
+            <button id="weight-plus-10">
+                ▲
+            </button>
+
+            <span id="digit-tens">
+                0
+            </span>
+
+            <button id="weight-minus-10">
+                ▼
+            </button>
+
         </div>
+
         <div class="spinner-box">
-            <button onclick="spinWeight(1)">▲</button>
-            <span id="digit-ones">0</span>
-            <button onclick="spinWeight(-1)">▼</button>
+
+            <button id="weight-plus-1">
+                ▲
+            </button>
+
+            <span id="digit-ones">
+                0
+            </span>
+
+            <button id="weight-minus-1">
+                ▼
+            </button>
+
         </div>
+
     </div>
+
+</div>
+
+
+<!-- Font Size -->
+<div class="setting-item-group">
+
+    <span class="setting-title">
+        စာလုံးအရွယ်အစား
+    </span>
+
+    <div class="font-size-control">
+
+        <button id="font-decrease">
+            −
+        </button>
+
+        <span id="font-size-display">
+            19
+        </span>
+
+        <button id="font-increase">
+            +
+        </button>
+
+    </div>
+
 </div>
 
                     <!-- စာကြောင်းကြား -->
