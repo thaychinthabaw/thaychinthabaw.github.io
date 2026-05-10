@@ -684,3 +684,65 @@ article {
 
     color: #443300;
 }
+
+
+/* ===== Optimized Setting UI ===== */
+
+.preset-group {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.preset-btn {
+    background: #f4ecd8;
+    border: 1px solid #443300;
+    color: #443300;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.15s ease;
+}
+
+.preset-btn.active-preset {
+    background: #443300;
+    color: #f4ecd8;
+}
+
+.spinner-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.font-size-control {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+.font-size-control button {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #443300;
+    background: #f4ecd8;
+    color: #443300;
+    border-radius: 8px;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#font-size-display {
+    min-width: 50px;
+    text-align: center;
+    padding: 6px 10px;
+    background: #f4ecd8;
+    border: 1px solid #443300;
+    border-radius: 6px;
+    font-weight: bold;
+    color: #443300;
+}
