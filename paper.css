@@ -156,6 +156,7 @@ body.sepia-mode {
     top: 65px; right: 20px;
     padding: 20px;
     max-height: 80vh;
+    overflow: hidden;
 overflow-y: auto;
     border-radius: 12px;
     border: 2px solid #443300;
@@ -208,24 +209,22 @@ overflow-y: auto;
 .setting-header {
 
     position: sticky;
-
     top: 0;
-
     z-index: 50;
-
     display: flex;
-
     justify-content: space-between;
-
     align-items: center;
-
     padding: 18px 0;
-
     margin-bottom: 16px;
-
     background: #f4ecd8;
-
     border-bottom: 2px solid #d4c5a0;
+    box-shadow: 0 2px 0 #f4ecd8;
+}
+
+.setting-body {
+    overflow-y: auto;
+    flex: 1;
+    padding-right: 4px;
 }
 
 .setting-title {
@@ -695,6 +694,7 @@ article {
     justify-content: center;
     align-items: center;
     gap: 12px;
+    margin-bottom: 16px;
 }
 
 .font-size-control button {
