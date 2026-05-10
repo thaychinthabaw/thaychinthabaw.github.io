@@ -303,146 +303,114 @@ document.addEventListener("DOMContentLoaded", function() {
          // paper.html ထဲတွင် ဖိထားမှ စာရွေးလို့ ရမဲ့ကုဒ် အဆုံး               
 
 
-// စာကြောင်း ကြား အကွာအဝေး အစ
 
+
+
+/* =========================
+   LINE HEIGHT SYSTEM
+========================= */
 
 let currentLineHeight = 2.0;
 
-function setLineHeight(height) {
-    currentLineHeight = height;
-    applyLineHeight();
-}
-
-function spinLineHeight(amt) {
-    let nextLH = Math.round((currentLineHeight + amt) * 10) / 10;
-    if (nextLH >= 1.0 && nextLH <= 3.0) {
-        currentLineHeight = nextLH;
-        applyLineHeight();
-    }
-}
+const lineButtons =
+document.querySelectorAll('.line-btn');
 
 function applyLineHeight() {
-    const contentArea = document.getElementById('reading-content');
-    if (contentArea) {
-        contentArea.style.lineHeight = currentLineHeight;
-    }
-    
-    // ဂဏန်းပြသောနေရာ Update လုပ်ခြင်း
-    const display = document.getElementById('lh-display');
-    if (display) {
-        display.innerText = currentLineHeight.toFixed(1);
-    }
-    
-    // Active Button ဖြစ်အောင် အရောင်ပြောင်းခြင်း (အသစ်ထည့်ရန်)
-    const buttons =
-    document.querySelectorAll(
-        '.line-spacing-presets button'
-    );
-    buttons.forEach(btn => {
-        // ခလုတ်ထဲက စာသားကို စစ်ဆေးပြီး အရောင်ပြောင်းခြင်း
-        if ((currentLineHeight == 1.5 && btn.innerText === 'ကျဉ်း') ||
-            (currentLineHeight == 2.0 && btn.innerText === 'အလတ်') ||
-            (currentLineHeight == 2.5 && btn.innerText === 'ကျယ်')) {
-            btn.classList.add('active-preset'); // CSS ရှိပြီးသား Class ကို သုံးပေးခြင်း
-        } else if (btn.innerText === 'ကျဥ်း' || btn.innerText === 'အလတ်' || btn.innerText === 'ကျယ်') {
-            btn.classList.remove('active-preset');
-        }
-    });
 
-    localStorage.setItem('userLineHeight', currentLineHeight);
-}
+    const content =
+    document.getElementById('reading-content');
 
+    if (content) {
 
-// စာမျက်နှာပွင့်လျှင် ပြန်ခေါ်ရန်
-window.addEventListener('DOMContentLoaded', () => {
-    const savedLH = localStorage.getItem('userLineHeight');
-    if (savedLH) {
-        currentLineHeight = parseFloat(savedLH);
-        applyLineHeight();
-    }
-});
-
-// စာကြောင်း ကြား အကွာအဝေး အဆုံး
-
-
-// စာလုံး ကြား အကွာအဝေး အစ
-
-let currentLetterSpacing = 0;
-
-function setLetterSpacing(value) {
-    currentLetterSpacing = value;
-    applyLetterSpacing();
-}
-
-function spinLetterSpacing(amount) {
-
-    let nextValue =
-        Math.round((currentLetterSpacing + amount) * 10) / 10;
-
-    if (nextValue >= 0 && nextValue <= 10) {
-
-        currentLetterSpacing = nextValue;
-
-        applyLetterSpacing();
-    }
-}
-
-function applyLetterSpacing() {
-
-    const contentArea =
-        document.getElementById('reading-content');
-
-    if (contentArea) {
-
-        contentArea.style.letterSpacing =
-            currentLetterSpacing + 'px';
+        content.style.lineHeight =
+            currentLineHeight;
     }
 
-    const display =
-        document.getElementById('ls-display');
+    document.getElementById('lh-display')
+        .innerText =
+        currentLineHeight.toFixed(1);
 
-    if (display) {
+    lineButtons.forEach(btn => {
 
-        display.innerText =
-            currentLetterSpacing;
-    }
-
-    // active button color
-
-    const buttons =
-    document.querySelectorAll(
-        '.letter-spacing-presets button'
-    );
-    
-    buttons.forEach(btn => {
+        btn.classList.remove('active-preset');
 
         if (
-            (currentLetterSpacing == 0 &&
-             btn.innerText === 'ကျဉ်း')
-
-            ||
-
-            (currentLetterSpacing == 1 &&
-             btn.innerText === 'သင့်')
-
-            ||
-
-            (currentLetterSpacing == 2 &&
-             btn.innerText === 'ကျဲ')
+            parseFloat(btn.dataset.value)
+            === currentLineHeight
         ) {
 
             btn.classList.add('active-preset');
+        }
+    });
 
-        } else if (
+    localStorage.setItem(
+        'userLineHeight',
+        currentLineHeight
+    );
+}
 
-            btn.innerText === 'ကျဉ်း' ||
+function adjustLineHeight(amount) {
 
-            btn.innerText === 'သင့်' ||
+    let next =
+        Math.round(
+            (currentLineHeight + amount) * 10
+        ) / 10;
 
-            btn.innerText === 'ကျဲ'
+    if (next >= 1.0 && next <= 3.0) {
+
+        currentLineHeight = next;
+
+        applyLineHeight();
+    }
+}
+
+lineButtons.forEach(btn => {
+
+    btn.addEventListener('click', () => {
+
+        currentLineHeight =
+            parseFloat(btn.dataset.value);
+
+        applyLineHeight();
+    });
+});
+
+
+
+/* =========================
+   LETTER SPACING SYSTEM
+========================= */
+
+let currentLetterSpacing = 0;
+
+const letterButtons =
+document.querySelectorAll('.letter-btn');
+
+function applyLetterSpacing() {
+
+    const content =
+    document.getElementById('reading-content');
+
+    if (content) {
+
+        content.style.letterSpacing =
+            currentLetterSpacing + 'px';
+    }
+
+    document.getElementById('ls-display')
+        .innerText =
+        currentLetterSpacing;
+
+    letterButtons.forEach(btn => {
+
+        btn.classList.remove('active-preset');
+
+        if (
+            parseFloat(btn.dataset.value)
+            === currentLetterSpacing
         ) {
 
-            btn.classList.remove('active-preset');
+            btn.classList.add('active-preset');
         }
     });
 
@@ -452,18 +420,68 @@ function applyLetterSpacing() {
     );
 }
 
-window.addEventListener('DOMContentLoaded', () => {
+function adjustLetterSpacing(amount) {
 
-    const savedValue =
-        localStorage.getItem('userLetterSpacing');
+    let next =
+        Math.round(
+            (currentLetterSpacing + amount) * 10
+        ) / 10;
 
-    if (savedValue !== null) {
+    if (next >= 0 && next <= 10) {
 
-        currentLetterSpacing =
-            parseFloat(savedValue);
+        currentLetterSpacing = next;
 
         applyLetterSpacing();
     }
+}
+
+letterButtons.forEach(btn => {
+
+    btn.addEventListener('click', () => {
+
+        currentLetterSpacing =
+            parseFloat(btn.dataset.value);
+
+        applyLetterSpacing();
+    });
 });
 
-// စာလုံး ကြား အကွာအဝေး အဆုံး
+
+
+/* =========================
+   LOAD SAVED SETTINGS
+========================= */
+
+window.addEventListener(
+    'DOMContentLoaded',
+    () => {
+
+        const savedLH =
+            localStorage.getItem(
+                'userLineHeight'
+            );
+
+        if (savedLH !== null) {
+
+            currentLineHeight =
+                parseFloat(savedLH);
+        }
+
+        applyLineHeight();
+
+
+
+        const savedLS =
+            localStorage.getItem(
+                'userLetterSpacing'
+            );
+
+        if (savedLS !== null) {
+
+            currentLetterSpacing =
+                parseFloat(savedLS);
+        }
+
+        applyLetterSpacing();
+    }
+);
