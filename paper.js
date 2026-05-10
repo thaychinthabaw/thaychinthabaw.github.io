@@ -45,30 +45,7 @@ function downloadPDF() {
     }, 500);
 }
 
-// ၄။ စာလုံးအကြီးအသေး ချိန်ညှိရန် (နံပါတ်ပြသခြင်းအပါအဝင်)
-let currentFontSize = 19;
 
-function changeFontSize(action) {
-    const display = document.getElementById('font-size-display');
-    const contentArea = document.getElementById('reading-content');
-    if (!contentArea) return;
-
-    if (action === 'large' && currentFontSize < 70) {
-        currentFontSize += 1;
-    } else if (action === 'small' && currentFontSize > 4) {
-        currentFontSize -= 1;
-    }
-    
-    // စာလုံးဆိုဒ်ကို ပြောင်းလဲခြင်း
-    contentArea.style.fontSize = currentFontSize + 'px';
-    
-    // နံပါတ်ပြသသည့်နေရာရှိလျှင် Update လုပ်ခြင်း
-    if (display) {
-        display.innerText = currentFontSize;
-    }
-    
-    localStorage.setItem('userFontSize', currentFontSize);
-}
 
 // ၅။ ဖတ်လက်စစာမျက်နှာကို မှတ်ထားပေးရန်
 function saveCurrentPage() {
