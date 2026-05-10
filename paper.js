@@ -186,62 +186,7 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// စာလုံးအထူအပါး အစ
-let currentWeight = 500;
 
-// ၁။ အမြန်ရွေးချယ်သည့်စနစ်
-function setWeightPreset(weight) {
-    currentWeight = weight;
-    applyWeightUpdate();
-}
-
-// ၂။ ဂဏန်းတစ်ခုချင်း လှည့်သည့်စနစ်
-function spinWeight(amount) {
-    let nextWeight = currentWeight + amount;
-    if (nextWeight >= 100 && nextWeight <= 900) {
-        currentWeight = nextWeight;
-        applyWeightUpdate();
-    }
-}
-
-// ၃။ အပြောင်းအလဲများကို အသက်ဝင်စေခြင်း
-function applyWeightUpdate() {
-    const contentArea = document.querySelector('article');
-    if (contentArea) {
-        contentArea.style.fontWeight = currentWeight;
-    }
-
-    // Spinner ဂဏန်းများကို Update လုပ်ခြင်း
-    const hundreds = Math.floor(currentWeight / 100);
-    const tens = Math.floor((currentWeight % 100) / 10);
-    const ones = currentWeight % 10;
-
-    document.getElementById('digit-hundreds').innerText = hundreds;
-    document.getElementById('digit-tens').innerText = tens;
-    document.getElementById('digit-ones').innerText = ones;
-
-    // Preset ခလုတ်များ Highlight ပြခြင်း
-    document.querySelectorAll(
-    '.font-weight-presets button'
-).forEach(btn => {
-        btn.classList.remove('active-preset');
-        if (btn.getAttribute('onclick') === `setWeightPreset(${currentWeight})`) {
-            btn.classList.add('active-preset');
-        }
-    });
-
-    localStorage.setItem('userFontWeight', currentWeight);
-}
-
-// ၄။ စာမျက်နှာပွင့်လျှင် ပြန်ခေါ်ခြင်း
-window.addEventListener('DOMContentLoaded', () => {
-    const saved = localStorage.getItem('userFontWeight');
-    if (saved) {
-        currentWeight = parseInt(saved);
-    }
-    applyWeightUpdate();
-});
-// စာလုံးအထူအပါး အဆုံး
 
 
 // paper.html ထဲတွင် ဖိထားမှ စာရွေးလို့ ရမဲ့ကုဒ် အစ
@@ -485,3 +430,178 @@ window.addEventListener(
         applyLetterSpacing();
     }
 );
+
+
+// ===== Optimized Font System =====
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    const article =
+        document.querySelector('article');
+
+    // ===== FONT SIZE =====
+
+    const fontDisplay =
+        document.getElementById(
+            'font-size-display'
+        );
+
+    let fontSize =
+        parseInt(
+            localStorage.getItem('userFontSize')
+        ) || 19;
+
+    function renderFontSize() {
+
+        article.style.fontSize =
+            fontSize + 'px';
+
+        fontDisplay.textContent =
+            fontSize;
+
+        localStorage.setItem(
+            'userFontSize',
+            fontSize
+        );
+    }
+
+    document
+        .getElementById('font-increase')
+        .addEventListener('click', () => {
+
+            if (fontSize < 70) {
+
+                fontSize++;
+
+                renderFontSize();
+            }
+        });
+
+    document
+        .getElementById('font-decrease')
+        .addEventListener('click', () => {
+
+            if (fontSize > 10) {
+
+                fontSize--;
+
+                renderFontSize();
+            }
+        });
+
+    renderFontSize();
+
+
+    // ===== FONT WEIGHT =====
+
+    let currentWeight =
+        parseInt(
+            localStorage.getItem(
+                'userFontWeight'
+            )
+        ) || 500;
+
+    const weightButtons =
+        document.querySelectorAll(
+            '#weight-buttons .preset-btn'
+        );
+
+    const hundreds =
+        document.getElementById(
+            'digit-hundreds'
+        );
+
+    const tens =
+        document.getElementById(
+            'digit-tens'
+        );
+
+    const ones =
+        document.getElementById(
+            'digit-ones'
+        );
+
+    function renderWeight() {
+
+        article.style.fontWeight =
+            currentWeight;
+
+        hundreds.textContent =
+            Math.floor(currentWeight / 100);
+
+        tens.textContent =
+            Math.floor(
+                (currentWeight % 100) / 10
+            );
+
+        ones.textContent =
+            currentWeight % 10;
+
+        weightButtons.forEach(btn => {
+
+            btn.classList.toggle(
+                'active-preset',
+
+                parseInt(
+                    btn.dataset.weight
+                ) === currentWeight
+            );
+        });
+
+        localStorage.setItem(
+            'userFontWeight',
+            currentWeight
+        );
+    }
+
+    function changeWeight(amount) {
+
+        const next =
+            currentWeight + amount;
+
+        if (next >= 100 && next <= 900) {
+
+            currentWeight = next;
+
+            renderWeight();
+        }
+    }
+
+    weightButtons.forEach(btn => {
+
+        btn.addEventListener('click', () => {
+
+            currentWeight =
+                parseInt(btn.dataset.weight);
+
+            renderWeight();
+        });
+    });
+
+    document
+        .getElementById('weight-plus-100')
+        .onclick = () => changeWeight(100);
+
+    document
+        .getElementById('weight-minus-100')
+        .onclick = () => changeWeight(-100);
+
+    document
+        .getElementById('weight-plus-10')
+        .onclick = () => changeWeight(10);
+
+    document
+        .getElementById('weight-minus-10')
+        .onclick = () => changeWeight(-10);
+
+    document
+        .getElementById('weight-plus-1')
+        .onclick = () => changeWeight(1);
+
+    document
+        .getElementById('weight-minus-1')
+        .onclick = () => changeWeight(-1);
+
+    renderWeight();
+
+});
