@@ -136,6 +136,7 @@ body.sepia-mode {
     font-weight: bold;
     color: #443300;
     font-size: 1.2rem;
+    
 }
 
 
@@ -151,14 +152,12 @@ body.sepia-mode {
 
 .setting-content {
     background: #f4ecd8;
-    width: 280px; /* 250px → 280px ပြောင်း */
+    width: 250px;
     position: absolute;
-    top: 60px;   /* 65px ထက် နည်းနည်းတင် */
-    right: 20px;
-    padding: 0;
+    top: 65px; right: 20px;
+    padding: 20px;
     max-height: 80vh;
-    overflow-y: auto;
-    overflow-x: hidden;
+overflow-y: auto;
     border-radius: 12px;
     border: 2px solid #443300;
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
@@ -177,13 +176,6 @@ body.sepia-mode {
     cursor: pointer;
     text-align: center;
     font-size: 16px !important;
-}
-
-.setting-item,
-.setting-item-group,
-.setting-menu-refresh {
-    margin-left: 16px;
-    margin-right: 16px;
 }
 
 /* ၁။ အသစ်လုပ်ရန် ခလုတ် (Refresh) */
@@ -215,28 +207,17 @@ body.sepia-mode {
 
 /* Setting Header နှင့် ပိတ်ရန်ခလုတ် */
 .setting-header {
-    position: sticky;
-    top: 0;
-    z-index: 50;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 16px 20px;
-    background: #eadebc;
-    border-bottom: 2px solid #443300;
-    margin: 0;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #d4c5a0;
 }
 
-
 .setting-title {
-
     margin: 0;
-
     color: #443300;
-
-    font-size: 1.5rem !important;
-
-    font-weight: bold;
 }
 
 .setting-close-btn {
@@ -279,6 +260,7 @@ body.sepia-mode {
     
     /* Blur (ဝါးခြင်း) ကို လုံးဝဖြုတ်လိုက်ပါပြီ */
 }
+
 
 
 .top-btn {
@@ -530,6 +512,7 @@ body.focus-mode .top-controls {
     color: #443300;
     font-size: 16px !important;
 }
+
 
 
 .weight-spinner-wrapper {
