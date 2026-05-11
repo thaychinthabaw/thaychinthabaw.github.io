@@ -219,10 +219,10 @@ body.sepia-mode {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-    font-size: 1.5rem !important;
+    margin-bottom: 0px;
+    font-size: 60px !important;
     font-weight: bold;
-    padding: 10px 20px;
+    padding: 20px 25px;
     background: #f4ecd8;
     border-bottom: 1px solid #d4c5a0;
 }
