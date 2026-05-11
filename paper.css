@@ -155,12 +155,18 @@ body.sepia-mode {
     width: 250px;
     position: absolute;
     top: 65px; right: 20px;
-    padding: 20px;
+    padding: 0;
     max-height: 80vh;
-overflow-y: auto;
+overflow: hidden;
     border-radius: 12px;
     border: 2px solid #443300;
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+.setting-body {
+    padding: 20px;
+    overflow-y: auto;
+    flex-grow: 1;
 }
 
 .setting-item {
