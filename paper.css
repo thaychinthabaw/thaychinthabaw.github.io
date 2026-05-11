@@ -220,8 +220,6 @@ body.sepia-mode {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 0px;
-    font-size: 60px !important;
-    font-weight: bold;
     padding: 20px 25px;
     background: #f4ecd8;
     border-bottom: 1px solid #d4c5a0;
@@ -230,6 +228,8 @@ body.sepia-mode {
 .setting-title {
     margin: 0;
     color: #443300;
+    font-size: 28px;
+    font-weight: 700;
 }
 
 .setting-close-btn {
