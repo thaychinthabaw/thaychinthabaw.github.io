@@ -154,17 +154,20 @@ body.sepia-mode {
     background: #f4ecd8;
     width: 250px;
     position: absolute;
-    top: 65px; right: 20px;
+    top: 65px;
+    right: 20px;
     padding: 0;
     max-height: 80vh;
-overflow: hidden;
     border-radius: 12px;
     border: 2px solid #443300;
     box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
 }
 
 .setting-body {
-    padding: 20px;
+    padding: 0 20px 20px 20px;
     overflow-y: auto;
     flex-grow: 1;
 }
@@ -213,14 +216,11 @@ overflow: hidden;
 
 /* Setting Header နှင့် ပိတ်ရန်ခလုတ် */
 .setting-header {
-    position: sticky;
-    top: -20px;
-    z-index: 100;
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    padding: 10px 0 10px 0;
+    padding: 10px 20px;
     background: #f4ecd8;
     border-bottom: 1px solid #d4c5a0;
 }
