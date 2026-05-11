@@ -220,7 +220,7 @@ body.sepia-mode {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    font-size: 28px;
+    font-size: 1.5rem !important;
     font-weight: bold;
     padding: 10px 20px;
     background: #f4ecd8;
