@@ -228,8 +228,8 @@ body.sepia-mode {
 .setting-title {
     margin: 0;
     color: #443300;
-    font-size: 28px;
-    font-weight: 700;
+    font-size: 32px !important;
+    font-weight: bold;
 }
 
 .setting-close-btn {
