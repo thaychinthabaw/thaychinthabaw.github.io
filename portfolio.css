@@ -89,6 +89,14 @@ body {
     margin: 0;
 }
 
+/*link ထည့်လိုက်ရင် ဘောင်မကျော်အောင်*/
+.bio-content a {
+    display: inline-block;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
 /* Dharma List */
 .dharma-list {
     list-style: none;
