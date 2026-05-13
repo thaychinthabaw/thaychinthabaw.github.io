@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>စာဖတ်ခန်း | သေခြင်းသဘော</title>
-    <link rel="stylesheet" href="paper.css">
-    <script defer src="paper.js"></script>
+    <link rel="stylesheet" href="pdf-paper.css">
+    <script defer src="pdf-paper.js"></script>
     
     <link rel="stylesheet" href="darkmode.css">
     <link rel="icon" type="image/png" href="https://thaychinthabaw.netlify.app/thaychinthabawlogo1.png">
@@ -235,3 +235,132 @@
 </div>
 
 
+    <!-- စာကြောင်းကြား -->
+<div class="setting-item-group">
+
+    <span class="setting-title2">
+        စာကြောင်းကြား အကွာအဝေး
+    </span>
+
+    <div class="preset-group">
+
+        <button
+            class="preset-btn line-btn"
+            data-value="1.5">
+            ကျဉ်း
+        </button>
+
+        <button
+            class="preset-btn line-btn"
+            data-value="2.0">
+            အလတ်
+        </button>
+
+        <button
+            class="preset-btn line-btn"
+            data-value="2.5">
+            ကျယ်
+        </button>
+
+    </div>
+
+    <div class="adjust-group">
+
+        <button onclick="adjustLineHeight(-0.1)">
+            −
+        </button>
+
+        <span id="lh-display">
+            2.0
+        </span>
+
+        <button onclick="adjustLineHeight(0.1)">
+            +
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- စာလုံးကြား -->
+<div class="setting-item-group">
+
+    <span class="setting-title2">
+        စာလုံးကြား အကွာအဝေး
+    </span>
+
+    <div class="preset-group">
+
+        <button
+            class="preset-btn letter-btn"
+            data-value="0">
+            ကျဉ်း
+        </button>
+
+        <button
+            class="preset-btn letter-btn"
+            data-value="1">
+            အလတ်
+        </button>
+
+        <button
+            class="preset-btn letter-btn"
+            data-value="2">
+            ကျယ်
+        </button>
+
+    </div>
+
+    <div class="adjust-group">
+
+        <button onclick="adjustLetterSpacing(-0.5)">
+            −
+        </button>
+
+        <span id="ls-display">
+            0
+        </span>
+
+        <button onclick="adjustLetterSpacing(0.5)">
+            +
+        </button>
+
+    </div>
+
+</div>
+
+
+        
+           </div>
+    </div>
+</div>
+    
+
+
+    <div id="toc-overlay" class="toc-overlay" onclick="toggleTOC()" style="display: none;">
+    <div class="toc-content" onclick="event.stopPropagation()">
+        <h1 style="color:#443300;">မာတိကာ</h1>
+        <span class="close-btn" onclick="toggleTOC()">×</span>
+        
+            <ul class="toc-list" id="toc-list">
+                
+               
+<li><a href="#title1" class="main-title" onclick="toggleTOC()">သေခြင်းသဘော စာမူ</a></li>
+ <li><a href="#title2" class="main-title" onclick="toggleTOC()">ဝိပဿနာအခြေခံ ☸️</a></li>               
+
+                <li><a href="#chapter1" class="main-title" onclick="toggleTOC()">နိဒါန်း</a></li>
+
+
+                <li><a href="#chapter9" class="main-title" onclick="toggleTOC()">ကျမ်းကိုး</a></li>
+                
+            </ul>
+        </div>
+    </div>
+<script src="darkmode.js"></script>
+
+
+
+</body>
+</html>
