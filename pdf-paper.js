@@ -629,3 +629,67 @@ renderSizeDigits();
     renderWeight();
 
 });
+
+
+/* =========================
+   PDF TEXT READER
+========================= */
+
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.js";
+
+const pdfUpload = document.getElementById("pdf-upload");
+const contentArea = document.querySelector(".content-area");
+
+pdfUpload.addEventListener("change", async (event) => {
+
+  const file = event.target.files[0];
+
+  if (!file) return;
+
+  contentArea.innerHTML = "<p>PDF ဖိုင် ဖတ်နေပါသည်...</p>";
+
+  const fileReader = new FileReader();
+
+  fileReader.onload = async function () {
+
+    const typedArray = new Uint8Array(this.result);
+
+    const pdf = await pdfjsLib.getDocument(typedArray).promise;
+
+    contentArea.innerHTML = "";
+
+    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+
+      const page = await pdf.getPage(pageNum);
+
+      const textContent = await page.getTextContent();
+
+      let pageText = "";
+
+      textContent.items.forEach(item => {
+        pageText += item.str + " ";
+      });
+
+      const pageDiv = document.createElement("div");
+
+      pageDiv.className = "pdf-page";
+
+      pageDiv.innerHTML = `
+        <div class="pdf-page-number">
+          Page ${pageNum}
+        </div>
+
+        <p>${pageText}</p>
+      `;
+
+      contentArea.appendChild(pageDiv);
+
+      // UI Freeze မဖြစ်စေရန်
+      await new Promise(resolve => setTimeout(resolve, 0));
+    }
+  };
+
+  fileReader.readAsArrayBuffer(file);
+});
+
