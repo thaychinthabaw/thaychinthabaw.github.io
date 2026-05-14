@@ -1,3 +1,52 @@
+
+/* ========================= SEMANTIC SYSTEM ========================= */
+function buildSemanticParagraphs() {
+    const containers = document.querySelectorAll('.raw-text');
+    let globalIndex = 1; 
+    containers.forEach((container) => {
+        const rawText = container.innerText.trim();
+        const paragraphs = rawText.split(/\n\s*\n/).filter(p => p.trim() !== '');
+        container.innerHTML = ''; 
+        paragraphs.forEach((text) => {
+            const p = document.createElement('p');
+            p.setAttribute('data-p', globalIndex); 
+            p.textContent = text.trim();
+            container.appendChild(p);
+            globalIndex++;
+        });
+    });
+}
+
+function saveReadingPosition() {
+    const paragraphs = document.querySelectorAll('.raw-text p');
+    let currentParagraph = null;
+    paragraphs.forEach(p => {
+        const rect = p.getBoundingClientRect();
+        if (rect.top >= 0 && rect.top < window.innerHeight * 0.35) {
+            currentParagraph = p.dataset.p;
+        }
+    });
+    if (currentParagraph) {
+        localStorage.setItem('readingPosition', JSON.stringify({
+            paragraph: currentParagraph
+        }));
+    }
+}
+
+function restoreReadingPosition() {
+    const saved = localStorage.getItem('readingPosition');
+    if (!saved) return;
+    const data = JSON.parse(saved);
+    setTimeout(() => {
+        const target = document.querySelector(`[data-p="${data.paragraph}"]`);
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }, 600);
+}
+
+
+
 // ၁။ မာတိကာ (Table of Contents) အဖွင့်အပိတ် (Auto-scroll အသစ်ပါဝင်သည်)
 function toggleTOC() {
     const tocOverlay = document.getElementById('toc-overlay');
@@ -155,16 +204,19 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     // ဖတ်လက်စနေရာသို့ ပြန်သွားရန်
-    const lastSavedChapter = localStorage.getItem('lastReadChapter');
-    if (lastSavedChapter && lastSavedChapter !== 'intro') {
-        setTimeout(() => {
-            const targetElement = document.getElementById(lastSavedChapter);
-            if (targetElement) {
-                targetElement.scrollIntoView({ behavior: 'smooth' });
-            }
-        }, 500);
-    }
-});
+        // --- ဒီနေရာမှာ ကုဒ်ဟောင်းကို ဖျက်ပြီး အခုကုဒ်ကို အစားထိုးပါ ---
+    buildSemanticParagraphs(); 
+    restoreReadingPosition();  
+
+    let readingTimer;
+    window.addEventListener('scroll', () => {
+        clearTimeout(readingTimer);
+        readingTimer = setTimeout(() => {
+            saveReadingPosition();
+        }, 200);
+    });
+    // ---------------------------------------------------
+
 
 
 
