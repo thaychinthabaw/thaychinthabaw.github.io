@@ -780,3 +780,29 @@ article {
     overflow-wrap: break-word;
     word-break: break-word;
 }
+
+/* PDF STATUS */
+
+#pdf-status {
+
+    text-align: center;
+    padding: 12px;
+    margin-bottom: 20px;
+
+    font-weight: bold;
+    color: #443300;
+}
+
+/* PDF Loading */
+
+.pdf-loading {
+
+    opacity: 0.7;
+}
+
+/* PDF Error */
+
+.pdf-error {
+
+    color: red;
+}
