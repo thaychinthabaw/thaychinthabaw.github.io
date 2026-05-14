@@ -758,19 +758,19 @@ article {
 
 .toc-jump-buttons {
 
-    position: sticky;
+    position: absolute;
 
-    bottom: 12px;
+    right: 16px;
 
-    margin-left: auto;
-
-    width: fit-content;
+    bottom: 16px;
 
     display: flex;
 
     gap: 10px;
 
-    z-index: 20;
+    z-index: 50;
+
+    width: fit-content;
 }
 
 
