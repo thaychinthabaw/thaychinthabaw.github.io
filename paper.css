@@ -800,6 +800,6 @@ article {
 
 .raw-text p {
     /* 1.5em ထက် နည်းချင်ရင် 0.8em ဒါမှမဟုတ် 1em လို့ ပြောင်းနိုင်ပါတယ် */
-    margin-bottom: 1.2em; 
+    margin-bottom: 1.5em; 
     display: block;
 }
