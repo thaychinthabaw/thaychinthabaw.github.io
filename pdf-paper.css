@@ -750,3 +750,33 @@ article {
 .pdf-page p {
   white-space: pre-line;
 } 
+
+/* =========================
+   PDF OUTPUT SYSTEM
+========================= */
+
+#pdf-output {
+    width: 100%;
+}
+
+.pdf-page {
+    margin-bottom: 80px;
+    padding-bottom: 40px;
+    border-bottom: 1px solid #d4c5a0;
+}
+
+.pdf-page:last-child {
+    border-bottom: none;
+}
+
+.pdf-page-number {
+    opacity: 0.6;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.pdf-page p {
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    word-break: break-word;
+}
