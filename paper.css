@@ -752,28 +752,29 @@ article {
 }
 
 
-/* TOC JUMP BUTTONS
+/* =========================
+   TOC JUMP BUTTONS
 ========================= */
 
 .toc-jump-buttons {
 
     position: sticky;
 
-    bottom: 10px;
+    bottom: 12px;
+
+    margin-left: auto;
+
+    width: fit-content;
 
     display: flex;
 
-    justify-content: flex-end;
-
     gap: 10px;
 
-    margin-top: 20px;
-
-    padding-bottom: 10px;
+    z-index: 20;
 }
 
 
-/* Jump Button */
+/* Jump Buttons */
 
 .toc-jump-buttons button {
 
@@ -789,7 +790,7 @@ article {
 
     cursor: pointer;
 
-    transition: 0.2s;
+    transition: transform 0.2s ease;
 }
 
 
