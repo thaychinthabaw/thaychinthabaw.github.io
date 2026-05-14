@@ -635,61 +635,199 @@ renderSizeDigits();
    PDF TEXT READER
 ========================= */
 
+// PDF.js Worker
 pdfjsLib.GlobalWorkerOptions.workerSrc =
-  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.js";
+"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.js";
 
-const pdfUpload = document.getElementById("pdf-upload");
-const contentArea = document.querySelector(".content-area");
+// HTML Elements
+const pdfUpload =
+document.getElementById("pdf-upload");
 
-pdfUpload.addEventListener("change", async (event) => {
+const pdfOutput =
+document.getElementById("pdf-output");
 
-  const file = event.target.files[0];
 
-  if (!file) return;
+// =========================
+// PDF RENDER FUNCTION
+// =========================
 
-  contentArea.innerHTML = "<p>PDF ဖိုင် ဖတ်နေပါသည်...</p>";
+async function renderPDF(arrayBuffer) {
 
-  const fileReader = new FileReader();
+    pdfOutput.innerHTML =
+    "<p>PDF ဖိုင် ဖတ်နေပါသည်...</p>";
 
-  fileReader.onload = async function () {
+    try {
 
-    const typedArray = new Uint8Array(this.result);
+        const typedArray =
+        new Uint8Array(arrayBuffer);
 
-    const pdf = await pdfjsLib.getDocument(typedArray).promise;
+        const pdf =
+        await pdfjsLib
+        .getDocument(typedArray)
+        .promise;
 
-    contentArea.innerHTML = "";
+        pdfOutput.innerHTML = "";
 
-    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+        // Page Loop
+        for (
+            let pageNum = 1;
+            pageNum <= pdf.numPages;
+            pageNum++
+        ) {
 
-      const page = await pdf.getPage(pageNum);
+            const page =
+            await pdf.getPage(pageNum);
 
-      const textContent = await page.getTextContent();
+            const textContent =
+            await page.getTextContent();
 
-      let pageText = "";
+            let pageText = "";
 
-      textContent.items.forEach(item => {
-        pageText += item.str + " ";
-      });
+            textContent.items.forEach(item => {
 
-      const pageDiv = document.createElement("div");
+                pageText += item.str;
 
-      pageDiv.className = "pdf-page";
+                // PDF line break
+                if (item.hasEOL) {
+                    pageText += "\n";
+                }
+            });
 
-      pageDiv.innerHTML = `
-        <div class="pdf-page-number">
-          Page ${pageNum}
-        </div>
+            // Create Page
+            const pageDiv =
+            document.createElement("div");
 
-        <p>${pageText}</p>
-      `;
+            pageDiv.className =
+            "pdf-page";
 
-      contentArea.appendChild(pageDiv);
+            pageDiv.innerHTML = `
+                <div class="pdf-page-number">
+                    Page ${pageNum}
+                </div>
 
-      // UI Freeze မဖြစ်စေရန်
-      await new Promise(resolve => setTimeout(resolve, 0));
+                <p>${pageText}</p>
+            `;
+
+            pdfOutput.appendChild(pageDiv);
+
+            // UI Freeze မဖြစ်စေရန်
+            await new Promise(resolve =>
+                setTimeout(resolve, 0)
+            );
+        }
+
+    } catch (error) {
+
+        console.error(error);
+
+        pdfOutput.innerHTML = `
+            <p>
+                PDF ဖိုင်ဖတ်၍ မရပါ။
+            </p>
+        `;
     }
-  };
+}
 
-  fileReader.readAsArrayBuffer(file);
+
+// =========================
+// PDF UPLOAD
+// =========================
+
+pdfUpload.addEventListener(
+"change",
+
+async (event) => {
+
+    const file =
+    event.target.files[0];
+
+    if (!file) return;
+
+    const reader =
+    new FileReader();
+
+    reader.onload =
+    async function () {
+
+        const arrayBuffer =
+        this.result;
+
+        // Browser ထဲ သိမ်းခြင်း
+        localStorage.setItem(
+            "savedPDF",
+            arrayBufferToBase64(arrayBuffer)
+        );
+
+        // Render PDF
+        await renderPDF(arrayBuffer);
+    };
+
+    reader.readAsArrayBuffer(file);
 });
 
+
+// =========================
+// BASE64 CONVERTER
+// =========================
+
+function arrayBufferToBase64(buffer) {
+
+    let binary = "";
+
+    const bytes =
+    new Uint8Array(buffer);
+
+    const len = bytes.byteLength;
+
+    for (let i = 0; i < len; i++) {
+
+        binary +=
+        String.fromCharCode(bytes[i]);
+    }
+
+    return btoa(binary);
+}
+
+function base64ToArrayBuffer(base64) {
+
+    const binaryString =
+    atob(base64);
+
+    const len =
+    binaryString.length;
+
+    const bytes =
+    new Uint8Array(len);
+
+    for (let i = 0; i < len; i++) {
+
+        bytes[i] =
+        binaryString.charCodeAt(i);
+    }
+
+    return bytes.buffer;
+}
+
+
+// =========================
+// AUTO LOAD SAVED PDF
+// =========================
+
+window.addEventListener(
+"DOMContentLoaded",
+
+async () => {
+
+    const savedPDF =
+    localStorage.getItem(
+        "savedPDF"
+    );
+
+    if (savedPDF) {
+
+        const arrayBuffer =
+        base64ToArrayBuffer(savedPDF);
+
+        await renderPDF(arrayBuffer);
+    }
+});
