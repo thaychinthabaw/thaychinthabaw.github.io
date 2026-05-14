@@ -2968,6 +2968,12 @@
     <div id="toc-overlay" class="toc-overlay" onclick="toggleTOC()" style="display: none;">
     <div class="toc-content" onclick="event.stopPropagation()">
         <h1 style="color:#443300;">မာတိကာ</h1>
+           <!-- Search Bar -->
+    <input
+        type="text"
+        id="toc-search"
+        placeholder="ခေါင်းစဉ် ရှာရန်..."
+    >
         <span class="close-btn" onclick="toggleTOC()">×</span>
         
             <ul class="toc-list" id="toc-list">
@@ -3055,6 +3061,20 @@
 <li><a href="#chapter9" class="main-title" onclick="toggleTOC()">ကျမ်းကိုး</a></li>
                 
             </ul>
+
+<!-- မာတိကာ Jump Buttons -->
+<div class="toc-jump-buttons">
+    <!-- အပေါ်ဆုံး -->
+    <button id="toc-top-btn">
+        ⬆
+    </button>
+    <!-- အောက်ဆုံး -->
+    <button id="toc-bottom-btn">
+        ⬇
+    </button>
+</div>
+<!-- မာတိကာ Jump Buttons အဆုံး -->
+        
         </div>
     </div>
 <script src="darkmode.js"></script>
