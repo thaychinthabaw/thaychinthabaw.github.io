@@ -713,12 +713,13 @@ const tocBottomBtn =
 document.getElementById("toc-bottom-btn");
 
 
+
 /*
 TOC Scroll Area
 */
 
 const tocContent =
-document.querySelector(".toc-content");
+document.querySelector(".toc-list");
 
 
 /* =========================
