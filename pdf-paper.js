@@ -631,6 +631,12 @@ renderSizeDigits();
 });
 
 
+
+
+
+
+
+
 /* =========================
    PDF TEXT READER
 ========================= */
@@ -646,15 +652,34 @@ document.getElementById("pdf-upload");
 const pdfOutput =
 document.getElementById("pdf-output");
 
+const pdfStatus =
+document.getElementById("pdf-status");
+
 
 // =========================
-// PDF RENDER FUNCTION
+// SHOW STATUS
+// =========================
+
+function showStatus(message, type = "") {
+
+    pdfStatus.className = type;
+
+    pdfStatus.textContent = message;
+}
+
+
+// =========================
+// PDF RENDER
 // =========================
 
 async function renderPDF(arrayBuffer) {
 
-    pdfOutput.innerHTML =
-    "<p>PDF ဖိုင် ဖတ်နေပါသည်...</p>";
+    pdfOutput.innerHTML = "";
+
+    showStatus(
+        "PDF ဖိုင် ဖတ်နေပါသည်...",
+        "pdf-loading"
+    );
 
     try {
 
@@ -663,12 +688,13 @@ async function renderPDF(arrayBuffer) {
 
         const pdf =
         await pdfjsLib
-        .getDocument(typedArray)
+        .getDocument({ data: typedArray })
         .promise;
 
-        pdfOutput.innerHTML = "";
+        showStatus(
+            `PDF စာမျက်နှာ ${pdf.numPages} ခု ဖတ်ပြီးပါပြီ`
+        );
 
-        // Page Loop
         for (
             let pageNum = 1;
             pageNum <= pdf.numPages;
@@ -687,8 +713,8 @@ async function renderPDF(arrayBuffer) {
 
                 pageText += item.str;
 
-                // PDF line break
                 if (item.hasEOL) {
+
                     pageText += "\n";
                 }
             });
@@ -700,17 +726,30 @@ async function renderPDF(arrayBuffer) {
             pageDiv.className =
             "pdf-page";
 
-            pageDiv.innerHTML = `
-                <div class="pdf-page-number">
-                    Page ${pageNum}
-                </div>
+            // Page Number
+            const pageNumber =
+            document.createElement("div");
 
-                <p>${pageText}</p>
-            `;
+            pageNumber.className =
+            "pdf-page-number";
+
+            pageNumber.textContent =
+            `Page ${pageNum}`;
+
+            // Text
+            const textP =
+            document.createElement("p");
+
+            textP.textContent =
+            pageText;
+
+            pageDiv.appendChild(pageNumber);
+
+            pageDiv.appendChild(textP);
 
             pdfOutput.appendChild(pageDiv);
 
-            // UI Freeze မဖြစ်စေရန်
+            // Freeze မဖြစ်အောင်
             await new Promise(resolve =>
                 setTimeout(resolve, 0)
             );
@@ -720,11 +759,60 @@ async function renderPDF(arrayBuffer) {
 
         console.error(error);
 
-        pdfOutput.innerHTML = `
-            <p>
-                PDF ဖိုင်ဖတ်၍ မရပါ။
-            </p>
-        `;
+        showStatus(
+            "PDF ဖိုင်ဖတ်၍ မရပါ",
+            "pdf-error"
+        );
+    }
+}
+
+
+// =========================
+// SAVE PDF
+// =========================
+
+async function savePDF(file) {
+
+    try {
+
+        const arrayBuffer =
+        await file.arrayBuffer();
+
+        // အသစ်တင်ရင် အဟောင်းကို overwrite
+        localStorage.removeItem(
+            "savedPDF"
+        );
+
+        // base64 ပြောင်း
+        const bytes =
+        new Uint8Array(arrayBuffer);
+
+        let binary = "";
+
+        bytes.forEach(byte => {
+
+            binary +=
+            String.fromCharCode(byte);
+        });
+
+        const base64 =
+        btoa(binary);
+
+        localStorage.setItem(
+            "savedPDF",
+            base64
+        );
+
+        await renderPDF(arrayBuffer);
+
+    } catch (error) {
+
+        console.error(error);
+
+        showStatus(
+            "PDF သိမ်း၍ မရပါ",
+            "pdf-error"
+        );
     }
 }
 
@@ -743,50 +831,17 @@ async (event) => {
 
     if (!file) return;
 
-    const reader =
-    new FileReader();
+    showStatus(
+        "PDF upload လုပ်နေပါသည်..."
+    );
 
-    reader.onload =
-    async function () {
-
-        const arrayBuffer =
-        this.result;
-
-        // Browser ထဲ သိမ်းခြင်း
-        localStorage.setItem(
-            "savedPDF",
-            arrayBufferToBase64(arrayBuffer)
-        );
-
-        // Render PDF
-        await renderPDF(arrayBuffer);
-    };
-
-    reader.readAsArrayBuffer(file);
+    await savePDF(file);
 });
 
 
 // =========================
-// BASE64 CONVERTER
+// BASE64 TO BUFFER
 // =========================
-
-function arrayBufferToBase64(buffer) {
-
-    let binary = "";
-
-    const bytes =
-    new Uint8Array(buffer);
-
-    const len = bytes.byteLength;
-
-    for (let i = 0; i < len; i++) {
-
-        binary +=
-        String.fromCharCode(bytes[i]);
-    }
-
-    return btoa(binary);
-}
 
 function base64ToArrayBuffer(base64) {
 
@@ -810,7 +865,7 @@ function base64ToArrayBuffer(base64) {
 
 
 // =========================
-// AUTO LOAD SAVED PDF
+// AUTO LOAD
 // =========================
 
 window.addEventListener(
@@ -823,11 +878,30 @@ async () => {
         "savedPDF"
     );
 
-    if (savedPDF) {
+    if (!savedPDF) return;
+
+    try {
+
+        showStatus(
+            "သိမ်းထားသော PDF ကို ပြန်ဖွင့်နေပါသည်..."
+        );
 
         const arrayBuffer =
         base64ToArrayBuffer(savedPDF);
 
         await renderPDF(arrayBuffer);
+
+    } catch (error) {
+
+        console.error(error);
+
+        showStatus(
+            "သိမ်းထားသော PDF ပျက်နေပါသည်",
+            "pdf-error"
+        );
+
+        localStorage.removeItem(
+            "savedPDF"
+        );
     }
 });
