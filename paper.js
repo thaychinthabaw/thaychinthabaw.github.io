@@ -215,6 +215,7 @@ window.addEventListener('DOMContentLoaded', () => {
             saveReadingPosition();
         }, 200);
     });
+   }); 
     // ---------------------------------------------------
 
 
