@@ -715,3 +715,88 @@ article {
     font-weight: bold;
     color: #443300;
 }
+
+/* =========================
+   TOC HEADER
+========================= */
+
+.toc-header {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 20px;
+}
+
+
+/* =========================
+   TOC SEARCH BAR
+========================= */
+
+#toc-search {
+
+    flex: 1;
+
+    padding: 10px 14px;
+
+    border: none;
+
+    border-radius: 12px;
+
+    font-size: 14px;
+
+    outline: none;
+}
+
+
+/* TOC JUMP BUTTONS
+========================= */
+
+.toc-jump-buttons {
+
+    position: sticky;
+
+    bottom: 10px;
+
+    display: flex;
+
+    justify-content: flex-end;
+
+    gap: 10px;
+
+    margin-top: 20px;
+
+    padding-bottom: 10px;
+}
+
+
+/* Jump Button */
+
+.toc-jump-buttons button {
+
+    width: 42px;
+
+    height: 42px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    font-size: 18px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+
+/* Hover */
+
+.toc-jump-buttons button:hover {
+
+    transform: scale(1.08);
+}
+/* TOC JUMP BUTTONS အဆုံး*/
