@@ -629,3 +629,127 @@ renderSizeDigits();
     renderWeight();
 
 });
+
+
+/* =========================
+   TOC SEARCH အစ
+========================= */
+
+/*
+Search Input
+*/
+
+const tocSearch =
+document.getElementById("toc-search");
+
+/*
+မာတိကာထဲက li အားလုံး
+*/
+
+const tocItems =
+document.querySelectorAll(".toc-list li");
+
+
+/*
+Search ရိုက်တိုင်း filter လုပ်
+*/
+
+tocSearch.addEventListener("input", () => {
+
+    /*
+    User ရိုက်တဲ့စာ
+    */
+
+    const searchText =
+    tocSearch.value.toLowerCase();
+
+
+    /*
+    TOC Item တစ်ခုချင်းစီ စစ်
+    */
+
+    tocItems.forEach(item => {
+
+        const text =
+        item.textContent.toLowerCase();
+
+
+        /*
+        စာသားတူရင် ပြ
+        */
+
+        if (text.includes(searchText)) {
+
+            item.style.display = "block";
+        }
+
+        /*
+        မတူရင် ဖျောက်
+        */
+
+        else {
+
+            item.style.display = "none";
+        }
+
+    });
+
+});
+
+
+
+/* =========================
+   TOC TOP / BOTTOM BUTTONS
+========================= */
+
+/*
+Button များ
+*/
+
+const tocTopBtn =
+document.getElementById("toc-top-btn");
+
+const tocBottomBtn =
+document.getElementById("toc-bottom-btn");
+
+
+/*
+TOC Scroll Area
+*/
+
+const tocContent =
+document.querySelector(".toc-content");
+
+
+/* =========================
+   အပေါ်ဆုံး သွား
+========================= */
+
+tocTopBtn.addEventListener("click", () => {
+
+    tocContent.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+    });
+
+});
+
+
+/* =========================
+   အောက်ဆုံး သွား
+========================= */
+
+tocBottomBtn.addEventListener("click", () => {
+
+    tocContent.scrollTo({
+
+        top: tocContent.scrollHeight,
+
+        behavior: "smooth"
+    });
+
+});
+
+/* TOC SEARCH အဆုံး */
