@@ -22,8 +22,12 @@ function toggleTOC() {
                 }
             }, 100); // Box ပွင့်ချိန်နှင့် ကိုက်အောင် ၀.၁ စက္ကန့် စောင့်ခိုင်းခြင်း
         } else {
-            tocOverlay.style.display = 'none';
-        }
+
+    tocOverlay.style.display = 'none';
+
+    clearTOCSearch();
+
+}
     }
 }
 
@@ -638,6 +642,19 @@ renderSizeDigits();
 /*
 Search Input
 */
+function clearTOCSearch() {
+
+    // search input ရှင်း
+    tocSearch.value = "";
+
+    // item အားလုံးပြန်ဖော်
+    tocItems.forEach(item => {
+
+        item.style.display = "block";
+
+    });
+
+}
 
 const tocSearch =
 document.getElementById("toc-search");
@@ -696,6 +713,25 @@ tocSearch.addEventListener("input", () => {
 
 });
 
+
+tocItems.forEach(item => {
+
+    const link = item.querySelector("a");
+
+    if (link) {
+
+        link.addEventListener("click", () => {
+
+            clearTOCSearch();
+
+            document.getElementById('toc-overlay')
+                .style.display = 'none';
+
+        });
+
+    }
+
+});
 
 
 /* =========================
