@@ -43,9 +43,10 @@ function restoreReadingPosition() {
         }
     }, 600);
 }
+/* =================================================================== */
 
-// ခလုတ်များ အလုပ်လုပ်ရန် လိုအပ်သော Variable (မဖျက်ပါနဲ့ဘုရား)
-let currentFontSize = 25; 
+
+
 
 // ၁။ မာတိကာ (Table of Contents) အဖွင့်အပိတ် (Auto-scroll အသစ်ပါဝင်သည်)
 function toggleTOC() {
@@ -58,7 +59,9 @@ function toggleTOC() {
             
             // မာတိကာပွင့်ပြီးနောက် Active ဖြစ်နေသော အခန်းဆီသို့ အလိုအလျောက် Scroll ဆွဲခြင်း
             setTimeout(() => {
+                // လက်ရှိ Active ဖြစ်နေသော link ကို ရှာခြင်း
                 const activeItem = document.querySelector('.active-chapter');
+                // Scroll ဆွဲမည့် မာတိကာစာရင်း Box ကို ရှာခြင်း
                 const tocList = document.querySelector('.toc-list');
                 
                 if (activeItem && tocList) {
@@ -67,11 +70,14 @@ function toggleTOC() {
                         block: 'center' 
                     });
                 }
-            }, 100); 
+            }, 100); // Box ပွင့်ချိန်နှင့် ကိုက်အောင် ၀.၁ စက္ကန့် စောင့်ခိုင်းခြင်း
         } else {
-            tocOverlay.style.display = 'none';
-            clearTOCSearch();
-        }
+
+    tocOverlay.style.display = 'none';
+
+    clearTOCSearch();
+
+}
     }
 }
 
@@ -87,11 +93,13 @@ function toggleSetting() {
 
 // ၃။ PDF ဖိုင်ဒေါင်းလော့ဆွဲရန် (အသစ်ထည့်လိုက်သည့်နေရာ)
 function downloadPDF() {
-    toggleSetting(); 
+    toggleSetting(); // Setting menu ကို အရင်ပိတ်ပါ (စာထဲမှာ မပေါ်စေရန်)
     setTimeout(() => {
-        window.print(); 
+        window.print(); // ၀.၅ စက္ကန့်လောက် စောင့်ပြီးမှ Print window ဖွင့်ပါ
     }, 500);
 }
+
+
 
 // ၅။ ဖတ်လက်စစာမျက်နှာကို မှတ်ထားပေးရန်
 function saveCurrentPage() {
@@ -137,12 +145,17 @@ window.addEventListener('load', function() {
 
 
 function toggleReadingMode() {
+    // Body မှာ focus-mode ဆိုတဲ့ class ကို အဖွင့်အပိတ် လုပ်ခြင်း
     document.body.classList.toggle('focus-mode');
+    
     const fsBtn = document.getElementById('fs-btn');
+    
     if (document.body.classList.contains('focus-mode')) {
+        // Focus Mode ထဲရောက်ရင် ခလုတ်ပုံစံ ပြောင်းရန် (ဥပမာ - ပြန်ထွက်ဖို့ သင်္ကေတ)
         fsBtn.innerHTML = '✖'; 
-        fsBtn.style.background = 'rgba(234, 222, 188, 0.2)'; 
+        fsBtn.style.background = 'rgba(234, 222, 188, 0.2)'; // ပိုမှိန်သွားစေရန်
     } else {
+        // ပုံမှန် Mode ပြန်ရောက်ရင်
         fsBtn.innerHTML = '⛶';
         fsBtn.style.background = 'rgba(234, 222, 188, 0.4)';
     }
@@ -155,7 +168,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const observerOptions = {
         root: null,
-        rootMargin: '-10% 0px -70% 0px', 
+        rootMargin: '-10% 0px -70% 0px', // Screen ရဲ့ အပေါ်ပိုင်းနား ရောက်လာရင် ပိုသိသာစေရန်
         threshold: 0
     };
 
@@ -177,6 +190,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
     sections.forEach(section => observer.observe(section));
 
+    
+    
+    // အထူးပြင်ဆင်ချက် - စာမျက်နှာ အပေါ်ဆုံးရောက်နေရင် "နိဒါန်း" ကို Highlight ပြရန်
     window.addEventListener('scroll', () => {
         if (window.scrollY < 100) {
             tocLinks.forEach(link => link.classList.remove('active-chapter'));
@@ -189,17 +205,22 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     // ဖတ်လက်စနေရာသို့ ပြန်သွားရန်
-    buildSemanticParagraphs(); 
-    restoreReadingPosition();  
+    // စာပိုဒ်လိုက် မှတ်ပေးမည့် စနစ်ကို နှိုးခြင်း
+buildSemanticParagraphs(); 
+restoreReadingPosition();  
 
-    let readingTimer;
-    window.addEventListener('scroll', () => {
-        clearTimeout(readingTimer);
-        readingTimer = setTimeout(() => {
-            saveReadingPosition();
-        }, 200);
-    });
+let readingTimer;
+window.addEventListener('scroll', () => {
+    clearTimeout(readingTimer);
+    readingTimer = setTimeout(() => {
+        saveReadingPosition();
+    }, 200);
 });
+
+});
+
+
+
 
 
 // paper.html ထဲတွင် ဖိထားမှ စာရွေးလို့ ရမဲ့ကုဒ် အစ
@@ -212,9 +233,11 @@ document.addEventListener("DOMContentLoaded", function() {
     if (content) {
         content.addEventListener('touchstart', function(e) {
             isLongPressed = false;
+            // လက်စတင်ထိသည့်နေရာကို မှတ်ထားခြင်း
             startX = e.touches[0].clientX;
             startY = e.touches[0].clientY;
             
+            // ၅၀၀ မီလီစက္ကန့် ဖိထားမှ Select ခွင့်ပြုမည်
             timer = setTimeout(function() {
                 isLongPressed = true;
                 content.style.webkitUserSelect = 'text';
@@ -222,10 +245,12 @@ document.addEventListener("DOMContentLoaded", function() {
             }, 500);
         });
 
+        // လက်ကို ရွှေ့လိုက်ပါက (Scroll လုပ်နေခြင်းဖြစ်၍) timer ကို ပိတ်ခြင်း
         content.addEventListener('touchmove', function(e) {
             let moveX = e.touches[0].clientX;
             let moveY = e.touches[0].clientY;
             
+            // လက်ကို ၁၀ pixel ထက်ပိုရွှေ့လျှင် Scroll လုပ်သည်ဟု သတ်မှတ်၍ timer ပိတ်မည်
             if (Math.abs(moveX - startX) > 10 || Math.abs(moveY - startY) > 10) {
                 clearTimeout(timer);
             }
@@ -233,6 +258,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
         content.addEventListener('touchend', function(e) {
             clearTimeout(timer);
+            
+            // ဖိထားခြင်း မဟုတ်လျှင် Selection ပြန်ပိတ်ခြင်း
             if (!isLongPressed) {
                 if (window.getSelection().toString() === "") {
                     content.style.webkitUserSelect = 'none';
@@ -241,6 +268,7 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
 
+        // နေရာလွတ်ကို နှိပ်လျှင် Selection ဖျောက်ခြင်း
         document.addEventListener('click', function(e) {
             if (!content.contains(e.target)) {
                 content.style.webkitUserSelect = 'none';
@@ -249,8 +277,12 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
     }
-});
-// paper.html ထဲတွင် ဖိထားမှ စာရွေးလို့ ရမဲ့ကုဒ် အဆုံး               
+})
+
+         // paper.html ထဲတွင် ဖိထားမှ စာရွေးလို့ ရမဲ့ကုဒ် အဆုံး               
+
+
+
 
 
 /* =========================
@@ -258,35 +290,70 @@ document.addEventListener("DOMContentLoaded", function() {
 ========================= */
 
 let currentLineHeight = 2.0;
-const lineButtons = document.querySelectorAll('.line-btn');
+
+const lineButtons =
+document.querySelectorAll('.line-btn');
 
 function applyLineHeight() {
-    const content = document.getElementById('reading-content');
-    if (content) { content.style.lineHeight = currentLineHeight; }
-    document.getElementById('lh-display').innerText = currentLineHeight.toFixed(1);
+
+    const content =
+    document.getElementById('reading-content');
+
+    if (content) {
+
+        content.style.lineHeight =
+            currentLineHeight;
+    }
+
+    document.getElementById('lh-display')
+        .innerText =
+        currentLineHeight.toFixed(1);
+
     lineButtons.forEach(btn => {
+
         btn.classList.remove('active-preset');
-        if (parseFloat(btn.dataset.value) === currentLineHeight) {
+
+        if (
+            parseFloat(btn.dataset.value)
+            === currentLineHeight
+        ) {
+
             btn.classList.add('active-preset');
         }
     });
-    localStorage.setItem('userLineHeight', currentLineHeight);
+
+    localStorage.setItem(
+        'userLineHeight',
+        currentLineHeight
+    );
 }
 
 function adjustLineHeight(amount) {
-    let next = Math.round((currentLineHeight + amount) * 10) / 10;
+
+    let next =
+        Math.round(
+            (currentLineHeight + amount) * 10
+        ) / 10;
+
     if (next >= 1.0 && next <= 3.0) {
+
         currentLineHeight = next;
+
         applyLineHeight();
     }
 }
 
 lineButtons.forEach(btn => {
+
     btn.addEventListener('click', () => {
-        currentLineHeight = parseFloat(btn.dataset.value);
+
+        currentLineHeight =
+            parseFloat(btn.dataset.value);
+
         applyLineHeight();
     });
 });
+
 
 
 /* =========================
@@ -294,133 +361,330 @@ lineButtons.forEach(btn => {
 ========================= */
 
 let currentLetterSpacing = 0;
-const letterButtons = document.querySelectorAll('.letter-btn');
+
+const letterButtons =
+document.querySelectorAll('.letter-btn');
 
 function applyLetterSpacing() {
-    const content = document.getElementById('reading-content');
-    if (content) { content.style.letterSpacing = currentLetterSpacing + 'px'; }
-    document.getElementById('ls-display').innerText = currentLetterSpacing;
+
+    const content =
+    document.getElementById('reading-content');
+
+    if (content) {
+
+        content.style.letterSpacing =
+            currentLetterSpacing + 'px';
+    }
+
+    document.getElementById('ls-display')
+        .innerText =
+        currentLetterSpacing;
+
     letterButtons.forEach(btn => {
+
         btn.classList.remove('active-preset');
-        if (parseFloat(btn.dataset.value) === currentLetterSpacing) {
+
+        if (
+            parseFloat(btn.dataset.value)
+            === currentLetterSpacing
+        ) {
+
             btn.classList.add('active-preset');
         }
     });
-    localStorage.setItem('userLetterSpacing', currentLetterSpacing);
+
+    localStorage.setItem(
+        'userLetterSpacing',
+        currentLetterSpacing
+    );
 }
 
 function adjustLetterSpacing(amount) {
-    let next = Math.round((currentLetterSpacing + amount) * 10) / 10;
+
+    let next =
+        Math.round(
+            (currentLetterSpacing + amount) * 10
+        ) / 10;
+
     if (next >= 0 && next <= 10) {
+
         currentLetterSpacing = next;
+
         applyLetterSpacing();
     }
 }
 
 letterButtons.forEach(btn => {
+
     btn.addEventListener('click', () => {
-        currentLetterSpacing = parseFloat(btn.dataset.value);
+
+        currentLetterSpacing =
+            parseFloat(btn.dataset.value);
+
         applyLetterSpacing();
     });
 });
+
 
 
 /* =========================
    LOAD SAVED SETTINGS
 ========================= */
 
-window.addEventListener('DOMContentLoaded', () => {
-    const savedLH = localStorage.getItem('userLineHeight');
-    if (savedLH !== null) { currentLineHeight = parseFloat(savedLH); }
-    applyLineHeight();
+window.addEventListener(
+    'DOMContentLoaded',
+    () => {
 
-    const savedLS = localStorage.getItem('userLetterSpacing');
-    if (savedLS !== null) { currentLetterSpacing = parseFloat(savedLS); }
-    applyLetterSpacing();
-});
+        const savedLH =
+            localStorage.getItem(
+                'userLineHeight'
+            );
+
+        if (savedLH !== null) {
+
+            currentLineHeight =
+                parseFloat(savedLH);
+        }
+
+        applyLineHeight();
+
+
+
+        const savedLS =
+            localStorage.getItem(
+                'userLetterSpacing'
+            );
+
+        if (savedLS !== null) {
+
+            currentLetterSpacing =
+                parseFloat(savedLS);
+        }
+
+        applyLetterSpacing();
+    }
+);
 
 
 // ===== Optimized Font System =====
 
 document.addEventListener('DOMContentLoaded', () => {
-    const article = document.querySelector('article');
-    const fontDisplay = document.getElementById('font-size-display');
-    let fontSize = parseInt(localStorage.getItem('userFontSize')) || 25;
+
+    const article =
+        document.querySelector('article');
+
+    // ===== FONT SIZE =====
+
+    const fontDisplay =
+        document.getElementById(
+            'font-size-display'
+        );
+
+    let fontSize =
+        parseInt(
+            localStorage.getItem('userFontSize')
+        ) || 25;
 
     function renderFontSize() {
-        article.style.fontSize = fontSize + 'px';
-        fontDisplay.textContent = fontSize;
-        localStorage.setItem('userFontSize', fontSize);
+
+        article.style.fontSize =
+            fontSize + 'px';
+
+        fontDisplay.textContent =
+            fontSize;
+
+        localStorage.setItem(
+            'userFontSize',
+            fontSize
+        );
     }
 
-    // Font size controls
-    const sizeTens = document.getElementById('size-tens');
-    const sizeOnes = document.getElementById('size-ones');
+    document
+        .getElementById('font-increase')
+        .addEventListener('click', () => {
 
-    function renderSizeDigits() {
-        if(sizeTens) sizeTens.textContent = Math.floor(fontSize / 10);
-        if(sizeOnes) sizeOnes.textContent = fontSize % 10;
-    }
+            if (fontSize < 70) {
 
-    function changeFontSize(amount) {
-        const next = fontSize + amount;
-        if (next >= 10 && next <= 70) {
-            fontSize = next;
-            renderFontSize();
-            renderSizeDigits();
-        }
-    }
+                fontSize++;
 
-    if(document.getElementById('size-plus-10')) document.getElementById('size-plus-10').onclick = () => changeFontSize(10);
-    if(document.getElementById('size-minus-10')) document.getElementById('size-minus-10').onclick = () => changeFontSize(-10);
-    if(document.getElementById('size-plus-1')) document.getElementById('size-plus-1').onclick = () => changeFontSize(1);
-    if(document.getElementById('size-minus-1')) document.getElementById('size-minus-1').onclick = () => changeFontSize(-1);
+                renderFontSize();
+            }
+        });
+
+    document
+        .getElementById('font-decrease')
+        .addEventListener('click', () => {
+
+            if (fontSize > 10) {
+
+                fontSize--;
+
+                renderFontSize();
+            }
+        });
 
     renderFontSize();
-    renderSizeDigits();
+
+    
+const sizeTens =
+    document.getElementById('size-tens');
+
+const sizeOnes =
+    document.getElementById('size-ones');
+
+function renderSizeDigits() {
+
+    sizeTens.textContent =
+        Math.floor(fontSize / 10);
+
+    sizeOnes.textContent =
+        fontSize % 10;
+}
+
+function changeFontSize(amount) {
+
+    const next = fontSize + amount;
+
+    if (next >= 10 && next <= 70) {
+
+        fontSize = next;
+
+        renderFontSize();
+
+        renderSizeDigits();
+    }
+}
+
+document
+    .getElementById('size-plus-10')
+    .onclick = () => changeFontSize(10);
+
+document
+    .getElementById('size-minus-10')
+    .onclick = () => changeFontSize(-10);
+
+document
+    .getElementById('size-plus-1')
+    .onclick = () => changeFontSize(1);
+
+document
+    .getElementById('size-minus-1')
+    .onclick = () => changeFontSize(-1);
+
+renderSizeDigits();
 
     // ===== FONT WEIGHT =====
-    let currentWeight = parseInt(localStorage.getItem('userFontWeight')) || 500;
-    const weightButtons = document.querySelectorAll('#weight-buttons .preset-btn');
-    const hundreds = document.getElementById('digit-hundreds');
-    const tens = document.getElementById('digit-tens');
-    const ones = document.getElementById('digit-ones');
+
+    let currentWeight =
+        parseInt(
+            localStorage.getItem(
+                'userFontWeight'
+            )
+        ) || 500;
+
+    const weightButtons =
+        document.querySelectorAll(
+            '#weight-buttons .preset-btn'
+        );
+
+    const hundreds =
+        document.getElementById(
+            'digit-hundreds'
+        );
+
+    const tens =
+        document.getElementById(
+            'digit-tens'
+        );
+
+    const ones =
+        document.getElementById(
+            'digit-ones'
+        );
 
     function renderWeight() {
-        article.style.fontWeight = currentWeight;
-        if(hundreds) hundreds.textContent = Math.floor(currentWeight / 100);
-        if(tens) tens.textContent = Math.floor((currentWeight % 100) / 10);
-        if(ones) ones.textContent = currentWeight % 10;
+
+        article.style.fontWeight =
+            currentWeight;
+
+        hundreds.textContent =
+            Math.floor(currentWeight / 100);
+
+        tens.textContent =
+            Math.floor(
+                (currentWeight % 100) / 10
+            );
+
+        ones.textContent =
+            currentWeight % 10;
 
         weightButtons.forEach(btn => {
-            btn.classList.toggle('active-preset', parseInt(btn.dataset.weight) === currentWeight);
+
+            btn.classList.toggle(
+                'active-preset',
+
+                parseInt(
+                    btn.dataset.weight
+                ) === currentWeight
+            );
         });
-        localStorage.setItem('userFontWeight', currentWeight);
+
+        localStorage.setItem(
+            'userFontWeight',
+            currentWeight
+        );
     }
 
     function changeWeight(amount) {
-        const next = currentWeight + amount;
+
+        const next =
+            currentWeight + amount;
+
         if (next >= 100 && next <= 900) {
+
             currentWeight = next;
+
             renderWeight();
         }
     }
 
     weightButtons.forEach(btn => {
+
         btn.addEventListener('click', () => {
-            currentWeight = parseInt(btn.dataset.weight);
+
+            currentWeight =
+                parseInt(btn.dataset.weight);
+
             renderWeight();
         });
     });
 
-    if(document.getElementById('weight-plus-100')) document.getElementById('weight-plus-100').onclick = () => changeWeight(100);
-    if(document.getElementById('weight-minus-100')) document.getElementById('weight-minus-100').onclick = () => changeWeight(-100);
-    if(document.getElementById('weight-plus-10')) document.getElementById('weight-plus-10').onclick = () => changeWeight(10);
-    if(document.getElementById('weight-minus-10')) document.getElementById('weight-minus-10').onclick = () => changeWeight(-10);
-    if(document.getElementById('weight-plus-1')) document.getElementById('weight-plus-1').onclick = () => changeWeight(1);
-    if(document.getElementById('weight-minus-1')) document.getElementById('weight-minus-1').onclick = () => changeWeight(-1);
+    document
+        .getElementById('weight-plus-100')
+        .onclick = () => changeWeight(100);
+
+    document
+        .getElementById('weight-minus-100')
+        .onclick = () => changeWeight(-100);
+
+    document
+        .getElementById('weight-plus-10')
+        .onclick = () => changeWeight(10);
+
+    document
+        .getElementById('weight-minus-10')
+        .onclick = () => changeWeight(-10);
+
+    document
+        .getElementById('weight-plus-1')
+        .onclick = () => changeWeight(1);
+
+    document
+        .getElementById('weight-minus-1')
+        .onclick = () => changeWeight(-1);
 
     renderWeight();
+
 });
 
 
@@ -428,32 +692,98 @@ document.addEventListener('DOMContentLoaded', () => {
    TOC SEARCH အစ
 ========================= */
 
-const tocSearch = document.getElementById("toc-search");
-const tocItems = document.querySelectorAll(".toc-list li");
-
+/*
+Search Input
+*/
 function clearTOCSearch() {
-    if(tocSearch) tocSearch.value = "";
-    tocItems.forEach(item => { item.style.display = "block"; });
+
+    // search input ရှင်း
+    tocSearch.value = "";
+
+    // item အားလုံးပြန်ဖော်
+    tocItems.forEach(item => {
+
+        item.style.display = "block";
+
+    });
+
 }
 
-if(tocSearch) {
-    tocSearch.addEventListener("input", () => {
-        const searchText = tocSearch.value.toLowerCase();
-        tocItems.forEach(item => {
-            const text = item.textContent.toLowerCase();
-            item.style.display = text.includes(searchText) ? "block" : "none";
-        });
+const tocSearch =
+document.getElementById("toc-search");
+
+/*
+မာတိကာထဲက li အားလုံး
+*/
+
+const tocItems =
+document.querySelectorAll(".toc-list li");
+
+
+/*
+Search ရိုက်တိုင်း filter လုပ်
+*/
+
+tocSearch.addEventListener("input", () => {
+
+    /*
+    User ရိုက်တဲ့စာ
+    */
+
+    const searchText =
+    tocSearch.value.toLowerCase();
+
+
+    /*
+    TOC Item တစ်ခုချင်းစီ စစ်
+    */
+
+    tocItems.forEach(item => {
+
+        const text =
+        item.textContent.toLowerCase();
+
+
+        /*
+        စာသားတူရင် ပြ
+        */
+
+        if (text.includes(searchText)) {
+
+            item.style.display = "block";
+        }
+
+        /*
+        မတူရင် ဖျောက်
+        */
+
+        else {
+
+            item.style.display = "none";
+        }
+
     });
-}
+
+});
+
 
 tocItems.forEach(item => {
+
     const link = item.querySelector("a");
+
     if (link) {
+
         link.addEventListener("click", () => {
+
             clearTOCSearch();
-            document.getElementById('toc-overlay').style.display = 'none';
+
+            document.getElementById('toc-overlay')
+                .style.display = 'none';
+
         });
+
     }
+
 });
 
 
@@ -461,20 +791,55 @@ tocItems.forEach(item => {
    TOC TOP / BOTTOM BUTTONS
 ========================= */
 
-const tocTopBtn = document.getElementById("toc-top-btn");
-const tocBottomBtn = document.getElementById("toc-bottom-btn");
-const tocContent = document.querySelector(".toc-list");
+/*
+Button များ
+*/
 
-if(tocTopBtn) {
-    tocTopBtn.addEventListener("click", () => {
-        tocContent.scrollTo({ top: 0, behavior: "smooth" });
-    });
-}
+const tocTopBtn =
+document.getElementById("toc-top-btn");
 
-if(tocBottomBtn) {
-    tocBottomBtn.addEventListener("click", () => {
-        tocContent.scrollTo({ top: tocContent.scrollHeight, behavior: "smooth" });
+const tocBottomBtn =
+document.getElementById("toc-bottom-btn");
+
+
+
+/*
+TOC Scroll Area
+*/
+
+const tocContent =
+document.querySelector(".toc-list");
+
+
+/* =========================
+   အပေါ်ဆုံး သွား
+========================= */
+
+tocTopBtn.addEventListener("click", () => {
+
+    tocContent.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
     });
-}
+
+});
+
+
+/* =========================
+   အောက်ဆုံး သွား
+========================= */
+
+tocBottomBtn.addEventListener("click", () => {
+
+    tocContent.scrollTo({
+
+        top: tocContent.scrollHeight,
+
+        behavior: "smooth"
+    });
+
+});
 
 /* TOC SEARCH အဆုံး */
