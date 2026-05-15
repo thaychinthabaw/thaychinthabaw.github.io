@@ -363,6 +363,15 @@ function clearTOCSearch() {
 
 function init() {
 
+    // export functions AFTER DOM ready
+    window.toggleTOC = toggleTOC;
+    window.toggleSetting = toggleSetting;
+    window.downloadPDF = downloadPDF;
+    window.toggleReadingMode = toggleReadingMode;
+    window.adjustLineHeight = adjustLineHeight;
+    window.adjustLetterSpacing = adjustLetterSpacing;
+
+
     const article =
         document.querySelector('article');
 
@@ -476,6 +485,76 @@ function init() {
 
     /* ===== TOC SEARCH ===== */
 
+    /* ===== LINE HEIGHT BUTTONS ===== */
+
+    const lineButtons =
+        document.querySelectorAll('.line-btn');
+
+    lineButtons.forEach(btn => {
+
+        btn.addEventListener('click', () => {
+
+            currentLineHeight =
+                parseFloat(btn.dataset.value);
+
+            applyLineHeight();
+        });
+    });
+
+
+    /* ===== LETTER SPACING BUTTONS ===== */
+
+    const letterButtons =
+        document.querySelectorAll('.letter-btn');
+
+    letterButtons.forEach(btn => {
+
+        btn.addEventListener('click', () => {
+
+            currentLetterSpacing =
+                parseFloat(btn.dataset.value);
+
+            applyLetterSpacing();
+        });
+    });
+
+
+    /* ===== TOC TOP/BOTTOM ===== */
+
+    const tocTopBtn =
+        document.getElementById('toc-top-btn');
+
+    const tocBottomBtn =
+        document.getElementById('toc-bottom-btn');
+
+    const tocContent =
+        document.querySelector('.toc-list');
+
+    if (tocTopBtn && tocContent) {
+
+        tocTopBtn.addEventListener('click', () => {
+
+            tocContent.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    }
+
+    if (tocBottomBtn && tocContent) {
+
+        tocBottomBtn.addEventListener('click', () => {
+
+            tocContent.scrollTo({
+                top: tocContent.scrollHeight,
+                behavior: 'smooth'
+            });
+        });
+    }
+
+
+    /* ===== TOC SEARCH ===== */
+
     if (tocSearch) {
 
         tocSearch.addEventListener('input', () => {
@@ -569,12 +648,5 @@ document.addEventListener(
 /* =========================
    EXPORT FUNCTIONS
 ========================= */
-
-window.toggleTOC = toggleTOC;
-window.toggleSetting = toggleSetting;
-window.downloadPDF = downloadPDF;
-window.toggleReadingMode = toggleReadingMode;
-window.adjustLineHeight = adjustLineHeight;
-window.adjustLetterSpacing = adjustLetterSpacing;
 
 })();
