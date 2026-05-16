@@ -583,9 +583,16 @@ article {
     user-select: none;
     -webkit-tap-highlight-color: transparent;
 }
+
+.top-controls,
+.floating-left-group,
+.setting-overlay,
+.toc-overlay,
+button,
+a {
+    pointer-events: auto;
+}
 /* paper.html ထဲတွင် ဖိထားမှ စာရွေးလိုတဲ့ ကုဒ် အဆုံး*/
-
-
 
 /* ===== Modern Preset System ===== */
 
