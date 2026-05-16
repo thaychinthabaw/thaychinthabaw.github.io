@@ -1,237 +1,292 @@
 <!DOCTYPE html>
 <html lang="my">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PDF စာဖတ်ခန်း</title>
-
-  <link rel="stylesheet" href="pdf.css" />
-  <link rel="stylesheet" href="darkmode.css" />
-
-  <!-- PDF.js -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>စာဖတ်ခန်း | သေခြင်းသဘော</title>
+    <link rel="stylesheet" href="pdf.css">
+    <script defer src="pdf.js"></script>
+   
+        
+    <link rel="stylesheet" href="darkmode.css">
+    <link rel="icon" type="image/png" href="https://thaychinthabaw.netlify.app/thaychinthabawlogo1.png">
 </head>
-
-<body class="sepia-mode">
-
-  <!-- ================= TOP BAR ================= -->
-  <header class="top-controls">
-
-    <a href="index.html" class="back-link">
-      <span class="nav-icon">⌂</span>
-      <span class="nav-text">ပင်မ</span>
-    </a>
-
-    <div class="right-controls">
-
-      <div class="font-controls">
-        <button id="font-decrease">−</button>
-        <span id="font-size-display">25</span>
-        <button id="font-increase">+</button>
-      </div>
-
-      <button id="upload-btn" class="setting-btn">📂</button>
-
-      <button id="focus-btn" class="setting-btn">⛶</button>
-
-      <button class="setting-btn" onclick="toggleSetting()">⚙</button>
-
-    </div>
-  </header>
-
-
-  <!-- ================= HIDDEN FILE INPUT ================= -->
-  <input
-    type="file"
-    id="pdf-upload"
-    accept="application/pdf"
-    hidden
-  />
-
-
-  <!-- ================= CONTAINER ================= -->
-  <main class="container">
-
-    <div class="book-header">
-      <h1 id="pdf-title">PDF စာအုပ် မရွေးရသေးပါ</h1>
-      <h2 id="pdf-meta">PDF ဖိုင်တင်ပြီး ဖတ်နိုင်ပါပြီ</h2>
-    </div>
-
-    <article id="reading-content" class="content-area">
-
-      <div id="pdf-loading" class="loading-box">
-        <div class="loader"></div>
-        <p>PDF ဖိုင် စောင့်နေပါသည်...</p>
-      </div>
-
-      <div id="pdf-pages"></div>
-
-    </article>
-  </main>
-
-
-  <!-- ================= FLOATING BUTTONS ================= -->
-  <div class="floating-left-group">
-
-    <button class="toc-toggle-btn" onclick="toggleTOC()">
-      ☰
-    </button>
-
-    <a href="#top" class="top-btn">⬆</a>
-
-  </div>
-
-
-  <!-- ================= TOC OVERLAY ================= -->
-  <div class="toc-overlay" id="toc-overlay">
-
-    <div class="toc-content">
-
-      <h1>မာတိကာ</h1>
-
-      <span class="close-btn" onclick="toggleTOC()">×</span>
-
-      <div class="toc-header">
-        <input
-          type="text"
-          id="toc-search"
-          placeholder="ရှာဖွေရန်..."
-        />
-      </div>
-
-      <ul class="toc-list" id="toc-list">
-      </ul>
-
-      <div class="toc-jump-buttons">
-        <button id="toc-top-btn">⬆</button>
-        <button id="toc-bottom-btn">⬇</button>
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- ================= SETTING OVERLAY ================= -->
-  <div class="setting-overlay" id="setting-overlay">
-
-    <div class="setting-content">
-
-      <div class="setting-header">
-        <h2 class="setting-title">ချိန်ညှိချက်များ</h2>
-        <span class="setting-close-btn" onclick="toggleSetting()">×</span>
-      </div>
-
-      <div class="setting-body">
-
-        <button class="setting-menu-refresh" id="reload-pdf">
-          <span class="nav-icon">⟳</span>
-          <span class="nav-text">PDF ပြန်ဖွင့်ရန်</span>
-        </button>
-
-        <button class="setting-item" onclick="window.print()">
-          📄 PDF အဖြစ်သိမ်းရန်
-        </button>
-
-
-        <!-- FONT SIZE -->
-        <div class="setting-item-group">
-
-          <span class="setting-title2">
-            စာလုံးအရွယ်အစား
-          </span>
-
-          <div class="font-size-control">
-            <button id="size-minus-10">−10</button>
-            <button id="size-minus-1">−</button>
-
-            <span id="font-size-display2">25</span>
-
-            <button id="size-plus-1">+</button>
-            <button id="size-plus-10">+10</button>
-          </div>
-
-        </div>
-
-
-        <!-- FONT WEIGHT -->
-        <div class="setting-item-group">
-
-          <span class="setting-title2">
-            စာလုံးအထူ
-          </span>
-
-          <div class="preset-group" id="weight-buttons">
-            <button class="preset-btn" data-weight="300">အပါး</button>
-            <button class="preset-btn" data-weight="500">အလတ်</button>
-            <button class="preset-btn" data-weight="700">အထူ</button>
-          </div>
-
-        </div>
-
-
-        <!-- LINE HEIGHT -->
-        <div class="setting-item-group">
-
-          <span class="setting-title2">
-            စာကြောင်းကြား အကွာအဝေး
-          </span>
-
-          <div class="preset-group">
-            <button class="preset-btn line-btn" data-value="1.5">ကျဉ်း</button>
-            <button class="preset-btn line-btn" data-value="2.0">အလတ်</button>
-            <button class="preset-btn line-btn" data-value="2.5">ကျယ်</button>
-          </div>
-
-          <div class="adjust-group">
-            <button onclick="adjustLineHeight(-0.1)">−</button>
-            <span id="lh-display">2.0</span>
-            <button onclick="adjustLineHeight(0.1)">+</button>
-          </div>
-
-        </div>
-
-
-        <!-- LETTER SPACING -->
-        <div class="setting-item-group">
-
-          <span class="setting-title2">
-            စာလုံးကြား အကွာအဝေး
-          </span>
-
-          <div class="preset-group">
-            <button class="preset-btn letter-btn" data-value="0">ကျဉ်း</button>
-            <button class="preset-btn letter-btn" data-value="1">အလတ်</button>
-            <button class="preset-btn letter-btn" data-value="2">ကျယ်</button>
-          </div>
-
-          <div class="adjust-group">
-            <button onclick="adjustLetterSpacing(-0.5)">−</button>
-            <span id="ls-display">0</span>
-            <button onclick="adjustLetterSpacing(0.5)">+</button>
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-
-  <!-- ================= FULLSCREEN BTN ================= -->
-  <button
-    class="fullscreen-round-btn"
-    id="fs-btn"
-    onclick="toggleReadingMode()"
-  >
-    ⛶
-  </button>
-
-
-  <script src="darkmode.js"></script>
-  <script src="pdf.js"></script>
-
+<body class="is-paper">
+    <div class="container">
+        <nav class="top-controls">
+            <a href="index.html" class="back-link">
+    <span class="nav-icon">⌂</span>
+    <span class="nav-text">ပင်မ</span>
+</a>
+            <button id="fs-btn" class="fullscreen-round-btn" onclick="toggleReadingMode()">⛶</button>
+            <div class="right-controls">
+    <button class="setting-btn" onclick="toggleSetting()">​⚙</button>
+   <button id="modeToggle">☀️</button>    
+</div>
+        </nav>
+        
+<article class="content-area" id="reading-content">
+<div id="last-read-container"></div>  
+    <section id="title1">  <h1> သေခြင်းသဘော စာမူ</h1></section>
+  <section id="title2">  <h1> ဝိပဿနာအခြေခံ ☸️</h1></section>
+  <section id="chapter1"><h1>နိဒါန်း</h1> 
+    
+  <div class="raw-text">• နိဒါန်း။
+      “•” ယခု အစက် သင်္ကေတနဲ့ ပြထားသော စာသည် ခေါင်းစဉ် ငယ် တစ်ခုကို ကိုယ်စားပြုပါတယ်။ ခေါင်းစဉ် အများအပြားဖြင့် အမြင် ရှုပ်မနေစေရန် အသုံးပြုထားပါတယ်။
+“[ ]” ယခု လေးထောင့် အဖွင့်အပိတ် သင်္ကေတနဲ့ ပြထားသော စာသည် မူရင်းသုတ္တန်မြန်မာပြန်၏ အောက်တွင် သုတ္တန်မှ နည်းယူခဲ့သည်များကို ရေးသားထားသော ဦးဇင်း၏ အာဘော် စာသားများကို အထက်ရှိမူရင်း သုတ္တန်နှင့် ရောမသွားစေရန် အသုံးပြုထားပါသည်။ “[ ]” ထို အဖွင့်အပိတ် အတွင်းရှိသော စာများသည် မူရင်းသုတ္တန်များမှ နည်းယူထားသော ဦးဇင်း၏ ကိုယ်ပိုင်ရေးသားမှု အာဘော်သာဖြစ်ကြောင်း သတိပြုပါ။
+၁။ ယနေ့ခေတ်တွင် အခြေအနေ အမျိုးမျိုးမှာ ရှင်သန်နေထိုင်ကြတဲ့ လူတိုင်းဟာ စိတ်ဓာတ်ကျခြင်း၊ စိတ်အားငယ်ခြင်း၊ ကိုယ့်ကိုယ်ကိုယ် ယုံကြည်မှု မရှိခြင်း စတဲ့ စိတ်အဆင်မပြေမှုတွေကို ကြုံ‌တွေ့ရတတ်ပါတယ်။
+      
+      ဒီလိုကြုံရတာက မျက်စိ၊ နား၊ နှာခေါင်း၊ လျှာ၊ ကိုယ်၊ စိတ် ဆိုတဲ့ “ဒွါရ” တို့နှင့် ရုပ်အဆင်းပုံရိပ်၊ အသံ၊ အနံ့၊ အရသာ၊ ထိတွေ့မှု၊ ကြံတွေးစရာ ဆိုတဲ့ “အာရုံ”တို့တွေ့ဆုံမှုကြောင့် မြင်သိစိတ်၊ ကြားသိစိတ်၊ အနံ့သိစိတ်၊ အရသာသိစိတ်၊ ထိသိစိတ်၊ ကြံ‌တွေးသိစိတ် ဆိုတဲ့ စိတ်ခြောက်မျိုး ဖြစ်ပါတယ်။  
+   ၂။ ဒီစိတ်ခြောက်မျိုးရဲ့ မူလ နာမည်နဲ့အလုပ်တွေကို မေ့သွားပြီး ကောင်းတဲ့ အရာတွေကို ကောင်းတယ်လို့ ဆုံးဖြတ်တဲ့အတွက် လိုချင်မှု ဆိုတဲ့ “လောဘ” ဖြစ်ပါတယ်။ လိုချင်တဲ့ အရာတွေကို မရတဲ့အခါ စိတ်ဆိုး၊ စိတ်ညစ်မှုတွေဆိုတဲ့ “ဒေါသ” ဖြစ်ပါတယ်။ စိတ်ဓာတ်ကျခြင်း၊ စိတ်အားငယ်ခြင်း၊ ကိုယ့်ကိုယ်ကိုယ် ယုံကြည်မှု မရှိခြင်း စတဲ့ စိတ်အဆင်မပြေမှုတွေဟာလဲ “ဒေါသ”ပဲ ဖြစ်ပါတယ်။ 
+ ၃။ ဒီတော့ စိတ်အဆင်မပြေမှုရဲ့ အခြေခံက လိုချင်မှု ဆိုတဲ့ “လောဘ” ကြောင့်သာ ဖြစ်ပါတယ်။ 
+   ၄။  မြတ်စွာဘုရား ဟောကြားခဲ့တဲ့ ဗာဟိယသုတ်မှာ-
+      “ဒိဋ္ဌေ ဒိဋ္ဌ မတ္တံ ဘဝိဿတိ။ သုတေ သုတ မတ္တံ ဘဝိဿတိ။ မုတေ မုတ မတ္တံ ဘဝိဿတိ။ ဝိညာတေ ဝိညာတ မတ္တံ ဘဝိဿတိ။” ဆိုတဲ့ 
+ 
+      “မြင်ရာ၌ မြင်ကာမျှ ဖြစ်လတ္တံ့။ ကြားရာ၌ ကြားကာမျှ ဖြစ်လတ္တံ့။ တွေ့ရာ၌ တွေ့ကာမျှ ဖြစ်လတ္တံ့။ သိရာ၌ သိကာမျှ ဖြစ်လတ္တံ့”ဟု ဤသို့ သင်သည် ကျင့်အပ်၏ လို့ ဟောပါတယ်။ 
+      ၅။ ဒီနည်း အတိုင်း တရားရှုမှတ်ရင် စိတ်ခြောက်မျိုးရဲ့ မူလ နာမည်နဲ့အလုပ်တွေကို မမေ့ပဲနဲ့ ကောင်းတဲ့ အရာတွေကို ကောင်းတယ်လို့ မဆုံးဖြတ်လို့ လိုချင်မှု ဆိုတဲ့ “လောဘ” မဖြစ်တော့ပါဘူး။ လိုချင်မှု ဆိုတဲ့ “လောဘ” မဖြစ်လို့ လောဘကြောင့် ဖြစ်နိုင်တဲ့ စိတ်ဆိုး၊ စိတ်ညစ်မှုတွေဆိုတဲ့ “ဒေါသ” မဖြစ်တော့ပါ။ စိတ်ဓာတ်ကျခြင်း၊ စိတ်အားငယ်ခြင်း၊ ကိုယ့်ကိုယ်ကိုယ် ယုံကြည်မှုမရှိခြင်းစတဲ့ ဒေါသစာရင်းဝင် စိတ်အဆင်မပြေမှုတွေလဲ မဖြစ်တော့ပါဘူး။ 
+   ၆။ ဒီနည်းမှာ မြင်သိစိတ်က ထင်ထင်ရှားရှား ဖြစ်နေရင် “မြင် ဒါမှမဟုတ် မြင်တယ်”လို့၊ ကြားသိစိတ်က ထင်ထင်ရှားရှား ဖြစ်နေရင် “ကြား ဒါမှမဟုတ် ကြားတယ်”လို့၊ အနံ့သိစိတ် အရသာသိစိတ် ထိသိစိတ် တစ်ခုခုက ထင်ထင်ရှားရှား ဖြစ်နေရင် “ထိ ဒါမှမဟုတ် ထိတယ်”လို့၊ ကြံတွေးသိစိတ်က ထင်ထင်ရှားရှား ဖြစ်နေရင် “တွေး ဒါမှမဟုတ် တွေးတယ်”လို့ ဆိုတဲ့ လက်တွေ့ဖြစ်နေတဲ့  စိတ်နဲ့ဆိုင်တဲ့ ဆုံးဖြတ်တဲ့ စကားလုံးတွေကို စိတ်နဲ့ ရွတ်ဆိုပေးရပါတယ်။ 
+ ၇။ ဒီစကားလုံးတွေက ကောင်းတယ်၊ ဆိုးတယ် ဆိုတဲ့ ဆုံးဖြတ်တဲ့ စကားလုံးတွေနဲ့မတူပါဘူး။ ဒီလို ဆုံးဖြတ်ရွတ်ဆိုတဲ့နည်းက စိတ်ခြောက်မျိုးရဲ့ မူလ နာမည်နဲ့အလုပ်ကို သတိရလာပြီး လိုချင်မှု ဆိုတဲ့ “လောဘ”ကို မဖြစ်အောင် ထိန်းပေးနိုင်တာဖြစ်ပါတယ်။ လောဘကြောင့် ဖြစ်ပေါ်လာမည့် ဒေါသ၊ စိတ်ဓာတ်ကျခြင်းနှင့် စိတ်အားငယ်ခြင်းစတဲ့ ပြဿနာအားလုံးကို လျော့နည်းစေပါတယ်။
+  ၈။ ဒီစာအုပ်မှာ စိတ်ခြောက်မျိုးကို ဆုံးဖြတ်ရွတ်ဆို၍ ရှုမှတ်ခြင်းကို ရှုမှတ်မှု လုပ်ငန်းစဉ်(၁)၊ စိတ်နဲ့ဆုံးဖြတ်ရွတ်ဆိုတဲ့ စကားလုံးတွေရဲ့ ဖြစ်ခြင်း၊ ပျက်ခြင်းတို့ကို ရှုမှတ်ခြင်းကို ရှုမှတ်မှု လုပ်ငန်းစဉ်(၂)၊ စိတ်နဲ့ဆုံးဖြတ်ရွတ်ဆိုတဲ့ စကားလုံးတွေရဲ့ အနိစ္စ၊ ဒုက္ခ၊ အနတ္တ တို့ကို ရှုမှတ်ခြင်းကို ရှုမှတ်မှု လုပ်ငန်းစဉ်(၃) အနေနဲ့ အသေးစိတ် ပြောပြပေးထားပါတယ်။
+။ ဘာလို့ အခုလို မျှဝေရေးသားတာလဲ ဆိုရင် ရိပ်သာမှာ သုတ္တန်နိကာယ်(၅)ကျမ်းကို ဖတ်ပြီး တရားအားထုတ် ခဲ့စဉ်က ဗာဟိယသုတ်လာ ကမ္မဋ္ဌာန်းနည်း၏ အားထုတ်ပုံကို သိခဲ့ရပါတယ်။ ဦးဇင်း သိထားတဲ့ ဗာဟိယသုတ်လာ ကမ္မဋ္ဌာန်းနည်း၏ အားထုတ်ပုံကို မသိသေးတဲ့ သူတွေကို သိစေလိုတဲ့ စိတ်နဲ့ ရေးသားနေခြင်း ဖြစ်ပါတယ်။
+      ---</div><hr> </section>
+<section id="chapter9"> <h1>ကျမ်းကိုး</h1>
+     <div class="raw-text">၁။ အင်္ဂုတ္တနိကာယ်၊ စတုက္ကနိပါတ်၊ ပဌမပဏ္ဏာသက၊ စက္ကဝဂ်၊ အပရိဟာနိယသုတ်
+         ၂။ ခုဒ္ဒကနိကာယ်၊ ဥဒါန်း၊ ဗောဒိဝဂ်၊ ဗာဟိယသုတ် 
+         ၃။ အင်္ဂုတ္တရနိကာယ်၊ ဧကာဒသကနိပါတ်၊ နိဿယဝဂ်၊ ပဌမသညာသုတ်
+         ၄။ အင်္ဂုတ္တရနိကာယ်၊ ဧကာဒသကနိပါတ်၊ နိဿယဝဂ်၊ မနသိကာရသုတ်
+         ၅။ ခုဒ္ဒကနိကာယ်၊ ပဋိသမ္ဘိဒါမဂ်၊ မဟာဝဂ်၊ ဉာဏကထာ၊ ဥဒယဗ္ဗယဉာဏ် အကျယ်ပြခြင်း
+         ၆။ ခုဒ္ဒကနိကာယ်၊ ပဋိသမ္ဘိဒါမဂ်၊ ပညာဝဂ်၊ ဝိပဿနာကထာ၊
+         ၇။ ခုဒ္ဒကနိကာယ်၊ ပဋိသမ္ဘိဒါမဂ်၊ မဟာဝဂ်၊ ဉာဏကထာ၊ ဘင်္ဂါနုပဿနာဉာဏ် အကျယ်ပြခြင်း
+         ၈။ သံယုတ္တနိကာယ် ၊သဠာယတနသံယုတ် ၊ယမကဝဂ် ၊ပဌမ ပုဗ္ဗေသမ္ဗောဓသုတ်
+</div></section>
+                
+          </article>
+    </div>
+    <div class="floating-left-group">
+        <a href="#" class="top-btn" title="အပေါ်ဆုံးသို့">⬆</a>
+        <button class="toc-toggle-btn" id="toc-toggle" onclick="toggleTOC()">☰</button>
+    </div>
+    <div id="setting-overlay" class="setting-overlay" onclick="toggleSetting()">
+    <div class="setting-content" onclick="event.stopPropagation()">
+        
+        <div class="setting-header">
+            <h1 class="setting-title">ချိန်ညှိချက်များ</h1>
+            <span class="setting-close-btn" onclick="toggleSetting()">×</span>
+        </div>
+<div class="setting-body">
+            
+            <button class="setting-menu-refresh" onclick="location.reload()">
+    <span class="nav-icon">⟳</span>
+    <span class="nav-text">အသစ်ဖြစ်အောင်လုပ်ရန်</span>
+            </button>
+<button class="setting-item" onclick="downloadPDF()">📄 စာအုပ်အဖြစ်သိမ်းရန်   </button>
+          
+<!-- Font Size -->
+<div class="setting-item-group">
+    <span class="setting-title2">
+        စာလုံးအရွယ်အစား
+    </span>
+    <div class="font-size-control">
+    <button id="font-decrease">
+        −
+    </button>
+    <span id="font-size-display">
+        25
+    </span>
+    <button id="font-increase">
+        +
+    </button>
+</div>
+<div class="spinner-wrapper">
+    <div class="spinner-box">
+        <button id="size-plus-10">
+            ▲
+        </button>
+        <span id="size-tens">
+            2
+        </span>
+        <button id="size-minus-10">
+            ▼
+        </button>
+    </div>
+    <div class="spinner-box">
+        <button id="size-plus-1">
+            ▲
+        </button>
+        <span id="size-ones">
+            5
+        </span>
+        <button id="size-minus-1">
+            ▼
+        </button>
+    </div>
+</div>
+    </div>
+        
+        <!-- Font Weight -->
+<div class="setting-item-group">
+    <span class="setting-title2">
+        စာလုံးအထူ
+    </span>
+    <div class="preset-group" id="weight-buttons">
+        <button
+            class="preset-btn"
+            data-weight="300">
+            အပါး
+        </button>
+        <button
+            class="preset-btn active-preset"
+            data-weight="500">
+            အလတ်
+        </button>
+        <button
+            class="preset-btn"
+            data-weight="900">
+            အထူ
+        </button>
+    </div>
+    <div class="spinner-wrapper">
+        <div class="spinner-box">
+            <button id="weight-plus-100">
+                ▲
+            </button>
+            <span id="digit-hundreds">
+                5
+            </span>
+            <button id="weight-minus-100">
+                ▼
+            </button>
+        </div>
+        <div class="spinner-box">
+            <button id="weight-plus-10">
+                ▲
+            </button>
+            <span id="digit-tens">
+                0
+            </span>
+            <button id="weight-minus-10">
+                ▼
+            </button>
+        </div>
+        <div class="spinner-box">
+            <button id="weight-plus-1">
+                ▲
+            </button>
+            <span id="digit-ones">
+                0
+            </span>
+            <button id="weight-minus-1">
+                ▼
+            </button>
+        </div>
+    </div>
+<!-- စာကြောင်းကြား -->
+<div class="setting-item-group">
+    <span class="setting-title2">
+        စာကြောင်းကြား အကွာအဝေး
+    </span>
+    <div class="preset-group">
+        <button
+            class="preset-btn line-btn"
+            data-value="1.5">
+            ကျဉ်း
+        </button>
+        <button
+            class="preset-btn line-btn"
+            data-value="2.0">
+            အလတ်
+        </button>
+        <button
+            class="preset-btn line-btn"
+            data-value="2.5">
+            ကျယ်
+        </button>
+    </div>
+    <div class="adjust-group">
+        <button onclick="adjustLineHeight(-0.1)">
+            −
+        </button>
+        <span id="lh-display">
+            2.0
+        </span>
+        <button onclick="adjustLineHeight(0.1)">
+            +
+        </button>
+    </div>
+</div>
+<!-- စာလုံးကြား -->
+<div class="setting-item-group">
+    <span class="setting-title2">
+        စာလုံးကြား အကွာအဝေး
+    </span>
+    <div class="preset-group">
+        <button
+            class="preset-btn letter-btn"
+            data-value="0">
+            ကျဉ်း
+        </button>
+        <button
+            class="preset-btn letter-btn"
+            data-value="1">
+            အလတ်
+        </button>
+        <button
+            class="preset-btn letter-btn"
+            data-value="2">
+            ကျယ်
+        </button>
+    </div>
+    <div class="adjust-group">
+        <button onclick="adjustLetterSpacing(-0.5)">
+            −
+        </button>
+        <span id="ls-display">
+            0
+        </span>
+        <button onclick="adjustLetterSpacing(0.5)">
+            +
+        </button>
+    </div>
+</div>
+    
+        
+           </div>
+    </div>
+</div>
+   
+</div>
+<div id="toc-overlay" class="toc-overlay" onclick="toggleTOC()" style="display: none;">
+    <div class="toc-content" onclick="event.stopPropagation()">
+        <h1 style="color:#443300;">မာတိကာ</h1>
+           <!-- Search Bar -->
+    <input
+        type="text"
+        id="toc-search"
+        placeholder="ခေါင်းစဉ် ရှာရန်..."
+    >
+        <span class="close-btn" onclick="toggleTOC()">×</span>
+        
+            <ul class="toc-list" id="toc-list">
+                
+               
+<li><a href="#title1" class="main-title" onclick="toggleTOC()">သေခြင်းသဘော စာမူ</a></li>
+ <li><a href="#title2" class="main-title" onclick="toggleTOC()">ဝိပဿနာအခြေခံ ☸️</a></li>               
+                <li><a href="#chapter1" class="main-title" onclick="toggleTOC()">နိဒါန်း</a></li>
+<!-- မာတိကာ Jump Buttons -->
+<div class="toc-jump-buttons">
+    <!-- အပေါ်ဆုံး -->
+    <button id="toc-top-btn">
+        ⬆
+    </button>
+    <!-- အောက်ဆုံး -->
+    <button id="toc-bottom-btn">
+        ⬇
+    </button>
+</div>
+<!-- မာတိကာ Jump Buttons အဆုံး -->
+        
+        </div>
+    </div>
+<script src="darkmode.js"></script>
 </body>
 </html>
