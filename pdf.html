@@ -2,10 +2,11 @@
 <html lang="my">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PDF Reading Room</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDF စာဖတ်ခန်း</title>
 
-  <link rel="stylesheet" href="pdf.css"/>
+  <link rel="stylesheet" href="pdf.css" />
+  <link rel="stylesheet" href="darkmode.css" />
 
   <!-- PDF.js -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.js"></script>
@@ -14,7 +15,7 @@
 <body class="sepia-mode">
 
   <!-- ================= TOP BAR ================= -->
-  <div class="top-controls">
+  <header class="top-controls">
 
     <a href="index.html" class="back-link">
       <span class="nav-icon">⌂</span>
@@ -23,134 +24,115 @@
 
     <div class="right-controls">
 
-      <label for="pdf-upload" class="upload-btn">
-        📂
-      </label>
+      <div class="font-controls">
+        <button id="font-decrease">−</button>
+        <span id="font-size-display">25</span>
+        <button id="font-increase">+</button>
+      </div>
 
-      <input type="file" id="pdf-upload" accept=".pdf"/>
+      <button id="upload-btn" class="setting-btn">📂</button>
 
-      <button id="modeToggle" class="setting-btn">☀️</button>
+      <button id="focus-btn" class="setting-btn">⛶</button>
 
-      <button class="setting-btn" onclick="toggleSetting()">
-        ⚙
-      </button>
+      <button class="setting-btn" onclick="toggleSetting()">⚙</button>
 
     </div>
+  </header>
 
-  </div>
 
-  <!-- ================= MAIN ================= -->
-  <div class="container">
+  <!-- ================= HIDDEN FILE INPUT ================= -->
+  <input
+    type="file"
+    id="pdf-upload"
+    accept="application/pdf"
+    hidden
+  />
+
+
+  <!-- ================= CONTAINER ================= -->
+  <main class="container">
 
     <div class="book-header">
-      <h1 id="pdf-title">
-        PDF စာအုပ်
-      </h1>
+      <h1 id="pdf-title">PDF စာအုပ် မရွေးရသေးပါ</h1>
+      <h2 id="pdf-meta">PDF ဖိုင်တင်ပြီး ဖတ်နိုင်ပါပြီ</h2>
     </div>
 
-    <article id="reading-content">
+    <article id="reading-content" class="content-area">
 
-      <div id="pdf-container"></div>
+      <div id="pdf-loading" class="loading-box">
+        <div class="loader"></div>
+        <p>PDF ဖိုင် စောင့်နေပါသည်...</p>
+      </div>
+
+      <div id="pdf-pages"></div>
 
     </article>
+  </main>
 
-  </div>
 
-  <!-- ================= FLOATING ================= -->
+  <!-- ================= FLOATING BUTTONS ================= -->
   <div class="floating-left-group">
 
     <button class="toc-toggle-btn" onclick="toggleTOC()">
       ☰
     </button>
 
-    <a href="#" class="top-btn">
-      ⬆
-    </a>
+    <a href="#top" class="top-btn">⬆</a>
 
   </div>
 
-  <!-- ================= TOC ================= -->
+
+  <!-- ================= TOC OVERLAY ================= -->
   <div class="toc-overlay" id="toc-overlay">
 
     <div class="toc-content">
 
+      <h1>မာတိကာ</h1>
+
+      <span class="close-btn" onclick="toggleTOC()">×</span>
+
       <div class="toc-header">
-
-        <h1>မာတိကာ</h1>
-
-        <span class="close-btn" onclick="toggleTOC()">
-          ×
-        </span>
-
-      </div>
-
-      <div class="toc-search-wrap">
-
         <input
           type="text"
           id="toc-search"
           placeholder="ရှာဖွေရန်..."
         />
-
       </div>
 
-      <ul class="toc-list" id="toc-list"></ul>
+      <ul class="toc-list" id="toc-list">
+      </ul>
 
       <div class="toc-jump-buttons">
-
-        <button id="toc-top-btn">
-          ⬆
-        </button>
-
-        <button id="toc-bottom-btn">
-          ⬇
-        </button>
-
+        <button id="toc-top-btn">⬆</button>
+        <button id="toc-bottom-btn">⬇</button>
       </div>
 
     </div>
 
   </div>
 
-  <!-- ================= SETTINGS ================= -->
+
+  <!-- ================= SETTING OVERLAY ================= -->
   <div class="setting-overlay" id="setting-overlay">
 
     <div class="setting-content">
 
       <div class="setting-header">
-
-        <h2 class="setting-title">
-          ချိန်ညှိချက်များ
-        </h2>
-
-        <span class="setting-close-btn"
-          onclick="toggleSetting()">
-          ×
-        </span>
-
+        <h2 class="setting-title">ချိန်ညှိချက်များ</h2>
+        <span class="setting-close-btn" onclick="toggleSetting()">×</span>
       </div>
 
       <div class="setting-body">
 
-        <!-- REFRESH -->
-        <button class="setting-menu-refresh"
-          onclick="location.reload()">
-
+        <button class="setting-menu-refresh" id="reload-pdf">
           <span class="nav-icon">⟳</span>
-
-          <span class="nav-text">
-            အသစ်ဖြစ်အောင်လုပ်ရန်
-          </span>
-
+          <span class="nav-text">PDF ပြန်ဖွင့်ရန်</span>
         </button>
 
-        <!-- SAVE PDF -->
-        <button class="setting-item"
-          onclick="window.print()">
-
-          📄 စာအုပ်အဖြစ်သိမ်းရန်
-
+        <button class="setting-item" onclick="window.print()">
+          📄 PDF အဖြစ်သိမ်းရန်
         </button>
+
 
         <!-- FONT SIZE -->
         <div class="setting-item-group">
@@ -160,22 +142,17 @@
           </span>
 
           <div class="font-size-control">
+            <button id="size-minus-10">−10</button>
+            <button id="size-minus-1">−</button>
 
-            <button id="font-decrease">
-              −
-            </button>
+            <span id="font-size-display2">25</span>
 
-            <span id="font-size-display">
-              22
-            </span>
-
-            <button id="font-increase">
-              +
-            </button>
-
+            <button id="size-plus-1">+</button>
+            <button id="size-plus-10">+10</button>
           </div>
 
         </div>
+
 
         <!-- FONT WEIGHT -->
         <div class="setting-item-group">
@@ -184,111 +161,54 @@
             စာလုံးအထူ
           </span>
 
-          <div class="preset-group">
-
-            <button class="preset-btn weight-btn"
-              data-weight="300">
-              အပါး
-            </button>
-
-            <button class="preset-btn weight-btn"
-              data-weight="500">
-              အလတ်
-            </button>
-
-            <button class="preset-btn weight-btn"
-              data-weight="700">
-              အထူ
-            </button>
-
+          <div class="preset-group" id="weight-buttons">
+            <button class="preset-btn" data-weight="300">အပါး</button>
+            <button class="preset-btn" data-weight="500">အလတ်</button>
+            <button class="preset-btn" data-weight="700">အထူ</button>
           </div>
 
         </div>
+
 
         <!-- LINE HEIGHT -->
         <div class="setting-item-group">
 
           <span class="setting-title2">
-            စာကြောင်းကြား
+            စာကြောင်းကြား အကွာအဝေး
           </span>
 
           <div class="preset-group">
-
-            <button class="preset-btn line-btn"
-              data-value="1.5">
-              ကျဉ်း
-            </button>
-
-            <button class="preset-btn line-btn"
-              data-value="2.0">
-              အလတ်
-            </button>
-
-            <button class="preset-btn line-btn"
-              data-value="2.5">
-              ကျယ်
-            </button>
-
+            <button class="preset-btn line-btn" data-value="1.5">ကျဉ်း</button>
+            <button class="preset-btn line-btn" data-value="2.0">အလတ်</button>
+            <button class="preset-btn line-btn" data-value="2.5">ကျယ်</button>
           </div>
 
           <div class="adjust-group">
-
-            <button onclick="adjustLineHeight(-0.1)">
-              −
-            </button>
-
-            <span id="lh-display">
-              2.0
-            </span>
-
-            <button onclick="adjustLineHeight(0.1)">
-              +
-            </button>
-
+            <button onclick="adjustLineHeight(-0.1)">−</button>
+            <span id="lh-display">2.0</span>
+            <button onclick="adjustLineHeight(0.1)">+</button>
           </div>
 
         </div>
+
 
         <!-- LETTER SPACING -->
         <div class="setting-item-group">
 
           <span class="setting-title2">
-            စာလုံးကြား
+            စာလုံးကြား အကွာအဝေး
           </span>
 
           <div class="preset-group">
-
-            <button class="preset-btn letter-btn"
-              data-value="0">
-              ကျဉ်း
-            </button>
-
-            <button class="preset-btn letter-btn"
-              data-value="1">
-              အလတ်
-            </button>
-
-            <button class="preset-btn letter-btn"
-              data-value="2">
-              ကျယ်
-            </button>
-
+            <button class="preset-btn letter-btn" data-value="0">ကျဉ်း</button>
+            <button class="preset-btn letter-btn" data-value="1">အလတ်</button>
+            <button class="preset-btn letter-btn" data-value="2">ကျယ်</button>
           </div>
 
           <div class="adjust-group">
-
-            <button onclick="adjustLetterSpacing(-0.5)">
-              −
-            </button>
-
-            <span id="ls-display">
-              0
-            </span>
-
-            <button onclick="adjustLetterSpacing(0.5)">
-              +
-            </button>
-
+            <button onclick="adjustLetterSpacing(-0.5)">−</button>
+            <span id="ls-display">0</span>
+            <button onclick="adjustLetterSpacing(0.5)">+</button>
           </div>
 
         </div>
@@ -299,6 +219,18 @@
 
   </div>
 
+
+  <!-- ================= FULLSCREEN BTN ================= -->
+  <button
+    class="fullscreen-round-btn"
+    id="fs-btn"
+    onclick="toggleReadingMode()"
+  >
+    ⛶
+  </button>
+
+
+  <script src="darkmode.js"></script>
   <script src="pdf.js"></script>
 
 </body>
