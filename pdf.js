@@ -998,6 +998,11 @@ function init() {
     window.toggleReadingMode = toggleReadingMode;
     window.adjustLineHeight = adjustLineHeight;
     window.adjustLetterSpacing = adjustLetterSpacing;
+   window.buildSemanticParagraphs =
+    buildSemanticParagraphs;
+
+window.restoreReadingPosition =
+    restoreReadingPosition;
 }
 
 
@@ -1101,9 +1106,9 @@ if(pdfInput){
                    REBUILD PAPER FEATURES
                 ========================= */
 
-                buildSemanticParagraphs();
+                window.buildSemanticParagraphs();
 
-                restoreReadingPosition();
+window.restoreReadingPosition();
 
                 window.scrollTo({
                     top:0,
