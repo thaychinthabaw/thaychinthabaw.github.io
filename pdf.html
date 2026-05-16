@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PDF Reading Room</title>
+
+  <link rel="stylesheet" href="pdf.css"/>
+
+  <!-- PDF.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.js"></script>
+</head>
+
+<body class="sepia-mode">
+
+  <!-- ================= TOP BAR ================= -->
+  <div class="top-controls">
+
+    <a href="index.html" class="back-link">
+      <span class="nav-icon">⌂</span>
+      <span class="nav-text">ပင်မ</span>
+    </a>
+
+    <div class="right-controls">
+
+      <label for="pdf-upload" class="upload-btn">
+        📂
+      </label>
+
+      <input type="file" id="pdf-upload" accept=".pdf"/>
+
+      <button id="modeToggle" class="setting-btn">☀️</button>
+
+      <button class="setting-btn" onclick="toggleSetting()">
+        ⚙
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- ================= MAIN ================= -->
+  <div class="container">
+
+    <div class="book-header">
+      <h1 id="pdf-title">
+        PDF စာအုပ်
+      </h1>
+    </div>
+
+    <article id="reading-content">
+
+      <div id="pdf-container"></div>
+
+    </article>
+
+  </div>
+
+  <!-- ================= FLOATING ================= -->
+  <div class="floating-left-group">
+
+    <button class="toc-toggle-btn" onclick="toggleTOC()">
+      ☰
+    </button>
+
+    <a href="#" class="top-btn">
+      ⬆
+    </a>
+
+  </div>
+
+  <!-- ================= TOC ================= -->
+  <div class="toc-overlay" id="toc-overlay">
+
+    <div class="toc-content">
+
+      <div class="toc-header">
+
+        <h1>မာတိကာ</h1>
+
+        <span class="close-btn" onclick="toggleTOC()">
+          ×
+        </span>
+
+      </div>
+
+      <div class="toc-search-wrap">
+
+        <input
+          type="text"
+          id="toc-search"
+          placeholder="ရှာဖွေရန်..."
+        />
+
+      </div>
+
+      <ul class="toc-list" id="toc-list"></ul>
+
+      <div class="toc-jump-buttons">
+
+        <button id="toc-top-btn">
+          ⬆
+        </button>
+
+        <button id="toc-bottom-btn">
+          ⬇
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ================= SETTINGS ================= -->
+  <div class="setting-overlay" id="setting-overlay">
+
+    <div class="setting-content">
+
+      <div class="setting-header">
+
+        <h2 class="setting-title">
+          ချိန်ညှိချက်များ
+        </h2>
+
+        <span class="setting-close-btn"
+          onclick="toggleSetting()">
+          ×
+        </span>
+
+      </div>
+
+      <div class="setting-body">
+
+        <!-- REFRESH -->
+        <button class="setting-menu-refresh"
+          onclick="location.reload()">
+
+          <span class="nav-icon">⟳</span>
+
+          <span class="nav-text">
+            အသစ်ဖြစ်အောင်လုပ်ရန်
+          </span>
+
+        </button>
+
+        <!-- SAVE PDF -->
+        <button class="setting-item"
+          onclick="window.print()">
+
+          📄 စာအုပ်အဖြစ်သိမ်းရန်
+
+        </button>
+
+        <!-- FONT SIZE -->
+        <div class="setting-item-group">
+
+          <span class="setting-title2">
+            စာလုံးအရွယ်အစား
+          </span>
+
+          <div class="font-size-control">
+
+            <button id="font-decrease">
+              −
+            </button>
+
+            <span id="font-size-display">
+              22
+            </span>
+
+            <button id="font-increase">
+              +
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- FONT WEIGHT -->
+        <div class="setting-item-group">
+
+          <span class="setting-title2">
+            စာလုံးအထူ
+          </span>
+
+          <div class="preset-group">
+
+            <button class="preset-btn weight-btn"
+              data-weight="300">
+              အပါး
+            </button>
+
+            <button class="preset-btn weight-btn"
+              data-weight="500">
+              အလတ်
+            </button>
+
+            <button class="preset-btn weight-btn"
+              data-weight="700">
+              အထူ
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- LINE HEIGHT -->
+        <div class="setting-item-group">
+
+          <span class="setting-title2">
+            စာကြောင်းကြား
+          </span>
+
+          <div class="preset-group">
+
+            <button class="preset-btn line-btn"
+              data-value="1.5">
+              ကျဉ်း
+            </button>
+
+            <button class="preset-btn line-btn"
+              data-value="2.0">
+              အလတ်
+            </button>
+
+            <button class="preset-btn line-btn"
+              data-value="2.5">
+              ကျယ်
+            </button>
+
+          </div>
+
+          <div class="adjust-group">
+
+            <button onclick="adjustLineHeight(-0.1)">
+              −
+            </button>
+
+            <span id="lh-display">
+              2.0
+            </span>
+
+            <button onclick="adjustLineHeight(0.1)">
+              +
+            </button>
+
+          </div>
+
+        </div>
+
+        <!-- LETTER SPACING -->
+        <div class="setting-item-group">
+
+          <span class="setting-title2">
+            စာလုံးကြား
+          </span>
+
+          <div class="preset-group">
+
+            <button class="preset-btn letter-btn"
+              data-value="0">
+              ကျဉ်း
+            </button>
+
+            <button class="preset-btn letter-btn"
+              data-value="1">
+              အလတ်
+            </button>
+
+            <button class="preset-btn letter-btn"
+              data-value="2">
+              ကျယ်
+            </button>
+
+          </div>
+
+          <div class="adjust-group">
+
+            <button onclick="adjustLetterSpacing(-0.5)">
+              −
+            </button>
+
+            <span id="ls-display">
+              0
+            </span>
+
+            <button onclick="adjustLetterSpacing(0.5)">
+              +
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="pdf.js"></script>
+
+</body>
+</html>
