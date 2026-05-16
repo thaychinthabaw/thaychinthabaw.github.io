@@ -36,49 +36,113 @@ function buildSemanticParagraphs() {
 }
 
 function saveReadingPosition() {
-    const paragraphs = document.querySelectorAll('.raw-text p');
+
+    const paragraphs =
+        document.querySelectorAll('.raw-text p');
 
     let currentParagraph = null;
+    let offsetRatio = 0;
 
     paragraphs.forEach(p => {
+
         const rect = p.getBoundingClientRect();
 
         if (
-            rect.top >= 0 &&
-            rect.top < window.innerHeight * 0.35
+            rect.top <= window.innerHeight * 0.35 &&
+            rect.bottom > 0
         ) {
+
             currentParagraph = p.dataset.p;
+
+            /*
+            paragraph အတွင်း
+            user ဘယ်လောက်အောက်ရောက်နေတယ်
+            ဆိုတာတွက်ခြင်း
+            */
+
+            offsetRatio =
+                Math.abs(rect.top)
+                / rect.height;
         }
     });
 
     if (currentParagraph) {
+
         localStorage.setItem(
             'readingPosition',
             JSON.stringify({
-                paragraph: currentParagraph
+                paragraph: currentParagraph,
+                offsetRatio: offsetRatio
             })
         );
+
     }
 }
 
 function restoreReadingPosition() {
-    const saved = localStorage.getItem('readingPosition');
+
+    const saved =
+        localStorage.getItem('readingPosition');
 
     if (!saved) return;
 
-    const data = JSON.parse(saved);
+    let data;
+
+    try {
+
+        data = JSON.parse(saved);
+
+    } catch {
+
+        return;
+    }
 
     setTimeout(() => {
-        const target = document.querySelector(
-            `[data-p="${data.paragraph}"]`
-        );
 
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
+        const target =
+            document.querySelector(
+                `[data-p="${data.paragraph}"]`
+            );
+
+        if (!target) return;
+
+        /*
+        paragraph ရဲ့ position
+        */
+
+        const rect =
+            target.getBoundingClientRect();
+
+        /*
+        paragraph အမြင့်
+        */
+
+        const paragraphHeight =
+            target.offsetHeight;
+
+        /*
+        user ဖတ်ခဲ့တဲ့နေရာ
+        */
+
+        const offset =
+            paragraphHeight
+            * (data.offsetRatio || 0);
+
+        /*
+        final scroll position
+        */
+
+        const finalY =
+            window.scrollY
+            + rect.top
+            + offset
+            - 120;
+
+        window.scrollTo({
+            top: finalY,
+            behavior: 'smooth'
+        });
+
     }, 600);
 }
 /* =================================================================== */
@@ -272,6 +336,8 @@ function applyLineHeight() {
 
 function adjustLineHeight(amount) {
 
+    saveReadingPosition();
+
     let next =
         Math.round(
             (currentLineHeight + amount) * 10
@@ -282,6 +348,13 @@ function adjustLineHeight(amount) {
         currentLineHeight = next;
 
         applyLineHeight();
+
+        setTimeout(() => {
+
+            restoreReadingPosition();
+
+        }, 100);
+
     }
 }
 
@@ -329,6 +402,8 @@ function applyLetterSpacing() {
 
 function adjustLetterSpacing(amount) {
 
+    saveReadingPosition();
+
     let next =
         Math.round(
             (currentLetterSpacing + amount) * 10
@@ -339,9 +414,15 @@ function adjustLetterSpacing(amount) {
         currentLetterSpacing = next;
 
         applyLetterSpacing();
+
+        setTimeout(() => {
+
+            restoreReadingPosition();
+
+        }, 100);
+
     }
 }
-
 
 /* =========================
    TOC SEARCH
@@ -565,13 +646,34 @@ function init() {
 
     function changeFontSize(amount) {
 
-        const next = fontSize + amount;
+    /*
+    font size မပြောင်းခင်
+    reading position save
+    */
 
-        if (next >= 10 && next <= 70) {
-            fontSize = next;
-            renderFontSize();
-        }
+    saveReadingPosition();
+
+    const next = fontSize + amount;
+
+    if (next >= 10 && next <= 70) {
+
+        fontSize = next;
+
+        renderFontSize();
+
+        /*
+        layout အသစ်ပြီးမှ
+        restore ပြန်လုပ်
+        */
+
+        setTimeout(() => {
+
+            restoreReadingPosition();
+
+        }, 100);
+
     }
+}
 
     const fontIncrease =
         document.getElementById('font-increase');
