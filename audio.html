@@ -1,0 +1,232 @@
+<!-- =========================
+audio.html
+========================= -->
+
+<!DOCTYPE html>
+<html lang="my">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>အသံစာဖတ်ခန်း</title>
+
+<link rel="stylesheet" href="audio.css">
+
+<link rel="icon"
+type="image/png"
+href="https://thaychinthabaw.netlify.app/thaychinthabawlogo1.png">
+
+<script defer src="audio.js"></script>
+
+</head>
+
+<body class="audio-mode">
+
+<div class="container">
+
+<!-- =========================
+TOP BAR
+========================= -->
+
+<nav class="top-controls">
+
+<a href="index.html"
+class="back-link"
+aria-label="ပင်မသို့ ပြန်သွားရန်">
+
+<span class="nav-icon">⌂</span>
+<span class="nav-text">ပင်မ</span>
+
+</a>
+
+<div class="top-title">
+🎧 အသံစာဖတ်ခန်း
+</div>
+
+<button
+class="setting-btn"
+onclick="toggleSetting()"
+aria-label="Setting ဖွင့်ရန်">
+
+⚙
+
+</button>
+
+</nav>
+
+<!-- =========================
+AUDIO LIST
+========================= -->
+
+<main class="audio-content">
+
+<section class="chapter-card">
+
+<h1>
+နိဒါန်း
+</h1>
+
+<p>
+ဗာဟိယသုတ် အခြေခံ
+</p>
+
+<button
+class="play-btn"
+
+data-title="နိဒါန်း"
+
+data-audio="audio/chapter1.mp3">
+
+▶ ဖွင့်ရန်
+
+</button>
+
+</section>
+
+<section class="chapter-card">
+
+<h1>
+ဝိပဿနာအခြေခံ
+</h1>
+
+<p>
+စိတ်ခြောက်မျိုး
+</p>
+
+<button
+class="play-btn"
+
+data-title="ဝိပဿနာအခြေခံ"
+
+data-audio="audio/chapter2.mp3">
+
+▶ ဖွင့်ရန်
+
+</button>
+
+</section>
+
+</main>
+
+</div>
+
+<!-- =========================
+FLOATING MINI PLAYER
+========================= -->
+
+<div
+class="mini-player"
+id="mini-player">
+
+<div class="mini-info">
+
+<div id="now-playing">
+အသံမဖွင့်ရသေးပါ
+</div>
+
+<div id="time-display">
+00:00 / 00:00
+</div>
+
+</div>
+
+<div class="mini-controls">
+
+<button id="play-pause-btn">
+▶
+</button>
+
+<button id="speed-btn">
+1x
+</button>
+
+</div>
+
+<input
+type="range"
+id="seekbar"
+value="0"
+min="0"
+max="100">
+
+</div>
+
+<!-- =========================
+SETTING OVERLAY
+========================= -->
+
+<div
+class="setting-overlay"
+id="setting-overlay"
+onclick="toggleSetting()">
+
+<div
+class="setting-content"
+onclick="event.stopPropagation()">
+
+<div class="setting-header">
+
+<h1>
+Audio Setting
+</h1>
+
+<span
+class="close-btn"
+onclick="toggleSetting()">
+
+×
+
+</span>
+
+</div>
+
+<div class="setting-body">
+
+<!-- =========================
+SLEEP TIMER
+========================= -->
+
+<div class="setting-item-group">
+
+<h2>
+Sleep Timer
+</h2>
+
+<div class="timer-buttons">
+
+<button onclick="setSleepTimer(15)">
+15 min
+</button>
+
+<button onclick="setSleepTimer(30)">
+30 min
+</button>
+
+<button onclick="setSleepTimer(60)">
+60 min
+</button>
+
+<button onclick="cancelSleepTimer()">
+ပိတ်ရန်
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- =========================
+AUDIO ELEMENT
+========================= -->
+
+<audio id="audio-player"></audio>
+
+</body>
+</html>
