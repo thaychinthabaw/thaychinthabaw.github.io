@@ -990,20 +990,30 @@ function init() {
     }
 
 
-    /* ===== EXPORT FUNCTIONS ===== */
+/* =========================
+   GLOBAL EXPORTS
+========================= */
 
-    window.toggleTOC = toggleTOC;
-    window.toggleSetting = toggleSetting;
-    window.downloadPDF = downloadPDF;
-    window.toggleReadingMode = toggleReadingMode;
-    window.adjustLineHeight = adjustLineHeight;
-    window.adjustLetterSpacing = adjustLetterSpacing;
-   window.buildSemanticParagraphs =
+window.toggleTOC = toggleTOC;
+
+window.toggleSetting = toggleSetting;
+
+window.downloadPDF = downloadPDF;
+
+window.toggleReadingMode =
+    toggleReadingMode;
+
+window.adjustLineHeight =
+    adjustLineHeight;
+
+window.adjustLetterSpacing =
+    adjustLetterSpacing;
+
+window.buildSemanticParagraphs =
     buildSemanticParagraphs;
 
 window.restoreReadingPosition =
     restoreReadingPosition;
-}
 
 
 /* =========================
@@ -1014,6 +1024,7 @@ document.addEventListener(
     'DOMContentLoaded',
     init
 );
+
 
 })();
 
