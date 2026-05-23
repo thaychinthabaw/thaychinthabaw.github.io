@@ -804,76 +804,59 @@ article {
     display: block;
 }
 
-/* ========================================================
-   SCREEN VIEW EMULATOR SYSTEM (CSS အောက်ဆုံးတွင် အစားထိုးရန်)
-======================================================== */
+/* =========================
+   READER WIDTH SYSTEM
+========================= */
 
-.view-toggle-container {
-    margin-top: 12px;
-    text-align: center;
-}
-
-.view-toggle-btn {
-    background: #f4ecd8;
-    border: 1px solid #443300;
-    color: #443300;
-    padding: 8px 14px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 16px;
-    font-family: inherit;
-    transition: 0.2s;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.view-toggle-btn:hover {
-    transform: translateY(-1px);
-}
-
-/* ခလုတ်ဘားတန်းကြီးကို ဖုန်းမျက်နှာပြင်ပေါ်တွင် အမြဲ Fixed ငြိမ်နေစေရန် မူရင်းအတိုင်း ပြန်ပြင်ခြင်း */
-.top-controls {
-    position: fixed !important;
-    top: 0;
-    left: 0;
-    width: 100vw !important; /* ဖုန်းမျက်နှာပြင်အကျယ်အတိုင်း အပြည့်ယူခြင်း */
-    height: 60px;
-    z-index: 1000;
-    box-sizing: border-box;
-}
-
-/* ဘယ်ညာ ဆွဲကြည့်နိုင်မည့် Area ကို Top Bar အောက်ကနေ စတင်စေရန် margin-top ပေးခြင်း */
 #view-viewport-scroller {
+
     width: 100%;
-    margin-top: 60px; /* Top Bar အမြင့် 60px အောက်ကနေ စစေရန် */
+
     overflow-x: auto;
-    overflow-y: hidden;
+
+    overflow-y: visible;
+
     -webkit-overflow-scrolling: touch;
+
+    padding-top: 70px;
+
+    box-sizing: border-box;
 }
 
 #site-wrapper {
+
     margin: 0 auto;
-    width: 100%;
-    transition: width 0.3s ease;
-    box-sizing: border-box;
+
+    width: 700px;
+
+    max-width: none;
+
+    transition: width 0.25s ease;
 }
 
-/* Mode တစ်ခုချင်းစီ၏ အကျယ်များ (စာကိုယ် Area သာ ကျုံ့ချဲ့မည်) */
-body.mode-phone #site-wrapper {
-    width: 375px;
+
+/* fixed top bar */
+
+.top-controls {
+
+    position: fixed !important;
+
+    top: 0;
+
+    left: 0;
+
+    width: 100% !important;
+
+    z-index: 9999;
 }
 
-body.mode-tablet #site-wrapper {
-    width: 768px;
-}
 
-body.mode-laptop #site-wrapper {
-    width: 1024px;
-}
+/* mobile safety */
 
-body.mode-desktop #site-wrapper {
-    width: 1440px;
-}
+@media (max-width: 768px) {
 
-/* အပေါ်က ကုဒ်ဟောင်းထဲက .top-controls လိုက်ကျုံ့တဲ့ အပိုင်းကို လုံးဝ ဖြုတ်ပစ်လိုက်ပါပြီဘုရား */
+    #site-wrapper {
+
+        min-width: 100%;
+    }
+}
