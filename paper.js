@@ -1021,7 +1021,7 @@ let currentWidth =
         localStorage.getItem(
             'readerWidth'
         )
-    ) || 700;
+    ) || 375;
 
 const siteWrapper =
     document.getElementById(
