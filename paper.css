@@ -803,3 +803,79 @@ article {
     margin-bottom: 1.5em; 
     display: block;
 }
+
+/* ========================================================
+   SCREEN VIEW EMULATOR SYSTEM (CSS အောက်ဆုံးတွင် ထည့်ရန်)
+======================================================== */
+
+/* Setting ထဲက ခလုတ်အဖွဲ့အစည်း ပုံစံ */
+.view-toggle-container {
+    margin-top: 12px;
+    text-align: center;
+}
+
+/* အပေါ်က Preset ခလုတ်များနှင့် အချိုးအစားတူအောင် ညှိထားသော ခလုတ်စတိုင် */
+.view-toggle-btn {
+    background: #f4ecd8;
+    border: 1px solid #443300;
+    color: #443300;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    font-family: inherit;
+    transition: 0.2s;
+    width: 100%; /* Setting Area အပြည့်ယူရန် */
+    box-sizing: border-box;
+}
+
+.view-toggle-btn:hover {
+    transform: translateY(-1px);
+}
+
+/* Chrome Desktop View ကဲ့သို့ ဖုန်းထဲတွင် ဘယ်ညာ လွတ်လပ်စွာ ဆွဲကြည့်နိုင်စေရန် အပြင်ဘောင် */
+#view-viewport-scroller {
+    width: 100%;
+    overflow-x: auto; /* ဖုန်းပေါ်တွင် ဘယ်ညာ အိတ်စွဲ ဆွဲကြည့်နိုင်စေရန် */
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* မူရင်း Container များကို ပတ်ထားမည့် Simulator Wrapper */
+#site-wrapper {
+    margin: 0 auto;
+    width: 100%; /* Default Mode */
+    transition: width 0.3s ease;
+    box-sizing: border-box;
+}
+
+/* Mode တစ်ခုချင်းစီ၏ Dynamic Layout အကျယ်များ */
+body.mode-phone #site-wrapper {
+    width: 375px; /* ဖုန်း View စစ်စစ် အကျယ် */
+}
+
+body.mode-tablet #site-wrapper {
+    width: 768px; /* Tablet အကျယ် */
+}
+
+body.mode-laptop #site-wrapper {
+    width: 1024px; /* Laptop အကျယ် */
+}
+
+body.mode-desktop #site-wrapper {
+    width: 1440px; /* Desktop အကျယ်ကြီး - သို့သော် Scroller ကြောင့် ဖုန်းထဲတွင် ဆွဲကြည့်၍ရမည် */
+}
+
+/* Viewport ပြောင်းလဲချိန်တွင် Top Bar ပါ လိုက်ပါကျုံ့နိုင်စေရန် width: 100vw အစား 100% ပြောင်းလဲထိန်းချုပ်ခြင်း */
+body.mode-phone .top-controls,
+body.mode-tablet .top-controls,
+body.mode-laptop .top-controls,
+body.mode-desktop .top-controls {
+    width: 100% !important;
+    position: absolute; /* Viewport အကျယ်အတိုင်း ဖြန့်ထွက်နိုင်ရန် */
+}
+
+
+
+
