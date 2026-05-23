@@ -805,16 +805,14 @@ article {
 }
 
 /* ========================================================
-   SCREEN VIEW EMULATOR SYSTEM (CSS အောက်ဆုံးတွင် ထည့်ရန်)
+   SCREEN VIEW EMULATOR SYSTEM (CSS အောက်ဆုံးတွင် အစားထိုးရန်)
 ======================================================== */
 
-/* Setting ထဲက ခလုတ်အဖွဲ့အစည်း ပုံစံ */
 .view-toggle-container {
     margin-top: 12px;
     text-align: center;
 }
 
-/* အပေါ်က Preset ခလုတ်များနှင့် အချိုးအစားတူအောင် ညှိထားသော ခလုတ်စတိုင် */
 .view-toggle-btn {
     background: #f4ecd8;
     border: 1px solid #443300;
@@ -826,7 +824,7 @@ article {
     font-size: 16px;
     font-family: inherit;
     transition: 0.2s;
-    width: 100%; /* Setting Area အပြည့်ယူရန် */
+    width: 100%;
     box-sizing: border-box;
 }
 
@@ -834,48 +832,48 @@ article {
     transform: translateY(-1px);
 }
 
-/* Chrome Desktop View ကဲ့သို့ ဖုန်းထဲတွင် ဘယ်ညာ လွတ်လပ်စွာ ဆွဲကြည့်နိုင်စေရန် အပြင်ဘောင် */
+/* ခလုတ်ဘားတန်းကြီးကို ဖုန်းမျက်နှာပြင်ပေါ်တွင် အမြဲ Fixed ငြိမ်နေစေရန် မူရင်းအတိုင်း ပြန်ပြင်ခြင်း */
+.top-controls {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    width: 100vw !important; /* ဖုန်းမျက်နှာပြင်အကျယ်အတိုင်း အပြည့်ယူခြင်း */
+    height: 60px;
+    z-index: 1000;
+    box-sizing: border-box;
+}
+
+/* ဘယ်ညာ ဆွဲကြည့်နိုင်မည့် Area ကို Top Bar အောက်ကနေ စတင်စေရန် margin-top ပေးခြင်း */
 #view-viewport-scroller {
     width: 100%;
-    overflow-x: auto; /* ဖုန်းပေါ်တွင် ဘယ်ညာ အိတ်စွဲ ဆွဲကြည့်နိုင်စေရန် */
+    margin-top: 60px; /* Top Bar အမြင့် 60px အောက်ကနေ စစေရန် */
+    overflow-x: auto;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
 }
 
-/* မူရင်း Container များကို ပတ်ထားမည့် Simulator Wrapper */
 #site-wrapper {
     margin: 0 auto;
-    width: 100%; /* Default Mode */
+    width: 100%;
     transition: width 0.3s ease;
     box-sizing: border-box;
 }
 
-/* Mode တစ်ခုချင်းစီ၏ Dynamic Layout အကျယ်များ */
+/* Mode တစ်ခုချင်းစီ၏ အကျယ်များ (စာကိုယ် Area သာ ကျုံ့ချဲ့မည်) */
 body.mode-phone #site-wrapper {
-    width: 375px; /* ဖုန်း View စစ်စစ် အကျယ် */
+    width: 375px;
 }
 
 body.mode-tablet #site-wrapper {
-    width: 768px; /* Tablet အကျယ် */
+    width: 768px;
 }
 
 body.mode-laptop #site-wrapper {
-    width: 1024px; /* Laptop အကျယ် */
+    width: 1024px;
 }
 
 body.mode-desktop #site-wrapper {
-    width: 1440px; /* Desktop အကျယ်ကြီး - သို့သော် Scroller ကြောင့် ဖုန်းထဲတွင် ဆွဲကြည့်၍ရမည် */
+    width: 1440px;
 }
 
-/* Viewport ပြောင်းလဲချိန်တွင် Top Bar ပါ လိုက်ပါကျုံ့နိုင်စေရန် width: 100vw အစား 100% ပြောင်းလဲထိန်းချုပ်ခြင်း */
-body.mode-phone .top-controls,
-body.mode-tablet .top-controls,
-body.mode-laptop .top-controls,
-body.mode-desktop .top-controls {
-    width: 100% !important;
-    position: absolute; /* Viewport အကျယ်အတိုင်း ဖြန့်ထွက်နိုင်ရန် */
-}
-
-
-
-
+/* အပေါ်က ကုဒ်ဟောင်းထဲက .top-controls လိုက်ကျုံ့တဲ့ အပိုင်းကို လုံးဝ ဖြုတ်ပစ်လိုက်ပါပြီဘုရား */
