@@ -1108,7 +1108,7 @@ if (applyWidthBtn) {
 
         if (
             value >= 300 &&
-            value <= 1500
+            value <= 5000
         ) {
 
             currentWidth = value;
