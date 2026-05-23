@@ -1014,156 +1014,115 @@ document.addEventListener(
 
 
 
-/* ===== VIEW WIDTH SYSTEM (AUTO + CUSTOM, NO MEMORY) ===== */
+/* ===== VIEW WIDTH SYSTEM ===== */
 
-/*
-📱 auto detect device width
-*/
-function getAutoWidth() {
-
-    const screenW = window.innerWidth;
-
-    // phone
-    if (screenW < 768) {
-        return screenW; // full mobile width
-    }
-
-    // tablet
-    if (screenW < 1200) {
-        return 720;
-    }
-
-    // desktop
-    return 900;
-}
-
-/*
-current width state
-*/
-let currentWidth = getAutoWidth();
+let currentWidth =
+parseInt(
+localStorage.getItem(
+'readerWidth'
+)
+) || 375;
 
 const siteWrapper =
-    document.getElementById('site-wrapper');
+document.getElementById(
+'site-wrapper'
+);
 
 const widthButtons =
-    document.querySelectorAll('.width-btn');
+document.querySelectorAll(
+'.width-btn'
+);
 
-/*
-apply width
-*/
 function renderReaderWidth() {
 
-    if (siteWrapper) {
-        siteWrapper.style.width = currentWidth + 'px';
-        siteWrapper.style.margin = '0 auto';
-    }
+if (siteWrapper) {  
 
-    const widthInput =
-        document.getElementById('custom-width-input');
+    siteWrapper.style.width =  
+        currentWidth + 'px';  
+}  
 
-    if (widthInput) {
-        widthInput.value = currentWidth;
-    }
+const widthInput =  
+    document.getElementById(  
+        'custom-width-input'  
+    );  
 
-    /*
-    preset UI active state (optional)
-    */
-    widthButtons.forEach(btn => {
+if (widthInput) {  
 
-        btn.classList.toggle(
-            'active-preset',
-            parseInt(btn.dataset.width) === currentWidth
-        );
-    });
+    widthInput.value =  
+        currentWidth;  
+}  
+
+widthButtons.forEach(btn => {  
+
+    btn.classList.toggle(  
+        'active-preset',  
+
+        parseInt(btn.dataset.width)  
+        === currentWidth  
+    );  
+});  
+
+localStorage.setItem(  
+    'readerWidth',  
+    currentWidth  
+);
+
 }
 
-/*
-preset buttons (still work, but NO save)
-*/
+/* preset buttons */
+
 widthButtons.forEach(btn => {
 
-    btn.addEventListener('click', () => {
+btn.addEventListener(  
+    'click',  
 
-        currentWidth = parseInt(btn.dataset.width);
+    () => {  
 
-        renderReaderWidth();
-    });
-});
+        currentWidth =  
+            parseInt(  
+                btn.dataset.width  
+            );  
 
-/*
-custom input apply (NO memory save)
-*/
-const applyWidthBtn =
-    document.getElementById('apply-width-btn');
+        renderReaderWidth();  
+    }  
+);
 
-if (applyWidthBtn) {
-
-    applyWidthBtn.onclick = () => {
-
-        const input =
-            document.getElementById('custom-width-input');
-
-        let value = parseInt(input.value);
-
-        if (value >= 300 && value <= 5000) {
-
-            currentWidth = value;
-
-            renderReaderWidth();
-        }
-    };
-}
-
-/*
-auto re-adjust on resize (important)
-*/
-window.addEventListener('resize', () => {
-
-    currentWidth = getAutoWidth();
-
-    renderReaderWidth();
-});
-
-/*
-initial render
-*/
-renderReaderWidth();
-                );
-
-            renderReaderWidth();
-        }
-    );
 });
 
 /* custom input */
 
 const applyWidthBtn =
-    document.getElementById(
-        'apply-width-btn'
-    );
+document.getElementById(
+'apply-width-btn'
+);
 
 if (applyWidthBtn) {
 
-    applyWidthBtn.onclick = () => {
+applyWidthBtn.onclick = () => {  
 
-        const input =
-            document.getElementById(
-                'custom-width-input'
-            );
+    const input =  
+        document.getElementById(  
+            'custom-width-input'  
+        );  
 
-        let value =
-            parseInt(input.value);
+    let value =  
+        parseInt(input.value);  
 
-        if (
-            value >= 300 &&
-            value <= 5000
-        ) {
+    if (  
+        value >= 300 &&  
+        value <= 5000  
+    ) {  
 
-            currentWidth = value;
+        currentWidth = value;  
 
-            renderReaderWidth();
-        }
-    };
+        renderReaderWidth();  
+    }  
+};
+
 }
 
 renderReaderWidth();
+
+ငါအခု လိုချင်တာကို မင်းပြင်းပြိး
+
+ငါ ဒီကုဒ်နေရာမှာ အစားထိုးရမဲ့ ကုဒ်အပြည့်အစုံကို ပေးပါ
