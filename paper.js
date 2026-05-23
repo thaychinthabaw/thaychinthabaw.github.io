@@ -1014,34 +1014,108 @@ document.addEventListener(
 
 
 
-    /* ===== SCREEN VIEW EMULATOR SYSTEM ===== */
+    /* ===== VIEW WIDTH SYSTEM ===== */
 
-    const viewModes = [
-        { id: 'phone', text: '📱 Phone View', class: 'mode-phone' },
-        { id: 'tablet', text: '📟 Tablet View', class: 'mode-tablet' },
-        { id: 'laptop', text: '💻 Laptop View', class: 'mode-laptop' },
-        { id: 'desktop', text: '🖥️ Desktop View', class: 'mode-desktop' }
-    ];
+let currentWidth =
+    parseInt(
+        localStorage.getItem(
+            'readerWidth'
+        )
+    ) || 700;
 
-    let currentViewIndex = 0; // စစဖွင့်ချင်း ပုံမှန် မူရင်းအတိုင်း
+const siteWrapper =
+    document.getElementById(
+        'site-wrapper'
+    );
 
-    function toggleViewMode() {
-        const bodyEl = document.body;
-        const btn = document.getElementById('view-toggle-btn');
-        if (!btn) return;
+const widthButtons =
+    document.querySelectorAll(
+        '.width-btn'
+    );
 
-        // ၁။ ယခင်ရှိနေခဲ့သော View Class ဟောင်းများကို သန့်ရှင်းရေးလုပ်ခြင်း
-        viewModes.forEach(mode => bodyEl.classList.remove(mode.class));
+function renderReaderWidth() {
 
-        // ၂။ နောက်ထပ် Index တစ်ခုသို့ ရွှေ့ခြင်း (Desktop ရောက်လျှင် Phone သို့ ပြန်ပတ်ရန်)
-        currentViewIndex = (currentViewIndex + 1) % viewModes.length;
-        const currentMode = viewModes[currentViewIndex];
+    if (siteWrapper) {
 
-        // ၃။ Class အသစ် ထည့်သွင်းခြင်းနှင့် ခလုတ်စာသား ပြောင်းလဲခြင်း
-        bodyEl.classList.add(currentMode.class);
-        btn.innerText = currentMode.text;
+        siteWrapper.style.width =
+            currentWidth + 'px';
     }
 
-    // မူရင်း window functions ထဲသို့ လှမ်းချိတ်ပေးခြင်း
-    window.toggleViewMode = toggleViewMode;
+    const widthInput =
+        document.getElementById(
+            'custom-width-input'
+        );
 
+    if (widthInput) {
+
+        widthInput.value =
+            currentWidth;
+    }
+
+    widthButtons.forEach(btn => {
+
+        btn.classList.toggle(
+            'active-preset',
+
+            parseInt(btn.dataset.width)
+            === currentWidth
+        );
+    });
+
+    localStorage.setItem(
+        'readerWidth',
+        currentWidth
+    );
+}
+
+/* preset buttons */
+
+widthButtons.forEach(btn => {
+
+    btn.addEventListener(
+        'click',
+
+        () => {
+
+            currentWidth =
+                parseInt(
+                    btn.dataset.width
+                );
+
+            renderReaderWidth();
+        }
+    );
+});
+
+/* custom input */
+
+const applyWidthBtn =
+    document.getElementById(
+        'apply-width-btn'
+    );
+
+if (applyWidthBtn) {
+
+    applyWidthBtn.onclick = () => {
+
+        const input =
+            document.getElementById(
+                'custom-width-input'
+            );
+
+        let value =
+            parseInt(input.value);
+
+        if (
+            value >= 300 &&
+            value <= 1500
+        ) {
+
+            currentWidth = value;
+
+            renderReaderWidth();
+        }
+    };
+}
+
+renderReaderWidth();
