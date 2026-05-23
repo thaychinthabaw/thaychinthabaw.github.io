@@ -1011,3 +1011,37 @@ document.addEventListener(
 );
 
 })();
+
+
+
+    /* ===== SCREEN VIEW EMULATOR SYSTEM ===== */
+
+    const viewModes = [
+        { id: 'phone', text: '📱 Phone View', class: 'mode-phone' },
+        { id: 'tablet', text: '📟 Tablet View', class: 'mode-tablet' },
+        { id: 'laptop', text: '💻 Laptop View', class: 'mode-laptop' },
+        { id: 'desktop', text: '🖥️ Desktop View', class: 'mode-desktop' }
+    ];
+
+    let currentViewIndex = 0; // စစဖွင့်ချင်း ပုံမှန် မူရင်းအတိုင်း
+
+    function toggleViewMode() {
+        const bodyEl = document.body;
+        const btn = document.getElementById('view-toggle-btn');
+        if (!btn) return;
+
+        // ၁။ ယခင်ရှိနေခဲ့သော View Class ဟောင်းများကို သန့်ရှင်းရေးလုပ်ခြင်း
+        viewModes.forEach(mode => bodyEl.classList.remove(mode.class));
+
+        // ၂။ နောက်ထပ် Index တစ်ခုသို့ ရွှေ့ခြင်း (Desktop ရောက်လျှင် Phone သို့ ပြန်ပတ်ရန်)
+        currentViewIndex = (currentViewIndex + 1) % viewModes.length;
+        const currentMode = viewModes[currentViewIndex];
+
+        // ၃။ Class အသစ် ထည့်သွင်းခြင်းနှင့် ခလုတ်စာသား ပြောင်းလဲခြင်း
+        bodyEl.classList.add(currentMode.class);
+        btn.innerText = currentMode.text;
+    }
+
+    // မူရင်း window functions ထဲသို့ လှမ်းချိတ်ပေးခြင်း
+    window.toggleViewMode = toggleViewMode;
+
