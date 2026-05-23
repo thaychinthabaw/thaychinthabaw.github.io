@@ -709,7 +709,7 @@ document.addEventListener(
 })();
 /* ===== VIEW WIDTH SYSTEM ===== */
 let currentWidth =
-    Math.min(window.innerWidth, 0);
+    Math.min(window.innerWidth, 1400);
 const siteWrapper =
     document.getElementById(
         'site-wrapper'
@@ -720,7 +720,7 @@ const widthButtons =
     );
 function renderReaderWidth() {
     if (siteWrapper) {
-        siteWrapper.style.width =
+        siteWrapper.style.maxwidth =
             currentWidth + 'px';
     }
     const widthInput =
