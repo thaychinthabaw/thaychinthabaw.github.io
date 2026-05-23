@@ -673,65 +673,99 @@ window.adjustLetterSpacing = adjustLetterSpacing; 
 /* ========================= SINGLE DOMCONTENTLOADED ========================= */
 document.addEventListener( 'DOMContentLoaded', init );
 })();
-/* ===== VIEW WIDTH SYSTEM ===== */ 
-let currentWidth = parseInt( localStorage.getItem( 'readerWidth' ) ) || 375;
-const siteWrapper = document.getElementById( 'site-wrapper' );
-const widthButtons = document.querySelectorAll( '.width-btn' );
+/* ===== VIEW WIDTH SYSTEM ===== */
+
+let currentWidth =
+    Math.min(window.innerWidth, 1400);
+
+const siteWrapper =
+    document.getElementById(
+        'site-wrapper'
+    );
+
+const widthButtons =
+    document.querySelectorAll(
+        '.width-btn'
+    );
+
 function renderReaderWidth() {
-if (siteWrapper) {  
-    siteWrapper.style.width =  
-        currentWidth + 'px';  
-}  
-const widthInput =  
-    document.getElementById(  
-        'custom-width-input'  
-    );  
-if (widthInput) {  
-    widthInput.value =  
-        currentWidth;  
-}  
-widthButtons.forEach(btn => {  
-    btn.classList.toggle(  
-        'active-preset',  
-        parseInt(btn.dataset.width)  
-        === currentWidth  
-    );  
-});  
-localStorage.setItem(  
-    'readerWidth',  
-    currentWidth  
-); 
+
+    if (siteWrapper) {
+
+        siteWrapper.style.width =
+            currentWidth + 'px';
+    }
+
+    const widthInput =
+        document.getElementById(
+            'custom-width-input'
+        );
+
+    if (widthInput) {
+
+        widthInput.value =
+            currentWidth;
+    }
+
+    widthButtons.forEach(btn => {
+
+        btn.classList.toggle(
+            'active-preset',
+
+            parseInt(btn.dataset.width)
+            === currentWidth
+        );
+    });
 }
+
 /* preset buttons */
+
 widthButtons.forEach(btn => {
-btn.addEventListener(  
-    'click',  
-    () => {  
-        currentWidth =  
-            parseInt(  
-                btn.dataset.width  
-            );  
-        renderReaderWidth();  
-    }  
-); 
+
+    btn.addEventListener(
+        'click',
+
+        () => {
+
+            currentWidth =
+                parseInt(
+                    btn.dataset.width
+                );
+
+            renderReaderWidth();
+        }
+    );
 });
+
 /* custom input */
-const applyWidthBtn = document.getElementById( 'apply-width-btn' );
+
+const applyWidthBtn =
+    document.getElementById(
+        'apply-width-btn'
+    );
+
 if (applyWidthBtn) {
-applyWidthBtn.onclick = () => {  
-    const input =  
-        document.getElementById(  
-            'custom-width-input'  
-        );  
-    let value =  
-        parseInt(input.value);  
-    if (  
-        value >= 300 &&  
-        value <= 5000  
-    ) {  
-        currentWidth = value;  
-        renderReaderWidth();  
-    }  
-}; 
+
+    applyWidthBtn.onclick = () => {
+
+        const input =
+            document.getElementById(
+                'custom-width-input'
+            );
+
+        let value =
+            parseInt(input.value);
+
+        if (
+            value >= 300 &&
+            value <= 5000
+        ) {
+
+            currentWidth = value;
+
+            renderReaderWidth();
+        }
+    };
 }
+
 renderReaderWidth();
