@@ -709,7 +709,7 @@ document.addEventListener(
 })();
 /* ===== VIEW WIDTH SYSTEM ===== */
 let currentWidth =
-    Math.min(window.innerWidth, 1400);
+    Math.min(window.innerWidth, 0);
 const siteWrapper =
     document.getElementById(
         'site-wrapper'
