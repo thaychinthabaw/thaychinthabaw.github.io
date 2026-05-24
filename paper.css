@@ -803,7 +803,10 @@ article {
     margin-bottom: 1.5em; 
     display: block;
 }
+
+/*raw-text စာကြောင်းကြား အတွက်သုံးသည်။*/
 .big-gap {
-    height: 60px;   /* ကြီးချင်ရင် 80-120px */
+    height: 40px;   /* ကြီးချင်ရင် 80-120px */
     width: 100%;
-}
+}/*raw-text စာကြောင်းကြား အတွက်သုံးသည်။*/
+
