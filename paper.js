@@ -15,7 +15,34 @@ function buildSemanticParagraphs() {
             .split(/\n\s*\n/)
             .filter(p => p.trim() !== '');
         container.innerHTML = '';
-        paragraphs.forEach((text) => {
+        paragraphs.forEach((text) => 
+          {
+
+    /* ===== BIG GAP MARKER ===== */
+
+    if (text.trim() === '@@gap') {
+
+        const gap = document.createElement('div');
+
+        gap.className = 'big-gap';
+
+        container.appendChild(gap);
+
+        return;
+    }
+
+    const p = document.createElement('p');
+
+    p.setAttribute('data-p', globalIndex);
+
+    p.textContent = text.trim();
+
+    container.appendChild(p);
+
+    globalIndex++;
+});
+          
+          
             const p = document.createElement('p');
             p.setAttribute('data-p', globalIndex);
             p.textContent = text.trim();
