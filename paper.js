@@ -246,7 +246,7 @@ function adjustLineHeight(amount) {
         Math.round(
             (currentLineHeight + amount) * 10
         ) / 10;
-    if (next >= 1.0 && next <= 3.0) {
+    if (next >= 1.0 && next <= 100.0) {
         currentLineHeight = next;
         applyLineHeight();
         setTimeout(() => {
