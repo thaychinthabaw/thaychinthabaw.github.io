@@ -7,49 +7,38 @@ let currentLineHeight = 1.7;
 let currentLetterSpacing = 0;
 /* ========================= SEMANTIC SYSTEM ========================= */
 function buildSemanticParagraphs() {
-    const containers = document.querySelectorAll('.raw-text');
-    let globalIndex = 1;
-    containers.forEach((container) => {
-        const rawText = container.innerText.trim();
-        const paragraphs = rawText
-            .split(/\n\s*\n/)
-            .filter(p => p.trim() !== '');
-        container.innerHTML = '';
-        paragraphs.forEach((text) => 
-          {
+    const containers = document.querySelectorAll('.raw-text');
+    let globalIndex = 1;
 
-    /* ===== BIG GAP MARKER ===== */
+    containers.forEach((container) => {
 
-    if (text.trim() === '@@gap') {
+        const rawText = container.innerText.trim();
 
-        const gap = document.createElement('div');
+        const paragraphs = rawText
+            .split(/\n\s*\n/)
+            .filter(p => p.trim() !== '');
 
-        gap.className = 'big-gap';
+        container.innerHTML = '';
 
-        container.appendChild(gap);
+        paragraphs.forEach((text) => {
 
-        return;
-    }
+            // GAP MARKER
+            if (text.trim() === '@@gap') {
+                const gap = document.createElement('div');
+                gap.className = 'big-gap';
+                container.appendChild(gap);
+                return;
+            }
 
-    const p = document.createElement('p');
+            // NORMAL PARAGRAPH
+            const p = document.createElement('p');
+            p.setAttribute('data-p', globalIndex);
+            p.textContent = text.trim();
 
-    p.setAttribute('data-p', globalIndex);
-
-    p.textContent = text.trim();
-
-    container.appendChild(p);
-
-    globalIndex++;
-});
-          
-          
-            const p = document.createElement('p');
-            p.setAttribute('data-p', globalIndex);
-            p.textContent = text.trim();
-            container.appendChild(p);
-            globalIndex++;
-        });
-    });
+            container.appendChild(p);
+            globalIndex++;
+        });
+    });
 }
 function saveReadingPosition() {
     const paragraphs =
