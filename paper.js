@@ -7,22 +7,64 @@ let currentLineHeight = 1.7;
 let currentLetterSpacing = 0;
 /* ========================= SEMANTIC SYSTEM ========================= */
 function buildSemanticParagraphs() {
-    const containers = document.querySelectorAll('.raw-text');
-    let globalIndex = 1;
-    containers.forEach((container) => {
-        const rawText = container.innerText.trim();
-        const paragraphs = rawText
-            .split(/\n\s*\n/)
-            .filter(p => p.trim() !== '');
-        container.innerHTML = '';
-        paragraphs.forEach((text) => {
-            const p = document.createElement('p');
-            p.setAttribute('data-p', globalIndex);
-            p.textContent = text.trim();
-            container.appendChild(p);
-            globalIndex++;
-        });
-    });
+
+    const containers =
+        document.querySelectorAll('.raw-text');
+
+    let globalIndex = 1;
+
+    containers.forEach((container) => {
+
+        const rawText = container.innerText.trim();
+
+        /*
+        paragraph + separator ကို
+        အတူဖမ်းခြင်း
+        */
+
+        const regex =
+            /([\s\S]*?)(\n{2,}|\s*$)/g;
+
+        let match;
+
+        container.innerHTML = '';
+
+        while ((match = regex.exec(rawText)) !== null) {
+
+            const text = match[1].trim();
+
+            const separator = match[2];
+
+            if (!text) continue;
+
+            const p = document.createElement('p');
+
+            p.setAttribute('data-p', globalIndex);
+
+            p.textContent = text;
+
+            /*
+            Enter count စစ်ခြင်း
+            */
+
+            const enterCount =
+                (separator.match(/\n/g) || []).length;
+
+            /*
+            3 enter အထက်ဆို
+            big spacing
+            */
+
+            if (enterCount >= 3) {
+
+                p.classList.add('big-gap');
+            }
+
+            container.appendChild(p);
+
+            globalIndex++;
+        }
+    });
 }
 function saveReadingPosition() {
     const paragraphs =
