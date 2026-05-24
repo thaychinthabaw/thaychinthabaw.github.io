@@ -3,7 +3,7 @@
 /* =========================
    GLOBAL STATE
 ========================= */
-let currentLineHeight = 1.6;
+let currentLineHeight = 1.7;
 let currentLetterSpacing = 0;
 /* ========================= SEMANTIC SYSTEM ========================= */
 function buildSemanticParagraphs() {
