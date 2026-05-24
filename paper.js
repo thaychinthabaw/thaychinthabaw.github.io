@@ -12,7 +12,8 @@ function buildSemanticParagraphs() {
 
     containers.forEach((container) => {
 
-        const rawText = container.innerText.trim();
+        // 🔥 IMPORTANT FIX: textContent
+        const rawText = container.textContent.trim();
 
         const paragraphs = rawText
             .split(/\n\s*\n/)
@@ -22,18 +23,20 @@ function buildSemanticParagraphs() {
 
         paragraphs.forEach((text) => {
 
-            // GAP MARKER
-            if (text.trim() === '@@gap') {
+            const cleanText = text.trim();
+
+            // ===== GAP SYSTEM =====
+            if (cleanText === '@@gap') {
                 const gap = document.createElement('div');
                 gap.className = 'big-gap';
                 container.appendChild(gap);
                 return;
             }
 
-            // NORMAL PARAGRAPH
+            // ===== PARAGRAPH =====
             const p = document.createElement('p');
             p.setAttribute('data-p', globalIndex);
-            p.textContent = text.trim();
+            p.textContent = cleanText;
 
             container.appendChild(p);
             globalIndex++;
