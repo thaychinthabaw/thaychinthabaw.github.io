@@ -15,6 +15,15 @@ href="manifest.json"
         
     <link rel="stylesheet" href="darkmode.css">
     <link rel="icon" type="image/png" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
+
+<link rel="icon" type="image/png" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
+  <link rel="apple-touch-icon" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
+  <link rel="shortcut icon" sizes="192x192" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
+  <link rel="shortcut icon" sizes="512x512" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
+  <meta property="og:image" content="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
+
+
+    
 </head>
 <body class="is-paper">
 
@@ -4697,8 +4706,6 @@ href="manifest.json"
 </div>
 
 
-
-
                     <!-- စာကြောင်းကြား -->
 <div class="setting-item-group">
 
@@ -4921,20 +4928,14 @@ href="manifest.json"
     </div><!--toc-overlay and toc-content အတွက်  -->
 
 
-<!-- =========================
-FLOATING AUDIO BAR
-========================= -->
-
+<!-- FLOATING AUDIO BAR အစ -->
 <div
 class="paper-audio-bar"
 id="paper-audio-bar">
 
 <!-- HEADER -->
-
 <div class="paper-audio-top">
-
 <div class="paper-audio-info">
-
 <div id="paper-now-playing">
 အသံမဖွင့်ရသေးပါ
 </div>
@@ -4946,36 +4947,22 @@ id="paper-audio-bar">
 </div>
 
 <div class="paper-top-buttons">
-
  <button
 id="paper-hide-btn"
 class="paper-top-btn"
-title="Hide">
+title="Hide">👁</button>   
 
-👁
-
-</button>   
-<!-- minimize -->
-
+    <!-- minimize -->
 <button
 id="paper-minimize-btn"
 class="paper-top-btn"
-title="Minimize">
-
-▁
-
-</button>
+title="Minimize">―</button>
 
 <!-- close -->
-
 <button
 id="paper-close-btn"
 class="paper-top-btn"
-title="Close">
-
-×
-
-</button>
+title="Close">×</button>
 
 </div>
 
@@ -5018,9 +5005,7 @@ max="100">
 
 </div>
 
-<audio id="paper-audio"></audio><!-- =========================
-INLINE AUDIO BAR
-========================= -->
+<audio id="paper-audio"></audio><!--INLINE AUDIO BAR -->
 
 
 
@@ -5033,15 +5018,19 @@ class="paper-show-bar-btn"
         
 
 <script src="darkmode.js"></script>
-
-
     <script src="paper.js"></script>
+<script>
+  if ('service-worker' in navigator) {
+    window.addEventListener('load', function() {
+      navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
+        console.log('Service Worker registered with scope:', registration.scope);
+      }, function(err) {
+        console.log('Service Worker registration failed:', err);
+      });
+    });
+  }
+</script>
 
     
 </body>
 </html>
-
-
-
-    
-    
