@@ -823,6 +823,37 @@ document.getElementById(
 );
 
 /* =========================
+SLEEP TIMER
+========================= */
+
+const paperSleep5 =
+document.getElementById(
+'paper-sleep-5'
+);
+
+const paperSleep10 =
+document.getElementById(
+'paper-sleep-10'
+);
+
+const paperSleep30 =
+document.getElementById(
+'paper-sleep-30'
+);
+
+const paperSleepOff =
+document.getElementById(
+'paper-sleep-off'
+);
+
+const paperSleepDisplay =
+document.getElementById(
+'paper-sleep-display'
+);
+
+let paperSleepTimer = null;
+
+/* =========================
 STATE
 ========================= */
 
@@ -1163,6 +1194,62 @@ currentSpeed + 'x';
 }
 
 /* =========================
+SLEEP TIMER SYSTEM
+========================= */
+
+function startSleepTimer(
+minutes
+) {
+
+/* old timer clear */
+
+clearTimeout(
+paperSleepTimer
+);
+
+/* display */
+
+paperSleepDisplay.innerHTML =
+
+'Sleep: ' +
+minutes +
+'m';
+
+/* timer start */
+
+paperSleepTimer =
+setTimeout(() => {
+
+/* audio stop */
+
+paperAudio.pause();
+
+paperAudio.currentTime = 0;
+
+/* UI reset */
+
+paperAudioBar.style.display =
+'none';
+
+paperShowBarBtn.style.display =
+'none';
+
+if (currentSpeakerButton) {
+
+currentSpeakerButton.innerHTML =
+'🔊';
+
+}
+
+paperSleepDisplay.innerHTML =
+'Sleep: OFF';
+
+},
+minutes * 60 * 1000);
+
+}
+
+/* =========================
 TIME FORMAT
 ========================= */
 
@@ -1275,11 +1362,20 @@ paperAudio.pause();
 
 paperAudio.currentTime = 0;
 
+/* show bar */
+
 paperAudioBar.style.display =
+'block';
+
+paperAudioBar.classList.remove(
+'hidden-bar'
+);
+
+/* 🔥 floating eye hide */
+paperShowBarBtn.style.display =
 'none';
 
-  paperShowBarBtn.style.display =
-'none';  
+/* reset minimize */
 
 paperAudioBar.classList.remove(
 'minimized'
