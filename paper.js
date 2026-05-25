@@ -778,6 +778,11 @@ document.getElementById(
 'paper-hide-btn'
 );
 
+const paperShowBarBtn =
+document.getElementById(
+'paper-show-bar-btn'
+);
+
 const paperFasterBtn =
 document.getElementById(
 'paper-faster-btn'
@@ -1081,9 +1086,16 @@ paperHideBtn
 'click',
 () => {
 
+/* bar hide */
+
 paperAudioBar.classList.add(
 'hidden-bar'
 );
+
+/* floating eye show */
+
+paperShowBarBtn.style.display =
+'flex';
 
 }
 );
@@ -1105,6 +1117,30 @@ paperAudioBar.classList.toggle(
 );
 
 /* =========================
+SHOW HIDDEN BAR
+========================= */
+
+paperShowBarBtn
+.addEventListener(
+'click',
+() => {
+
+/* show bar again */
+
+paperAudioBar.classList.remove(
+'hidden-bar'
+);
+
+/* floating eye hide */
+
+paperShowBarBtn.style.display =
+'none';
+
+}
+);
+
+
+/* =========================
 CLOSE
 ========================= */
 
@@ -1119,6 +1155,9 @@ paperAudio.currentTime = 0;
 
 paperAudioBar.style.display =
 'none';
+
+  paperShowBarBtn.style.display =
+'none';  
 
 paperAudioBar.classList.remove(
 'minimized'
