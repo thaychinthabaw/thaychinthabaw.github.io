@@ -1019,3 +1019,22 @@ right: 15px;
 }
 
 }
+
+
+
+/* =========================
+HIDDEN MODE
+========================= */
+
+.paper-audio-bar.hidden-bar {
+
+opacity: 0;
+
+pointer-events: none;
+
+transform: translateX(-20px);
+
+transition: 0.25s;
+}
+
+/*အသံ ဘားတန်းအတွက် ကုဒ် အဆုံး*/
