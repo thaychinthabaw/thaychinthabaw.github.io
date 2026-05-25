@@ -306,11 +306,6 @@ body.sepia-mode {
     z-index: 1050;
 }
 
-
-
-
-
-
 /* ၁။ မာတိကာ Box အပြင်ဘောင် (Header နဲ့ List ကို ခွဲထုတ်ထားပါသည်) */
 .toc-content {
     background: #f4ecd8;
@@ -920,9 +915,9 @@ border: none;
 
 border-radius: 8px;
 
-background: #443300;
+background: #f4ecd8;
 
-color: #f4ecd8;
+color: #443300;
 
 font-size: 18px;
 
@@ -963,9 +958,9 @@ border: none;
 
 border-radius: 8px;
 
-background: #443300;
+background: #f4ecd8;
 
-color: #f4ecd8;
+color: #443300;
 
 font-weight: bold;
 
@@ -1102,5 +1097,5 @@ color: #eadebc !important;
 
 }
 
-/*အသံ။  #eadebc  #b38b00 #ffffff ဘားတန်းအတွက် ကုဒ် အဆုံး*/
+/*အသံ။rgba(234, 222, 188, 0.9) #eadebc  #b38b00 #ffffff ဘားတန်းအတွက် ကုဒ် အဆုံး*/
 
