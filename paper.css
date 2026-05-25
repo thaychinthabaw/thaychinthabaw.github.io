@@ -811,25 +811,6 @@ article {
 }/*raw-text စာကြောင်းကြား အတွက်သုံးသည်။*/
 
 /* =========================
-SPEAKER BUTTON
-========================= */
-
-.speaker-btn {
-
-border: none;
-
-background: transparent;
-
-font-size: 28px;
-
-cursor: pointer;
-
-margin-left: 8px;
-
-padding: 0;
-}
-
-/* =========================
 PAPER AUDIO BAR
 ========================= */
 
@@ -837,16 +818,16 @@ PAPER AUDIO BAR
 
 position: fixed;
 
-top: 70px;
+/* fullscreen button ဘေး */
+top: 78px;
 
-right: 15px;
+left: 65px;
 
-width: 340px;
+width: 320px;
 
 background: #eadebc;
 
-border:
-1px solid #d4c5a0;
+border: 1px solid #443300;
 
 border-radius: 14px;
 
@@ -859,7 +840,7 @@ z-index: 9999;
 display: none;
 
 box-shadow:
-0 4px 15px rgba(0,0,0,0.15);
+0 4px 15px rgba(0,0,0,0.2);
 }
 
 /* =========================
@@ -905,6 +886,8 @@ white-space: nowrap;
 overflow: hidden;
 
 text-overflow: ellipsis;
+
+color: #443300;
 }
 
 #paper-time-display {
@@ -912,6 +895,8 @@ text-overflow: ellipsis;
 font-size: 12px;
 
 margin-top: 3px;
+
+color: #443300;
 }
 
 /* =========================
@@ -928,6 +913,7 @@ gap: 6px;
 .paper-top-btn {
 
 width: 30px;
+
 height: 30px;
 
 border: none;
@@ -1002,6 +988,8 @@ text-align: center;
 font-weight: bold;
 
 font-size: 15px;
+
+color: #443300;
 }
 
 /* =========================
@@ -1023,12 +1011,11 @@ MOBILE
 
 .paper-audio-bar {
 
-width: calc(100% - 30px);
+width: calc(100vw - 90px);
+
+left: 65px;
 
 right: 15px;
-
-left: 15px;
 }
 
-}/*အဆုံး*/
-
+}
