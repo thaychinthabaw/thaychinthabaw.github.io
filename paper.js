@@ -822,36 +822,7 @@ document.getElementById(
 'paper-next-btn'
 );
 
-/* =========================
-SLEEP TIMER
-========================= */
 
-const paperSleep5 =
-document.getElementById(
-'paper-sleep-5'
-);
-
-const paperSleep10 =
-document.getElementById(
-'paper-sleep-10'
-);
-
-const paperSleep30 =
-document.getElementById(
-'paper-sleep-30'
-);
-
-const paperSleepOff =
-document.getElementById(
-'paper-sleep-off'
-);
-
-const paperSleepDisplay =
-document.getElementById(
-'paper-sleep-display'
-);
-
-let paperSleepTimer = null;
 
 /* =========================
 STATE
@@ -866,6 +837,85 @@ let repeatOne = false;
 
 /* auto next mode */
 let autoNextEnabled = false;
+
+/* =========================
+SLEEP TIMER SYSTEM (CUSTOM) အသစ်
+========================= */
+
+const paperSleepInput =
+document.getElementById('paper-sleep-input');
+
+const paperSleepUnit =
+document.getElementById('paper-sleep-unit');
+
+const paperSleepStart =
+document.getElementById('paper-sleep-start');
+
+const paperSleepOff =
+document.getElementById('paper-sleep-off');
+
+const paperSleepDisplay =
+document.getElementById('paper-sleep-display');
+
+let paperSleepTimer = null;
+
+function startSleepTimer(minutes) {
+
+clearTimeout(paperSleepTimer);
+
+paperSleepDisplay.innerHTML =
+'Sleep: ' + minutes + ' min';
+
+paperSleepTimer = setTimeout(() => {
+
+paperAudio.pause();
+paperAudio.currentTime = 0;
+
+paperAudioBar.style.display = 'none';
+paperShowBarBtn.style.display = 'none';
+
+if (currentSpeakerButton) {
+currentSpeakerButton.innerHTML = '🔊';
+}
+
+paperSleepDisplay.innerHTML = 'Sleep: OFF';
+
+}, minutes * 60 * 1000);
+}
+
+/* START BUTTON */
+paperSleepStart.addEventListener('click', () => {
+
+let value = parseInt(paperSleepInput.value);
+
+if (isNaN(value) || value < 1) {
+alert('Enter valid time');
+return;
+}
+
+const unit = paperSleepUnit.value;
+
+let minutes = value;
+
+if (unit === 'hour') {
+minutes = value * 60;
+}
+
+if (minutes > 480) {
+alert('Maximum is 8 hours');
+return;
+}
+
+startSleepTimer(minutes);
+});
+
+/* OFF BUTTON */
+paperSleepOff.addEventListener('click', () => {
+
+clearTimeout(paperSleepTimer);
+paperSleepDisplay.innerHTML = 'Sleep: OFF';
+
+});
 /* =========================
 TOGGLE AUDIO
 ========================= */
@@ -1193,97 +1243,6 @@ currentSpeed + 'x';
 
 }
 
-/* =========================
-SLEEP TIMER SYSTEM
-========================= */
-
-function startSleepTimer(
-minutes
-) {
-
-/* old timer clear */
-
-clearTimeout(
-paperSleepTimer
-);
-
-/* display */
-
-paperSleepDisplay.innerHTML =
-
-'Sleep: ' +
-minutes +
-'m';
-
-/* timer start */
-
-paperSleepTimer =
-setTimeout(() => {
-
-/* audio stop */
-
-paperAudio.pause();
-
-paperAudio.currentTime = 0;
-
-/* UI reset */
-
-paperAudioBar.style.display =
-'none';
-
-paperShowBarBtn.style.display =
-'none';
-
-if (currentSpeakerButton) {
-
-currentSpeakerButton.innerHTML =
-'🔊';
-
-}
-
-paperSleepDisplay.innerHTML =
-'Sleep: OFF';
-
-},
-minutes * 60 * 1000);
-
-}
-
-/* =========================
-TIME FORMAT
-========================= */
-
-function formatPaperTime(
-seconds
-) {
-
-const min =
-Math.floor(seconds / 60);
-
-const sec =
-Math.floor(seconds % 60);
-
-return `${min}:${
-sec
-.toString()
-.padStart(2,'0')
-}`;
-
-}
-
-function updatePaperTime() {
-
-paperTimeDisplay.innerHTML =
-
-`${formatPaperTime(
-paperAudio.currentTime
-)}
-/
-${formatPaperTime(
-paperAudio.duration || 0
-)}`;
-
-}
 
 
 /* =========================
