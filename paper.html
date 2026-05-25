@@ -11,7 +11,7 @@
 rel="manifest"
 href="manifest.json"
 >
-<link rel="apple-touch-icon" href="./thaychinthabawlogo1.webp">
+<link rel="apple-touch-icon" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
         
     <link rel="stylesheet" href="darkmode.css">
     <link rel="icon" type="image/png" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
@@ -4797,28 +4797,7 @@ href="manifest.json"
 
 
 
-<div class="setting-item-group">
-    <span class="setting-title2">📲 ဖုန်းမျက်နှာပြင်ပေါ်သို့ ထည့်ရန်</span>
-    <button class="view-toggle-btn" onclick="addToHomeScreen()">➕ Shortcut App ပြုလုပ်မည်</button>
-</div>
 
-    
-
-    <button
-id="pwa-install-btn"
-class="setting-item pwa-install-btn"
-style="display:none;"
->
-<img
-src="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp"
-alt="Install"
-class="pwa-install-icon"
->
-
-<span>
-📲 App အဖြစ် Install လုပ်ရန်
-</span>
-</button>
     
         
            </div>
@@ -5058,33 +5037,7 @@ class="paper-show-bar-btn"
 
     <script src="paper.js"></script>
 
-    <script>
-    // ၁။ HTML ထဲမှာ Service Worker ကို စနစ်တကျ မှတ်ပုံတင် (Register) ခြင်း
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js') // sw.js ဖိုင်လမ်းကြောင်း (Root တွင် ရှိရမည်)
-            .then((reg) => {
-                console.log('Service Worker registered successfully:', reg.scope);
-            })
-            .catch((err) => {
-                console.log('Service Worker registration failed:', err);
-            });
-        });
-    }
-
-    // ၂။ paper.js ထဲက addToHomeScreen() စနစ်နှင့် ‘beforeinstallprompt’ မီးနီ/မီးစိမ်း ပြဿနာကို ဖြေရှင်းခြင်း
-    // (အချို့ Browser များတွင် JavaScript တိုက်ရိုက် run ချိန် နှောင်းနှေးမှုကြောင့် Prompt ပျောက်ဆုံးခြင်းကို ကာကွယ်ရန်)
-    window.addEventListener('beforeinstallprompt', (e) => {
-        // paper.js ထဲက စနစ်ဆီသို့ အချက်ပြမှုကို တိုက်ရိုက် လှမ်းပို့ပေးခြင်း
-        window.deferredPrompt = e;
-        
-        // စက်ထဲသွင်းရန် ခလုတ် (pwa-install-btn) ရှိပါက ၎င်းကို မျက်နှာပြင်တွင် ထင်ထင်ရှားရှား ဖော်ပြပေးခြင်း
-        const pwaBtn = document.getElementById('pwa-install-btn');
-        if (pwaBtn) {
-            pwaBtn.style.setProperty('display', 'flex', 'important');
-        }
-    });
-    </script>
+    
 </body>
 </html>
 
@@ -5092,5 +5045,3 @@ class="paper-show-bar-btn"
 
     
     
-</body>
-</html>
