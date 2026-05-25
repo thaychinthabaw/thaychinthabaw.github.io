@@ -802,6 +802,26 @@ document.getElementById(
 'paper-speed-display'
 );
 
+const paperRepeatBtn =
+document.getElementById(
+'paper-repeat-btn'
+);
+
+const paperAutonextBtn =
+document.getElementById(
+'paper-autonext-btn'
+);
+
+const paperPrevBtn =
+document.getElementById(
+'paper-prev-btn'
+);
+
+const paperNextBtn =
+document.getElementById(
+'paper-next-btn'
+);
+
 /* =========================
 STATE
 ========================= */
@@ -810,6 +830,11 @@ let currentSpeakerButton = null;
 
 let currentSpeed = 1;
 
+/* repeat current audio */
+let repeatOne = false;
+
+/* auto next mode */
+let autoNextEnabled = false;
 /* =========================
 TOGGLE AUDIO
 ========================= */
@@ -930,6 +955,30 @@ paperAudio.addEventListener(
 'ended',
 () => {
 
+/* 🔂 repeat current */
+
+if (repeatOne) {
+
+paperAudio.currentTime = 0;
+
+paperAudio.play();
+
+return;
+
+}
+
+/* ⏭️ auto next */
+
+if (autoNextEnabled) {
+
+playNextAudio();
+
+return;
+
+}
+
+/* default close */
+
 paperAudioBar.style.display =
 'none';
 
@@ -1014,6 +1063,43 @@ updateSpeedDisplay();
 
 }
 );
+
+/* =========================
+REPEAT TOGGLE
+========================= */
+
+paperRepeatBtn.addEventListener(
+'click',
+() => {
+
+repeatOne = !repeatOne;
+
+paperRepeatBtn.classList.toggle(
+'paper-mode-active',
+repeatOne
+);
+
+}
+);/*REPEAT TOGGLEအဆုံး*/
+
+/* =========================
+AUTO NEXT TOGGLE
+========================= */
+
+paperAutonextBtn.addEventListener(
+'click',
+() => {
+
+autoNextEnabled =
+!autoNextEnabled;
+
+paperAutonextBtn.classList.toggle(
+'paper-mode-active',
+autoNextEnabled
+);
+
+}
+);/*AUTO NEXT TOGGLEအဆုံး*/
 
 paperSlowerBtn.addEventListener(
 'click',
@@ -1180,5 +1266,179 @@ currentSpeakerButton.innerHTML =
 );/*အဆုံး*/
 
 
+/*ပြန်စ ကျော် ဆက်လုပ် ခလုပ်များ အတွက် အစ */
 
+/* =========================
+GET AUDIO BUTTONS
+========================= */
+
+function getAudioButtons() {
+
+return Array.from(
+document.querySelectorAll(
+'[onclick*="togglePaperAudio"]'
+)
+);
+
+}
+/* =========================
+EXTRACT AUDIO DATA
+========================= */
+
+function extractAudioData(button) {
+
+const onclickText =
+button.getAttribute('onclick');
+
+const match =
+onclickText.match(
+/togglePaperAudio\(this,\s*'([^']+)'\s*,\s*'([^']+)'\)/
+);
+
+if (!match) return null;
+
+return {
+
+src: match[1],
+
+title: match[2]
+
+};
+
+}
+/* =========================
+PLAY AUDIO BY INDEX
+========================= */
+
+function playAudioByIndex(index) {
+
+const buttons =
+getAudioButtons();
+
+if (
+index < 0 ||
+index >= buttons.length
+) {
+return;
+}
+
+const button =
+buttons[index];
+
+const data =
+extractAudioData(button);
+
+if (!data) return;
+
+window.togglePaperAudio(
+button,
+data.src,
+data.title
+);
+
+}
+
+/* =========================
+NEXT AUDIO
+========================= */
+
+function playNextAudio() {
+
+const buttons =
+getAudioButtons();
+
+if (
+!currentSpeakerButton ||
+buttons.length === 0
+) {
+return;
+}
+
+const currentIndex =
+buttons.indexOf(
+currentSpeakerButton
+);
+
+const nextIndex =
+currentIndex + 1;
+
+if (nextIndex >= buttons.length) {
+
+/* playlist end */
+
+paperAudioBar.style.display =
+'none';
+
+if (currentSpeakerButton) {
+
+currentSpeakerButton.innerHTML =
+'🔊';
+
+}
+
+return;
+
+}
+
+playAudioByIndex(nextIndex);
+
+}
+
+/* =========================
+PREVIOUS AUDIO
+========================= */
+
+function playPreviousAudio() {
+
+const buttons =
+getAudioButtons();
+
+if (
+!currentSpeakerButton ||
+buttons.length === 0
+) {
+return;
+}
+
+const currentIndex =
+buttons.indexOf(
+currentSpeakerButton
+);
+
+const prevIndex =
+currentIndex - 1;
+
+if (prevIndex < 0) {
+return;
+}
+
+playAudioByIndex(prevIndex);
+
+}
+
+/* =========================
+NEXT BUTTON
+========================= */
+
+paperNextBtn.addEventListener(
+'click',
+() => {
+
+playNextAudio();
+
+}
+);
+
+/* =========================
+PREVIOUS BUTTON
+========================= */
+
+paperPrevBtn.addEventListener(
+'click',
+() => {
+
+playPreviousAudio();
+
+}
+);
 
