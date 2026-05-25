@@ -802,6 +802,26 @@ document.getElementById(
 'paper-speed-display'
 );
 
+const paperPrevBtn =
+document.getElementById(
+'paper-prev-btn'
+);
+
+const paperNextBtn =
+document.getElementById(
+'paper-next-btn'
+);
+
+const paperRepeatBtn =
+document.getElementById(
+'paper-repeat-btn'
+);
+
+const paperAutoNextBtn =
+document.getElementById(
+'paper-auto-next-btn'
+);
+
 const paperRepeatBtn =
 document.getElementById(
 'paper-repeat-btn'
@@ -861,6 +881,18 @@ let currentSpeakerButton = null;
 
 let currentSpeed = 1;
 
+ /* =========================
+PLAYLIST SYSTEM
+========================= */
+
+let currentPlaylist = [];
+
+let currentTrackIndex = 0;
+
+let autoNextEnabled = false;
+
+let repeatEnabled = false;   
+
 /* repeat current audio */
 let repeatOne = false;
 
@@ -887,6 +919,43 @@ button,
 src,
 title
 ) {
+
+/* playlist build */
+
+const allButtons =
+document.querySelectorAll(
+'[onclick*="togglePaperAudio"]'
+);
+
+currentPlaylist = [];
+
+allButtons.forEach(btn => {
+
+const onclickText =
+btn.getAttribute('onclick');
+
+const match =
+onclickText.match(
+/togglePaperAudio\(this,\s*'([^']+)',\s*'([^']+)'\)/
+);
+
+if (match) {
+
+currentPlaylist.push({
+src: match[1],
+title: match[2]
+});
+
+}
+
+});
+
+/* current track index */
+
+currentTrackIndex =
+currentPlaylist.findIndex(
+item => item.src === src
+);
 
 /* same audio + playing */
 
@@ -924,21 +993,29 @@ currentSpeakerButton = button;
 
 paperAudioBar.style.display =
 'block';
+
 paperAudioBar.classList.remove(
 'hidden-bar'
 );
-/* reset minimize */
 
 paperAudioBar.classList.remove(
 'minimized'
 );
 
+/* IMPORTANT FIX */
+
+paperShowBarBtn.style.display =
+'none';
+
 /* play */
 
 paperAudio.src = src;
-    
-paperAudio.playbackRate = currentSpeed;/* ✅ speed restore */
-    
+
+/* IMPORTANT FIX */
+
+paperAudio.playbackRate =
+currentSpeed;
+
 paperAudio.play();
 
 paperNowPlaying.innerHTML =
@@ -997,29 +1074,36 @@ paperAudio.addEventListener(
 'ended',
 () => {
 
-/* 🔂 repeat current */
+/* =========================
+REPEAT MODE
+========================= */
 
-if (repeatOne) {
+if (repeatEnabled) {
 
 paperAudio.currentTime = 0;
 
 paperAudio.play();
 
 return;
-
 }
 
-/* ⏭️ auto next */
+/* =========================
+AUTO NEXT MODE
+========================= */
 
-if (autoNextEnabled) {
+if (
+autoNextEnabled &&
+currentPlaylist.length > 0
+) {
 
-playNextAudio();
+goToNextTrack();
 
 return;
-
 }
 
-/* default close */
+/* =========================
+NORMAL END
+========================= */
 
 paperAudioBar.style.display =
 'none';
@@ -1033,7 +1117,6 @@ currentSpeakerButton.innerHTML =
 
 }
 );
-
 /* =========================
 TIME UPDATE
 ========================= */
@@ -1486,6 +1569,112 @@ playPreviousAudio();
 
 
 
+
+/* =========================
+NEXT / PREVIOUS SYSTEM
+========================= */
+
+function playTrack(index) {
+
+if (
+!currentPlaylist.length
+) return;
+
+/* loop */
+
+if (index < 0) {
+
+index =
+currentPlaylist.length - 1;
+
+}
+
+if (
+index >= currentPlaylist.length
+) {
+
+index = 0;
+
+}
+
+currentTrackIndex = index;
+
+const track =
+currentPlaylist[currentTrackIndex];
+
+/* audio play */
+
+paperAudio.src = track.src;
+
+/* speed restore */
+
+paperAudio.playbackRate =
+currentSpeed;
+
+paperAudio.play();
+
+/* UI */
+
+paperNowPlaying.innerHTML =
+track.title;
+
+paperPlayBtn.innerHTML = '⏸';
+
+paperAudioBar.style.display =
+'block';
+
+/* IMPORTANT FIX */
+
+paperShowBarBtn.style.display =
+'none';
+
+/* reset all speaker buttons */
+
+document
+.querySelectorAll(
+'[onclick*="togglePaperAudio"]'
+)
+.forEach(btn => {
+
+btn.innerHTML = '🔊';
+
+});
+
+/* active button */
+
+const activeButton =
+document
+.querySelectorAll(
+'[onclick*="togglePaperAudio"]'
+)[currentTrackIndex];
+
+if (activeButton) {
+
+activeButton.innerHTML = '⏸';
+
+currentSpeakerButton =
+activeButton;
+
+}
+
+}
+
+function goToNextTrack() {
+
+playTrack(
+currentTrackIndex + 1
+);
+
+}
+
+function goToPrevTrack() {
+
+playTrack(
+currentTrackIndex - 1
+);
+
+}
+
 /* ========================= SLEEP TIMER START ========================= */
 
 paperSleepStartBtn.addEventListener(
@@ -1655,3 +1844,94 @@ paperSleepCancelBtn.addEventListener(
 
     }
 );/*------SLEEP TIMER STARTအဆုံး -------*/
+
+/* =========================
+PREVIOUS BUTTON
+========================= */
+
+paperPrevBtn.addEventListener(
+'click',
+() => {
+
+goToPrevTrack();
+
+}
+);
+
+/* =========================
+NEXT BUTTON
+========================= */
+
+paperNextBtn.addEventListener(
+'click',
+() => {
+
+goToNextTrack();
+
+}
+);
+
+/* =========================
+REPEAT BUTTON
+========================= */
+
+paperRepeatBtn.addEventListener(
+'click',
+() => {
+
+repeatEnabled =
+!repeatEnabled;
+
+/* IMPORTANT:
+repeat ON => auto next OFF */
+
+if (repeatEnabled) {
+
+autoNextEnabled = false;
+
+paperAutoNextBtn.style.opacity =
+'0.5';
+
+}
+
+paperRepeatBtn.style.opacity =
+
+repeatEnabled
+? '1'
+: '0.5';
+
+}
+);
+
+/* =========================
+AUTO NEXT BUTTON
+========================= */
+
+paperAutoNextBtn.addEventListener(
+'click',
+() => {
+
+autoNextEnabled =
+!autoNextEnabled;
+
+/* IMPORTANT:
+auto next ON => repeat OFF */
+
+if (autoNextEnabled) {
+
+repeatEnabled = false;
+
+paperRepeatBtn.style.opacity =
+'0.5';
+
+}
+
+paperAutoNextBtn.style.opacity =
+
+autoNextEnabled
+? '1'
+: '0.5';
+
+}
+);
+
