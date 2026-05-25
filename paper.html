@@ -5003,44 +5003,53 @@ id="paper-audio-body">
 </button>
 
 
+<!-- ========================= SLEEP TIMER ========================= -->
 
-<!-- =========================
-SLEEP TIMER
-========================= -->
+<div class="paper-sleep-timer">
 
-<div class="paper-sleep-row">
+    <div class="paper-sleep-title">
+        😴 Sleep Timer
+    </div>
 
-<input
-type="number"
-id="paper-sleep-input"
-min="1"
-max="480"
-placeholder="time"
-/>
+    <div class="paper-sleep-controls">
 
-<select id="paper-sleep-unit">
+        <input
+            type="number"
+            id="paper-sleep-input"
+            min="1"
+            max="480"
+            placeholder="Time"
+        >
 
-<option value="minute">
-Min
-</option>
+        <select id="paper-sleep-unit">
 
-<option value="hour">
-Hour
-</option>
+            <option value="minute">
+                Minute
+            </option>
 
-</select>
+            <option value="hour">
+                Hour
+            </option>
 
-<button id="paper-sleep-start">
-Start
-</button>
+        </select>
 
-<button id="paper-sleep-off">
-Off
-</button>
+    </div>
 
-<span id="paper-sleep-display">
-Sleep: OFF
-</span>
+    <div class="paper-sleep-buttons">
+
+        <button id="paper-sleep-start-btn">
+            Start
+        </button>
+
+        <button id="paper-sleep-cancel-btn">
+            Cancel
+        </button>
+
+    </div>
+
+    <div id="paper-sleep-status">
+        No Timer
+    </div>
 
 </div><!-- SLEEP TIMER အဆုံး -->
 
