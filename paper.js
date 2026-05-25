@@ -773,6 +773,11 @@ document.getElementById(
 'paper-minimize-btn'
 );
 
+const paperHideBtn =
+document.getElementById(
+'paper-hide-btn'
+);
+
 const paperFasterBtn =
 document.getElementById(
 'paper-faster-btn'
