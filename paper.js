@@ -710,6 +710,48 @@ function init() {
             }
         });
     }
+
+
+/* ===== SHORTCUT APP SYSTEM ===== အစ*/
+let deferredPrompt;
+
+// Browser က Shortcut ပြုလုပ်နိုင်ပြီဟု အချက်ပြချိန်တွင် ဖမ်းယူခြင်း
+window.addEventListener('beforeinstallprompt', (e) => {
+    // မူရင်း အလိုအလျောက် ပေါ့အပ်ကို ခေတ္တပိတ်ထားသည်
+    e.preventDefault();
+    // သိမ်းထားသည်
+    deferredPrompt = e;
+});
+
+function addToHomeScreen() {
+    // Setting Menu ကို ပိတ်လိုက်ခြင်း
+    if (typeof toggleSetting === 'function') {
+        toggleSetting();
+    }
+
+    if (deferredPrompt) {
+        // Browser ရဲ့ "Add to Home Screen" ဝင်းဒိုးကို တိုက်ရိုက် နှိုးလိုက်ခြင်း
+        deferredPrompt.prompt();
+        
+        deferredPrompt.userChoice.then((choiceResult) => {
+            if (choiceResult.outcome === 'accepted') {
+                console.log('User added the shortcut to home screen');
+            }
+            deferredPrompt = null;
+        });
+    } else {
+        // အကယ်၍ Browser က အချက်မပြသေးပါက စာဖတ်သူကို ဘယ်လိုလုပ်ရမလဲ လမ်းညွှန်ပြသခြင်း
+        alert("ဖုန်းမျက်နှာပြင်ပေါ်သို့ ထည့်ရန်အတွက် -\n၁။ အပေါ်ညာဘက်က အစက်သုံးစက် (⋮) ကို နှိပ်ပါ။\n၂။ 'Add to Home screen' ကို နှိပ်ပေးပါဘုရား။");
+    }
+}
+
+// မူရင်း window ထဲသို့ လှမ်းချိတ်ပေးခြင်း
+window.addToHomeScreen = addToHomeScreen;
+
+/* ===== SHORTCUT APP SYSTEM ===== အဆုံး*/
+
+
+    
     /* ===== EXPORT FUNCTIONS ===== */
     window.toggleTOC = toggleTOC;
     window.toggleSetting = toggleSetting;
