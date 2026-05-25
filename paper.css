@@ -919,6 +919,8 @@ background: #f4ecd8;
 
 color: #443300;
 
+    border: 1px solid #443300;
+    
 font-size: 18px;
 
 cursor: pointer;
@@ -961,6 +963,8 @@ border-radius: 8px;
 background: #f4ecd8;
 
 color: #443300;
+
+ border: 1px solid #443300;   
 
 font-weight: bold;
 
@@ -1091,9 +1095,9 @@ ACTIVE AUDIO MODE
 
 .paper-mode-active {
 
-background: #b38b00 !important;
+background: #443300 !important;
 
-color: #eadebc !important;
+color: #f4ecd8 !important;
 
 }
 
