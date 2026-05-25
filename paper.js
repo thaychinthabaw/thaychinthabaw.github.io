@@ -851,6 +851,8 @@ title
 if (
 paperAudio.src.includes(src)
 &&
+currentSpeakerButton === button
+&&
 !paperAudio.paused
 ) {
 
@@ -1074,10 +1076,22 @@ paperRepeatBtn.addEventListener(
 
 repeatOne = !repeatOne;
 
+/* repeat active */
 paperRepeatBtn.classList.toggle(
 'paper-mode-active',
 repeatOne
 );
+
+/* 🔥 auto next auto OFF */
+if (repeatOne) {
+
+autoNextEnabled = false;
+
+paperAutonextBtn.classList.remove(
+'paper-mode-active'
+);
+
+}
 
 }
 );/*REPEAT TOGGLEအဆုံး*/
@@ -1093,10 +1107,22 @@ paperAutonextBtn.addEventListener(
 autoNextEnabled =
 !autoNextEnabled;
 
+/* active */
 paperAutonextBtn.classList.toggle(
 'paper-mode-active',
 autoNextEnabled
 );
+
+/* 🔥 repeat auto OFF */
+if (autoNextEnabled) {
+
+repeatOne = false;
+
+paperRepeatBtn.classList.remove(
+'paper-mode-active'
+);
+
+}
 
 }
 );/*AUTO NEXT TOGGLEအဆုံး*/
