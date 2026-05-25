@@ -4902,43 +4902,117 @@
 
 
 <!-- =========================
-INLINE AUDIO BAR
+FLOATING AUDIO BAR
 ========================= -->
 
 <div
-class="inline-player hidden"
-id="inline-player">
+class="paper-audio-bar"
+id="paper-audio-bar">
 
-<div class="inline-player-top">
+<!-- TOP -->
 
-<div id="inline-now-playing">
-အသံဖွင့်ထားသည်
+<div class="paper-audio-top">
+
+<div class="paper-audio-info">
+
+<div id="paper-now-playing">
+
+အသံမဖွင့်ရသေးပါ
+
 </div>
 
-<button id="inline-close-btn">
+<div id="paper-time-display">
+
+00:00 / 00:00
+
+</div>
+
+</div>
+
+<div class="paper-top-buttons">
+
+<!-- minimize -->
+
+<button
+id="paper-minimize-btn"
+class="paper-top-btn">
+
+▁
+
+</button>
+
+<!-- close -->
+
+<button
+id="paper-close-btn"
+class="paper-top-btn">
+
 ×
+
 </button>
 
 </div>
 
-<div class="inline-controls">
+</div>
 
-<button id="inline-play-btn">
-⏸
+<!-- CONTROLS -->
+
+<div
+class="paper-audio-body"
+id="paper-audio-body">
+
+<div class="paper-audio-controls">
+
+<!-- play pause -->
+
+<button id="paper-play-btn">
+
+▶
+
+</button>
+
+<!-- slower -->
+
+<button id="paper-slower-btn">
+
+- SPEED
+
+</button>
+
+<!-- speed text -->
+
+<div id="paper-speed-display">
+
+1x
+
+</div>
+
+<!-- faster -->
+
+<button id="paper-faster-btn">
+
++ SPEED
+
 </button>
 
 </div>
+
+<!-- seek -->
 
 <input
 type="range"
-id="inline-seekbar"
+id="paper-seekbar"
 value="0"
 min="0"
 max="100">
 
 </div>
 
-<audio id="inline-audio"></audio><!-- =========================
+</div>
+
+<!-- AUDIO -->
+
+<audio id="paper-audio"></audio><!-- =========================
 INLINE AUDIO BAR
 ========================= -->
 
