@@ -811,63 +811,72 @@ article {
 }/*raw-text စာကြောင်းကြား အတွက်သုံးသည်။*/
 
 /* =========================
-INLINE AUDIO BUTTON
+SPEAKER BUTTON
 ========================= */
 
-.inline-audio-btn {
+.speaker-btn {
 
 border: none;
 
 background: transparent;
 
-font-size: 34px;
+font-size: 28px;
 
 cursor: pointer;
 
-margin-left: 10px;
+margin-left: 8px;
 
-vertical-align: middle;
+padding: 0;
 }
 
 /* =========================
-INLINE PLAYER
+PAPER AUDIO BAR
 ========================= */
 
-.inline-player {
+.paper-audio-bar {
 
 position: fixed;
 
 top: 70px;
 
-left: 50%;
+right: 15px;
 
-transform: translateX(-50%);
-
-width: 85%;
-
-max-width: 600px;
+width: 340px;
 
 background: #eadebc;
 
 border:
 1px solid #d4c5a0;
 
-border-radius: 12px;
+border-radius: 14px;
 
 padding: 12px;
 
-z-index: 5000;
+box-sizing: border-box;
+
+z-index: 9999;
+
+display: none;
 
 box-shadow:
-0 4px 12px rgba(0,0,0,0.15);
+0 4px 15px rgba(0,0,0,0.15);
 }
 
-.inline-player.hidden {
+/* =========================
+MINIMIZED
+========================= */
+
+.paper-audio-bar.minimized
+.paper-audio-body {
 
 display: none;
 }
 
-.inline-player-top {
+/* =========================
+TOP
+========================= */
+
+.paper-audio-top {
 
 display: flex;
 
@@ -875,41 +884,94 @@ justify-content: space-between;
 
 align-items: center;
 
-margin-bottom: 10px;
+gap: 10px;
 }
 
-#inline-now-playing {
+.paper-audio-info {
+
+flex: 1;
+
+min-width: 0;
+}
+
+#paper-now-playing {
+
+font-size: 14px;
 
 font-weight: bold;
 
-font-size: 16px;
+white-space: nowrap;
+
+overflow: hidden;
+
+text-overflow: ellipsis;
 }
 
-#inline-close-btn {
+#paper-time-display {
 
-border: none;
+font-size: 12px;
 
-background: transparent;
-
-font-size: 30px;
-
-cursor: pointer;
-
-color: #443300;
+margin-top: 3px;
 }
 
-.inline-controls {
+/* =========================
+TOP BUTTONS
+========================= */
+
+.paper-top-buttons {
 
 display: flex;
 
-gap: 10px;
-
-margin-bottom: 10px;
+gap: 6px;
 }
 
-#inline-play-btn {
+.paper-top-btn {
 
-padding: 8px 14px;
+width: 30px;
+height: 30px;
+
+border: none;
+
+border-radius: 8px;
+
+background: #443300;
+
+color: #f4ecd8;
+
+font-size: 18px;
+
+cursor: pointer;
+}
+
+/* =========================
+BODY
+========================= */
+
+.paper-audio-body {
+
+margin-top: 12px;
+}
+
+/* =========================
+CONTROLS
+========================= */
+
+.paper-audio-controls {
+
+display: flex;
+
+align-items: center;
+
+gap: 8px;
+
+margin-bottom: 10px;
+
+flex-wrap: wrap;
+}
+
+.paper-audio-controls button {
+
+padding: 8px 12px;
 
 border: none;
 
@@ -922,10 +984,51 @@ color: #f4ecd8;
 font-weight: bold;
 
 cursor: pointer;
+
+font-size: 13px;
 }
 
-#inline-seekbar {
+#paper-play-btn {
+
+min-width: 50px;
+}
+
+#paper-speed-display {
+
+min-width: 50px;
+
+text-align: center;
+
+font-weight: bold;
+
+font-size: 15px;
+}
+
+/* =========================
+SEEKBAR
+========================= */
+
+#paper-seekbar {
 
 width: 100%;
+
+cursor: pointer;
+}
+
+/* =========================
+MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+.paper-audio-bar {
+
+width: calc(100% - 30px);
+
+right: 15px;
+
+left: 15px;
+}
+
 }/*အဆုံး*/
 
