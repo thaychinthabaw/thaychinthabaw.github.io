@@ -1175,65 +1175,80 @@ currentSpeakerButton.innerHTML =
 
 
 /*စက်ထဲသွင်း ဖို့အတွက် ခလုပ်*/
-let deferredPrompt = null;
+/* ===== SERVICE WORKER REGISTER ===== */
 
-const installBtn = document.getElementById('install-btn');
-
-/* =========================
-   BEFORE INSTALL EVENT
-========================= */
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-
-    // button show
-    if (installBtn) {
-        installBtn.style.display = 'block';
-    }
-});
-
-/* =========================
-   INSTALL BUTTON CLICK
-========================= */
-if (installBtn) {
-    installBtn.addEventListener('click', async () => {
-        if (!deferredPrompt) return;
-
-        deferredPrompt.prompt();
-
-        const choice = await deferredPrompt.userChoice;
-
-        if (choice.outcome === 'accepted') {
-            console.log('App installed');
-        } else {
-            console.log('User dismissed install');
-        }
-
-        deferredPrompt = null;
-        installBtn.style.display = 'none';
-    });
-}
-
-
-/* =========================
-   SERVICE WORKER REGISTER
-========================= */
 if ('serviceWorker' in navigator) {
 
     window.addEventListener('load', () => {
 
-        navigator.serviceWorker
-            .register('./sw.js')
+        navigator.serviceWorker.register('./sw.js')
 
-            .then(() => {
-                console.log('SW registered');
-            })
+        .then((registration) => {
+            console.log('SW registered:', registration);
+        })
 
-            .catch(err => {
-                console.log('SW failed', err);
-            });
+        .catch((error) => {
+            console.log('SW registration failed:', error);
+        });
 
     });
 
 }
+
+    /* ===== PWA INSTALL SYSTEM ===== */
+
+let deferredPrompt;
+
+const installContainer = document.getElementById('install-container');
+
+const installBtn = document.getElementById('pwa-install-btn');
+
+
+/* Browser က install ရပြီဆိုရင် */
+
+window.addEventListener('beforeinstallprompt', (e) => {
+
+    e.preventDefault();
+
+    deferredPrompt = e;
+
+    if (installContainer) {
+        installContainer.style.display = 'block';
+    }
+
+});
+
+
+/* Button နှိပ်တဲ့အခါ */
+
+if (installBtn) {
+
+    installBtn.addEventListener('click', async () => {
+
+        if (!deferredPrompt) return;
+
+        deferredPrompt.prompt();
+
+        const { outcome } = await deferredPrompt.userChoice;
+
+        console.log('Install result:', outcome);
+
+        deferredPrompt = null;
+
+        installContainer.style.display = 'none';
+
+    });
+
+}
+
+
+/* Install ပြီးသွားရင် */
+
+window.addEventListener('appinstalled', () => {
+
+    console.log('PWA Installed');
+
+    installContainer.style.display = 'none';
+
+});
 /*စက်ထဲသွင်း ဖို့အတွက် ခလုပ်*/
