@@ -869,7 +869,9 @@ paperAudioBar.classList.remove(
 /* play */
 
 paperAudio.src = src;
-
+    
+paperAudio.playbackRate = currentSpeed;/* ✅ speed restore */
+    
 paperAudio.play();
 
 paperNowPlaying.innerHTML =
