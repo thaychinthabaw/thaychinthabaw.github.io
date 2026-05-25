@@ -861,6 +861,10 @@ paperAudio.pause();
 paperAudioBar.style.display =
 'none';
 
+/* 🔥 floating eye hide */
+paperShowBarBtn.style.display =
+'none';
+
 button.innerHTML = '🔊';
 
 return;
@@ -1424,7 +1428,13 @@ const prevIndex =
 currentIndex - 1;
 
 if (prevIndex < 0) {
+
+playAudioByIndex(
+buttons.length - 1
+);
+
 return;
+
 }
 
 playAudioByIndex(prevIndex);
