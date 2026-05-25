@@ -1089,5 +1089,18 @@ left: 65px;
 
 }
 
-}/*အသံ ဘားတန်းအတွက် ကုဒ် အဆုံး*/
+}
+/* =========================
+ACTIVE AUDIO MODE
+========================= */
+
+.paper-mode-active {
+
+background: #b38b00 !important;
+
+color: #ffffff !important;
+
+}
+
+/*အသံ ဘားတန်းအတွက် ကုဒ် အဆုံး*/
 
