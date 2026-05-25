@@ -727,6 +727,12 @@ document.addEventListener(
 );
 })();
 
+}
+
+}
+);
+
+
 /* =========================
 PAPER AUDIO SYSTEM
 ========================= */
@@ -815,12 +821,15 @@ paperAudio.src.includes(src)
 
 paperAudio.pause();
 
+paperAudioBar.style.display =
+'none';
+
 button.innerHTML = '🔊';
 
 return;
 }
 
-/* reset old button */
+/* old button reset */
 
 if (
 currentSpeakerButton &&
@@ -839,6 +848,12 @@ currentSpeakerButton = button;
 paperAudioBar.style.display =
 'block';
 
+/* reset minimize */
+
+paperAudioBar.classList.remove(
+'minimized'
+);
+
 /* play */
 
 paperAudio.src = src;
@@ -848,9 +863,9 @@ paperAudio.play();
 paperNowPlaying.innerHTML =
 title;
 
-/* button icon */
-
 button.innerHTML = '⏸';
+
+paperPlayBtn.innerHTML = '⏸';
 
 };
 
@@ -894,30 +909,15 @@ currentSpeakerButton.innerHTML =
 );
 
 /* =========================
-AUDIO EVENTS
+ENDED
 ========================= */
-
-paperAudio.addEventListener(
-'play',
-() => {
-
-paperPlayBtn.innerHTML = '⏸';
-
-}
-);
-
-paperAudio.addEventListener(
-'pause',
-() => {
-
-paperPlayBtn.innerHTML = '▶';
-
-}
-);
 
 paperAudio.addEventListener(
 'ended',
 () => {
+
+paperAudioBar.style.display =
+'none';
 
 if (currentSpeakerButton) {
 
@@ -975,7 +975,7 @@ paperAudio.duration;
 );
 
 /* =========================
-SPEED CONTROL
+SPEED
 ========================= */
 
 paperFasterBtn.addEventListener(
@@ -1033,7 +1033,7 @@ currentSpeed + 'x';
 }
 
 /* =========================
-FORMAT TIME
+TIME FORMAT
 ========================= */
 
 function formatPaperTime(
@@ -1088,7 +1088,8 @@ paperAudioBar.classList.toggle(
 CLOSE
 ========================= */
 
-paperCloseBtn.addEventListener(
+paperCloseBtn
+.addEventListener(
 'click',
 () => {
 
@@ -1098,6 +1099,10 @@ paperAudio.currentTime = 0;
 
 paperAudioBar.style.display =
 'none';
+
+paperAudioBar.classList.remove(
+'minimized'
+);
 
 if (currentSpeakerButton) {
 
