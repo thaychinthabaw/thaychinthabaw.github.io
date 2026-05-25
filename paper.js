@@ -848,7 +848,9 @@ currentSpeakerButton = button;
 
 paperAudioBar.style.display =
 'block';
-
+paperAudioBar.classList.remove(
+'hidden-bar'
+);
 /* reset minimize */
 
 paperAudioBar.classList.remove(
@@ -1068,6 +1070,23 @@ paperAudio.duration || 0
 )}`;
 
 }
+
+
+/* =========================
+HIDE BAR
+========================= */
+
+paperHideBtn
+.addEventListener(
+'click',
+() => {
+
+paperAudioBar.classList.add(
+'hidden-bar'
+);
+
+}
+);
 
 /* =========================
 MINIMIZE
