@@ -725,12 +725,8 @@ document.addEventListener(
     'DOMContentLoaded',
     init
 );
-})();
+})();/*SINGLE DOMCONTENTLOADED* အဆုံး/
 
-}
-
-}
-);
 
 
 /* =========================
