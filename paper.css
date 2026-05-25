@@ -1089,21 +1089,31 @@ left: 65px;
 
 }
 
-}
-
-/*အသံ ဘားတန်းအတွက် ကုဒ် အဆုံး*/
+}/*အသံ ဘားတန်းအတွက် ကုဒ် အဆုံး*/
 
 /*စက်ထဲသွင်းရန် အစ*/
-.install-btn {
-    background: #443300;
-    color: #f4ecd8;
-    border: 1px solid #443300;
-    font-weight: bold;
-    display: none; /* default hidden */
+.pwa-install-btn{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+
+    background:#443300;
+    color:#f4ecd8;
+
+    font-size:16px;
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:0.2s;
 }
 
-.install-btn:hover {
-    background: #2f2200;
-    transform: scale(1.02);
+.pwa-install-btn:hover{
+    opacity:0.9;
+}
+
+.pwa-install-btn:active{
+    transform:scale(0.98);
 }/*စက်ထဲသွင်းရန် အဆုံး*/
 
