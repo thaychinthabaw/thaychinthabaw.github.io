@@ -1390,22 +1390,11 @@ currentIndex + 1;
 
 if (nextIndex >= buttons.length) {
 
-/* playlist end */
-
-paperAudioBar.style.display =
-'none';
-
-if (currentSpeakerButton) {
-
-currentSpeakerButton.innerHTML =
-'🔊';
-
-}
+playAudioByIndex(0);
 
 return;
 
 }
-
 playAudioByIndex(nextIndex);
 
 }
