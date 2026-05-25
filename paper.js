@@ -1175,80 +1175,87 @@ currentSpeakerButton.innerHTML =
 
 
 /*စက်ထဲသွင်း ဖို့အတွက် ခလုပ်*/
-/* ===== SERVICE WORKER REGISTER ===== */
-
-if ('serviceWorker' in navigator) {
-
-    window.addEventListener('load', () => {
-
-        navigator.serviceWorker.register('./sw.js')
-
-        .then((registration) => {
-            console.log('SW registered:', registration);
-        })
-
-        .catch((error) => {
-            console.log('SW registration failed:', error);
-        });
-
-    });
-
-}
-
-    /* ===== PWA INSTALL SYSTEM ===== */
+/* =========================
+PWA INSTALL SYSTEM
+========================= */
 
 let deferredPrompt;
 
-const installContainer = document.getElementById('install-container');
+const pwaInstallBtn =
+document.getElementById(
+'pwa-install-btn'
+);
 
-const installBtn = document.getElementById('pwa-install-btn');
+/* install available */
 
+window.addEventListener(
+'beforeinstallprompt',
+(e) => {
 
-/* Browser က install ရပြီဆိုရင် */
+e.preventDefault();
 
-window.addEventListener('beforeinstallprompt', (e) => {
+deferredPrompt = e;
 
-    e.preventDefault();
+/* show button */
 
-    deferredPrompt = e;
+if (pwaInstallBtn) {
 
-    if (installContainer) {
-        installContainer.style.display = 'block';
-    }
-
-});
-
-
-/* Button နှိပ်တဲ့အခါ */
-
-if (installBtn) {
-
-    installBtn.addEventListener('click', async () => {
-
-        if (!deferredPrompt) return;
-
-        deferredPrompt.prompt();
-
-        const { outcome } = await deferredPrompt.userChoice;
-
-        console.log('Install result:', outcome);
-
-        deferredPrompt = null;
-
-        installContainer.style.display = 'none';
-
-    });
+pwaInstallBtn.style.display =
+'flex';
 
 }
 
+}
+);
 
-/* Install ပြီးသွားရင် */
+/* install click */
 
-window.addEventListener('appinstalled', () => {
+if (pwaInstallBtn) {
 
-    console.log('PWA Installed');
+pwaInstallBtn.addEventListener(
+'click',
+async () => {
 
-    installContainer.style.display = 'none';
+if (!deferredPrompt) return;
 
-});
+deferredPrompt.prompt();
+
+/* user choice */
+
+const {
+outcome
+} =
+await deferredPrompt.userChoice;
+
+/* hide after install */
+
+if (outcome === 'accepted') {
+
+pwaInstallBtn.style.display =
+'none';
+
+}
+
+deferredPrompt = null;
+
+}
+);
+
+}
+
+/* already installed */
+
+window.addEventListener(
+'appinstalled',
+() => {
+
+if (pwaInstallBtn) {
+
+pwaInstallBtn.style.display =
+'none';
+
+}
+
+}
+);
 /*စက်ထဲသွင်း ဖို့အတွက် ခလုပ်*/
