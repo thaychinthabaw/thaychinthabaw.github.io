@@ -728,156 +728,383 @@ document.addEventListener(
 })();
 
 /* =========================
-INLINE AUDIO SYSTEM
+PAPER AUDIO SYSTEM
 ========================= */
 
-const inlineAudio =
-document.getElementById('inline-audio');
+const paperAudio =
+document.getElementById(
+'paper-audio'
+);
 
-const inlinePlayer =
-document.getElementById('inline-player');
+const paperAudioBar =
+document.getElementById(
+'paper-audio-bar'
+);
 
-const inlineBtns =
-document.querySelectorAll('.inline-audio-btn');
+const paperPlayBtn =
+document.getElementById(
+'paper-play-btn'
+);
 
-const inlinePlayBtn =
-document.getElementById('inline-play-btn');
+const paperSeekbar =
+document.getElementById(
+'paper-seekbar'
+);
 
-const inlineCloseBtn =
-document.getElementById('inline-close-btn');
+const paperNowPlaying =
+document.getElementById(
+'paper-now-playing'
+);
 
-const inlineSeekbar =
-document.getElementById('inline-seekbar');
+const paperTimeDisplay =
+document.getElementById(
+'paper-time-display'
+);
 
-const inlineNowPlaying =
-document.getElementById('inline-now-playing');
+const paperCloseBtn =
+document.getElementById(
+'paper-close-btn'
+);
 
-let currentInlineBtn = null;
+const paperMinimizeBtn =
+document.getElementById(
+'paper-minimize-btn'
+);
 
-/* ===== BUTTON CLICK ===== */
+const paperFasterBtn =
+document.getElementById(
+'paper-faster-btn'
+);
 
-inlineBtns.forEach(btn => {
+const paperSlowerBtn =
+document.getElementById(
+'paper-slower-btn'
+);
 
-btn.addEventListener('click', () => {
+const paperSpeedDisplay =
+document.getElementById(
+'paper-speed-display'
+);
 
-const audioSrc =
-btn.dataset.audio;
+/* =========================
+STATE
+========================= */
 
-/* SAME BUTTON TOGGLE */
+let currentSpeakerButton = null;
 
-if (
-currentInlineBtn === btn &&
-!inlineAudio.paused
+let currentSpeed = 1;
+
+/* =========================
+TOGGLE AUDIO
+========================= */
+
+window.togglePaperAudio =
+function(
+button,
+src,
+title
 ) {
 
-inlineAudio.pause();
+/* same audio + playing */
+
+if (
+paperAudio.src.includes(src)
+&&
+!paperAudio.paused
+) {
+
+paperAudio.pause();
+
+button.innerHTML = '🔊';
 
 return;
 }
 
-/* PLAY NEW AUDIO */
+/* reset old button */
 
-currentInlineBtn = btn;
+if (
+currentSpeakerButton &&
+currentSpeakerButton !== button
+) {
 
-inlineAudio.src = audioSrc;
+currentSpeakerButton.innerHTML =
+'🔊';
 
-inlineAudio.play();
+}
 
-inlinePlayer.classList.remove('hidden');
+currentSpeakerButton = button;
 
-inlineNowPlaying.textContent =
-'အသံဖွင့်ထားသည်';
+/* show bar */
 
-});
+paperAudioBar.style.display =
+'block';
 
-});
+/* play */
 
-/* ===== PLAY / PAUSE ===== */
+paperAudio.src = src;
 
-inlinePlayBtn.addEventListener(
+paperAudio.play();
+
+paperNowPlaying.innerHTML =
+title;
+
+/* button icon */
+
+button.innerHTML = '⏸';
+
+};
+
+/* =========================
+PLAY / PAUSE
+========================= */
+
+paperPlayBtn.addEventListener(
 'click',
 () => {
 
-if (inlineAudio.paused) {
+if (paperAudio.paused) {
 
-inlineAudio.play();
+paperAudio.play();
+
+paperPlayBtn.innerHTML = '⏸';
+
+if (currentSpeakerButton) {
+
+currentSpeakerButton.innerHTML =
+'⏸';
+
+}
 
 } else {
 
-inlineAudio.pause();
+paperAudio.pause();
+
+paperPlayBtn.innerHTML = '▶';
+
+if (currentSpeakerButton) {
+
+currentSpeakerButton.innerHTML =
+'🔊';
+
+}
 
 }
 
 }
 );
 
-inlineAudio.addEventListener(
+/* =========================
+AUDIO EVENTS
+========================= */
+
+paperAudio.addEventListener(
 'play',
 () => {
 
-inlinePlayBtn.textContent = '⏸';
+paperPlayBtn.innerHTML = '⏸';
 
 }
 );
 
-inlineAudio.addEventListener(
+paperAudio.addEventListener(
 'pause',
 () => {
 
-inlinePlayBtn.textContent = '▶';
+paperPlayBtn.innerHTML = '▶';
 
 }
 );
 
-/* ===== SEEK ===== */
+paperAudio.addEventListener(
+'ended',
+() => {
 
-inlineAudio.addEventListener(
+if (currentSpeakerButton) {
+
+currentSpeakerButton.innerHTML =
+'🔊';
+
+}
+
+}
+);
+
+/* =========================
+TIME UPDATE
+========================= */
+
+paperAudio.addEventListener(
 'timeupdate',
 () => {
 
-if (!inlineAudio.duration) return;
+if (!paperAudio.duration) return;
 
-inlineSeekbar.value =
+paperSeekbar.value =
+
 (
-inlineAudio.currentTime
+paperAudio.currentTime
 /
-inlineAudio.duration
-) * 100;
+paperAudio.duration
+)
+* 100;
+
+updatePaperTime();
 
 }
 );
 
-inlineSeekbar.addEventListener(
+/* =========================
+SEEK
+========================= */
+
+paperSeekbar.addEventListener(
 'input',
 () => {
 
-if (!inlineAudio.duration) return;
+if (!paperAudio.duration) return;
 
-inlineAudio.currentTime =
+paperAudio.currentTime =
+
 (
-inlineSeekbar.value / 100
+paperSeekbar.value / 100
 )
 *
-inlineAudio.duration;
+paperAudio.duration;
 
 }
 );
 
-/* ===== CLOSE ===== */
+/* =========================
+SPEED CONTROL
+========================= */
 
-inlineCloseBtn.addEventListener(
+paperFasterBtn.addEventListener(
 'click',
 () => {
 
-inlineAudio.pause();
+if (currentSpeed < 3) {
 
-inlineAudio.currentTime = 0;
+currentSpeed += 0.25;
 
-inlinePlayer.classList.add(
-'hidden'
+currentSpeed =
+parseFloat(
+currentSpeed.toFixed(2)
 );
 
-currentInlineBtn = null;
+paperAudio.playbackRate =
+currentSpeed;
+
+updateSpeedDisplay();
+
+}
+
+}
+);
+
+paperSlowerBtn.addEventListener(
+'click',
+() => {
+
+if (currentSpeed > 0.25) {
+
+currentSpeed -= 0.25;
+
+currentSpeed =
+parseFloat(
+currentSpeed.toFixed(2)
+);
+
+paperAudio.playbackRate =
+currentSpeed;
+
+updateSpeedDisplay();
+
+}
+
+}
+);
+
+function updateSpeedDisplay() {
+
+paperSpeedDisplay.innerHTML =
+
+currentSpeed + 'x';
+
+}
+
+/* =========================
+FORMAT TIME
+========================= */
+
+function formatPaperTime(
+seconds
+) {
+
+const min =
+Math.floor(seconds / 60);
+
+const sec =
+Math.floor(seconds % 60);
+
+return `${min}:${
+sec
+.toString()
+.padStart(2,'0')
+}`;
+
+}
+
+function updatePaperTime() {
+
+paperTimeDisplay.innerHTML =
+
+`${formatPaperTime(
+paperAudio.currentTime
+)}
+/
+${formatPaperTime(
+paperAudio.duration || 0
+)}`;
+
+}
+
+/* =========================
+MINIMIZE
+========================= */
+
+paperMinimizeBtn
+.addEventListener(
+'click',
+() => {
+
+paperAudioBar.classList.toggle(
+'minimized'
+);
+
+}
+);
+
+/* =========================
+CLOSE
+========================= */
+
+paperCloseBtn.addEventListener(
+'click',
+() => {
+
+paperAudio.pause();
+
+paperAudio.currentTime = 0;
+
+paperAudioBar.style.display =
+'none';
+
+if (currentSpeakerButton) {
+
+currentSpeakerButton.innerHTML =
+'🔊';
+
+}
 
 }
 );/*အဆုံး*/
