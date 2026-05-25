@@ -1174,3 +1174,42 @@ currentSpeakerButton.innerHTML =
 );/*အဆုံး*/
 
 
+/*စက်ထဲသွင်း ဖို့အတွက် ခလုပ်*/
+let deferredPrompt = null;
+
+const installBtn = document.getElementById('install-btn');
+
+/* =========================
+   BEFORE INSTALL EVENT
+========================= */
+window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+
+    // button show
+    if (installBtn) {
+        installBtn.style.display = 'block';
+    }
+});
+
+/* =========================
+   INSTALL BUTTON CLICK
+========================= */
+if (installBtn) {
+    installBtn.addEventListener('click', async () => {
+        if (!deferredPrompt) return;
+
+        deferredPrompt.prompt();
+
+        const choice = await deferredPrompt.userChoice;
+
+        if (choice.outcome === 'accepted') {
+            console.log('App installed');
+        } else {
+            console.log('User dismissed install');
+        }
+
+        deferredPrompt = null;
+        installBtn.style.display = 'none';
+    });
+}/*စက်ထဲသွင်း ဖို့အတွက် ခလုပ်*/
