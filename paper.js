@@ -726,3 +726,160 @@ document.addEventListener(
     init
 );
 })();
+
+/* =========================
+INLINE AUDIO SYSTEM
+========================= */
+
+const inlineAudio =
+document.getElementById('inline-audio');
+
+const inlinePlayer =
+document.getElementById('inline-player');
+
+const inlineBtns =
+document.querySelectorAll('.inline-audio-btn');
+
+const inlinePlayBtn =
+document.getElementById('inline-play-btn');
+
+const inlineCloseBtn =
+document.getElementById('inline-close-btn');
+
+const inlineSeekbar =
+document.getElementById('inline-seekbar');
+
+const inlineNowPlaying =
+document.getElementById('inline-now-playing');
+
+let currentInlineBtn = null;
+
+/* ===== BUTTON CLICK ===== */
+
+inlineBtns.forEach(btn => {
+
+btn.addEventListener('click', () => {
+
+const audioSrc =
+btn.dataset.audio;
+
+/* SAME BUTTON TOGGLE */
+
+if (
+currentInlineBtn === btn &&
+!inlineAudio.paused
+) {
+
+inlineAudio.pause();
+
+return;
+}
+
+/* PLAY NEW AUDIO */
+
+currentInlineBtn = btn;
+
+inlineAudio.src = audioSrc;
+
+inlineAudio.play();
+
+inlinePlayer.classList.remove('hidden');
+
+inlineNowPlaying.textContent =
+'အသံဖွင့်ထားသည်';
+
+});
+
+});
+
+/* ===== PLAY / PAUSE ===== */
+
+inlinePlayBtn.addEventListener(
+'click',
+() => {
+
+if (inlineAudio.paused) {
+
+inlineAudio.play();
+
+} else {
+
+inlineAudio.pause();
+
+}
+
+}
+);
+
+inlineAudio.addEventListener(
+'play',
+() => {
+
+inlinePlayBtn.textContent = '⏸';
+
+}
+);
+
+inlineAudio.addEventListener(
+'pause',
+() => {
+
+inlinePlayBtn.textContent = '▶';
+
+}
+);
+
+/* ===== SEEK ===== */
+
+inlineAudio.addEventListener(
+'timeupdate',
+() => {
+
+if (!inlineAudio.duration) return;
+
+inlineSeekbar.value =
+(
+inlineAudio.currentTime
+/
+inlineAudio.duration
+) * 100;
+
+}
+);
+
+inlineSeekbar.addEventListener(
+'input',
+() => {
+
+if (!inlineAudio.duration) return;
+
+inlineAudio.currentTime =
+(
+inlineSeekbar.value / 100
+)
+*
+inlineAudio.duration;
+
+}
+);
+
+/* ===== CLOSE ===== */
+
+inlineCloseBtn.addEventListener(
+'click',
+() => {
+
+inlineAudio.pause();
+
+inlineAudio.currentTime = 0;
+
+inlinePlayer.classList.add(
+'hidden'
+);
+
+currentInlineBtn = null;
+
+}
+);/*အဆုံး*/
+
+
