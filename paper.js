@@ -1212,4 +1212,14 @@ if (installBtn) {
         deferredPrompt = null;
         installBtn.style.display = 'none';
     });
-}/*စက်ထဲသွင်း ဖို့အတွက် ခလုပ်*/
+}
+
+
+/* =========================
+   SERVICE WORKER REGISTER
+========================= */
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js')
+        .then(() => console.log('SW registered'));
+}
+/*စက်ထဲသွင်း ဖို့အတွက် ခလုပ်*/
