@@ -1092,3 +1092,18 @@ left: 65px;
 }
 
 /*အသံ ဘားတန်းအတွက် ကုဒ် အဆုံး*/
+
+/*စက်ထဲသွင်းရန် အစ*/
+.install-btn {
+    background: #443300;
+    color: #f4ecd8;
+    border: 1px solid #443300;
+    font-weight: bold;
+    display: none; /* default hidden */
+}
+
+.install-btn:hover {
+    background: #2f2200;
+    transform: scale(1.02);
+}/*စက်ထဲသွင်းရန် အဆုံး*/
+
