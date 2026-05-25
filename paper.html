@@ -4910,22 +4910,18 @@ FLOATING AUDIO BAR
 class="paper-audio-bar"
 id="paper-audio-bar">
 
-<!-- TOP -->
+<!-- HEADER -->
 
 <div class="paper-audio-top">
 
 <div class="paper-audio-info">
 
 <div id="paper-now-playing">
-
 အသံမဖွင့်ရသေးပါ
-
 </div>
 
 <div id="paper-time-display">
-
 00:00 / 00:00
-
 </div>
 
 </div>
@@ -4936,7 +4932,8 @@ id="paper-audio-bar">
 
 <button
 id="paper-minimize-btn"
-class="paper-top-btn">
+class="paper-top-btn"
+title="Minimize">
 
 ▁
 
@@ -4946,7 +4943,8 @@ class="paper-top-btn">
 
 <button
 id="paper-close-btn"
-class="paper-top-btn">
+class="paper-top-btn"
+title="Close">
 
 ×
 
@@ -4956,7 +4954,7 @@ class="paper-top-btn">
 
 </div>
 
-<!-- CONTROLS -->
+<!-- BODY -->
 
 <div
 class="paper-audio-body"
@@ -4964,41 +4962,23 @@ id="paper-audio-body">
 
 <div class="paper-audio-controls">
 
-<!-- play pause -->
-
 <button id="paper-play-btn">
-
-▶
-
+⏸
 </button>
-
-<!-- slower -->
 
 <button id="paper-slower-btn">
-
 - SPEED
-
 </button>
-
-<!-- speed text -->
 
 <div id="paper-speed-display">
-
 1x
-
 </div>
 
-<!-- faster -->
-
 <button id="paper-faster-btn">
-
 + SPEED
-
 </button>
 
 </div>
-
-<!-- seek -->
 
 <input
 type="range"
@@ -5010,8 +4990,6 @@ max="100">
 </div>
 
 </div>
-
-<!-- AUDIO -->
 
 <audio id="paper-audio"></audio><!-- =========================
 INLINE AUDIO BAR
