@@ -924,6 +924,9 @@ currentSpeakerButton = button;
 
 paperAudioBar.style.display =
 'block';
+paperShowBarBtn.style.display =
+'none';
+    
 paperAudioBar.classList.remove(
 'hidden-bar'
 );
@@ -1121,6 +1124,18 @@ paperRepeatBtn.classList.toggle(
 repeatOne
 );
 
+/* 🔂 ON => ⏭️ OFF */
+
+if (repeatOne) {
+
+autoNextEnabled = false;
+
+paperAutonextBtn.classList.remove(
+'paper-mode-active'
+);
+
+}
+
 }
 );/*REPEAT TOGGLEအဆုံး*/
 
@@ -1139,6 +1154,18 @@ paperAutonextBtn.classList.toggle(
 'paper-mode-active',
 autoNextEnabled
 );
+
+/* ⏭️ ON => 🔂 OFF */
+
+if (autoNextEnabled) {
+
+repeatOne = false;
+
+paperRepeatBtn.classList.remove(
+'paper-mode-active'
+);
+
+}
 
 }
 );/*AUTO NEXT TOGGLEအဆုံး*/
@@ -1401,31 +1428,20 @@ buttons.indexOf(
 currentSpeakerButton
 );
 
-const nextIndex =
+let nextIndex =
 currentIndex + 1;
+
+/* last audio => go first */
 
 if (nextIndex >= buttons.length) {
 
-/* playlist end */
-
-paperAudioBar.style.display =
-'none';
-
-if (currentSpeakerButton) {
-
-currentSpeakerButton.innerHTML =
-'🔊';
-
-}
-
-return;
+nextIndex = 0;
 
 }
 
 playAudioByIndex(nextIndex);
 
 }
-
 /* =========================
 PREVIOUS AUDIO
 ========================= */
@@ -1447,17 +1463,21 @@ buttons.indexOf(
 currentSpeakerButton
 );
 
-const prevIndex =
+let prevIndex =
 currentIndex - 1;
 
+/* first audio => go last */
+
 if (prevIndex < 0) {
-return;
+
+prevIndex =
+buttons.length - 1;
+
 }
 
 playAudioByIndex(prevIndex);
 
 }
-
 /* =========================
 NEXT BUTTON
 ========================= */
