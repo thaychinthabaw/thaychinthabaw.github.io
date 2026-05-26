@@ -890,9 +890,17 @@ title
 
 /* same audio + playing */
 
+const isSameButton =
+currentSpeakerButton === button;
+
+const isSameAudio =
+paperAudio.src.includes(src);
+
+/* same button + same audio + playing */
+
 if (
-paperAudio.src.includes(src)
-&&
+isSameButton &&
+isSameAudio &&
 !paperAudio.paused
 ) {
 
