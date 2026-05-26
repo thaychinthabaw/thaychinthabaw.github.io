@@ -25,7 +25,7 @@ import './js/gestures/long-press-select.js';
 let currentLineHeight = 2.0;
 let currentLetterSpacing = 0;
 /* ========================= SEMANTIC SYSTEM ========================= */
-function buildSemanticParagraphs() {
+/*function buildSemanticParagraphs() {
     const containers = document.querySelectorAll('.raw-text');
     let globalIndex = 1;
 
@@ -61,7 +61,7 @@ function buildSemanticParagraphs() {
             globalIndex++;
         });
     });
-}
+}*/
 function saveReadingPosition() {
     const paragraphs =
         document.querySelectorAll('.raw-text p');
