@@ -1682,3 +1682,52 @@ paperSleepCancelBtn.addEventListener(
 
     }
 );/*------SLEEP TIMER STARTအဆုံး -------*/
+
+
+/* =========================
+AUTO PLAY FROM LINK
+========================= */
+
+window.addEventListener(
+'load',
+() => {
+
+const params =
+new URLSearchParams(
+window.location.search
+);
+
+const shouldAutoplay =
+params.get('autoplay');
+
+const hash =
+window.location.hash;
+
+if (
+shouldAutoplay === '1'
+&&
+hash
+) {
+
+setTimeout(() => {
+
+const target =
+document.querySelector(hash);
+
+if (!target) return;
+
+const button =
+target.querySelector(
+'.speaker-btn'
+);
+
+if (!button) return;
+
+button.click();
+
+}, 1200);
+
+}
+
+}
+);
