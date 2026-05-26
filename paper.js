@@ -710,10 +710,6 @@ function init() {
             }
         });
     }
-
-
-
-    
     /* ===== EXPORT FUNCTIONS ===== */
     window.toggleTOC = toggleTOC;
     window.toggleSetting = toggleSetting;
@@ -729,7 +725,7 @@ document.addEventListener(
     'DOMContentLoaded',
     init
 );
-})();/*SINGLE DOMCONTENTLOADED* အဆုံး/
+})();/*SINGLE DOMCONTENTLOADED အဆုံး*/
 
 
 
