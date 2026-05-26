@@ -1414,320 +1414,203 @@ data.title
 
 }
 
-/* =========================
-NEXT AUDIO
-========================= */
-
+/* NEXT AUDIO */
 function playNextAudio() {
 
 const buttons =
 getAudioButtons();
-
-if (
-!currentSpeakerButton ||
-buttons.length === 0
-) {
-return;
-}
-
+if (!currentSpeakerButton ||buttons.length === 0
+) {return;}
 const currentIndex =
-buttons.indexOf(
-currentSpeakerButton
-);
-
+buttons.indexOf(currentSpeakerButton);
 let nextIndex =
 currentIndex + 1;
 
 /* last audio => go first */
+if (nextIndex >= buttons.length) {nextIndex = 0;}
+playAudioByIndex(nextIndex);}
+/*NEXT AUDIO အဆုံး*/
 
-if (nextIndex >= buttons.length) {
-
-nextIndex = 0;
-
-}
-
-playAudioByIndex(nextIndex);
-
-}
-/* =========================
-PREVIOUS AUDIO
-========================= */
-
+/* PREVIOUS AUDIO */
 function playPreviousAudio() {
 
 const buttons =
 getAudioButtons();
-
 if (
 !currentSpeakerButton ||
-buttons.length === 0
-) {
-return;
-}
-
+buttons.length === 0) {return;}
 const currentIndex =
 buttons.indexOf(
 currentSpeakerButton
 );
-
 let prevIndex =
-currentIndex - 1;
+currentIndex - 1; /*PREVIOUS AUDIO*/
 
 /* first audio => go last */
-
 if (prevIndex < 0) {
-
 prevIndex =
-buttons.length - 1;
+buttons.length - 1;}
+playAudioByIndex(prevIndex);}/* first audio => go last */
 
-}
-
-playAudioByIndex(prevIndex);
-
-}
-/* =========================
-NEXT BUTTON
-========================= */
-
+/* NEXT BUTTON */
 paperNextBtn.addEventListener(
 'click',
 () => {
-
 playNextAudio();
+});/* NEXT BUTTON */
 
-}
-);
-
-/* =========================
-PREVIOUS BUTTON
-========================= */
-
+/* PREVIOUS BUTTON */
 paperPrevBtn.addEventListener(
 'click',
 () => {
-
 playPreviousAudio();
+});/*PREVIOUS BUTTONအဆုံး*/
 
-}
-);/*PREVIOUS BUTTONအဆုံး*/
-
-
-
-/* ========================= SLEEP TIMER START ========================= */
-
+/*  SLEEP TIMER START  */
 paperSleepStartBtn.addEventListener(
     'click',
     () => {
-
         const value =
             parseInt(
                 paperSleepInput.value
             );
-
         const unit =
             paperSleepUnit.value;
 
         /* validation */
-
         if (
             isNaN(value)
         ) {
-
             alert(
                 'အချိန်ရိုက်ထည့်ပါ'
             );
-
             return;
-
         }
-
         let totalMinutes = value;
-
         if (unit === 'hour') {
-
             totalMinutes =
                 value * 60;
-
-        }
+        }/* validation */
 
         /* 1 minute → 8 hour */
-
         if (
             totalMinutes < 1 ||
             totalMinutes > 480
         ) {
-
             alert(
-                '1 minute မှ 8 hour အတွင်းပဲ ရပါတယ်'
+                '1 minute မှ 8 hour(480 မိနစ်) အတွင်းပဲ ရပါတယ်'
             );
-
             return;
-
-        }
+        } /* 1 minute → 8 hour */
 
         /* old timer clear */
-
         clearTimeout(sleepTimer);
-
-        clearInterval(sleepInterval);
+        clearInterval(sleepInterval);/* old timer clear */
 
         /* end time */
-
         sleepEndTime =
             Date.now()
             +
-            (
-                totalMinutes
+            (totalMinutes
                 * 60
                 * 1000
-            );
+            );/* end time */
 
         /* main timer */
-
         sleepTimer =
             setTimeout(() => {
-
                 paperAudio.pause();
-
                 paperAudioBar.style.display =
                     'none';
-
                 paperShowBarBtn.style.display =
                     'none';
-
                 if (
                     currentSpeakerButton
                 ) {
-
                     currentSpeakerButton.innerHTML =
                         '🔊';
-
                 }
-
                 paperSleepStatus.innerHTML =
                     '⏰ Sleep Finished';
-
             },
             totalMinutes
             * 60
             * 1000
-        );
+        );/* main timer */
 
         /* live countdown */
-
         sleepInterval =
             setInterval(() => {
-
                 const remain =
                     sleepEndTime
                     - Date.now();
-
                 if (remain <= 0) {
-
                     clearInterval(
                         sleepInterval
                     );
-
                     return;
-
                 }
-
                 const totalSec =
                     Math.floor(
                         remain / 1000
                     );
-
                 const h =
                     Math.floor(
                         totalSec / 3600
                     );
-
                 const m =
                     Math.floor(
                         (
                             totalSec % 3600
                         ) / 60
                     );
-
                 const s =
                     totalSec % 60;
-
                 paperSleepStatus.innerHTML =
                     `😴 ${h}h ${m}m ${s}s`;
-
             }, 1000);
-
         paperSleepStatus.innerHTML =
-            '😴 Timer Started';
+            '😴 Timer Started';});/* live countdown */
 
-    }
-);
-
-/* ========================= CANCEL ========================= */
-
+/* cancel ခလုပ်အတွက်*/
 paperSleepCancelBtn.addEventListener(
     'click',
     () => {
-
         clearTimeout(sleepTimer);
-
         clearInterval(sleepInterval);
-
         sleepTimer = null;
-
         sleepEndTime = null;
-
         paperSleepStatus.innerHTML =
             'No Timer';
+});/* cancel ခလုပ်အတွက်*/
+/*SLEEP TIMER START အဆုံး */
 
-    }
-);/*------SLEEP TIMER STARTအဆုံး -------*/
-
-
-/* =========================
-AUTO PLAY FROM LINK
-========================= */
-
+/* AUTO PLAY FROM LINK*/
 window.addEventListener(
 'load',
 () => {
-
 const params =
 new URLSearchParams(
 window.location.search
 );
-
 const shouldAutoplay =
 params.get('autoplay');
-
 const hash =
 window.location.hash;
-
 if (
 shouldAutoplay === '1'
 &&
 hash
 ) {
-
 setTimeout(() => {
-
 const target =
 document.querySelector(hash);
-
 if (!target) return;
-
 const button =
 target.querySelector(
 '.speaker-btn'
 );
-
 if (!button) return;
-
 button.click();
-
 }, 1200);
-
-}
-
-}
-);
+}});/* AUTO PLAY FROM LINK ဒီကုဒ်အစအဆုံးကို about.htmlနှင့် portfolio.html မှ အသံဖိုင်လင့်နှင့် နားထောင်ရန်သုံးထားသည်။ AUTO PLAY FROM LINK*/
