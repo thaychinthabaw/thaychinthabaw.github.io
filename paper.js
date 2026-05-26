@@ -901,6 +901,9 @@ paperAudio.pause();
 paperAudioBar.style.display =
 'none';
 
+paperShowBarBtn.style.display =
+'none';
+
 button.innerHTML = '🔊';
 
 return;
