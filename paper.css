@@ -1221,5 +1221,61 @@ color: #f4ecd8 !important;
 
 }
 
-/*အသံ။rgba(234, 222, 188, 0.9) #eadebc  #b38b00 #ffffff ဘားတန်းအတွက် ကုဒ် အဆုံး*/
+/*အသံ ဘားတန်းအတွက် ကုဒ် အဆုံး*/
 
+
+/* =========================
+SPEAKER BUTTON
+========================= */
+
+.speaker-btn {
+
+    width: 52px;
+
+    height: 52px;
+
+    border-radius: 50%;
+
+    border: 1px solid #443300;
+
+    background: #f4ecd8;
+
+    color: #443300;
+
+    font-size: 26px;
+
+    cursor: pointer;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 0;
+
+    margin-right: 10px;
+
+    vertical-align: middle;
+
+    box-shadow:
+    0 4px 10px rgba(0,0,0,0.15);
+
+    transition: 0.2s;
+}
+
+/* hover */
+
+.speaker-btn:hover {
+
+    transform: scale(1.05);
+
+}
+
+/* playing state */
+
+.speaker-btn:active {
+
+    transform: scale(0.96);
+
+}
