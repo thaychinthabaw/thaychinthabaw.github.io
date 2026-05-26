@@ -1221,9 +1221,7 @@ color: #f4ecd8 !important;
 /*အသံ ဘားတန်းအတွက် ကုဒ် အဆုံး*/
 
 
-/* =========================
-SPEAKER BUTTON
-========================= */
+/* SPEAKER BUTTON 🔊 သီချင်းခလုပ်အတွက် */
 
 .speaker-btn {
 
@@ -1275,4 +1273,5 @@ SPEAKER BUTTON
 
     transform: scale(0.96);
 
-}
+}/* SPEAKER BUTTON 🔊 သီချင်းခလုပ်အတွက် */
+
