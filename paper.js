@@ -1,11 +1,11 @@
 (() => {
 'use strict';
-/* =========================
+/* ==
    GLOBAL STATE
-========================= */
+== */
 let currentLineHeight = 2.0;
 let currentLetterSpacing = 0;
-/* ========================= SEMANTIC SYSTEM ========================= */
+/* == SEMANTIC SYSTEM == */
 function buildSemanticParagraphs() {
     const containers = document.querySelectorAll('.raw-text');
     let globalIndex = 1;
@@ -56,15 +56,12 @@ function saveReadingPosition() {
         ) {
             currentParagraph = p.dataset.p;
             /*
-            paragraph အတွင်း
-            user ဘယ်လောက်အောက်ရောက်နေတယ်
+            paragraph အတွင်း user ဘယ်လောက်အောက်ရောက်နေတယ်
             ဆိုတာတွက်ခြင်း
             */
             offsetRatio =
                 Math.abs(rect.top)
-                / rect.height;
-        }
-    });
+                / rect.height;     }});
     if (currentParagraph) {
         localStorage.setItem(
             'readingPosition',
@@ -185,9 +182,9 @@ function toggleReadingMode() {
             'rgba(234, 222, 188, 0.4)';
     }
 }
-/* =========================
+/* ==
    LAST READ SYSTEM
-========================= */
+== */
 function saveCurrentPage() {
     localStorage.setItem(
         'lastReadTitle',
@@ -228,9 +225,9 @@ function showLastReadLink() {
         `;
     }
 }
-/* =========================
+/* ==
    LINE HEIGHT SYSTEM
-========================= */
+== */
 function applyLineHeight() {
     const content =
         document.getElementById('reading-content');
@@ -273,9 +270,9 @@ function adjustLineHeight(amount) {
         }, 100);
     }
 }
-/* =========================
+/* ==
    LETTER SPACING SYSTEM
-========================= */
+== */
 function applyLetterSpacing() {
     const content =
         document.getElementById('reading-content');
@@ -317,9 +314,9 @@ function adjustLetterSpacing(amount) {
         }, 100);
     }
 }
-/* =========================
+/* ==
    TOC SEARCH
-========================= */
+== */
 function clearTOCSearch() {
     const tocSearch =
         document.getElementById('toc-search');
@@ -332,9 +329,9 @@ function clearTOCSearch() {
         item.style.display = 'block';
     });
 }
-/* =========================
+/* ==
    MAIN INIT
-========================= */
+== */
 function init() {
     const article =
         document.querySelector('article');
@@ -718,9 +715,9 @@ function init() {
     window.adjustLineHeight = adjustLineHeight;
     window.adjustLetterSpacing = adjustLetterSpacing;
 }
-/* =========================
+/* ==
    SINGLE DOMCONTENTLOADED
-========================= */
+== */
 document.addEventListener(
     'DOMContentLoaded',
     init
@@ -729,9 +726,9 @@ document.addEventListener(
 
 
 
-/* =========================
+/* ==
 PAPER AUDIO SYSTEM
-========================= */
+== */
 
 const paperAudio =
 document.getElementById(
@@ -866,12 +863,11 @@ document.getElementById(
 
 
 
-/* =========================
+/* ==
 STATE
-========================= */
+== */
 
 let currentSpeakerButton = null;
-
 let currentSpeed = 1;
 
 /* repeat current audio */
@@ -908,16 +904,6 @@ paperAudio
 const gainNode =
 audioContext.createGain();
 
-source.connect(gainNode);
-
-gainNode.connect(voiceEQ);
-
-voiceEQ.connect(nightEQ);
-
-nightEQ.connect(
-audioContext.destination
-);
-
 /* ==
 VOICE FILTER SYSTEM
 == */
@@ -932,7 +918,7 @@ voiceEQ.frequency.value = 2500;
 
 voiceEQ.Q.value = 1;
 
-voiceEQ.gain.value = 0;/* 🎙 Voice clarity */
+voiceEQ.gain.value = 0;
 
 /* 🌙 Night listening */
 const nightEQ =
@@ -942,7 +928,22 @@ nightEQ.type = 'highshelf';
 
 nightEQ.frequency.value = 3000;
 
-nightEQ.gain.value = 0;/* 🌙 Night listening */
+nightEQ.gain.value = 0;
+
+/* == CONNECT == */
+
+source.connect(gainNode);
+
+gainNode.connect(voiceEQ);
+
+voiceEQ.connect(nightEQ);
+
+nightEQ.connect(
+audioContext.destination
+);
+
+/* default volume */
+gainNode.gain.value = 1;/* 🌙 Night listening */
 
 /* default */
 gainNode.gain.value = 1; /*VOLUME BOOSTER SYSTEM*/
