@@ -1,6 +1,8 @@
 import './js/core/init.js';
 
-import './js/reader/semantic.js';
+import {
+    buildSemanticParagraphs
+} from './js/reader/semantic.js';
 import './js/reader/reading-position.js';
 import './js/reader/focus-mode.js';
 import './js/reader/toc.js';
