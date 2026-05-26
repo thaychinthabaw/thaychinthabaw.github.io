@@ -1,4 +1,4 @@
-function buildSemanticParagraphs() {
+export function buildSemanticParagraphs() {
     const containers = document.querySelectorAll('.raw-text');
     let globalIndex = 1;
 
