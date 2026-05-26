@@ -1,4 +1,4 @@
-import './js/core/init.js';
+/*import './js/core/init.js';*/
 
 import {
     buildSemanticParagraphs
