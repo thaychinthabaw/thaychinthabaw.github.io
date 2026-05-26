@@ -828,10 +828,17 @@ document.getElementById(
 'paper-next-btn'
 );
 
+const paperVoiceBtn =
+document.getElementById(
+'paper-voice-btn'
+);/*အသံကြည်ခလုပ်*/
 
+const paperNightBtn =
+document.getElementById(
+'paper-night-btn'
+);/*ညအသံငြိမ်ခလုပ်*/
 
 /*  SLEEP TIMER  */
-
 const paperSleepInput =
 document.getElementById(
     'paper-sleep-input'
@@ -873,6 +880,12 @@ let repeatOne = false;
 /* auto next mode */
 let autoNextEnabled = false;
 
+/* 🎙 voice clarity */
+let voiceModeEnabled = false;
+
+/* 🌙 night listening */
+let nightModeEnabled = false;
+
 /* sleep timer */
 let sleepTimer = null;
 
@@ -897,9 +910,39 @@ audioContext.createGain();
 
 source.connect(gainNode);
 
-gainNode.connect(
+gainNode.connect(voiceEQ);
+
+voiceEQ.connect(nightEQ);
+
+nightEQ.connect(
 audioContext.destination
 );
+
+/* ==
+VOICE FILTER SYSTEM
+== */
+
+/* 🎙 Voice clarity */
+const voiceEQ =
+audioContext.createBiquadFilter();
+
+voiceEQ.type = 'peaking';
+
+voiceEQ.frequency.value = 2500;
+
+voiceEQ.Q.value = 1;
+
+voiceEQ.gain.value = 0;/* 🎙 Voice clarity */
+
+/* 🌙 Night listening */
+const nightEQ =
+audioContext.createBiquadFilter();
+
+nightEQ.type = 'highshelf';
+
+nightEQ.frequency.value = 3000;
+
+nightEQ.gain.value = 0;/* 🌙 Night listening */
 
 /* default */
 gainNode.gain.value = 1; /*VOLUME BOOSTER SYSTEM*/
@@ -990,9 +1033,9 @@ paperPlayBtn.innerHTML = '⏸';
 
 };
 
-/* =========================
+/* ==
 PLAY / PAUSE
-========================= */
+== */
 
 paperPlayBtn.addEventListener(
 'click',
@@ -1029,9 +1072,9 @@ currentSpeakerButton.innerHTML =
 }
 );
 
-/* =========================
+/* ==
 ENDED
-========================= */
+== */
 
 paperAudio.addEventListener(
 'ended',
@@ -1074,9 +1117,9 @@ currentSpeakerButton.innerHTML =
 }
 );
 
-/* =========================
+/* ==
 TIME UPDATE
-========================= */
+== */
 
 paperAudio.addEventListener(
 'timeupdate',
@@ -1098,9 +1141,9 @@ updatePaperTime();
 }
 );
 
-/* =========================
+/* ==
 SEEK
-========================= */
+== */
 
 paperSeekbar.addEventListener(
 'input',
@@ -1142,9 +1185,7 @@ value + '%';
 });/*VOLUME SLIDER အဆုံး*/
 
 
-
 /* ==SPEED== */
-
 paperFasterBtn.addEventListener(
 'click',
 () => {
@@ -1165,7 +1206,6 @@ updateSpeedDisplay();
 }});
 
 /* ==REPEAT TOGGLE== */
-
 paperRepeatBtn.addEventListener(
 'click',
 () => {
@@ -1189,7 +1229,6 @@ paperAutonextBtn.classList.remove(
 );/*REPEAT TOGGLEအဆုံး*/
 
 /* ==AUTO NEXT TOGGLE== */
-
 paperAutonextBtn.addEventListener(
 'click',
 () => {
@@ -1210,12 +1249,50 @@ repeatOne = false;
 
 paperRepeatBtn.classList.remove(
 'paper-mode-active'
+);}});/*AUTO NEXT TOGGLEအဆုံး*/
+
+
+/* ==
+🎙 VOICE MODE
+== */
+paperVoiceBtn.addEventListener(
+'click',
+() => {
+voiceModeEnabled =
+!voiceModeEnabled;
+
+/* button active */
+paperVoiceBtn.classList.toggle(
+'paper-mode-active',
+voiceModeEnabled
 );
 
-}
+/* EQ */
+if (voiceModeEnabled) {
+voiceEQ.gain.value = 8;
+} else {
+voiceEQ.gain.value = 0;
+}});/* ==🎙 VOICE MODE အဆုံး== */
 
-}
-);/*AUTO NEXT TOGGLEအဆုံး*/
+/* ==
+🌙 NIGHT MODE
+== */
+paperNightBtn.addEventListener(
+'click',
+() => {
+nightModeEnabled =
+!nightModeEnabled;
+/* button active */
+paperNightBtn.classList.toggle(
+'paper-mode-active',
+nightModeEnabled
+);
+/* soft treble */
+if (nightModeEnabled) {
+nightEQ.gain.value = -10;
+} else {
+nightEQ.gain.value = 0;}
+});/* ==🌙 NIGHT MODEအဆုံး== */
 
 paperSlowerBtn.addEventListener(
 'click',
@@ -1234,11 +1311,7 @@ paperAudio.playbackRate =
 currentSpeed;
 
 updateSpeedDisplay();
-
-}
-
-}
-);
+}});
 
 function updateSpeedDisplay() {
 
@@ -1248,9 +1321,9 @@ currentSpeed + 'x';
 
 }
 
-/* =========================
+/* ==
 TIME FORMAT
-========================= */
+== */
 
 function formatPaperTime(
 seconds
