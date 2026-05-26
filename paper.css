@@ -1275,3 +1275,49 @@ color: #f4ecd8 !important;
 
 }/* SPEAKER BUTTON 🔊 သီချင်းခလုပ်အတွက် */
 
+/* =========================
+VOLUME BOOSTER
+========================= */
+
+.paper-volume-wrap {
+
+display: flex;
+
+align-items: center;
+
+gap: 8px;
+
+width: 100%;
+
+margin-top: 10px;
+
+}
+
+.paper-volume-icon {
+
+font-size: 18px;
+
+}
+
+#paper-volume-slider {
+
+flex: 1;
+
+cursor: pointer;
+
+}
+
+#paper-volume-display {
+
+min-width: 60px;
+
+text-align: center;
+
+font-weight: bold;
+
+color: #443300;
+
+font-size: 14px;
+
+}/*VOLUME BOOSTER အသံအတိုးအလျော့ အတွက်သုံးသည်*/
+
