@@ -118,10 +118,11 @@ function restoreReadingPosition() {
         });
     }, 600);
 }
-/* =================================================================== */
-/* =========================
+/* == */
+
+    /* ==
    TOGGLE SYSTEM
-========================= */
+== */
 function toggleTOC() {
     const tocOverlay =
         document.getElementById('toc-overlay');
