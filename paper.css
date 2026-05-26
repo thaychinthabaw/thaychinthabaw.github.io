@@ -875,32 +875,24 @@ margin-top: 12px;
 SCROLLABLE AUDIO CONTROLS
 == */
 .paper-audio-controls {
-display: flex;
-align-items: center;
-gap: 8px;
-margin-bottom: 10px;
-
-/* wrap မလုပ်တော့ */
-flex-wrap: nowrap;
-
-/* horizontal scroll */
-overflow-x: auto;
-overflow-y: hidden;
--webkit-overflow-scrolling: touch;
-
-/* scrollbar hidden */
-scrollbar-width: none;
-padding-bottom: 4px;
+    display: flex;
+    flex-wrap: wrap; /* အပေါ်အောက် ဆင်းစေ */
+    gap: 10px;
+    margin-bottom: 12px;
 }
-/* controls buttons shrink မဖြစ်စေရန် */
 
+/* buttons */
 .paper-audio-controls button {
-flex-shrink: 0;
-}
-
-/* chrome */
-.paper-audio-controls::-webkit-scrollbar {
-display: none;
+    min-width: 78px;
+    padding: 10px 14px;
+    border: 1px solid #443300;
+    border-radius: 10px;
+    background: #f4ecd8;
+    color: #443300;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    flex: 1;
 }/* ==SCROLLABLE AUDIO CONTROLSအဆုံး== */
 
 .paper-audio-controls button {
