@@ -753,6 +753,16 @@ document.getElementById(
 'paper-seekbar'
 );
 
+const paperVolumeSlider =
+document.getElementById(
+'paper-volume-slider'
+);
+
+const paperVolumeDisplay =
+document.getElementById(
+'paper-volume-display'
+);
+
 const paperNowPlaying =
 document.getElementById(
 'paper-now-playing'
@@ -820,7 +830,7 @@ document.getElementById(
 
 
 
-/* ========================= SLEEP TIMER ========================= */
+/*  SLEEP TIMER  */
 
 const paperSleepInput =
 document.getElementById(
@@ -870,12 +880,32 @@ let sleepEndTime = null;
 
 let sleepInterval = null;/* sleep timer */
 
+/* ==VOLUME BOOSTER SYSTEM== */
+const audioContext =
+new (
+window.AudioContext ||
+window.webkitAudioContext
+)();
+
+const source =
+audioContext.createMediaElementSource(
+paperAudio
+);
+
+const gainNode =
+audioContext.createGain();
+
+source.connect(gainNode);
+
+gainNode.connect(
+audioContext.destination
+);
+
+/* default */
+gainNode.gain.value = 1; /*VOLUME BOOSTER SYSTEM*/
 
 
-
-/* =========================
-TOGGLE AUDIO
-========================= */
+/* ==TOGGLE AUDIO== */
 
 window.togglePaperAudio =
 function(
@@ -1089,9 +1119,31 @@ paperAudio.duration;
 }
 );
 
-/* =========================
-SPEED
-========================= */
+
+/* ==VOLUME SLIDER== */
+
+paperVolumeSlider.addEventListener(
+'input',
+() => {
+const value =
+parseInt(
+paperVolumeSlider.value
+);
+/*
+100 = normal
+300 = 3x boost
+*/
+const gain =
+value / 100;
+gainNode.gain.value =
+gain;
+paperVolumeDisplay.innerHTML =
+value + '%';
+});/*VOLUME SLIDER အဆုံး*/
+
+
+
+/* ==SPEED== */
 
 paperFasterBtn.addEventListener(
 'click',
@@ -1110,22 +1162,14 @@ paperAudio.playbackRate =
 currentSpeed;
 
 updateSpeedDisplay();
+}});
 
-}
-
-}
-);
-
-/* =========================
-REPEAT TOGGLE
-========================= */
+/* ==REPEAT TOGGLE== */
 
 paperRepeatBtn.addEventListener(
 'click',
 () => {
-
 repeatOne = !repeatOne;
-
 paperRepeatBtn.classList.toggle(
 'paper-mode-active',
 repeatOne
@@ -1140,15 +1184,11 @@ autoNextEnabled = false;
 paperAutonextBtn.classList.remove(
 'paper-mode-active'
 );
-
 }
-
 }
 );/*REPEAT TOGGLEအဆုံး*/
 
-/* =========================
-AUTO NEXT TOGGLE
-========================= */
+/* ==AUTO NEXT TOGGLE== */
 
 paperAutonextBtn.addEventListener(
 'click',
@@ -1343,10 +1383,7 @@ currentSpeakerButton.innerHTML =
 
 
 /*ပြန်စ ကျော် ဆက်လုပ် ခလုပ်များ အတွက် အစ */
-
-/* =========================
-GET AUDIO BUTTONS
-========================= */
+/* GET AUDIO BUTTONS */
 
 function getAudioButtons() {
 
@@ -1466,7 +1503,7 @@ paperPrevBtn.addEventListener(
 playPreviousAudio();
 });/*PREVIOUS BUTTONအဆုံး*/
 
-/*  SLEEP TIMER START  */
+/* ==SLEEP TIMER START== */
 paperSleepStartBtn.addEventListener(
     'click',
     () => {
@@ -1585,7 +1622,7 @@ paperSleepCancelBtn.addEventListener(
 });/* cancel ခလုပ်အတွက်*/
 /*SLEEP TIMER START အဆုံး */
 
-/* AUTO PLAY FROM LINK*/
+/* ==AUTO PLAY FROM LINK အစ==*/
 window.addEventListener(
 'load',
 () => {
