@@ -1,3 +1,22 @@
+import './js/core/init.js';
+
+import './js/reader/semantic.js';
+import './js/reader/reading-position.js';
+import './js/reader/focus-mode.js';
+import './js/reader/toc.js';
+
+import './js/typography/font-size.js';
+import './js/typography/line-height.js';
+import './js/typography/letter-spacing.js';
+import './js/typography/font-weight.js';
+
+import './js/audio/audio-player.js';
+import './js/audio/audio-navigation.js';
+import './js/audio/sleep-timer.js';
+import './js/audio/audio-ui.js';
+
+import './js/gestures/long-press-select.js';
+
 (() => {
 'use strict';
 /* =========================
