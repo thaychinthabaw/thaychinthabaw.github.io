@@ -364,17 +364,14 @@ body.sepia-mode {
 
 /* နှိပ်ပြီးသား Link များကိုလည်း အပြာရောင်/ခရမ်းရောင် မပြောင်းစေရန် */
 .toc-list li a:visited {
-    color: #443300 !important; 
-}
-
+    color: #443300 !important; }
 
 /* ခေါင်းစဉ်ကြီးလျှင် အောက်ကြောင်းဆင်းပေးရန် ပြင်ဆင်ချက် */
 .book-header h1, 
 .book-header h2 { 
     inline-size: 100%;
     overflow-wrap: break-word; 
-    word-break: break-word;
-}
+    word-break: break-word;}
 
 /* စာကိုယ်ပိုင်း Font ကြီးလျှင် ဘေးမကားစေရန် ပြင်ဆင်ချက် */
 .content-area { 
@@ -385,8 +382,7 @@ body.sepia-mode {
     width: 100%;
     box-sizing: border-box;
     overflow-wrap: break-word; 
-    word-wrap: break-word;
-}
+    word-wrap: break-word;}
 
 @media print {
     .top-controls, 
@@ -394,27 +390,23 @@ body.sepia-mode {
     .setting-overlay, 
     .toc-overlay,
     #modeToggle {
-        display: none !important;
-    }
+        display: none !important; }
 
     .container {
         width: 100% !important;
         margin: 0 !important;
-        padding: 0 !important;
-    }
+        padding: 0 !important;  }
 
      /* ၃။ စာသားအမည်း၊ နောက်ခံအဖြူ ဖြစ်စေရန် */
     body {
         background: #ffffff !important; 
-        color: #000000 !important;
-    }
+        color: #000000 !important; }
 
     /* ၄။ စာသားအားလုံးကို အမည်းရောင်ဖြစ်စေရန် */
     * {
         color: #000000 !important;
         background: transparent !important;
-    }
-}
+    }}
 
 /* Fullscreen ခလုတ် Style */
 .fullscreen-round-btn {
@@ -432,55 +424,48 @@ body.sepia-mode {
     align-items: center;
     justify-content: center;
     z-index: 2000; 
-    transition: 0.3s;
-}
+    transition: 0.3s;}
 
 /* Focus Mode အသက်ဝင်ချိန် */
 body.focus-mode .top-controls .back-link,
 body.focus-mode .top-controls .right-controls,
 body.focus-mode .floating-left-group,
 body.focus-mode .book-header {
-    display: none !important;
-}
+    display: none !important;}
 
 body.focus-mode .top-controls {
     background: transparent !important;
     border: none !important;
-    box-shadow: none !important;
-}
+    box-shadow: none !important;}
 
 /* မာတိကာတွင် လက်ရှိဖတ်နေသည့် အခန်းကို Highlight ပြရန် */
 .toc-list li a.active-chapter {
     color: #b38b00 !important; 
     font-weight: bold !important;
     border-left: 3px solid #443300;
-    padding-left: 10px;
-}
+    padding-left: 10px;}
 
 /*မာတိကာ အတွင်းမှ စာလုံးဆိုဒ် အစ*/
 /* ခေါင်းစဉ်ကြီးအတွက် CSS */
 .main-title {
     font-size: 22px !important;    /* စာလုံးဆိုဒ်ကို ၂၂ ပေးထားပါသည် */
     font-weight: bold !important;  /* စာလုံးကို အထူးပြု (Bold) လုပ်ထားပါသည် */
-    text-decoration: none;
-}
+    text-decoration: none;}
 
 /* ခေါင်းစဉ်ငယ်အတွက် CSS */
 .sub-title {
     font-size: 22px !important;    /* စာလုံးဆိုဒ်ကို ၁၆ သို့ လျှော့ထားပါသည် */
     font-weight: normal !important; /* စာလုံးကို ပုံမှန်အတိုင်းထားပါသည် */
     padding-left: 20px !important;  /* ဘေးကို နည်းနည်းတိုးပြီး ခေါင်းစဉ်ငယ်ပုံစံသွင်းသည် */
-    text-decoration: none;
-}
+    text-decoration: none;}
+
 /*သုတ္တန်အတွက် css*/
 .title  {
     font-size: 20px !important;    /* စာလုံးဆိုဒ်ကို ၁၆ သို့ လျှော့ထားပါသည် */
     font-weight: normal !important; /* စာလုံးကို ပုံမှန်အတိုင်းထားပါသည် */
     padding-left: 20px !important;  /* ဘေးကို နည်းနည်းတိုးပြီး ခေါင်းစဉ်ငယ်ပုံစံသွင်းသည် */
     text-decoration: none;
-}
-
-/*မာတိကာ အတွင်းမှ စာလုံးဆိုဒ် အဆုံး*/
+}/*မာတိကာ အတွင်းမှ စာလုံးဆိုဒ် အဆုံး*/
 
 /* စာသားကို Select လုပ်လိုက်တဲ့အခါ ပေါ်မယ့်အရောင် အစ */
 ::selection {
@@ -492,8 +477,7 @@ body.focus-mode .top-controls {
 ::-moz-selection {
     background-color: #ffcc00 !important;
     color: #000000 !important;
-}
-/* စာသားကို Select လုပ်လိုက်တဲ့အခါ ပေါ်မယ့်အရောင် အဆုံး */
+}/* စာသားကို Select လုပ်လိုက်တဲ့အခါ ပေါ်မယ့်အရောင် အဆုံး */
 
 /* စာလုံးအထူအပါး အတွက် Style အစ */
 .setting-item-group {
@@ -502,26 +486,19 @@ body.focus-mode .top-controls {
     border: 1px solid #443300;
     border-radius: 6px;
     margin: 8px 0;
-    text-align: center;
-}
-
-
+    text-align: center;}
 
 .setting-title2 {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
     color: #443300;
-    font-size: 16px !important;
-}
-
-
+    font-size: 16px !important;}
 
 .weight-spinner-wrapper {
     display: flex;
     justify-content: center;
-    gap: 12px;
-}
+    gap: 12px;}
 
 .spinner-box {
     display: flex;
@@ -546,30 +523,23 @@ body.focus-mode .top-controls {
     font-size: 1.3rem;
     font-weight: bold;
     color: #443300; 
-    padding: 5px 0;
-}
-
-/* စာလုံးအထူအပါး အတွက် Style အဆုံး */
+    padding: 5px 0;}/* စာလုံးအထူအပါး အတွက် Style အဆုံး */
 
 /* နှိပ်လိုက်ရင် အဝါရောင် ပေါ်ရန် အစ*/
 /* ၁။ တစ်ကမ္ဘာလုံးရှိ နှိပ်သမျှ အရာအားလုံးအတွက် (Safari အပါအဝင်) */
-* {
-    /* ဖုန်းမှာ နှိပ်လိုက်ရင် ပေါ်တဲ့ အပြာရောင်ကို အဝါဖျော့ပြောင်းခြင်း (iOS Safari အတွက် အဓိက) */
-    -webkit-tap-highlight-color: rgba(255, 204, 0, 0.4) !important;
-}
+* { /* ဖုန်းမှာ နှိပ်လိုက်ရင် ပေါ်တဲ့ အပြာရောင်ကို အဝါဖျော့ပြောင်းခြင်း (iOS Safari အတွက် အဓိက) */
+    -webkit-tap-highlight-color:
+    rgba(255, 204, 0, 0.4) !important;}
 
 /* ၂။ Desktop မှာ Tab ခလုတ်နှိပ်လို့ဖြစ်ဖြစ်၊ Mouse နဲ့နှိပ်လို့ဖြစ်ဖြစ် ပေါ်တဲ့ အပြာရောင်ဘောင်ကို ဖျောက်ခြင်း */
 *:focus {
     outline: 2px solid #ffcc00 !important; /* အပြာရောင်အစား အဝါရောင်ဘောင်ပြောင်းခြင်း */
-    outline-offset: 1px;
-}
+    outline-offset: 1px;}
 
 /* ၃။ Safari မှာ ခလုတ်တွေ နှိပ်လိုက်တဲ့အခါ အပြာရောင် Highlight ဖြစ်တာကို တားဆီးရန် */
 button:active, a:active {
     background-color: rgba(255, 204, 0, 0.2) !important;
-}
-
-/* နှိပ်လိုက်ရင် အဝါရောင် ပေါ်ရန် အဆုံး*/
+}/* နှိပ်လိုက်ရင် အဝါရောင် ပေါ်ရန် အဆုံး*/
 
 /* paper.html ထဲတွင် ဖိထားမှ စာရွေးလိုတဲ့ ကုဒ် အစ*/
 article {
@@ -577,69 +547,45 @@ article {
     -webkit-user-select: none;
     user-select: none;
     -webkit-tap-highlight-color: transparent;
-}
-/* paper.html ထဲတွင် ဖိထားမှ စာရွေးလိုတဲ့ ကုဒ် အဆုံး*/
-
-
+}/* paper.html ထဲတွင် ဖိထားမှ စာရွေးလိုတဲ့ ကုဒ် အဆုံး*/
 
 /* ===== Modern Preset System ===== */
-
 .preset-group,
 .adjust-group {
-
     display: flex;
     justify-content: center;
     gap: 8px;
-    margin-top: 12px;
-}
+    margin-top: 12px;}
 
 .preset-btn,
 .adjust-group button {
-
     background: #f4ecd8;
     border: 1px solid #443300;
     color: #443300;
-
     padding: 8px 14px;
-
     border-radius: 6px;
-
     cursor: pointer;
-
     font-weight: bold;
-
-    transition: 0.2s;
-}
+    transition: 0.2s;}
 
 .preset-btn:hover,
 .adjust-group button:hover {
-
-    transform: translateY(-1px);
-}
+    transform: translateY(-1px);}
 
 .preset-btn.active-preset {
-
     background: #443300;
-    color: #f4ecd8;
-}
+    color: #f4ecd8;}
 
 #lh-display,
 #ls-display {
 
     min-width: 55px;
-
     text-align: center;
-
     background: #f4ecd8;
-
     border: 1px solid #443300;
-
     border-radius: 6px;
-
     padding: 8px 10px;
-
     font-weight: bold;
-
     color: #443300;
 }
 
@@ -706,92 +652,58 @@ article {
     color: #443300;
 }
 
-/* =========================
+/* ==
    TOC HEADER
-========================= */
-
+== */
 .toc-header {
-
     display: flex;
-
     align-items: center;
-
     gap: 10px;
-
     margin-bottom: 20px;
 }
 
 
-/* =========================
+/* ==
    TOC SEARCH BAR
-========================= */
-
+== */
 #toc-search {
-
     flex: 1;
-
     padding: 10px 14px;
-
     border: none;
-
     border-radius: 12px;
-
     font-size: 14px;
+    outline: none;}
 
-    outline: none;
-}
-
-
-/* =========================
+/* ==
    TOC JUMP BUTTONS
-========================= */
-
+== */
 .toc-jump-buttons {
-
     position: absolute;
-
     right: 16px;
-
     bottom: 16px;
-
     display: flex;
-
     gap: 10px;
-
     z-index: 50;
-
     width: fit-content;
 }
 
-
 /* Jump Buttons */
-
 .toc-jump-buttons button {
-
     width: 42px;
-
     height: 42px;
-
     border: none;
-
     border-radius: 50%;
-
     font-size: 18px;
-
     cursor: pointer;
-
     transition: transform 0.2s ease;
 }
-
 
 /* Hover */
 
 .toc-jump-buttons button:hover {
-
     transform: scale(1.08);
 }
 /* TOC JUMP BUTTONS အဆုံး*/
-
 
 .raw-text p {
     /* 1.5em ထက် နည်းချင်ရင် 0.8em ဒါမှမဟုတ် 1em လို့ ပြောင်းနိုင်ပါတယ် */
@@ -805,522 +717,350 @@ article {
     width: 100%;
 }/*raw-text စာကြောင်းကြား အတွက်သုံးသည်။*/
 
-/* =========================
+/* ==
 PAPER AUDIO BAR
-========================= */
-
+== */
 .paper-audio-bar {
-
 position: fixed;
 
 /* fullscreen button ဘေး */
 top: 78px;
-
 left: 65px;
-
 width: 320px;
-
 background: #eadebc;
-
 border: 1px solid #443300;
-
 border-radius: 14px;
-
 padding: 12px;
-
 box-sizing: border-box;
-
 z-index: 9999;
-
 display: none;
-
 box-shadow:
 0 4px 15px rgba(0,0,0,0.2);
 }
 
-/* =========================
+/* ==
 MINIMIZED
-========================= */
-
+== */
 .paper-audio-bar.minimized
 .paper-audio-body {
-
 display: none;
 }
 
-/* =========================
+/* ==
 TOP
-========================= */
+== */
 
 .paper-audio-top {
-
 display: flex;
-
 justify-content: space-between;
-
 align-items: center;
-
 gap: 10px;
 }
 
 .paper-audio-info {
-
 flex: 1;
-
 min-width: 0;
 }
 
 #paper-now-playing {
-
 font-size: 14px;
-
 font-weight: bold;
-
 white-space: nowrap;
-
 overflow: hidden;
-
 text-overflow: ellipsis;
-
 color: #443300;
 }
 
 #paper-time-display {
-
 font-size: 12px;
-
 margin-top: 3px;
-
 color: #443300;
 }
 
-/* =========================
+/* ==
 TOP BUTTONS
-========================= */
-
+== */
 .paper-top-buttons {
-
 display: flex;
-
 gap: 6px;
 }
 
 .paper-top-btn {
-
 width: 30px;
-
 height: 30px;
-
 border: none;
-
 border-radius: 8px;
-
 background: #f4ecd8;
-
 color: #443300;
-
-    border: 1px solid #443300;
-    
+    border: 1px solid #443300;   
 font-size: 18px;
-
 cursor: pointer;
 }
 
-/* =========================
+/* ==
 BODY
-========================= */
-
+== */
 .paper-audio-body {
-
 margin-top: 12px;
 }
 
-
-
 /*  SLEEP TIMER  */
-
 .paper-sleep-timer {
-
     margin-top: 14px;
-
     padding: 12px;
-
     background: #f4ecd8;
-
     border: 1px solid #443300;
-
     border-radius: 10px;
-
 }
 
 .paper-sleep-title {
-
     font-size: 14px;
-
     font-weight: bold;
-
     color: #443300;
-
     margin-bottom: 10px;
-
 }
 
 .paper-sleep-controls {
-
     display: flex;
-
     gap: 8px;
-
     margin-bottom: 10px;
-
 }
 
 #paper-sleep-input {
-
     flex: 1;
-
     padding: 8px;
-
     border-radius: 8px;
-
     border: 1px solid #443300;
-
     background: #fffdf8;
-
     color: #443300;
-
     font-size: 14px;
-
     outline: none;
-
 }
 
 #paper-sleep-unit {
-
     width: 100px;
-
     border-radius: 8px;
-
     border: 1px solid #443300;
-
     background: #fffdf8;
-
     color: #443300;
-
     padding: 8px;
-
     font-size: 14px;
-
 }
 
 .paper-sleep-buttons {
-
     display: flex;
-
     gap: 8px;
-
 }
 
 .paper-sleep-buttons button {
-
     flex: 1;
-
     padding: 8px;
-
     border-radius: 8px;
-
     border: 1px solid #443300;
-
     background: #eadebc;
-
     color: #443300;
-
     font-weight: bold;
-
     cursor: pointer;
-
 }
 
 #paper-sleep-status {
-
     margin-top: 10px;
-
     font-size: 13px;
-
     font-weight: bold;
-
     color: #443300;
-
     text-align: center;
-
 }/*  SLEEP TIMERအဆုံး*/
 
-/* =========================
-CONTROLS
-========================= */
-
+/* ==
+SCROLLABLE AUDIO CONTROLS
+== */
 .paper-audio-controls {
-
 display: flex;
-
 align-items: center;
-
 gap: 8px;
-
 margin-bottom: 10px;
 
-flex-wrap: wrap;
+/* wrap မလုပ်တော့ */
+flex-wrap: nowrap;
+
+/* horizontal scroll */
+overflow-x: auto;
+overflow-y: hidden;
+-webkit-overflow-scrolling: touch;
+
+/* scrollbar hidden */
+scrollbar-width: none;
+padding-bottom: 4px;
 }
+/* controls buttons shrink မဖြစ်စေရန် */
 
 .paper-audio-controls button {
+flex-shrink: 0;
+}
 
+/* chrome */
+.paper-audio-controls::-webkit-scrollbar {
+display: none;
+}/* ==SCROLLABLE AUDIO CONTROLSအဆုံး== */
+
+.paper-audio-controls button {
 padding: 8px 12px;
-
 border: none;
-
 border-radius: 8px;
-
 background: #f4ecd8;
-
 color: #443300;
-
  border: 1px solid #443300;   
-
 font-weight: bold;
-
 cursor: pointer;
-
 font-size: 13px;
 }
 
 #paper-play-btn {
-
 min-width: 50px;
 }
 
 #paper-speed-display {
-
 min-width: 50px;
-
 text-align: center;
-
 font-weight: bold;
-
 font-size: 15px;
-
 color: #443300;
 }
 
-/* =========================
+/* ==
 SEEKBAR
-========================= */
+== */
 
 #paper-seekbar {
-
 width: 100%;
-
 cursor: pointer;
 }
 
-/* =========================
+/* ==
 MOBILE
-========================= */
+== */
 
 @media (max-width: 600px) {
-
 .paper-audio-bar {
-
 width: calc(100vw - 90px);
-
 left: 65px;
-
 right: 15px;
-}
+}}
 
-}
-
-
-
-/* =========================
+/* ==
 HIDDEN MODE
-========================= */
+== */
 
 .paper-audio-bar.hidden-bar {
 
 opacity: 0;
-
 pointer-events: none;
-
 transform: translateX(-20px);
-
 transition: 0.25s;
 }
 
-/* =========================
+/* ==
 SHOW AUDIO BAR BUTTON
-========================= */
+== */
 
 .paper-show-bar-btn {
-
 position: fixed;
-
 top: 80px;
 
 /* fullscreen button ဘေး */
 left: 65px;
-
 width: 35px;
-
 height: 35px;
-
 border-radius: 50%;
-
 border: 1px solid #443300;
-
 background: rgba(234, 222, 188, 0.9);
-
 color: #443300;
-
 font-size: 18px;
-
 cursor: pointer;
-
 display: none;
-
 z-index: 9999;
-
 align-items: center;
-
 justify-content: center;
-
 }
 
 /* mobile */
 
 @media (max-width: 600px) {
-
 .paper-show-bar-btn {
-
 left: 65px;
-
 }
-
 }
-/* =========================
+/* ==
 ACTIVE AUDIO MODE
-========================= */
+== */
 
 .paper-mode-active {
-
 background: #443300 !important;
-
 color: #f4ecd8 !important;
-
 }
-
 /*အသံ ဘားတန်းအတွက် ကုဒ် အဆုံး*/
 
-
 /* SPEAKER BUTTON 🔊 သီချင်းခလုပ်အတွက် */
-
 .speaker-btn {
-
     width: 52px;
-
     height: 52px;
-
     border-radius: 50%;
-
     border: 1px solid #443300;
-
     background: #f4ecd8;
-
     color: #443300;
-
     font-size: 26px;
-
     cursor: pointer;
-
     display: inline-flex;
-
     align-items: center;
-
     justify-content: center;
-
     padding: 0;
-
     margin-right: 10px;
-
     vertical-align: middle;
-
     box-shadow:
     0 4px 10px rgba(0,0,0,0.15);
-
     transition: 0.2s;
 }
 
 /* hover */
 
 .speaker-btn:hover {
-
     transform: scale(1.05);
-
 }
 
 /* playing state */
-
 .speaker-btn:active {
-
     transform: scale(0.96);
 
 }/* SPEAKER BUTTON 🔊 သီချင်းခလုပ်အတွက် */
 
-/* =========================
+/* ==
 VOLUME BOOSTER
-========================= */
+== */
 
 .paper-volume-wrap {
-
 display: flex;
-
 align-items: center;
-
 gap: 8px;
-
 width: 100%;
-
 margin-top: 10px;
-
 }
 
 .paper-volume-icon {
-
 font-size: 18px;
-
 }
 
 #paper-volume-slider {
-
 flex: 1;
-
 cursor: pointer;
-
 }
 
 #paper-volume-display {
-
 min-width: 60px;
-
 text-align: center;
-
 font-weight: bold;
-
 color: #443300;
-
 font-size: 14px;
-
 }/*VOLUME BOOSTER အသံအတိုးအလျော့ အတွက်သုံးသည်*/
-
 
 /* ==
 VOICE / NIGHT MODE BUTTON
