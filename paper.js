@@ -1,6 +1,6 @@
-//import './js/core/init.js';
+import './js/core/init.js';
 
-//import './js/reader/semantic.js';
+import './js/reader/semantic.js';
 import './js/reader/reading-position.js';
 import './js/reader/focus-mode.js';
 import './js/reader/toc.js';
@@ -25,7 +25,7 @@ import './js/gestures/long-press-select.js';
 let currentLineHeight = 2.0;
 let currentLetterSpacing = 0;
 /* ========================= SEMANTIC SYSTEM ========================= */
-function buildSemanticParagraphs() {
+/*function buildSemanticParagraphs() {
     const containers = document.querySelectorAll('.raw-text');
     let globalIndex = 1;
 
@@ -61,7 +61,7 @@ function buildSemanticParagraphs() {
             globalIndex++;
         });
     });
-}
+}*/
 function saveReadingPosition() {
     const paragraphs =
         document.querySelectorAll('.raw-text p');
@@ -748,7 +748,7 @@ document.addEventListener(
     'DOMContentLoaded',
     init
 );
-})();/*SINGLE DOMCONTENTLOADED* အဆုံး/
+})();/*SINGLE DOMCONTENTLOADED အဆုံး*/
 
 
 
