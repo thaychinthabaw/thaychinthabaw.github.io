@@ -1726,3 +1726,37 @@ if (!button) return;
 button.click();
 }, 1200);
 }});/* AUTO PLAY FROM LINK ဒီကုဒ်အစအဆုံးကို about.htmlနှင့် portfolio.html မှ အသံဖိုင်လင့်နှင့် နားထောင်ရန်သုံးထားသည်။ AUTO PLAY FROM LINK*/
+
+
+/* ==
+ DOWNLOAD CURRENT AUDIO
+ ==*/
+const paperDownloadBtn =
+document.getElementById(
+"paper-download-btn"
+);
+paperDownloadBtn.addEventListener(
+"click",
+() => {
+    const audioSrc =
+    paperAudio.src;
+    if (!audioSrc) {
+        alert(
+        "အသံဖိုင် မရှိသေးပါ"
+        );
+        return; }
+
+    // temporary link
+    const a =
+    document.createElement("a");
+    a.href = audioSrc;
+
+    // filename
+    const fileName =
+    audioSrc.split("/").pop();
+    a.download =
+    fileName || "audio.mp3";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+});/* == DOWNLOAD CURRENT AUDIOအဆုံး ==*/
