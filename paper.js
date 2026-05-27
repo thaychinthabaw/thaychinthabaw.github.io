@@ -9,20 +9,15 @@ let currentLetterSpacing = 0;
 function buildSemanticParagraphs() {
     const containers = document.querySelectorAll('.raw-text');
     let globalIndex = 1;
-
     containers.forEach((container) => {
 
         // 🔥 IMPORTANT FIX: textContent
         const rawText = container.textContent.trim();
-
         const paragraphs = rawText
             .split(/\n\s*\n/)
             .filter(p => p.trim() !== '');
-
         container.innerHTML = '';
-
         paragraphs.forEach((text) => {
-
             const cleanText = text.trim();
 
             // ===== GAP SYSTEM =====
@@ -88,30 +83,22 @@ function restoreReadingPosition() {
                 `[data-p="${data.paragraph}"]`
             );
         if (!target) return;
-        /*
-        paragraph ရဲ့ position
-        */
+        /*  paragraph ရဲ့ position */
         const rect =
             target.getBoundingClientRect();
-        /*
-        paragraph အမြင့်
-        */
+        /*        paragraph အမြင့်        */
         const paragraphHeight =
             target.offsetHeight;
-        /*
-        user ဖတ်ခဲ့တဲ့နေရာ
-        */
+        /*        user ဖတ်ခဲ့တဲ့နေရာ    */
         const offset =
             paragraphHeight
             * (data.offsetRatio || 0);
-        /*
-        final scroll position
-        */
-        const finalY =
-            window.scrollY
-            + rect.top
-            + offset
-            - 120;
+        /*        final scroll position       */
+        const absoluteTop =target.offsetTop;
+        const finalY =
+              absoluteTop
+             + offset
+             - 120;
         window.scrollTo({
             top: finalY,
             behavior: 'smooth'
