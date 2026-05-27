@@ -725,12 +725,9 @@ document.addEventListener(
 );
 })();/*SINGLE DOMCONTENTLOADED အဆုံး*/
 
-
-
 /* ==
 PAPER AUDIO SYSTEM
 == */
-
 const paperAudio =
 document.getElementById(
 'paper-audio'
@@ -862,12 +859,9 @@ document.getElementById(
     'paper-sleep-status'
 );/*sleep timerအဆုံး*/
 
-
-
 /* ==
 STATE
 == */
-
 let currentSpeakerButton = null;
 let currentSpeed = 1;
 
@@ -896,52 +890,37 @@ new (
 window.AudioContext ||
 window.webkitAudioContext
 )();
-
 const source =
 audioContext.createMediaElementSource(
 paperAudio
 );
-
 const gainNode =
 audioContext.createGain();
 
 /* ==
 VOICE FILTER SYSTEM
 == */
-
 /* 🎙 Voice clarity */
 const voiceEQ =
 audioContext.createBiquadFilter();
-
 voiceEQ.type = 'peaking';
-
 voiceEQ.frequency.value = 2500;
-
 voiceEQ.Q.value = 1;
-
 voiceEQ.gain.value = 0;
 
 /* 🌙 Night listening */
 const nightEQ =
 audioContext.createBiquadFilter();
-
 nightEQ.type = 'highshelf';
-
 nightEQ.frequency.value = 3000;
-
 nightEQ.gain.value = 0;
 
 /* == CONNECT == */
-
 source.connect(gainNode);
-
 gainNode.connect(voiceEQ);
-
 voiceEQ.connect(nightEQ);
-
 nightEQ.connect(
-audioContext.destination
-);
+audioContext.destination);
 
 /* default volume */
 gainNode.gain.value = 1;/* 🌙 Night listening */
@@ -949,9 +928,7 @@ gainNode.gain.value = 1;/* 🌙 Night listening */
 /* default */
 gainNode.gain.value = 1; /*VOLUME BOOSTER SYSTEM*/
 
-
 /* ==TOGGLE AUDIO== */
-
 window.togglePaperAudio =
 function(
 button,
@@ -960,50 +937,36 @@ title
 ) {
 
 /* same audio + playing */
-
 const isSameButton =
 currentSpeakerButton === button;
-
 const isSameAudio =
 paperAudio.src.includes(src);
 
 /* same button + same audio + playing */
-
 if (
 isSameButton &&
 isSameAudio &&
 !paperAudio.paused
 ) {
-
 paperAudio.pause();
-
 paperAudioBar.style.display =
 'none';
-
 paperShowBarBtn.style.display =
 'none';
-
 button.innerHTML = '🔊';
-
 return;
 }
 
 /* old button reset */
-
 if (
 currentSpeakerButton &&
 currentSpeakerButton !== button
 ) {
-
 currentSpeakerButton.innerHTML =
-'🔊';
-
-}
-
+'🔊';}
 currentSpeakerButton = button;
 
 /* show bar */
-
 paperAudioBar.style.display =
 'block';
 paperShowBarBtn.style.display =
@@ -1019,154 +982,97 @@ paperAudioBar.classList.remove(
 );
 
 /* play */
-
-paperAudio.src = src;
-    
-paperAudio.playbackRate = currentSpeed;/* ✅ speed restore */
-    
+paperAudio.src = src;  
+paperAudio.playbackRate = currentSpeed;/* ✅ speed restore */    
 paperAudio.play();
-
 paperNowPlaying.innerHTML =
 title;
-
 button.innerHTML = '⏸';
-
 paperPlayBtn.innerHTML = '⏸';
-
 };
 
 /* ==
 PLAY / PAUSE
 == */
-
 paperPlayBtn.addEventListener(
 'click',
 () => {
-
 if (paperAudio.paused) {
-
 paperAudio.play();
-
 paperPlayBtn.innerHTML = '⏸';
-
 if (currentSpeakerButton) {
-
 currentSpeakerButton.innerHTML =
 '⏸';
-
 }
-
 } else {
-
 paperAudio.pause();
-
 paperPlayBtn.innerHTML = '▶';
-
 if (currentSpeakerButton) {
-
 currentSpeakerButton.innerHTML =
 '🔊';
-
-}
-
-}
-
-}
-);
+}}});
 
 /* ==
 ENDED
 == */
-
 paperAudio.addEventListener(
 'ended',
 () => {
 
 /* 🔂 repeat current */
-
 if (repeatOne) {
-
 paperAudio.currentTime = 0;
-
 paperAudio.play();
-
-return;
-
-}
+return;}
 
 /* ⏭️ auto next */
-
 if (autoNextEnabled) {
-
 playNextAudio();
-
-return;
-
-}
+return;}
 
 /* default close */
-
 paperAudioBar.style.display =
 'none';
-
+paperShowBarBtn.style.display =
+'none';
 if (currentSpeakerButton) {
-
 currentSpeakerButton.innerHTML =
-'🔊';
-
-}
-
-}
-);
+'🔊';}});
 
 /* ==
 TIME UPDATE
 == */
-
 paperAudio.addEventListener(
 'timeupdate',
 () => {
-
 if (!paperAudio.duration) return;
-
 paperSeekbar.value =
-
-(
-paperAudio.currentTime
+(paperAudio.currentTime
 /
 paperAudio.duration
 )
 * 100;
-
 updatePaperTime();
-
-}
-);
+});
 
 /* ==
 SEEK
 == */
-
 paperSeekbar.addEventListener(
 'input',
 () => {
-
 if (!paperAudio.duration) return;
-
 paperAudio.currentTime =
-
 (
 paperSeekbar.value / 100
 )
 *
 paperAudio.duration;
-
 }
 );
 
 
 /* ==VOLUME SLIDER== */
-
 paperVolumeSlider.addEventListener(
 'input',
 () => {
@@ -1174,10 +1080,8 @@ const value =
 parseInt(
 paperVolumeSlider.value
 );
-/*
-100 = normal
-300 = 3x boost
-*/
+    
+/*100 = normal 300 = 3x boost*/
 const gain =
 value / 100;
 gainNode.gain.value =
@@ -1191,19 +1095,14 @@ value + '%';
 paperFasterBtn.addEventListener(
 'click',
 () => {
-
 if (currentSpeed < 3) {
-
 currentSpeed += 0.25;
-
 currentSpeed =
 parseFloat(
 currentSpeed.toFixed(2)
 );
-
 paperAudio.playbackRate =
 currentSpeed;
-
 updateSpeedDisplay();
 }});
 
@@ -1218,37 +1117,26 @@ repeatOne
 );
 
 /* 🔂 ON => ⏭️ OFF */
-
 if (repeatOne) {
-
 autoNextEnabled = false;
-
 paperAutonextBtn.classList.remove(
 'paper-mode-active'
-);
-}
-}
-);/*REPEAT TOGGLEအဆုံး*/
+);}});/*REPEAT TOGGLEအဆုံး*/
 
 /* ==AUTO NEXT TOGGLE== */
 paperAutonextBtn.addEventListener(
 'click',
 () => {
-
 autoNextEnabled =
 !autoNextEnabled;
-
 paperAutonextBtn.classList.toggle(
 'paper-mode-active',
 autoNextEnabled
 );
 
 /* ⏭️ ON => 🔂 OFF */
-
 if (autoNextEnabled) {
-
 repeatOne = false;
-
 paperRepeatBtn.classList.remove(
 'paper-mode-active'
 );}});/*AUTO NEXT TOGGLEအဆုံး*/
@@ -1299,56 +1187,40 @@ nightEQ.gain.value = 0;}
 paperSlowerBtn.addEventListener(
 'click',
 () => {
-
 if (currentSpeed > 0.25) {
-
 currentSpeed -= 0.25;
-
 currentSpeed =
 parseFloat(
 currentSpeed.toFixed(2)
 );
-
 paperAudio.playbackRate =
 currentSpeed;
-
 updateSpeedDisplay();
 }});
-
 function updateSpeedDisplay() {
-
 paperSpeedDisplay.innerHTML =
-
 currentSpeed + 'x';
-
 }
 
 /* ==
 TIME FORMAT
 == */
-
 function formatPaperTime(
 seconds
 ) {
-
 const min =
 Math.floor(seconds / 60);
-
 const sec =
 Math.floor(seconds % 60);
-
 return `${min}:${
 sec
 .toString()
 .padStart(2,'0')
 }`;
-
 }
 
 function updatePaperTime() {
-
 paperTimeDisplay.innerHTML =
-
 `${formatPaperTime(
 paperAudio.currentTime
 )}
@@ -1356,179 +1228,130 @@ paperAudio.currentTime
 ${formatPaperTime(
 paperAudio.duration || 0
 )}`;
-
 }
 
 
-/* =========================
-HIDE BAR
-========================= */
 
+/* ==
+HIDE BAR
+== */
 paperHideBtn
 .addEventListener(
 'click',
 () => {
 
 /* bar hide */
-
 paperAudioBar.classList.add(
-'hidden-bar'
-);
+'hidden-bar');
 
 /* floating eye show */
-
 paperShowBarBtn.style.display =
-'flex';
+'flex';});
 
-}
-);
-
-/* =========================
+/* ==
 MINIMIZE
-========================= */
-
+== */
 paperMinimizeBtn
 .addEventListener(
 'click',
 () => {
-
 paperAudioBar.classList.toggle(
 'minimized'
-);
+);});
 
-}
-);
-
-/* =========================
+/* ==
 SHOW HIDDEN BAR
-========================= */
-
+== */
 paperShowBarBtn
 .addEventListener(
 'click',
 () => {
 
 /* show bar again */
-
 paperAudioBar.classList.remove(
-'hidden-bar'
-);
+'hidden-bar');
 
 /* floating eye hide */
-
 paperShowBarBtn.style.display =
 'none';
-
-}
-);
+});
 
 
-/* =========================
+/* ==
 CLOSE
-========================= */
-
+== */
 paperCloseBtn
 .addEventListener(
 'click',
 () => {
-
 paperAudio.pause();
-
 paperAudio.currentTime = 0;
-
 paperAudioBar.style.display =
 'none';
-
   paperShowBarBtn.style.display =
 'none';  
-
 paperAudioBar.classList.remove(
 'minimized'
 );
-
 if (currentSpeakerButton) {
-
 currentSpeakerButton.innerHTML =
 '🔊';
-
 }
-
 }
 );/*အဆုံး*/
 
 
 /*ပြန်စ ကျော် ဆက်လုပ် ခလုပ်များ အတွက် အစ */
 /* GET AUDIO BUTTONS */
-
 function getAudioButtons() {
-
 return Array.from(
 document.querySelectorAll(
 '[onclick*="togglePaperAudio"]'
 )
 );
-
 }
-/* =========================
+/* ==
 EXTRACT AUDIO DATA
-========================= */
-
+== */
 function extractAudioData(button) {
-
 const onclickText =
 button.getAttribute('onclick');
-
 const match =
 onclickText.match(
 /togglePaperAudio\(this,\s*'([^']+)'\s*,\s*'([^']+)'\)/
 );
-
 if (!match) return null;
-
 return {
-
 src: match[1],
-
 title: match[2]
-
 };
-
 }
-/* =========================
+/* ==
 PLAY AUDIO BY INDEX
-========================= */
-
+== */
 function playAudioByIndex(index) {
-
 const buttons =
 getAudioButtons();
-
 if (
 index < 0 ||
 index >= buttons.length
 ) {
 return;
 }
-
 const button =
 buttons[index];
-
 const data =
 extractAudioData(button);
-
 if (!data) return;
-
 window.togglePaperAudio(
 button,
 data.src,
 data.title
 );
-
 }
 
 /* NEXT AUDIO */
 function playNextAudio() {
-
 const buttons =
 getAudioButtons();
 if (!currentSpeakerButton ||buttons.length === 0
