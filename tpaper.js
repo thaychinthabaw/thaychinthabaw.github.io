@@ -1,286 +1,193 @@
+paper.js
+
 (() => {
 'use strict';
-/* =========================
-   GLOBAL STATE
-========================= */
-let currentLineHeight = 2.0;
-let currentLetterSpacing = 0;
 
 /* =========================
-   SEMANTIC SYSTEM
+TOGGLE TOC
 ========================= */
-function buildSemanticParagraphs() {
-    const containers = document.querySelectorAll('.raw-text');
-    let globalIndex = 1;
-    containers.forEach((container) => {
-        const rawText = container.textContent.trim();
-        const paragraphs = rawText.split(/\n\s*\n/).filter(p => p.trim() !== '');
-        container.innerHTML = '';
-        paragraphs.forEach((text) => {
-            const cleanText = text.trim();
-            /* GAP SYSTEM */
-            if (cleanText === '@@gap') {
-                const gap = document.createElement('div');
-                gap.className = 'big-gap';
-                container.appendChild(gap);
-                return;
-            }
-            /* PARAGRAPH */
-            const p = document.createElement('p');
-            p.setAttribute('data-p', globalIndex);
-            p.textContent = cleanText;
-            container.appendChild(p);
-            globalIndex++;
-        });
-    });
-}
 
-/* =========================
-   READING POSITION
-========================= */
-function saveReadingPosition() {
-    const paragraphs = document.querySelectorAll('.raw-text p');
-    let currentParagraph = null;
-    let offsetRatio = 0;
-    paragraphs.forEach(p => {
-        const rect = p.getBoundingClientRect();
-        if (rect.top <= window.innerHeight * 0.35 && rect.bottom > 0) {
-            currentParagraph = p.dataset.p;
-            offsetRatio = Math.abs(rect.top) / rect.height;
-        }
-    });
-    if (currentParagraph) {
-        localStorage.setItem('readingPosition', JSON.stringify({
-            paragraph: currentParagraph,
-            offsetRatio: offsetRatio
-        }));
-    }
-}
-function restoreReadingPosition() {
-    const saved = localStorage.getItem('readingPosition');
-    if (!saved) return;
-    let data;
-    try { data = JSON.parse(saved); } catch { return; }
-    setTimeout(() => {
-        const target = document.querySelector(`[data-p="${data.paragraph}"]`);
-        if (!target) return;
-        const paragraphHeight = target.offsetHeight;
-        const offset = paragraphHeight * (data.offsetRatio || 0);
-        const absoluteTop = target.offsetTop;
-        const finalY = absoluteTop + offset - 120;
-        window.scrollTo({ top: finalY, behavior: 'smooth' });
-    }, 600);
-}
-
-/* =========================
-   TOGGLE SYSTEM
-========================= */
 function toggleTOC() {
-    const tocOverlay = document.getElementById('toc-overlay');
-    if (!tocOverlay) return;
-    const isOpening = tocOverlay.style.display !== 'block';
-    if (isOpening) {
-        tocOverlay.style.display = 'block';
-        setTimeout(() => {
-            const activeItem = document.querySelector('.active-chapter');
-            const tocList = document.querySelector('.toc-list');
-            if (activeItem && tocList) {
-                activeItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        }, 100);
-    } else {
-        tocOverlay.style.display = 'none';
-        clearTOCSearch();
-    }
+
+const tocOverlay =
+document.getElementById(
+'toc-overlay'
+);
+
+if (!tocOverlay) return;
+
+const isOpening =
+tocOverlay.style.display !== 'block';
+
+if (isOpening) {
+
+tocOverlay.style.display =
+'block';
+
+} else {
+
+tocOverlay.style.display =
+'none';
 }
+}
+
+/* =========================
+TOGGLE SETTINGS
+========================= */
+
 function toggleSetting() {
-    const settingOverlay = document.getElementById('setting-overlay');
-    if (!settingOverlay) return;
-    const isVisible = settingOverlay.style.display === 'block';
-    settingOverlay.style.display = isVisible ? 'none' : 'block';
-}
-function downloadPDF() {
-    toggleSetting();
-    setTimeout(() => { window.print(); }, 500);
-}
-function toggleReadingMode() {
-    document.body.classList.toggle('focus-mode');
-    const fsBtn = document.getElementById('fs-btn');
-    if (document.body.classList.contains('focus-mode')) {
-        fsBtn.innerHTML = '✖';
-        fsBtn.style.background = 'rgba(234,222,188,0.2)';
-    } else {
-        fsBtn.innerHTML = '⛶';
-        fsBtn.style.background = 'rgba(234,222,188,0.4)';
-    }
+
+const settingOverlay =
+document.getElementById(
+'setting-overlay'
+);
+
+if (!settingOverlay) return;
+
+const isVisible =
+settingOverlay.style.display === 'block';
+
+settingOverlay.style.display =
+isVisible
+? 'none'
+: 'block';
 }
 
 /* =========================
-   LAST READ
+LAST READ
 ========================= */
+
 function saveCurrentPage() {
-    localStorage.setItem('lastReadTitle', document.title);
-    localStorage.setItem('lastReadUrl', window.location.href);
+
+localStorage.setItem(
+'lastReadTitle',
+document.title
+);
+
+localStorage.setItem(
+'lastReadUrl',
+window.location.href
+);
 }
+
 function showLastReadLink() {
-    const lastTitle = localStorage.getItem('lastReadTitle');
-    const lastUrl = localStorage.getItem('lastReadUrl');
-    const lastReadContainer = document.getElementById('last-read-container');
-    if (lastTitle && lastUrl && window.location.href !== lastUrl && lastReadContainer) {
-        lastReadContainer.innerHTML = `
-            <div style="background:#eadebc; border:1px solid #443300; padding:15px; margin:10px; border-radius:8px; text-align:center;">
-                <p style="color:#443300; font-size:14px; margin-bottom:5px;">သင်နောက်ဆုံး ဖတ်လက်စအပိုင်း -</p>
-                <a href="${lastUrl}" style="color:#443300; font-weight:bold; text-decoration:none;">📖 ${lastTitle} သို့ ပြန်သွားရန်</a>
-            </div>
-        `;
-    }
+
+const lastTitle =
+localStorage.getItem(
+'lastReadTitle'
+);
+
+const lastUrl =
+localStorage.getItem(
+'lastReadUrl'
+);
+
+const lastReadContainer =
+document.getElementById(
+'last-read-container'
+);
+
+if (
+lastTitle &&
+lastUrl &&
+window.location.href !== lastUrl &&
+lastReadContainer
+) {
+
+lastReadContainer.innerHTML = `
+<div style="background:#eadebc;padding:15px;border-radius:8px;">
+<a href="${lastUrl}">
+📖 ${lastTitle}
+</a>
+</div>
+`;
+}
 }
 
 /* =========================
-   LINE HEIGHT
+INIT
 ========================= */
-function applyLineHeight() {
-    const content = document.getElementById('reading-content');
-    if (content) { content.style.lineHeight = currentLineHeight; }
-    const lhDisplay = document.getElementById('lh-display');
-    if (lhDisplay) { lhDisplay.innerText = currentLineHeight.toFixed(1); }
-    const lineButtons = document.querySelectorAll('.line-btn');
-    lineButtons.forEach(btn => {
-        btn.classList.remove('active-preset');
-        if (parseFloat(btn.dataset.value) === currentLineHeight) {
-            btn.classList.add('active-preset');
-        }
-    });
-    localStorage.setItem('userLineHeight', currentLineHeight);
-}
-function adjustLineHeight(amount) {
-    saveReadingPosition();
-    let next = Math.round((currentLineHeight + amount) * 10) / 10;
-    if (next >= 1.0 && next <= 100.0) {
-        currentLineHeight = next;
-        applyLineHeight();
-        setTimeout(() => { restoreReadingPosition(); }, 100);
-    }
-}
 
-/* =========================
-   LETTER SPACING
-========================= */
-function applyLetterSpacing() {
-    const content = document.getElementById('reading-content');
-    if (content) { content.style.letterSpacing = currentLetterSpacing + 'px'; }
-    const lsDisplay = document.getElementById('ls-display');
-    if (lsDisplay) { lsDisplay.innerText = currentLetterSpacing; }
-    const letterButtons = document.querySelectorAll('.letter-btn');
-    letterButtons.forEach(btn => {
-        btn.classList.remove('active-preset');
-        if (parseFloat(btn.dataset.value) === currentLetterSpacing) {
-            btn.classList.add('active-preset');
-        }
-    });
-    localStorage.setItem('userLetterSpacing', currentLetterSpacing);
-}
-function adjustLetterSpacing(amount) {
-    saveReadingPosition();
-    let next = Math.round((currentLetterSpacing + amount) * 10) / 10;
-    if (next >= 0 && next <= 10) {
-        currentLetterSpacing = next;
-        applyLetterSpacing();
-        setTimeout(() => { restoreReadingPosition(); }, 100);
-    }
-}
-
-/* =========================
-   TOC SEARCH
-========================= */
-function clearTOCSearch() {
-    const tocSearch = document.getElementById('toc-search');
-    const tocItems = document.querySelectorAll('.toc-list li');
-    if (tocSearch) { tocSearch.value = ''; }
-    tocItems.forEach(item => { item.style.display = 'block'; });
-}
-
-/* =========================
-   INIT
-========================= */
 function init() {
-    const article = document.querySelector('article');
-    const tocSearch = document.getElementById('toc-search');
-    const tocItems = document.querySelectorAll('.toc-list li');
 
-    /* LOAD SETTINGS */
-    const savedLH = localStorage.getItem('userLineHeight');
-    if (savedLH !== null) { currentLineHeight = parseFloat(savedLH); }
-    applyLineHeight();
+buildSemanticParagraphs();
 
-    const savedLS = localStorage.getItem('userLetterSpacing');
-    if (savedLS !== null) { currentLetterSpacing = parseFloat(savedLS); }
-    applyLetterSpacing();
+restoreReadingPosition();
 
-    /* LAST READ */
-    saveCurrentPage();
-    showLastReadLink();
+/* line height */
 
-    /* SEMANTIC */
-    buildSemanticParagraphs();
-    restoreReadingPosition();
+const savedLH =
+localStorage.getItem(
+'userLineHeight'
+);
 
-    let readingTimer;
-    window.addEventListener('scroll', () => {
-        clearTimeout(readingTimer);
-        readingTimer = setTimeout(() => { saveReadingPosition(); }, 200);
-    });
+if (savedLH !== null) {
 
-    /* TOC ACTIVE */
-    const sections = document.querySelectorAll('section');
-    const tocLinks = document.querySelectorAll('.toc-list li a');
-    const observerOptions = { root: null, rootMargin: '-10% 0px -70% 0px', threshold: 0 };
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const id = entry.target.getAttribute('id');
-                tocLinks.forEach(link => {
-                    link.classList.remove('active-chapter');
-                    if (link.getAttribute('href') === `#${id}`) {
-                        link.classList.add('active-chapter');
-                        localStorage.setItem('lastReadChapter', id);
-                    }
-                });
-            }
-        });
-    }, observerOptions);
+currentLineHeight =
+parseFloat(savedLH);
+}
 
-    sections.forEach(section => { observer.observe(section); });
+applyLineHeight();
 
-    /* LINE BUTTONS */
-    const lineButtons = document.querySelectorAll('.line-btn');
-    lineButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            currentLineHeight = parseFloat(btn.dataset.value);
-            applyLineHeight();
-        });
-    });
+/* letter spacing */
 
-    /* LETTER BUTTONS */
-    const letterButtons = document.querySelectorAll('.letter-btn');
-    letterButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            currentLetterSpacing = parseFloat(btn.dataset.value);
-            applyLetterSpacing();
-        });
-    });
+const savedLS =
+localStorage.getItem(
+'userLetterSpacing'
+);
 
-    /* EXPORT */
-    window.toggleTOC = toggleTOC;
-    window.toggleSetting = toggleSetting;
-    window.downloadPDF = downloadPDF;
-    window.toggleReadingMode = toggleReadingMode;
-    window.adjustLineHeight = adjustLineHeight;
-    window.adjustLetterSpacing = adjustLetterSpacing;
+if (savedLS !== null) {
+
+currentLetterSpacing =
+parseFloat(savedLS);
+}
+
+applyLetterSpacing();
+
+/* last read */
+
+saveCurrentPage();
+
+showLastReadLink();
+
+/* auto save */
+
+let readingTimer;
+
+window.addEventListener(
+'scroll',
+() => {
+
+clearTimeout(
+readingTimer
+);
+
+readingTimer =
+setTimeout(() => {
+
+saveReadingPosition();
+
+}, 200);
+});
 }
 
 /* =========================
-   DOM READY
+EXPORT
 ========================= */
-document.addEventListener('DOMContentLoaded', init);
+
+window.toggleTOC =
+toggleTOC;
+
+window.toggleSetting =
+toggleSetting;
+
+/* =========================
+DOMContentLoaded
+========================= */
+
+document.addEventListener(
+'DOMContentLoaded',
+init
+);
+
 })();
