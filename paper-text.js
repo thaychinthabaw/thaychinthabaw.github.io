@@ -676,6 +676,7 @@ const TEXT = {
             }
         );
 
+       
         /* TOC SEARCH */
 
         if (this.dom.tocSearch) {
@@ -784,9 +785,36 @@ const TEXT = {
 
 };
 
-/* =========================
+
+ /* fullscreen ခလုပ်အတွက် ကုဒ်ပါ အစ*/
+ const fullscreenBtn = document.getElementById('fullscreen-btn');
+
+if (fullscreenBtn) {
+    fullscreenBtn.addEventListener('click', toggleFullscreen);
+}/* fullscreen ခလုပ်အတွက် ကုဒ်ပါ အဆုံး*/
+   
+
+/* fullscreen ခလုပ်အတွက် ကုဒ်ပါ အစ*/
+   function toggleFullscreen() {
+    const doc = document.documentElement;
+
+    if (!document.fullscreenElement) {
+        if (doc.requestFullscreen) {
+            doc.requestFullscreen();
+        } else if (doc.webkitRequestFullscreen) {
+            doc.webkitRequestFullscreen(); // Safari
+        }
+    } else {
+        if (document.exitFullscreen) {
+            document.exitFullscreen();
+        }
+    }
+}/* fullscreen ခလုပ်အတွက် ကုဒ်ပါ အဆုံး*/
+
+   
+/* ==
    GLOBAL EXPORT
-========================= */
+== */
 
 window.TEXT = TEXT;
 
