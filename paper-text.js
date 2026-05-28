@@ -6,6 +6,8 @@
 ========================= */
 let currentLineHeight = 2.0;
 let currentLetterSpacing = 0;
+let fontSize = parseInt(localStorage.getItem('userFontSize')) || 25;
+let currentWeight = parseInt(localStorage.getItem('userFontWeight')) || 500;
 
 /* =========================
    SEMANTIC SYSTEM
@@ -82,7 +84,6 @@ function restoreReadingPosition() {
         if (!target) return;
 
         const offset = target.offsetHeight * (data.offsetRatio || 0);
-
         const finalY = target.offsetTop + offset - 120;
 
         window.scrollTo({
@@ -108,12 +109,11 @@ function clearTOCSearch() {
     const items = document.querySelectorAll('.toc-list li');
 
     if (input) input.value = '';
-
     items.forEach(i => i.style.display = 'block');
 }
 
 /* =========================
-   SETTING OVERLAY
+   SETTING
 ========================= */
 function toggleSetting() {
     const setting = document.getElementById('setting-overlay');
@@ -124,7 +124,7 @@ function toggleSetting() {
 }
 
 /* =========================
-   DOWNLOAD (PRINT)
+   DOWNLOAD / PRINT
 ========================= */
 function downloadPDF() {
     toggleSetting();
@@ -139,19 +139,15 @@ function toggleReadingMode() {
 }
 
 /* =========================
-   LINE HEIGHT SYSTEM
+   LINE HEIGHT
 ========================= */
 function applyLineHeight() {
     const content = document.getElementById('reading-content');
 
-    if (content) {
-        content.style.lineHeight = currentLineHeight;
-    }
+    if (content) content.style.lineHeight = currentLineHeight;
 
     const display = document.getElementById('lh-display');
-    if (display) {
-        display.innerText = currentLineHeight.toFixed(1);
-    }
+    if (display) display.innerText = currentLineHeight.toFixed(1);
 
     document.querySelectorAll('.line-btn').forEach(btn => {
         btn.classList.toggle(
@@ -176,19 +172,15 @@ function adjustLineHeight(amount) {
 }
 
 /* =========================
-   LETTER SPACING SYSTEM
+   LETTER SPACING
 ========================= */
 function applyLetterSpacing() {
     const content = document.getElementById('reading-content');
 
-    if (content) {
-        content.style.letterSpacing = currentLetterSpacing + 'px';
-    }
+    if (content) content.style.letterSpacing = currentLetterSpacing + 'px';
 
     const display = document.getElementById('ls-display');
-    if (display) {
-        display.innerText = currentLetterSpacing;
-    }
+    if (display) display.innerText = currentLetterSpacing;
 
     document.querySelectorAll('.letter-btn').forEach(btn => {
         btn.classList.toggle(
@@ -213,19 +205,15 @@ function adjustLetterSpacing(amount) {
 }
 
 /* =========================
-   FONT SIZE SYSTEM
+   FONT SIZE
 ========================= */
-let fontSize = parseInt(localStorage.getItem('userFontSize')) || 25;
-
 function renderFontSize() {
     const article = document.querySelector('article');
 
-    if (article) {
-        article.style.fontSize = fontSize + 'px';
-    }
+    if (article) article.style.fontSize = fontSize + 'px';
 
-    const display = document.getElementById('font-size-display');
-    if (display) display.textContent = fontSize;
+    document.getElementById('font-size-display') &&
+    (document.getElementById('font-size-display').textContent = fontSize);
 
     document.getElementById('size-tens') &&
     (document.getElementById('size-tens').textContent = Math.floor(fontSize / 10));
@@ -249,31 +237,20 @@ function changeFontSize(amount) {
 }
 
 /* =========================
-   FONT WEIGHT SYSTEM
+   FONT WEIGHT
 ========================= */
-let currentWeight = parseInt(localStorage.getItem('userFontWeight')) || 500;
-
 function renderWeight() {
     const article = document.querySelector('article');
 
-    if (article) {
-        article.style.fontWeight = currentWeight;
-    }
+    if (article) article.style.fontWeight = currentWeight;
 
-    const h = document.getElementById('digit-hundreds');
-    const t = document.getElementById('digit-tens');
-    const o = document.getElementById('digit-ones');
-
-    if (h) h.textContent = Math.floor(currentWeight / 100);
-    if (t) t.textContent = Math.floor((currentWeight % 100) / 10);
-    if (o) o.textContent = currentWeight % 10;
-
-    document.querySelectorAll('#weight-buttons .preset-btn').forEach(btn => {
-        btn.classList.toggle(
-            'active-preset',
-            parseInt(btn.dataset.weight) === currentWeight
-        );
-    });
+    document.querySelectorAll('#weight-buttons .preset-btn')
+        .forEach(btn => {
+            btn.classList.toggle(
+                'active-preset',
+                parseInt(btn.dataset.weight) === currentWeight
+            );
+        });
 
     localStorage.setItem('userFontWeight', currentWeight);
 }
@@ -292,7 +269,7 @@ function changeWeight(amount) {
 ========================= */
 function init() {
 
-    /* LOAD SETTINGS */
+    /* load settings */
     const savedLH = localStorage.getItem('userLineHeight');
     if (savedLH) currentLineHeight = parseFloat(savedLH);
 
@@ -304,18 +281,18 @@ function init() {
     renderFontSize();
     renderWeight();
 
-    /* BUILD TEXT */
+    /* build text */
     buildSemanticParagraphs();
     restoreReadingPosition();
 
-    /* SAVE POSITION ON SCROLL */
+    /* scroll save */
     let timer;
     window.addEventListener('scroll', () => {
         clearTimeout(timer);
         timer = setTimeout(saveReadingPosition, 200);
     });
 
-    /* TOC SEARCH */
+    /* TOC search */
     const tocSearch = document.getElementById('toc-search');
     const tocItems = document.querySelectorAll('.toc-list li');
 
@@ -324,53 +301,43 @@ function init() {
             const q = tocSearch.value.toLowerCase();
 
             tocItems.forEach(i => {
-                i.style.display = i.textContent.toLowerCase().includes(q)
-                    ? 'block'
-                    : 'none';
+                i.style.display =
+                    i.textContent.toLowerCase().includes(q)
+                        ? 'block'
+                        : 'none';
             });
         });
     }
 
-    /* LINE BUTTONS */
-    document.querySelectorAll('.line-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            currentLineHeight = parseFloat(btn.dataset.value);
-            applyLineHeight();
-        });
-    });
+    /* buttons */
+    document.querySelectorAll('.line-btn')
+        .forEach(btn =>
+            btn.addEventListener('click', () => {
+                currentLineHeight = parseFloat(btn.dataset.value);
+                applyLineHeight();
+            })
+        );
 
-    /* LETTER BUTTONS */
-    document.querySelectorAll('.letter-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            currentLetterSpacing = parseFloat(btn.dataset.value);
-            applyLetterSpacing();
-        });
-    });
+    document.querySelectorAll('.letter-btn')
+        .forEach(btn =>
+            btn.addEventListener('click', () => {
+                currentLetterSpacing = parseFloat(btn.dataset.value);
+                applyLetterSpacing();
+            })
+        );
 
-    /* FONT BUTTONS */
     document.getElementById('font-increase')?.addEventListener('click', () => changeFontSize(1));
     document.getElementById('font-decrease')?.addEventListener('click', () => changeFontSize(-1));
-    document.getElementById('size-plus-10')?.addEventListener('click', () => changeFontSize(10));
-    document.getElementById('size-minus-10')?.addEventListener('click', () => changeFontSize(-10));
-    document.getElementById('size-plus-1')?.addEventListener('click', () => changeFontSize(1));
-    document.getElementById('size-minus-1')?.addEventListener('click', () => changeFontSize(-1));
 
-    /* WEIGHT BUTTONS */
-    document.querySelectorAll('#weight-buttons .preset-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-            currentWeight = parseInt(btn.dataset.weight);
-            renderWeight();
-        });
-    });
+    document.querySelectorAll('#weight-buttons .preset-btn')
+        .forEach(btn =>
+            btn.addEventListener('click', () => {
+                currentWeight = parseInt(btn.dataset.weight);
+                renderWeight();
+            })
+        );
 
-    document.getElementById('weight-plus-100')?.addEventListener('click', () => changeWeight(100));
-    document.getElementById('weight-minus-100')?.addEventListener('click', () => changeWeight(-100));
-    document.getElementById('weight-plus-10')?.addEventListener('click', () => changeWeight(10));
-    document.getElementById('weight-minus-10')?.addEventListener('click', () => changeWeight(-10));
-    document.getElementById('weight-plus-1')?.addEventListener('click', () => changeWeight(1));
-    document.getElementById('weight-minus-1')?.addEventListener('click', () => changeWeight(-1));
-
-    /* TOGGLE EXPORT */
+    /* export */
     window.toggleTOC = toggleTOC;
     window.toggleSetting = toggleSetting;
     window.downloadPDF = downloadPDF;
@@ -379,7 +346,7 @@ function init() {
     window.adjustLetterSpacing = adjustLetterSpacing;
 }
 
-/* START */
+/* start */
 document.addEventListener('DOMContentLoaded', init);
 
 })();
