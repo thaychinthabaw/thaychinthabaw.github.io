@@ -4890,15 +4890,22 @@ value="0" min="0" max="100">
 if ('serviceWorker' in navigator) {
 window.addEventListener(
 'load',
-() => {
-navigator.serviceWorker.register(
+async () => {
+try {
+await navigator.serviceWorker.register(
 '/service-worker.js'
 );
-
-});
-
+console.log(
+'Service Worker Registered'
+);
+} catch (error) {
+console.error(
+'Service Worker Failed:',
+error
+);
 }
-</script>
+});
+}</script>
   
 </body>
 </html>
