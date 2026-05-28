@@ -1,213 +1,180 @@
-paper-audio.js
-
-(() => {
-'use strict';
-
-/* ==
-PAPER AUDIO SYSTEM
-== */
-
-const paperAudio =
-document.getElementById(
-'paper-audio'
-);
-
-const paperAudioBar =
-document.getElementById(
-'paper-audio-bar'
-);
-
-const paperPlayBtn =
-document.getElementById(
-'paper-play-btn'
-);
-
 /* =========================
-STATE
+AUDIO SYSTEM
 ========================= */
 
 let currentSpeakerButton = null;
-
 let currentSpeed = 1;
 
 let repeatOne = false;
-
 let autoNextEnabled = false;
 
-/* =========================
-TOGGLE AUDIO
-========================= */
+let sleepTimer = null;
+let sleepInterval = null;
+let sleepEndTime = null;
 
-window.togglePaperAudio =
-function(
-button,
-src,
-title
-) {
+/* AUDIO ELEMENTS */
+const paperAudio = document.getElementById('paper-audio');
+const paperAudioBar = document.getElementById('paper-audio-bar');
+const paperPlayBtn = document.getElementById('paper-play-btn');
+const paperSeekbar = document.getElementById('paper-seekbar');
+const paperVolumeSlider = document.getElementById('paper-volume-slider');
+const paperVolumeDisplay = document.getElementById('paper-volume-display');
+const paperNowPlaying = document.getElementById('paper-now-playing');
+const paperTimeDisplay = document.getElementById('paper-time-display');
+const paperShowBarBtn = document.getElementById('paper-show-bar-btn');
+const paperFasterBtn = document.getElementById('paper-faster-btn');
+const paperSlowerBtn = document.getElementById('paper-slower-btn');
+const paperSpeedDisplay = document.getElementById('paper-speed-display');
+const paperRepeatBtn = document.getElementById('paper-repeat-btn');
+const paperAutonextBtn = document.getElementById('paper-autonext-btn');
+const paperPrevBtn = document.getElementById('paper-prev-btn');
+const paperNextBtn = document.getElementById('paper-next-btn');
 
-const isSameButton =
-currentSpeakerButton === button;
+const paperSleepInput = document.getElementById('paper-sleep-input');
+const paperSleepUnit = document.getElementById('paper-sleep-unit');
+const paperSleepStartBtn = document.getElementById('paper-sleep-start-btn');
+const paperSleepCancelBtn = document.getElementById('paper-sleep-cancel-btn');
+const paperSleepStatus = document.getElementById('paper-sleep-status');
 
-const isSameAudio =
-decodeURI(
-paperAudio.src
-).includes(src);
+/* AUDIO CONTEXT */
+const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+const source = audioContext.createMediaElementSource(paperAudio);
+const gainNode = audioContext.createGain();
+const voiceEQ = audioContext.createBiquadFilter();
+const nightEQ = audioContext.createBiquadFilter();
 
-if (
-isSameButton &&
-isSameAudio &&
-!paperAudio.paused
-) {
+voiceEQ.type = 'peaking';
+voiceEQ.frequency.value = 2500;
+voiceEQ.gain.value = 0;
 
+nightEQ.type = 'highshelf';
+nightEQ.frequency.value = 3000;
+nightEQ.gain.value = 0;
+
+source.connect(gainNode);
+gainNode.connect(voiceEQ);
+voiceEQ.connect(nightEQ);
+nightEQ.connect(audioContext.destination);
+
+gainNode.gain.value = 1;
+
+/* TOGGLE AUDIO */
+window.togglePaperAudio = function(button, src, title) {
+
+const same = currentSpeakerButton === button;
+
+if (same && !paperAudio.paused) {
 paperAudio.pause();
-
-paperAudioBar.style.display =
-'none';
-
+paperAudioBar.style.display = 'none';
 button.innerHTML = '🔊';
-
 return;
 }
 
-if (
-currentSpeakerButton &&
-currentSpeakerButton !== button
-) {
-
-currentSpeakerButton.innerHTML =
-'🔊';
-}
+if (currentSpeakerButton) currentSpeakerButton.innerHTML = '🔊';
 
 currentSpeakerButton = button;
 
-paperAudioBar.style.display =
-'block';
-
+paperAudioBar.style.display = 'block';
 paperAudio.src = src;
-
-paperAudio.playbackRate =
-currentSpeed;
-
+paperAudio.playbackRate = currentSpeed;
 paperAudio.play();
 
+paperNowPlaying.innerHTML = title;
 button.innerHTML = '⏸';
-
-paperPlayBtn.innerHTML = '⏸';
 };
 
-/* =========================
-PLAY / PAUSE
-========================= */
-
-paperPlayBtn.addEventListener(
-'click',
-() => {
-
+/* PLAY PAUSE */
+paperPlayBtn.onclick = () => {
 if (paperAudio.paused) {
-
 paperAudio.play();
-
-paperPlayBtn.innerHTML = '⏸';
-
-if (currentSpeakerButton) {
-
-currentSpeakerButton.innerHTML =
-'⏸';
-}
-
 } else {
-
 paperAudio.pause();
-
-paperPlayBtn.innerHTML = '▶';
-
-if (currentSpeakerButton) {
-
-currentSpeakerButton.innerHTML =
-'🔊';
 }
+};
+
+/* SEEK */
+paperSeekbar.oninput = () => {
+paperAudio.currentTime =
+(paperSeekbar.value / 100) * paperAudio.duration;
+};
+
+/* SPEED */
+function updateSpeed() {
+paperSpeedDisplay.innerHTML = currentSpeed + 'x';
 }
-});
 
-/* =========================
-ENDED
-========================= */
+paperFasterBtn.onclick = () => {
+if (currentSpeed < 3) {
+currentSpeed += 0.25;
+paperAudio.playbackRate = currentSpeed;
+updateSpeed();
+}
+};
 
-paperAudio.addEventListener(
-'ended',
-() => {
+paperSlowerBtn.onclick = () => {
+if (currentSpeed > 0.25) {
+currentSpeed -= 0.25;
+paperAudio.playbackRate = currentSpeed;
+updateSpeed();
+}
+};
 
+/* REPEAT / AUTO NEXT */
+paperRepeatBtn.onclick = () => {
+repeatOne = !repeatOne;
+paperRepeatBtn.classList.toggle('paper-mode-active', repeatOne);
 if (repeatOne) {
-
-paperAudio.currentTime = 0;
-
-paperAudio.play();
-
-return;
+autoNextEnabled = false;
+paperAutonextBtn.classList.remove('paper-mode-active');
 }
+};
 
-if (currentSpeakerButton) {
-
-currentSpeakerButton.innerHTML =
-'🔊';
+paperAutonextBtn.onclick = () => {
+autoNextEnabled = !autoNextEnabled;
+paperAutonextBtn.classList.toggle('paper-mode-active', autoNextEnabled);
+if (autoNextEnabled) {
+repeatOne = false;
+paperRepeatBtn.classList.remove('paper-mode-active');
 }
+};
 
-paperAudioBar.style.display =
-'none';
-});
+/* TIME */
+paperAudio.ontimeupdate = () => {
+if (!paperAudio.duration) return;
+paperSeekbar.value =
+(paperAudio.currentTime / paperAudio.duration) * 100;
+paperTimeDisplay.innerHTML =
+`${Math.floor(paperAudio.currentTime)} / ${Math.floor(paperAudio.duration)}`;
+};
 
-/* =========================
-DOWNLOAD AUDIO
-========================= */
+/* NEXT / PREV (hooks only) */
+window.playNextAudio = () => {};
+window.playPreviousAudio = () => {};
 
-const paperDownloadBtn =
-document.getElementById(
-"paper-download-btn"
-);
+/* SLEEP TIMER */
+paperSleepStartBtn.onclick = () => {
 
-if (paperDownloadBtn) {
+let v = parseInt(paperSleepInput.value);
+let unit = paperSleepUnit.value;
 
-paperDownloadBtn.addEventListener(
-"click",
-() => {
+if (isNaN(v) || v < 1) return alert('Invalid');
 
-const audioSrc =
-paperAudio.src;
+let min = unit === 'hour' ? v * 60 : v;
 
-if (!audioSrc) {
+if (min > 480) return alert('Max 8 hours');
 
-alert(
-"အသံဖိုင် မရှိသေးပါ"
-);
+clearTimeout(sleepTimer);
 
-return;
-}
+sleepTimer = setTimeout(() => {
+paperAudio.pause();
+paperAudioBar.style.display = 'none';
+paperSleepStatus.innerHTML = 'Sleep End';
+}, min * 60000);
 
-const a =
-document.createElement("a");
+paperSleepStatus.innerHTML = 'Timer Started';
+};
 
-a.href = audioSrc;
-
-const url =
-new URL(audioSrc);
-
-const rawName =
-url.pathname
-.split("/")
-.pop();
-
-const fileName =
-decodeURIComponent(rawName);
-
-a.download =
-fileName;
-
-document.body.appendChild(a);
-
-a.click();
-
-document.body.removeChild(a);
-});
-}
-
-})();
+paperSleepCancelBtn.onclick = () => {
+clearTimeout(sleepTimer);
+paperSleepStatus.innerHTML = 'No Timer';
+};
