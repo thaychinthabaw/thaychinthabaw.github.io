@@ -274,13 +274,18 @@ window.toggleTOC = () => TEXT.toggleTOC();
 window.toggleSetting = () => TEXT.toggleSetting();
 window.toggleFocusMode = () => TEXT.toggleFocusMode();
 window.toggleFullscreen = toggleFullscreen;
-
+// HTML compatibility (paper.js style alias)
+window.toggleReadingMode = () => {
+    TEXT.toggleFocusMode();
+};
 /* ==
    START
 == */
 document.addEventListener('DOMContentLoaded', () => {
     TEXT.init();
-    const fullscreenBtn = document.getElementById('fullscreen-btn');
+
+    // FS BUTTON (မင်း HTML က fs-btn ဖြစ်လို့ပြင်)
+    const fullscreenBtn = document.getElementById('fs-btn');
     if (fullscreenBtn) {
         fullscreenBtn.addEventListener('click', toggleFullscreen);
     }
