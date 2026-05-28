@@ -1,17 +1,11 @@
 (() => {
 'use strict';
 
-/* =========================
-   GLOBAL STATE
-========================= */
+/* ========================= GLOBAL STATE ========================= */
 let currentLineHeight = 2.0;
 let currentLetterSpacing = 0;
-let fontSize = parseInt(localStorage.getItem('userFontSize')) || 25;
-let currentWeight = parseInt(localStorage.getItem('userFontWeight')) || 500;
 
-/* =========================
-   SEMANTIC SYSTEM
-========================= */
+/* ========================= SEMANTIC SYSTEM ========================= */
 function buildSemanticParagraphs() {
     const containers = document.querySelectorAll('.raw-text');
     let globalIndex = 1;
@@ -42,9 +36,7 @@ function buildSemanticParagraphs() {
     });
 }
 
-/* =========================
-   READING POSITION SYSTEM
-========================= */
+/* ========================= READING POSITION SYSTEM ========================= */
 function saveReadingPosition() {
     const paragraphs = document.querySelectorAll('.raw-text p');
 
@@ -90,57 +82,91 @@ function restoreReadingPosition() {
             top: finalY,
             behavior: 'smooth'
         });
-    }, 500);
+    }, 600);
 }
 
-/* =========================
-   TOC SYSTEM
-========================= */
+/* ========================= TOGGLE SYSTEM ========================= */
 function toggleTOC() {
-    const toc = document.getElementById('toc-overlay');
-    if (!toc) return;
+    const tocOverlay = document.getElementById('toc-overlay');
+    if (!tocOverlay) return;
 
-    const isOpen = toc.style.display === 'block';
-    toc.style.display = isOpen ? 'none' : 'block';
+    const isOpening = tocOverlay.style.display !== 'block';
+
+    if (isOpening) {
+        tocOverlay.style.display = 'block';
+
+        setTimeout(() => {
+            const activeItem = document.querySelector('.active-chapter');
+            const tocList = document.querySelector('.toc-list');
+
+            if (activeItem && tocList) {
+                activeItem.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+            }
+        }, 100);
+    } else {
+        tocOverlay.style.display = 'none';
+        clearTOCSearch();
+    }
 }
 
-function clearTOCSearch() {
-    const input = document.getElementById('toc-search');
-    const items = document.querySelectorAll('.toc-list li');
-
-    if (input) input.value = '';
-    items.forEach(i => i.style.display = 'block');
-}
-
-/* =========================
-   SETTING
-========================= */
 function toggleSetting() {
-    const setting = document.getElementById('setting-overlay');
-    if (!setting) return;
+    const settingOverlay = document.getElementById('setting-overlay');
+    if (!settingOverlay) return;
 
-    const isOpen = setting.style.display === 'block';
-    setting.style.display = isOpen ? 'none' : 'block';
+    const isVisible = settingOverlay.style.display === 'block';
+    settingOverlay.style.display = isVisible ? 'none' : 'block';
 }
 
-/* =========================
-   DOWNLOAD / PRINT
-========================= */
 function downloadPDF() {
     toggleSetting();
-    setTimeout(() => window.print(), 400);
+    setTimeout(() => window.print(), 500);
 }
 
-/* =========================
-   FOCUS MODE
-========================= */
 function toggleReadingMode() {
     document.body.classList.toggle('focus-mode');
+
+    const fsBtn = document.getElementById('fs-btn');
+
+    if (document.body.classList.contains('focus-mode')) {
+        fsBtn.innerHTML = '✖';
+        fsBtn.style.background = 'rgba(234, 222, 188, 0.2)';
+    } else {
+        fsBtn.innerHTML = '⛶';
+        fsBtn.style.background = 'rgba(234, 222, 188, 0.4)';
+    }
 }
 
-/* =========================
-   LINE HEIGHT
-========================= */
+/* ========================= LAST READ SYSTEM ========================= */
+function saveCurrentPage() {
+    localStorage.setItem('lastReadTitle', document.title);
+    localStorage.setItem('lastReadUrl', window.location.href);
+}
+
+function showLastReadLink() {
+    const lastTitle = localStorage.getItem('lastReadTitle');
+    const lastUrl = localStorage.getItem('lastReadUrl');
+    const container = document.getElementById('last-read-container');
+
+    if (lastTitle && lastUrl && window.location.href !== lastUrl && container) {
+        container.innerHTML = `
+            <div style="background:#eadebc;border:1px solid #443300;padding:15px;margin:10px;border-radius:8px;text-align:center;">
+                <p style="color:#443300;font-size:14px;margin-bottom:5px;">
+                    သင်နောက်ဆုံး ဖတ်လက်စအပိုင်း -
+                </p>
+                <a href="${lastUrl}" style="color:#443300;font-weight:bold;text-decoration:none;">
+                    📖 ${lastTitle} သို့ ပြန်သွားရန်
+                </a>
+            </div>
+        `;
+    }
+}
+
+/* ========================= LINE HEIGHT ========================= */
+let currentLineHeight = parseFloat(localStorage.getItem('userLineHeight')) || 2.0;
+
 function applyLineHeight() {
     const content = document.getElementById('reading-content');
 
@@ -164,16 +190,16 @@ function adjustLineHeight(amount) {
 
     let next = Math.round((currentLineHeight + amount) * 10) / 10;
 
-    if (next >= 1 && next <= 5) {
+    if (next >= 1.0 && next <= 100.0) {
         currentLineHeight = next;
         applyLineHeight();
         setTimeout(restoreReadingPosition, 100);
     }
 }
 
-/* =========================
-   LETTER SPACING
-========================= */
+/* ========================= LETTER SPACING ========================= */
+let currentLetterSpacing = parseFloat(localStorage.getItem('userLetterSpacing')) || 0;
+
 function applyLetterSpacing() {
     const content = document.getElementById('reading-content');
 
@@ -204,72 +230,41 @@ function adjustLetterSpacing(amount) {
     }
 }
 
-/* =========================
-   FONT SIZE
-========================= */
+/* ========================= TOC SEARCH ========================= */
+function clearTOCSearch() {
+    const input = document.getElementById('toc-search');
+    const items = document.querySelectorAll('.toc-list li');
+
+    if (input) input.value = '';
+
+    items.forEach(i => i.style.display = 'block');
+}
+
+/* ========================= FONT SIZE ========================= */
+let fontSize = parseInt(localStorage.getItem('userFontSize')) || 25;
+
 function renderFontSize() {
     const article = document.querySelector('article');
 
     if (article) article.style.fontSize = fontSize + 'px';
 
-    document.getElementById('font-size-display') &&
-    (document.getElementById('font-size-display').textContent = fontSize);
-
-    document.getElementById('size-tens') &&
-    (document.getElementById('size-tens').textContent = Math.floor(fontSize / 10));
-
-    document.getElementById('size-ones') &&
-    (document.getElementById('size-ones').textContent = fontSize % 10);
-
-    localStorage.setItem('userFontSize', fontSize);
+    const display = document.getElementById('font-size-display');
+    if (display) display.textContent = fontSize;
 }
 
-function changeFontSize(amount) {
-    saveReadingPosition();
+/* ========================= FONT WEIGHT ========================= */
+let currentWeight = parseInt(localStorage.getItem('userFontWeight')) || 500;
 
-    const next = fontSize + amount;
-
-    if (next >= 10 && next <= 70) {
-        fontSize = next;
-        renderFontSize();
-        setTimeout(restoreReadingPosition, 100);
-    }
-}
-
-/* =========================
-   FONT WEIGHT
-========================= */
 function renderWeight() {
     const article = document.querySelector('article');
 
     if (article) article.style.fontWeight = currentWeight;
-
-    document.querySelectorAll('#weight-buttons .preset-btn')
-        .forEach(btn => {
-            btn.classList.toggle(
-                'active-preset',
-                parseInt(btn.dataset.weight) === currentWeight
-            );
-        });
-
-    localStorage.setItem('userFontWeight', currentWeight);
 }
 
-function changeWeight(amount) {
-    const next = currentWeight + amount;
-
-    if (next >= 100 && next <= 900) {
-        currentWeight = next;
-        renderWeight();
-    }
-}
-
-/* =========================
-   INIT
-========================= */
+/* ========================= INIT ========================= */
 function init() {
+    buildSemanticParagraphs();
 
-    /* load settings */
     const savedLH = localStorage.getItem('userLineHeight');
     if (savedLH) currentLineHeight = parseFloat(savedLH);
 
@@ -281,63 +276,17 @@ function init() {
     renderFontSize();
     renderWeight();
 
-    /* build text */
-    buildSemanticParagraphs();
+    saveCurrentPage();
+    showLastReadLink();
+
     restoreReadingPosition();
 
-    /* scroll save */
     let timer;
     window.addEventListener('scroll', () => {
         clearTimeout(timer);
         timer = setTimeout(saveReadingPosition, 200);
     });
 
-    /* TOC search */
-    const tocSearch = document.getElementById('toc-search');
-    const tocItems = document.querySelectorAll('.toc-list li');
-
-    if (tocSearch) {
-        tocSearch.addEventListener('input', () => {
-            const q = tocSearch.value.toLowerCase();
-
-            tocItems.forEach(i => {
-                i.style.display =
-                    i.textContent.toLowerCase().includes(q)
-                        ? 'block'
-                        : 'none';
-            });
-        });
-    }
-
-    /* buttons */
-    document.querySelectorAll('.line-btn')
-        .forEach(btn =>
-            btn.addEventListener('click', () => {
-                currentLineHeight = parseFloat(btn.dataset.value);
-                applyLineHeight();
-            })
-        );
-
-    document.querySelectorAll('.letter-btn')
-        .forEach(btn =>
-            btn.addEventListener('click', () => {
-                currentLetterSpacing = parseFloat(btn.dataset.value);
-                applyLetterSpacing();
-            })
-        );
-
-    document.getElementById('font-increase')?.addEventListener('click', () => changeFontSize(1));
-    document.getElementById('font-decrease')?.addEventListener('click', () => changeFontSize(-1));
-
-    document.querySelectorAll('#weight-buttons .preset-btn')
-        .forEach(btn =>
-            btn.addEventListener('click', () => {
-                currentWeight = parseInt(btn.dataset.weight);
-                renderWeight();
-            })
-        );
-
-    /* export */
     window.toggleTOC = toggleTOC;
     window.toggleSetting = toggleSetting;
     window.downloadPDF = downloadPDF;
@@ -346,7 +295,7 @@ function init() {
     window.adjustLetterSpacing = adjustLetterSpacing;
 }
 
-/* start */
+/* ========================= START ========================= */
 document.addEventListener('DOMContentLoaded', init);
 
 })();
