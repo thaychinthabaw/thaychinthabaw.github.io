@@ -1,1061 +1,495 @@
-/* ==
-PAPER AUDIO SYSTEM
-== */
-const paperAudio =
-document.getElementById(
-'paper-audio'
-);
+(() => {
+'use strict';
 
-const paperAudioBar =
-document.getElementById(
-'paper-audio-bar'
-);
+/* =========================
+   AUDIO ENGINE
+========================= */
 
-const paperPlayBtn =
-document.getElementById(
-'paper-play-btn'
-);
+const AUDIO = {
 
-const paperSeekbar =
-document.getElementById(
-'paper-seekbar'
-);
+    /* =========================
+       STATE
+    ========================= */
+    state: {
+        currentSpeed: 1,
+        repeatOne: false,
+        autoNext: false,
+        voiceMode: false,
+        nightMode: false,
+        currentButton: null,
+        sleepTimer: null,
+        sleepInterval: null,
+        sleepEndTime: null
+    },
 
-const paperVolumeSlider =
-document.getElementById(
-'paper-volume-slider'
-);
+    /* =========================
+       DOM
+    ========================= */
+    dom: {},
 
-const paperVolumeDisplay =
-document.getElementById(
-'paper-volume-display'
-);
+    audio: null,
+    audioContext: null,
+    source: null,
+    gainNode: null,
+    voiceEQ: null,
+    nightEQ: null,
 
-const paperNowPlaying =
-document.getElementById(
-'paper-now-playing'
-);
+    /* =========================
+       INIT
+    ========================= */
+    init() {
 
-const paperTimeDisplay =
-document.getElementById(
-'paper-time-display'
-);
+        this.cacheDOM();
+        this.setupAudioGraph();
+        this.bindEvents();
+        this.bindGlobalButtons();
+        this.handleAutoPlay();
 
-const paperCloseBtn =
-document.getElementById(
-'paper-close-btn'
-);
+    },
 
-const paperMinimizeBtn =
-document.getElementById(
-'paper-minimize-btn'
-);
+    /* =========================
+       CACHE DOM
+    ========================= */
+    cacheDOM() {
 
-const paperHideBtn =
-document.getElementById(
-'paper-hide-btn'
-);
+        const $ = (id) => document.getElementById(id);
 
-const paperShowBarBtn =
-document.getElementById(
-'paper-show-bar-btn'
-);
+        this.dom = {
 
-const paperFasterBtn =
-document.getElementById(
-'paper-faster-btn'
-);
+            audio: $('paper-audio'),
+            bar: $('paper-audio-bar'),
+            playBtn: $('paper-play-btn'),
+            seekbar: $('paper-seekbar'),
+            volume: $('paper-volume-slider'),
+            volumeDisplay: $('paper-volume-display'),
+            nowPlaying: $('paper-now-playing'),
+            time: $('paper-time-display'),
 
-const paperSlowerBtn =
-document.getElementById(
-'paper-slower-btn'
-);
+            close: $('paper-close-btn'),
+            hide: $('paper-hide-btn'),
+            show: $('paper-show-bar-btn'),
+            minimize: $('paper-minimize-btn'),
 
-const paperSpeedDisplay =
-document.getElementById(
-'paper-speed-display'
-);
+            faster: $('paper-faster-btn'),
+            slower: $('paper-slower-btn'),
+            speedDisplay: $('paper-speed-display'),
 
-const paperRepeatBtn =
-document.getElementById(
-'paper-repeat-btn'
-);
+            repeat: $('paper-repeat-btn'),
+            autoNext: $('paper-autonext-btn'),
 
-const paperAutonextBtn =
-document.getElementById(
-'paper-autonext-btn'
-);
+            voice: $('paper-voice-btn'),
+            night: $('paper-night-btn'),
 
-const paperPrevBtn =
-document.getElementById(
-'paper-prev-btn'
-);
+            prev: $('paper-prev-btn'),
+            next: $('paper-next-btn'),
 
-const paperNextBtn =
-document.getElementById(
-'paper-next-btn'
-);
+            sleepInput: $('paper-sleep-input'),
+            sleepUnit: $('paper-sleep-unit'),
+            sleepStart: $('paper-sleep-start-btn'),
+            sleepCancel: $('paper-sleep-cancel-btn'),
+            sleepStatus: $('paper-sleep-status'),
 
-const paperVoiceBtn =
-document.getElementById(
-'paper-voice-btn'
-);
+            download: $('paper-download-btn')
+        };
 
-const paperNightBtn =
-document.getElementById(
-'paper-night-btn'
-);
+        this.audio = this.dom.audio;
+    },
 
-/*  SLEEP TIMER  */
-const paperSleepInput =
-document.getElementById(
-'paper-sleep-input'
-);
+    /* =========================
+       AUDIO GRAPH
+    ========================= */
+    setupAudioGraph() {
 
-const paperSleepUnit =
-document.getElementById(
-'paper-sleep-unit'
-);
+        this.audioContext =
+            new (window.AudioContext || window.webkitAudioContext)();
 
-const paperSleepStartBtn =
-document.getElementById(
-'paper-sleep-start-btn'
-);
+        this.source =
+            this.audioContext.createMediaElementSource(this.audio);
 
-const paperSleepCancelBtn =
-document.getElementById(
-'paper-sleep-cancel-btn'
-);
+        this.gainNode =
+            this.audioContext.createGain();
 
-const paperSleepStatus =
-document.getElementById(
-'paper-sleep-status'
-);
+        this.voiceEQ =
+            this.audioContext.createBiquadFilter();
+        this.voiceEQ.type = 'peaking';
+        this.voiceEQ.frequency.value = 2500;
+        this.voiceEQ.Q.value = 1;
+        this.voiceEQ.gain.value = 0;
 
-/* ==
-STATE
-== */
-let currentSpeakerButton = null;
-let currentSpeed = 1;
+        this.nightEQ =
+            this.audioContext.createBiquadFilter();
+        this.nightEQ.type = 'highshelf';
+        this.nightEQ.frequency.value = 3000;
+        this.nightEQ.gain.value = 0;
 
-/* repeat current audio */
-let repeatOne = false;
+        this.source
+            .connect(this.gainNode);
 
-/* auto next mode */
-let autoNextEnabled = false;
+        this.gainNode
+            .connect(this.voiceEQ);
 
-/* 🎙 voice clarity */
-let voiceModeEnabled = false;
+        this.voiceEQ
+            .connect(this.nightEQ);
 
-/* 🌙 night listening */
-let nightModeEnabled = false;
+        this.nightEQ
+            .connect(this.audioContext.destination);
 
-/* sleep timer */
-let sleepTimer = null;
+        this.gainNode.gain.value = 1;
+    },
 
-let sleepEndTime = null;
+    /* =========================
+       CORE PLAY
+    ========================= */
+    play(button, src, title) {
 
-let sleepInterval = null;
+        const same =
+            this.state.currentButton === button &&
+            decodeURI(this.audio.src).includes(src) &&
+            !this.audio.paused;
 
-/* ==VOLUME BOOSTER SYSTEM== */
-const audioContext =
-new (
-window.AudioContext ||
-window.webkitAudioContext
-)();
+        if (same) {
+            this.pauseUI();
+            return;
+        }
 
-const source =
-audioContext.createMediaElementSource(
-paperAudio
-);
+        if (this.state.currentButton) {
+            this.state.currentButton.innerHTML = '🔊';
+        }
 
-const gainNode =
-audioContext.createGain();
+        this.state.currentButton = button;
 
-/* ==
-VOICE FILTER SYSTEM
-== */
+        this.dom.bar.style.display = 'block';
+        this.dom.show.style.display = 'none';
+        this.dom.bar.classList.remove('hidden-bar');
+        this.dom.bar.classList.remove('minimized');
 
-/* 🎙 Voice clarity */
-const voiceEQ =
-audioContext.createBiquadFilter();
+        this.audio.src = src;
+        this.audio.playbackRate = this.state.currentSpeed;
+        this.audio.play();
 
-voiceEQ.type = 'peaking';
-voiceEQ.frequency.value = 2500;
-voiceEQ.Q.value = 1;
-voiceEQ.gain.value = 0;
+        this.dom.nowPlaying.innerHTML = title;
 
-/* 🌙 Night listening */
-const nightEQ =
-audioContext.createBiquadFilter();
+        button.innerHTML = '⏸';
+        this.dom.playBtn.innerHTML = '⏸';
+    },
 
-nightEQ.type = 'highshelf';
-nightEQ.frequency.value = 3000;
-nightEQ.gain.value = 0;
+    pauseUI() {
+        this.audio.pause();
+        this.dom.bar.style.display = 'none';
+        this.dom.show.style.display = 'none';
 
-/* == CONNECT == */
-source.connect(gainNode);
-gainNode.connect(voiceEQ);
-voiceEQ.connect(nightEQ);
-nightEQ.connect(
-audioContext.destination
-);
+        if (this.state.currentButton) {
+            this.state.currentButton.innerHTML = '🔊';
+        }
+    },
 
-/* default volume */
-gainNode.gain.value = 1;
+    /* =========================
+       PLAY / PAUSE
+    ========================= */
+    togglePlay() {
 
-/* ==TOGGLE AUDIO== */
-window.togglePaperAudio =
-function(
-button,
-src,
-title
-) {
+        if (this.audio.paused) {
+            this.audio.play();
+            this.dom.playBtn.innerHTML = '⏸';
+            if (this.state.currentButton) {
+                this.state.currentButton.innerHTML = '⏸';
+            }
+        } else {
+            this.audio.pause();
+            this.dom.playBtn.innerHTML = '▶';
+            if (this.state.currentButton) {
+                this.state.currentButton.innerHTML = '🔊';
+            }
+        }
+    },
 
-const isSameButton =
-currentSpeakerButton === button;
+    /* =========================
+       NEXT / PREV
+    ========================= */
+    getButtons() {
+        return Array.from(
+            document.querySelectorAll('[onclick*="togglePaperAudio"]')
+        );
+    },
 
-/* မြန်မာစာ file name fix */
-const isSameAudio =
-decodeURI(paperAudio.src).includes(src); 
-    
-if (
-isSameButton &&
-isSameAudio &&
-!paperAudio.paused
-) {
+    extract(btn) {
+        const m =
+            btn.getAttribute('onclick')
+            .match(/togglePaperAudio\(this,\s*'([^']+)'\s*,\s*'([^']+)'\)/);
 
-paperAudio.pause();
+        if (!m) return null;
 
-paperAudioBar.style.display =
-'none';
+        return { src: m[1], title: m[2] };
+    },
 
-paperShowBarBtn.style.display =
-'none';
+    playByIndex(i) {
 
-button.innerHTML = '🔊';
+        const buttons = this.getButtons();
+        if (i < 0 || i >= buttons.length) return;
 
-return;
-}
+        const btn = buttons[i];
+        const data = this.extract(btn);
+        if (!data) return;
 
-/* old button reset */
-if (
-currentSpeakerButton &&
-currentSpeakerButton !== button
-) {
+        this.play(btn, data.src, data.title);
+    },
 
-currentSpeakerButton.innerHTML =
-'🔊';
-}
+    next() {
+        const buttons = this.getButtons();
+        const i = buttons.indexOf(this.state.currentButton);
+        let n = i + 1;
+        if (n >= buttons.length) n = 0;
+        this.playByIndex(n);
+    },
 
-currentSpeakerButton = button;
+    prev() {
+        const buttons = this.getButtons();
+        const i = buttons.indexOf(this.state.currentButton);
+        let p = i - 1;
+        if (p < 0) p = buttons.length - 1;
+        this.playByIndex(p);
+    },
 
-/* show bar */
-paperAudioBar.style.display =
-'block';
+    /* =========================
+       TIME
+    ========================= */
+    format(sec) {
+        const m = Math.floor(sec / 60);
+        const s = Math.floor(sec % 60);
+        return `${m}:${String(s).padStart(2,'0')}`;
+    },
 
-paperShowBarBtn.style.display =
-'none';
-    
-paperAudioBar.classList.remove(
-'hidden-bar'
-);
+    updateTime() {
+        this.dom.time.innerHTML =
+        `${this.format(this.audio.currentTime)} / ${this.format(this.audio.duration || 0)}`;
+    },
 
-paperAudioBar.classList.remove(
-'minimized'
-);
+    /* =========================
+       SLEEP TIMER
+    ========================= */
+    startSleepTimer() {
 
-/* play */
-paperAudio.src = src;
+        const value = parseInt(this.dom.sleepInput.value);
+        const unit = this.dom.sleepUnit.value;
 
-paperAudio.playbackRate =
-currentSpeed;
+        if (isNaN(value)) return alert('အချိန်ရိုက်ထည့်ပါ');
 
-paperAudio.play();
+        let min = value;
+        if (unit === 'hour') min *= 60;
 
-paperNowPlaying.innerHTML =
-title;
+        if (min < 1 || min > 480)
+            return alert('1min - 8hr အတွင်းသာ');
 
-button.innerHTML = '⏸';
+        clearTimeout(this.state.sleepTimer);
+        clearInterval(this.state.sleepInterval);
 
-paperPlayBtn.innerHTML = '⏸';
+        this.state.sleepEndTime = Date.now() + min * 60000;
+
+        this.state.sleepTimer = setTimeout(() => {
+            this.audio.pause();
+            this.dom.bar.style.display = 'none';
+            if (this.state.currentButton)
+                this.state.currentButton.innerHTML = '🔊';
+            this.dom.sleepStatus.innerHTML = '⏰ Finished';
+        }, min * 60000);
+
+        this.state.sleepInterval = setInterval(() => {
+
+            const remain = this.state.sleepEndTime - Date.now();
+            if (remain <= 0) return clearInterval(this.state.sleepInterval);
+
+            const t = Math.floor(remain / 1000);
+            const h = Math.floor(t / 3600);
+            const m = Math.floor((t % 3600) / 60);
+            const s = t % 60;
+
+            this.dom.sleepStatus.innerHTML =
+                `😴 ${h}h ${m}m ${s}s`;
+
+        }, 1000);
+
+        this.dom.sleepStatus.innerHTML = '😴 Started';
+    },
+
+    cancelSleep() {
+        clearTimeout(this.state.sleepTimer);
+        clearInterval(this.state.sleepInterval);
+        this.dom.sleepStatus.innerHTML = 'No Timer';
+    },
+
+    /* =========================
+       EVENTS
+    ========================= */
+    bindEvents() {
+
+        this.dom.playBtn.onclick = () => this.togglePlay();
+
+        this.audio.addEventListener('timeupdate', () => {
+            if (!this.audio.duration) return;
+            this.dom.seekbar.value =
+                (this.audio.currentTime / this.audio.duration) * 100;
+            this.updateTime();
+        });
+
+        this.dom.seekbar.oninput = () => {
+            this.audio.currentTime =
+                (this.dom.seekbar.value / 100) * this.audio.duration;
+        };
+
+        this.dom.volume.oninput = () => {
+            const v = parseInt(this.dom.volume.value);
+            this.gainNode.gain.value = v / 100;
+            this.dom.volumeDisplay.innerHTML = v + '%';
+        };
+
+        this.dom.faster.onclick = () => {
+            if (this.state.currentSpeed < 3) {
+                this.state.currentSpeed += 0.25;
+                this.audio.playbackRate = this.state.currentSpeed;
+                this.dom.speedDisplay.innerHTML = this.state.currentSpeed + 'x';
+            }
+        };
+
+        this.dom.slower.onclick = () => {
+            if (this.state.currentSpeed > 0.25) {
+                this.state.currentSpeed -= 0.25;
+                this.audio.playbackRate = this.state.currentSpeed;
+                this.dom.speedDisplay.innerHTML = this.state.currentSpeed + 'x';
+            }
+        };
+
+        this.dom.repeat.onclick = () => {
+            this.state.repeatOne = !this.state.repeatOne;
+            this.dom.repeat.classList.toggle('paper-mode-active', this.state.repeatOne);
+        };
+
+        this.dom.autoNext.onclick = () => {
+            this.state.autoNext = !this.state.autoNext;
+            this.dom.autoNext.classList.toggle('paper-mode-active', this.state.autoNext);
+        };
+
+        this.dom.voice.onclick = () => {
+            this.state.voiceMode = !this.state.voiceMode;
+            this.dom.voice.classList.toggle('paper-mode-active', this.state.voiceMode);
+            this.voiceEQ.gain.value = this.state.voiceMode ? 8 : 0;
+        };
+
+        this.dom.night.onclick = () => {
+            this.state.nightMode = !this.state.nightMode;
+            this.dom.night.classList.toggle('paper-mode-active', this.state.nightMode);
+            this.nightEQ.gain.value = this.state.nightMode ? -10 : 0;
+        };
+
+        this.audio.addEventListener('ended', () => {
+            if (this.state.repeatOne) {
+                this.audio.currentTime = 0;
+                this.audio.play();
+                return;
+            }
+            if (this.state.autoNext) {
+                this.next();
+                return;
+            }
+            this.dom.bar.style.display = 'none';
+            if (this.state.currentButton)
+                this.state.currentButton.innerHTML = '🔊';
+        });
+
+        this.dom.next.onclick = () => this.next();
+        this.dom.prev.onclick = () => this.prev();
+
+        this.dom.hide.onclick = () => {
+            this.dom.bar.classList.add('hidden-bar');
+            this.dom.show.style.display = 'flex';
+        };
+
+        this.dom.show.onclick = () => {
+            this.dom.bar.classList.remove('hidden-bar');
+            this.dom.show.style.display = 'none';
+        };
+
+        this.dom.minimize.onclick = () => {
+            this.dom.bar.classList.toggle('minimized');
+        };
+
+        this.dom.close.onclick = () => {
+            this.audio.pause();
+            this.audio.currentTime = 0;
+            this.dom.bar.style.display = 'none';
+            if (this.state.currentButton)
+                this.state.currentButton.innerHTML = '🔊';
+        };
+
+        this.dom.sleepStart.onclick = () => this.startSleepTimer();
+        this.dom.sleepCancel.onclick = () => this.cancelSleep();
+
+        this.dom.download.onclick = () => {
+            const src = this.audio.src;
+            if (!src) return alert('အသံဖိုင်မရှိပါ');
+
+            const a = document.createElement('a');
+            a.href = src;
+
+            const file = new URL(src).pathname.split('/').pop();
+            a.download = decodeURIComponent(file);
+
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        };
+
+        this.audio.addEventListener('ended', () => this.updateTime());
+    },
+
+    /* =========================
+       GLOBAL BUTTONS
+    ========================= */
+    bindGlobalButtons() {
+
+        window.togglePaperAudio = (btn, src, title) => {
+            this.play(btn, src, title);
+        };
+
+        window.playNextAudio = () => this.next();
+        window.playPreviousAudio = () => this.prev();
+    },
+
+    /* =========================
+       AUTO PLAY
+    ========================= */
+    handleAutoPlay() {
+
+        window.addEventListener('load', () => {
+
+            const params = new URLSearchParams(location.search);
+            const hash = location.hash;
+
+            if (params.get('autoplay') === '1' && hash) {
+
+                setTimeout(() => {
+
+                    const target = document.querySelector(hash);
+                    if (!target) return;
+
+                    const btn = target.querySelector('.speaker-btn');
+                    if (btn) btn.click();
+
+                }, 1200);
+            }
+
+        });
+    }
+
 };
 
-/* ==
-PLAY / PAUSE
-== */
-paperPlayBtn.addEventListener(
-'click',
-() => {
+/* =========================
+   START
+========================= */
 
-if (paperAudio.paused) {
-
-paperAudio.play();
-
-paperPlayBtn.innerHTML = '⏸';
-
-if (currentSpeakerButton) {
-
-currentSpeakerButton.innerHTML =
-'⏸';
-}
-
-} else {
-
-paperAudio.pause();
-
-paperPlayBtn.innerHTML = '▶';
-
-if (currentSpeakerButton) {
-
-currentSpeakerButton.innerHTML =
-'🔊';
-}
-}
+document.addEventListener('DOMContentLoaded', () => {
+    AUDIO.init();
 });
 
-/* ==
-ENDED
-== */
-paperAudio.addEventListener(
-'ended',
-() => {
+window.AUDIO = AUDIO;
 
-/* 🔂 repeat current */
-if (repeatOne) {
-
-paperAudio.currentTime = 0;
-paperAudio.play();
-
-return;
-}
-
-/* ⏭️ auto next */
-if (autoNextEnabled) {
-
-playNextAudio();
-
-return;
-}
-
-/* default close */
-paperAudioBar.style.display =
-'none';
-
-paperShowBarBtn.style.display =
-'none';
-
-if (currentSpeakerButton) {
-
-currentSpeakerButton.innerHTML =
-'🔊';
-}
-});
-
-/* ==
-TIME UPDATE
-== */
-paperAudio.addEventListener(
-'timeupdate',
-() => {
-
-if (!paperAudio.duration) return;
-
-paperSeekbar.value =
-(
-paperAudio.currentTime
-/
-paperAudio.duration
-)
-* 100;
-
-updatePaperTime();
-}
-);
-
-/* ==
-SEEK
-== */
-paperSeekbar.addEventListener(
-'input',
-() => {
-
-if (!paperAudio.duration) return;
-
-paperAudio.currentTime =
-(
-paperSeekbar.value / 100
-)
-*
-paperAudio.duration;
-}
-);
-
-/* ==VOLUME SLIDER== */
-paperVolumeSlider.addEventListener(
-'input',
-() => {
-
-const value =
-parseInt(
-paperVolumeSlider.value
-);
-    
-/*100 = normal 300 = 3x boost*/
-const gain =
-value / 100;
-
-gainNode.gain.value =
-gain;
-
-paperVolumeDisplay.innerHTML =
-value + '%';
-}
-);
-
-/* ==SPEED== */
-paperFasterBtn.addEventListener(
-'click',
-() => {
-
-if (currentSpeed < 3) {
-
-currentSpeed += 0.25;
-
-currentSpeed =
-parseFloat(
-currentSpeed.toFixed(2)
-);
-
-paperAudio.playbackRate =
-currentSpeed;
-
-updateSpeedDisplay();
-}
-}
-);
-
-paperSlowerBtn.addEventListener(
-'click',
-() => {
-
-if (currentSpeed > 0.25) {
-
-currentSpeed -= 0.25;
-
-currentSpeed =
-parseFloat(
-currentSpeed.toFixed(2)
-);
-
-paperAudio.playbackRate =
-currentSpeed;
-
-updateSpeedDisplay();
-}
-}
-);
-
-function updateSpeedDisplay() {
-
-paperSpeedDisplay.innerHTML =
-currentSpeed + 'x';
-}
-
-/* ==REPEAT TOGGLE== */
-paperRepeatBtn.addEventListener(
-'click',
-() => {
-
-repeatOne = !repeatOne;
-
-paperRepeatBtn.classList.toggle(
-'paper-mode-active',
-repeatOne
-);
-
-/* 🔂 ON => ⏭️ OFF */
-if (repeatOne) {
-
-autoNextEnabled = false;
-
-paperAutonextBtn.classList.remove(
-'paper-mode-active'
-);
-}
-}
-);
-
-/* ==AUTO NEXT TOGGLE== */
-paperAutonextBtn.addEventListener(
-'click',
-() => {
-
-autoNextEnabled =
-!autoNextEnabled;
-
-paperAutonextBtn.classList.toggle(
-'paper-mode-active',
-autoNextEnabled
-);
-
-/* ⏭️ ON => 🔂 OFF */
-if (autoNextEnabled) {
-
-repeatOne = false;
-
-paperRepeatBtn.classList.remove(
-'paper-mode-active'
-);
-}
-}
-);
-
-/* ==
-🎙 VOICE MODE
-== */
-paperVoiceBtn.addEventListener(
-'click',
-() => {
-
-voiceModeEnabled =
-!voiceModeEnabled;
-
-paperVoiceBtn.classList.toggle(
-'paper-mode-active',
-voiceModeEnabled
-);
-
-if (voiceModeEnabled) {
-
-voiceEQ.gain.value = 8;
-
-} else {
-
-voiceEQ.gain.value = 0;
-}
-}
-);
-
-/* ==
-🌙 NIGHT MODE
-== */
-paperNightBtn.addEventListener(
-'click',
-() => {
-
-nightModeEnabled =
-!nightModeEnabled;
-
-paperNightBtn.classList.toggle(
-'paper-mode-active',
-nightModeEnabled
-);
-
-if (nightModeEnabled) {
-
-nightEQ.gain.value = -10;
-
-} else {
-
-nightEQ.gain.value = 0;
-}
-}
-);
-
-/* ==
-TIME FORMAT
-== */
-function formatPaperTime(
-seconds
-) {
-
-const min =
-Math.floor(seconds / 60);
-
-const sec =
-Math.floor(seconds % 60);
-
-return `${min}:${
-sec
-.toString()
-.padStart(2,'0')
-}`;
-}
-
-function updatePaperTime() {
-
-paperTimeDisplay.innerHTML =
-`${formatPaperTime(
-paperAudio.currentTime
-)}
-/
-${formatPaperTime(
-paperAudio.duration || 0
-)}`;
-}
-
-/* ==
-HIDE BAR
-== */
-paperHideBtn
-.addEventListener(
-'click',
-() => {
-
-paperAudioBar.classList.add(
-'hidden-bar'
-);
-
-paperShowBarBtn.style.display =
-'flex';
-}
-);
-
-/* ==
-MINIMIZE
-== */
-paperMinimizeBtn
-.addEventListener(
-'click',
-() => {
-
-paperAudioBar.classList.toggle(
-'minimized'
-);
-}
-);
-
-/* ==
-SHOW HIDDEN BAR
-== */
-paperShowBarBtn
-.addEventListener(
-'click',
-() => {
-
-paperAudioBar.classList.remove(
-'hidden-bar'
-);
-
-paperShowBarBtn.style.display =
-'none';
-}
-);
-
-/* ==
-CLOSE
-== */
-paperCloseBtn
-.addEventListener(
-'click',
-() => {
-
-paperAudio.pause();
-
-paperAudio.currentTime = 0;
-
-paperAudioBar.style.display =
-'none';
-
-paperShowBarBtn.style.display =
-'none';
-
-paperAudioBar.classList.remove(
-'minimized'
-);
-
-if (currentSpeakerButton) {
-
-currentSpeakerButton.innerHTML =
-'🔊';
-}
-}
-);
-
-/* ==
-GET AUDIO BUTTONS
-== */
-function getAudioButtons() {
-
-return Array.from(
-document.querySelectorAll(
-'[onclick*="togglePaperAudio"]'
-)
-);
-}
-
-/* ==
-EXTRACT AUDIO DATA
-== */
-function extractAudioData(button) {
-
-const onclickText =
-button.getAttribute('onclick');
-
-const match =
-onclickText.match(
-/togglePaperAudio\(this,\s*'([^']+)'\s*,\s*'([^']+)'\)/
-);
-
-if (!match) return null;
-
-return {
-src: match[1],
-title: match[2]
-};
-}
-
-/* ==
-PLAY AUDIO BY INDEX
-== */
-function playAudioByIndex(index) {
-
-const buttons =
-getAudioButtons();
-
-if (
-index < 0 ||
-index >= buttons.length
-) {
-return;
-}
-
-const button =
-buttons[index];
-
-const data =
-extractAudioData(button);
-
-if (!data) return;
-
-window.togglePaperAudio(
-button,
-data.src,
-data.title
-);
-}
-
-/* NEXT AUDIO */
-function playNextAudio() {
-
-const buttons =
-getAudioButtons();
-
-if (
-!currentSpeakerButton ||
-buttons.length === 0
-) {
-return;
-}
-
-const currentIndex =
-buttons.indexOf(currentSpeakerButton);
-
-let nextIndex =
-currentIndex + 1;
-
-/* last audio => go first */
-if (nextIndex >= buttons.length) {
-
-nextIndex = 0;
-}
-
-playAudioByIndex(nextIndex);
-}
-
-/* PREVIOUS AUDIO */
-function playPreviousAudio() {
-
-const buttons =
-getAudioButtons();
-
-if (
-!currentSpeakerButton ||
-buttons.length === 0
-) {
-return;
-}
-
-const currentIndex =
-buttons.indexOf(
-currentSpeakerButton
-);
-
-let prevIndex =
-currentIndex - 1;
-
-/* first audio => go last */
-if (prevIndex < 0) {
-
-prevIndex =
-buttons.length - 1;
-}
-
-playAudioByIndex(prevIndex);
-}
-
-/* NEXT BUTTON */
-paperNextBtn.addEventListener(
-'click',
-() => {
-playNextAudio();
-}
-);
-
-/* PREVIOUS BUTTON */
-paperPrevBtn.addEventListener(
-'click',
-() => {
-playPreviousAudio();
-}
-);
-
-/* ==SLEEP TIMER START== */
-paperSleepStartBtn.addEventListener(
-'click',
-() => {
-
-const value =
-parseInt(
-paperSleepInput.value
-);
-
-const unit =
-paperSleepUnit.value;
-
-/* validation */
-if (
-isNaN(value)
-) {
-
-alert(
-'အချိန်ရိုက်ထည့်ပါ'
-);
-
-return;
-}
-
-let totalMinutes = value;
-
-if (unit === 'hour') {
-
-totalMinutes =
-value * 60;
-}
-
-/* 1 minute → 8 hour */
-if (
-totalMinutes < 1 ||
-totalMinutes > 480
-) {
-
-alert(
-'1 minute မှ 8 hour(480 မိနစ်) အတွင်းပဲ ရပါတယ်'
-);
-
-return;
-}
-
-/* old timer clear */
-clearTimeout(sleepTimer);
-clearInterval(sleepInterval);
-
-/* end time */
-sleepEndTime =
-Date.now()
-+
-(
-totalMinutes
-* 60
-* 1000
-);
-
-/* main timer */
-sleepTimer =
-setTimeout(() => {
-
-paperAudio.pause();
-
-paperAudioBar.style.display =
-'none';
-
-paperShowBarBtn.style.display =
-'none';
-
-if (
-currentSpeakerButton
-) {
-
-currentSpeakerButton.innerHTML =
-'🔊';
-}
-
-paperSleepStatus.innerHTML =
-'⏰ Sleep Finished';
-
-},
-totalMinutes
-* 60
-* 1000
-);
-
-/* live countdown */
-sleepInterval =
-setInterval(() => {
-
-const remain =
-sleepEndTime
-- Date.now();
-
-if (remain <= 0) {
-
-clearInterval(
-sleepInterval
-);
-
-return;
-}
-
-const totalSec =
-Math.floor(
-remain / 1000
-);
-
-const h =
-Math.floor(
-totalSec / 3600
-);
-
-const m =
-Math.floor(
-(
-totalSec % 3600
-) / 60
-);
-
-const s =
-totalSec % 60;
-
-paperSleepStatus.innerHTML =
-`😴 ${h}h ${m}m ${s}s`;
-
-}, 1000);
-
-paperSleepStatus.innerHTML =
-'😴 Timer Started';
-}
-);
-
-/* cancel timer */
-paperSleepCancelBtn.addEventListener(
-'click',
-() => {
-
-clearTimeout(sleepTimer);
-
-clearInterval(sleepInterval);
-
-sleepTimer = null;
-
-sleepEndTime = null;
-
-paperSleepStatus.innerHTML =
-'No Timer';
-}
-);
-
-/* ==AUTO PLAY FROM LINK== */
-window.addEventListener(
-'load',
-() => {
-
-const params =
-new URLSearchParams(
-window.location.search
-);
-
-const shouldAutoplay =
-params.get('autoplay');
-
-const hash =
-window.location.hash;
-
-if (
-shouldAutoplay === '1'
-&&
-hash
-) {
-
-setTimeout(() => {
-
-const target =
-document.querySelector(hash);
-
-if (!target) return;
-
-const button =
-target.querySelector(
-'.speaker-btn'
-);
-
-if (!button) return;
-
-button.click();
-
-}, 1200);
-}
-}
-);
-
-/* ==
-DOWNLOAD CURRENT AUDIO
-== */
-const paperDownloadBtn =
-document.getElementById(
-"paper-download-btn"
-);
-
-paperDownloadBtn.addEventListener(
-"click",
-() => {
-
-const audioSrc =
-paperAudio.src;
-
-if (!audioSrc) {
-
-alert(
-"အသံဖိုင် မရှိသေးပါ"
-);
-
-return;
-}
-
-/* temporary link */
-const a =
-document.createElement("a");
-
-a.href = audioSrc;
-
-/* original file name */
-const url =
-new URL(audioSrc);
-
-const rawName =
-url.pathname.split("/").pop();
-
-const fileName =
-decodeURIComponent(rawName);
-
-a.download =
-fileName;
-
-document.body.appendChild(a);
-
-a.click();
-
-document.body.removeChild(a);
-
-}
-);
+})();
