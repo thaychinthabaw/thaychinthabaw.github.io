@@ -32,7 +32,6 @@ return cache.addAll([
   '/paper.js',
   '/robots.txt',
   '/README.md',
-  '/audio/',
   '/_headers',
   '/sitemap.xml',
   '/darkmode.js',
