@@ -1,106 +1,267 @@
+paper-text.js
+
 (() => {
 'use strict';
+
 /* =========================
-   FONT SIZE SYSTEM
+   GLOBAL STATE
 ========================= */
-let fontSize = parseInt(localStorage.getItem('userFontSize')) || 25;
-const articleElement = document.querySelector('article');
-function renderFontSize() {
-    if (articleElement) {
-        articleElement.style.fontSize = fontSize + 'px';
-    }
-    const fontDisplay = document.getElementById('font-size-display');
-    if (fontDisplay) {
-        fontDisplay.textContent = fontSize;
-    }
-    const sizeTens = document.getElementById('size-tens');
-    const sizeOnes = document.getElementById('size-ones');
-    if (sizeTens) {
-        sizeTens.textContent = Math.floor(fontSize / 10);
-    }
-    if (sizeOnes) {
-        sizeOnes.textContent = fontSize % 10;
-    }
-    localStorage.setItem('userFontSize', fontSize);
-}
-function changeFontSize(amount) {
-    const next = fontSize + amount;
-    if (next >= 10 && next <= 70) {
-        fontSize = next;
-        renderFontSize();
-    }
-}
+
+window.currentLineHeight = 2.0;
+window.currentLetterSpacing = 0;
+
 /* =========================
-   FONT WEIGHT SYSTEM
+   SEMANTIC SYSTEM
 ========================= */
-let currentWeight = parseInt(localStorage.getItem('userFontWeight')) || 500;
-const weightButtons = document.querySelectorAll('#weight-buttons .preset-btn');
-function renderWeight() {
-    if (articleElement) {
-        articleElement.style.fontWeight = currentWeight;
-    }
-    const hundreds = document.getElementById('digit-hundreds');
-    const tens = document.getElementById('digit-tens');
-    const ones = document.getElementById('digit-ones');
-    if (hundreds) {
-        hundreds.textContent = Math.floor(currentWeight / 100);
-    }
-    if (tens) {
-        tens.textContent = Math.floor((currentWeight % 100) / 10);
-    }
-    if (ones) {
-        ones.textContent = currentWeight % 10;
-    }
-    weightButtons.forEach(btn => {
-        btn.classList.toggle('active-preset', parseInt(btn.dataset.weight) === currentWeight);
-    });
-    localStorage.setItem('userFontWeight', currentWeight);
-}
-function changeWeight(amount) {
-    const next = currentWeight + amount;
-    if (next >= 100 && next <= 900) {
-        currentWeight = next;
-        renderWeight();
-    }
-}
-/* =========================
-   INIT
-========================= */
-function initTextSystem() {
-    renderFontSize();
-    renderWeight();
-    /* FONT SIZE BUTTONS */
-    const fontIncrease = document.getElementById('font-increase');
-    if (fontIncrease) { fontIncrease.onclick = () => { changeFontSize(1); }; }
-    const fontDecrease = document.getElementById('font-decrease');
-    if (fontDecrease) { fontDecrease.onclick = () => { changeFontSize(-1); }; }
-    const sizePlus10 = document.getElementById('size-plus-10');
-    if (sizePlus10) { sizePlus10.onclick = () => { changeFontSize(10); }; }
-    const sizeMinus10 = document.getElementById('size-minus-10');
-    if (sizeMinus10) { sizeMinus10.onclick = () => { changeFontSize(-10); }; }
-    const sizePlus1 = document.getElementById('size-plus-1');
-    if (sizePlus1) { sizePlus1.onclick = () => { changeFontSize(1); }; }
-    const sizeMinus1 = document.getElementById('size-minus-1');
-    if (sizeMinus1) { sizeMinus1.onclick = () => { changeFontSize(-1); }; }
-    /* WEIGHT BUTTONS */
-    weightButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            currentWeight = parseInt(btn.dataset.weight);
-            renderWeight();
+
+window.buildSemanticParagraphs = function () {
+
+    const containers =
+    document.querySelectorAll('.raw-text');
+
+    let globalIndex = 1;
+
+    containers.forEach((container) => {
+
+        const rawText =
+        container.textContent.trim();
+
+        const paragraphs =
+        rawText
+        .split(/\n\s*\n/)
+        .filter(p => p.trim() !== '');
+
+        container.innerHTML = '';
+
+        paragraphs.forEach((text) => {
+
+            const cleanText =
+            text.trim();
+
+            if (cleanText === '@@gap') {
+
+                const gap =
+                document.createElement('div');
+
+                gap.className = 'big-gap';
+
+                container.appendChild(gap);
+
+                return;
+            }
+
+            const p =
+            document.createElement('p');
+
+            p.setAttribute(
+                'data-p',
+                globalIndex
+            );
+
+            p.textContent =
+            cleanText;
+
+            container.appendChild(p);
+
+            globalIndex++;
         });
     });
-    const weightPlus100 = document.getElementById('weight-plus-100');
-    if (weightPlus100) { weightPlus100.onclick = () => { changeWeight(100); }; }
-    const weightMinus100 = document.getElementById('weight-minus-100');
-    if (weightMinus100) { weightMinus100.onclick = () => { changeWeight(-100); }; }
-    const weightPlus10 = document.getElementById('weight-plus-10');
-    if (weightPlus10) { weightPlus10.onclick = () => { changeWeight(10); }; }
-    const weightMinus10 = document.getElementById('weight-minus-10');
-    if (weightMinus10) { weightMinus10.onclick = () => { changeWeight(-10); }; }
-    const weightPlus1 = document.getElementById('weight-plus-1');
-    if (weightPlus1) { weightPlus1.onclick = () => { changeWeight(1); }; }
-    const weightMinus1 = document.getElementById('weight-minus-1');
-    if (weightMinus1) { weightMinus1.onclick = () => { changeWeight(-1); }; }
-}
-document.addEventListener('DOMContentLoaded', initTextSystem);
+};
+
+/* =========================
+   SAVE POSITION
+========================= */
+
+window.saveReadingPosition = function () {
+
+    const paragraphs =
+    document.querySelectorAll('.raw-text p');
+
+    let currentParagraph = null;
+
+    let offsetRatio = 0;
+
+    paragraphs.forEach(p => {
+
+        const rect =
+        p.getBoundingClientRect();
+
+        if (
+            rect.top <= window.innerHeight * 0.35 &&
+            rect.bottom > 0
+        ) {
+
+            currentParagraph =
+            p.dataset.p;
+
+            offsetRatio =
+            Math.abs(rect.top)
+            /
+            rect.height;
+        }
+    });
+
+    if (currentParagraph) {
+
+        localStorage.setItem(
+            'readingPosition',
+            JSON.stringify({
+                paragraph: currentParagraph,
+                offsetRatio: offsetRatio
+            })
+        );
+    }
+};
+
+/* =========================
+   RESTORE POSITION
+========================= */
+
+window.restoreReadingPosition = function () {
+
+    const saved =
+    localStorage.getItem(
+        'readingPosition'
+    );
+
+    if (!saved) return;
+
+    let data;
+
+    try {
+
+        data = JSON.parse(saved);
+
+    } catch {
+
+        return;
+    }
+
+    setTimeout(() => {
+
+        const target =
+        document.querySelector(
+            `[data-p="${data.paragraph}"]`
+        );
+
+        if (!target) return;
+
+        const paragraphHeight =
+        target.offsetHeight;
+
+        const offset =
+        paragraphHeight
+        *
+        (data.offsetRatio || 0);
+
+        const absoluteTop =
+        target.offsetTop;
+
+        const finalY =
+        absoluteTop
+        +
+        offset
+        -
+        120;
+
+        window.scrollTo({
+            top: finalY,
+            behavior: 'smooth'
+        });
+
+    }, 600);
+};
+
+/* =========================
+   LINE HEIGHT
+========================= */
+
+window.applyLineHeight = function () {
+
+    const content =
+    document.getElementById(
+        'reading-content'
+    );
+
+    if (content) {
+
+        content.style.lineHeight =
+        currentLineHeight;
+    }
+
+    localStorage.setItem(
+        'userLineHeight',
+        currentLineHeight
+    );
+};
+
+window.adjustLineHeight = function (amount) {
+
+    saveReadingPosition();
+
+    let next =
+    Math.round(
+        (currentLineHeight + amount) * 10
+    ) / 10;
+
+    if (next >= 1 && next <= 100) {
+
+        currentLineHeight = next;
+
+        applyLineHeight();
+
+        setTimeout(() => {
+
+            restoreReadingPosition();
+
+        }, 100);
+    }
+};
+
+/* =========================
+   LETTER SPACING
+========================= */
+
+window.applyLetterSpacing = function () {
+
+    const content =
+    document.getElementById(
+        'reading-content'
+    );
+
+    if (content) {
+
+        content.style.letterSpacing =
+        currentLetterSpacing + 'px';
+    }
+
+    localStorage.setItem(
+        'userLetterSpacing',
+        currentLetterSpacing
+    );
+};
+
+window.adjustLetterSpacing = function (amount) {
+
+    saveReadingPosition();
+
+    let next =
+    Math.round(
+        (currentLetterSpacing + amount) * 10
+    ) / 10;
+
+    if (next >= 0 && next <= 10) {
+
+        currentLetterSpacing = next;
+
+        applyLetterSpacing();
+
+        setTimeout(() => {
+
+            restoreReadingPosition();
+
+        }, 100);
+    }
+};
+
 })();
