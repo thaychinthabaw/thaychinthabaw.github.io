@@ -4884,17 +4884,20 @@ value="0" min="0" max="100">
     class="paper-show-bar-btn">​◯</button>     
         
 <script src="darkmode.js"></script>
-    <script src="paper.js"></script>
+<script src="paper.js"></script>
+
 <script>
-  if ('service-worker' in navigator) {
-    window.addEventListener('load', function() {
-      navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
-        console.log('Service Worker registered with scope:', registration.scope);
-      }, function(err) {
-        console.log('Service Worker registration failed:', err);
-      });
-    });
-  }
+if ('serviceWorker' in navigator) {
+window.addEventListener(
+'load',
+() => {
+navigator.serviceWorker.register(
+'/service-worker.js'
+);
+
+});
+
+}
 </script>
   
 </body>
