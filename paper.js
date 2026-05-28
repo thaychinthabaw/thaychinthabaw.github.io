@@ -1547,28 +1547,44 @@ const paperDownloadBtn =
 document.getElementById(
 "paper-download-btn"
 );
+
 paperDownloadBtn.addEventListener(
 "click",
 () => {
+
     const audioSrc =
     paperAudio.src;
+
     if (!audioSrc) {
         alert(
         "အသံဖိုင် မရှိသေးပါ"
         );
-        return; }
+        return;
+    }
 
-    // temporary link
+    /* temporary link */
     const a =
     document.createElement("a");
+
     a.href = audioSrc;
 
-    // filename
+    /* ✅ ORIGINAL FILE NAME */
+    const url =
+    new URL(audioSrc);
+
+    const rawName =
+    url.pathname.split("/").pop();
+
     const fileName =
-    audioSrc.split("/").pop();
+    decodeURIComponent(rawName);
+
     a.download =
-    fileName || "audio.mp3";
+    fileName;
+
     document.body.appendChild(a);
+
     a.click();
+
     document.body.removeChild(a);
-});/* == DOWNLOAD CURRENT AUDIOအဆုံး ==*/
+
+});/* == DOWNLOAD CURRENT AUDIO အဆုံး ==*/
