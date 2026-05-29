@@ -1,0 +1,282 @@
+body.sepia-mode {
+    margin: 0;
+    font-family: 'Pyidaungsu', sans-serif;
+    background: #f4ecd8;
+    color: #443300;
+    overflow-x: hidden;
+}
+
+/* TOP BAR */
+
+.top-controls {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background: #eadebc;
+    border-bottom: 1px solid #d4c5a0;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 16px;
+    box-sizing: border-box;
+
+    z-index: 1000;
+}
+
+.back-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 4px;
+
+    width: 70px;
+    height: 32px;
+
+    text-decoration: none;
+
+    background: #f4ecd8;
+    border: 1px solid #443300;
+    border-radius: 8px;
+
+    color: #443300;
+    font-weight: bold;
+}
+
+.nav-icon {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.nav-text {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.quiz-top-title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* MAIN */
+
+.container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 90px 20px 120px;
+    box-sizing: border-box;
+}
+
+/* TITLES */
+
+.main-title {
+    font-size: 30px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.sub-text {
+    text-align: center;
+    line-height: 1.8;
+    margin-bottom: 30px;
+}
+
+/* CHAPTER LIST */
+
+.chapter-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.chapter-btn {
+    width: 100%;
+    padding: 18px;
+
+    background: #eadebc;
+    border: 1px solid #443300;
+    border-radius: 14px;
+
+    color: #443300;
+
+    font-size: 20px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.chapter-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* QUIZ */
+
+.hidden {
+    display: none;
+}
+
+.quiz-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 20px;
+}
+
+#back-btn {
+    padding: 10px 14px;
+
+    border: 1px solid #443300;
+    border-radius: 10px;
+
+    background: #eadebc;
+    color: #443300;
+
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#question-count {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.question-box {
+    background: #eadebc;
+    border: 1px solid #443300;
+    border-radius: 18px;
+
+    padding: 22px;
+}
+
+#question-text {
+    line-height: 1.8;
+    margin-bottom: 30px;
+}
+
+/* ANSWERS */
+
+#answers-container {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.answer-btn {
+    width: 100%;
+    padding: 16px;
+
+    border-radius: 12px;
+    border: 1px solid #443300;
+
+    background: #f4ecd8;
+    color: #443300;
+
+    font-size: 18px;
+    line-height: 1.6;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+}
+
+.answer-btn:hover {
+    transform: translateY(-1px);
+}
+
+/* CORRECT */
+
+.answer-btn.correct {
+    background: #443300;
+    color: #f4ecd8;
+}
+
+/* WRONG */
+
+.answer-btn.wrong {
+    background: #b00020;
+    color: white;
+}
+
+/* NEXT BUTTON */
+
+.bottom-controls {
+    margin-top: 24px;
+    text-align: center;
+}
+
+#next-btn {
+    padding: 14px 22px;
+
+    border: 1px solid #443300;
+    border-radius: 12px;
+
+    background: #443300;
+    color: #f4ecd8;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+/* FINISH */
+
+#finish-screen {
+    text-align: center;
+}
+
+.finish-title {
+    font-size: 34px;
+    margin-bottom: 14px;
+}
+
+.finish-text {
+    line-height: 1.8;
+    margin-bottom: 30px;
+}
+
+#restart-btn {
+    padding: 16px 24px;
+
+    border-radius: 12px;
+    border: 1px solid #443300;
+
+    background: #443300;
+    color: #f4ecd8;
+
+    font-size: 18px;
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+.main-title {
+    font-size: 26px;
+}
+
+.chapter-btn {
+    font-size: 18px;
+}
+
+#question-text {
+    font-size: 22px;
+}
+
+.answer-btn {
+    font-size: 16px;
+}
+
+}
