@@ -1,45 +1,48 @@
 /* ==========================================================================
-   QUIZ SYSTEM STYLE SHEET (Perfect Sync with darkmode.css variables)
+   QUIZ SYSTEM STYLE SHEET (Perfect Sync with darkmode.css & Eye-Friendly)
    ========================================================================== */
 
-/* 🎨 CENTRAL COLOR SYSTEM (darkmode.css ၏ စနစ်အတိုင်း ဗဟိုအရောင်များ သတ်မှတ်ခြင်း) */
+/* 🎨 CENTRAL COLOR SYSTEM (မုဒ်တစ်ခုချင်းစီအလိုက် ဗဟိုအရောင်များ စနစ်တကျပြင်ဆင်ခြင်း) */
 :root {
-  /* ⚪ 1. White Mode (နောက်ခံအဖြူရောင်စစ်စစ် + စာသားအမည်းရောင်စစ်စစ်) */
+  /* ⚪ 1. White Mode (နောက်ခံအဖြူရောင်စစ်စစ် + စာသားအမည်းရောင် + Nav အမြင်ရှင်းလင်းမှု မြှင့်တင်ခြင်း) */
   --bg-color: #ffffff;
   --text-color: #000000;
   --card-bg: #ffffff;
   --card-border: #eeeeee;
-  --btn-bg: #f5efe3;       /* Card ပေါ်တွင် ခလုတ်မှန်းသိသာစေသော ခရမ်ဝါနုရောင် */
+  --btn-bg: #f5efe3;       
   --btn-border: #e3d3be;
   --btn-text: #000000;
   --bottom-nav-bg: #ffffff;
-  --nav-text: #a27d35;     /* about.html အတိုင်း ရွှေညိုရောင် Nav စာသား */
+  --nav-text: #3d3123;     /* Light Mode တွင် အောက်ခြေစာသားများ ပိုမိုထင်ရှားပြတ်သားစေရန် အမည်းရောင်လုနီးပါး ပြောင်းလဲခြင်း */
+  --nav-active-text: #8b4513; 
 }
 
-/* 📒 2. Reading Mode (darkmode.css ၏ ကာလာအတိုင်း တထပ်တည်း) */
+/* 📒 2. Reading Mode (darkmode.css အရောင်စနစ်အတိုင်း) */
 body.reading-mode {
-  --bg-color: #f4ecd8;     /* မျက်လုံးအေးစေမည့် ဝါညိုရောင် နောက်ခံ */
-  --text-color: #5b4636;   /* အညိုရင့်ရောင်စာသား */
-  --card-bg: #fdfaf2;      /* နောက်ခံထက် ပိုလင်းသော စာရွက်ရောင် ကတ်ပြား */
+  --bg-color: #f4ecd8;     
+  --text-color: #5b4636;   
+  --card-bg: #fdfaf2;      
   --card-border: #e8dcbf;
-  --btn-bg: #ede4d3;       /* darkmode.css ၏ bottom-nav အရောင်အတိုင်း ခလုတ်များပြောင်းလဲခြင်း */
+  --btn-bg: #ede4d3;       
   --btn-border: #dacfa9;
   --btn-text: #5b4636;
   --bottom-nav-bg: #ede4d3;
-  --nav-text: #8b4513;     /* darkmode.css အတိုင်း အညိုရောင် Nav စာသား */
+  --nav-text: #8b4513;     
+  --nav-active-text: #5b4636;
 }
 
-/* 🌙 3. Dark Mode (darkmode.css ၏ ကာလာအတိုင်း တထပ်တည်း) */
+/* 🌙 3. Dark Mode (ကြာကြာဖတ်လျှင် မျက်စိမညောင်းစေရန် အဖြူရောင်စာသားစနစ် သို့ ပြောင်းလဲခြင်း) */
 body.dark-mode {
-  --bg-color: #000000;     /* နောက်ခံအမည်းစစ်စစ် */
-  --text-color: #FFD700;   /* ရွှေဝါရောင်စာသား */
-  --card-bg: #111111;      /* darkmode.css ၏ bottom-nav အရောင်အတိုင်း ကတ်ပြား */
+  --bg-color: #000000;     
+  --text-color: #ffffff;   /* 🌟 မျက်လုံးမထိခိုက်စေရန် စာသားနှင့် မေးခွန်းအားလုံးကို အဖြူရောင်စစ်စစ်သို့ ပြောင်းလဲခြင်း */
+  --card-bg: #111111;      
   --card-border: rgba(255, 215, 0, 0.3);
-  --btn-bg: #222222;       /* အမှောင်ထဲတွင် ခလုတ်မှန်းသိသာစေသော အမည်းနုရောင် */
+  --btn-bg: #222222;       
   --btn-border: rgba(255, 215, 0, 0.2);
   --btn-text: #ffffff;
   --bottom-nav-bg: #111111;
-  --nav-text: #FFD700;     /* ရွှေဝါရောင် Nav စာသား */
+  --nav-text: #FFD700;     
+  --nav-active-text: #ffffff;
 }
 
 /* 🌐 GLOBAL RESET & FONTS */
@@ -138,7 +141,7 @@ main {
   font-size: 30px;
   line-height: 1.6;
   margin-bottom: 10px;
-  color: var(--text-color); /* မုဒ်အလိုက် စာသားအရောင် ပြောင်းလဲရန် */
+  color: var(--text-color); 
 }
 .sub-text {
   text-align: center;
@@ -146,7 +149,7 @@ main {
   line-height: 1.9;
   margin-bottom: 28px;
   color: var(--text-color);
-  opacity: 0.85; /* Reading မုဒ်တွင် လိုက်ဖက်အောင် အလင်းအမှောင် ပါးပါးချခြင်း */
+  opacity: 0.85; 
 }
 
 /* 🗂️ CHAPTER SELECTION BUTTONS */
@@ -171,7 +174,7 @@ main {
 }
 .chapter-btn:hover {
   transform: translateY(-2px);
-  filter: brightness(0.95); /* Hover လုပ်လျှင် ခလုတ်အရောင် သိသာစွာ ရင့်သွားစေရန် */
+  filter: brightness(0.95); 
 }
 
 /* ❓ QUESTION STYLES */
@@ -179,15 +182,18 @@ main {
   text-align: center;
   font-size: 15px;
   font-weight: bold;
-  color: var(--nav-text); /* Nav Text အရောင်အတိုင်း လိုက်ပြောင်းပေးခြင်း */
+  color: #a27d35; 
   margin-bottom: 20px;
+}
+body.dark-mode #question-count {
+  color: #FFD700; /* Dark Mode တွင် မေးခွန်းအရေအတွက်ပြ စာသားလေးကိုသာ ရွှေရောင်အနည်းငယ်သုံးခြင်း */
 }
 #question-text {
   font-size: 24px;
   font-weight: bold;
   line-height: 2;
   margin-bottom: 28px;
-  color: var(--text-color);
+  color: var(--text-color); /* 🌟 Dark mode တွင် အဖြူရောင်ဖြင့် ရှင်းလင်းစွာ မြင်ရမည် */
   word-break: break-word;
   overflow-wrap: break-word;
 }
@@ -321,12 +327,12 @@ body.dark-mode .bottom-nav {
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: var(--nav-text);
+  color: var(--nav-text); /* 🌟 Light mode တွင် စာသားများ ပိုမိုထင်ရှားနေမည်ဖြစ်ပြီး မွဲခြောက်မနေတော့ပါ */
   text-decoration: none;
   font-weight: bold;
   padding: 4px 6px;
   border-radius: 6px;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
   font-size: 16px;
 }
 .bottom-nav a .icon {
@@ -336,11 +342,13 @@ body.dark-mode .bottom-nav {
 .bottom-nav a.active {
   background-color: rgba(212, 175, 55, 0.15);
   box-shadow: 0 0 6px rgba(212, 175, 55, 0.2);
+  color: var(--nav-active-text) !important;
   text-decoration: none;
 }
 body.dark-mode .bottom-nav a.active {
   background-color: rgba(255, 215, 0, 0.2);
   box-shadow: 0 0 6px rgba(255, 215, 0, 0.3);
+  color: var(--nav-active-text) !important;
 }
 
 /* 📱 MOBILE RESPONSIVE OPTIMIZATION */
