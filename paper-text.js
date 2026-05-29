@@ -83,7 +83,7 @@ function restoreReadingPosition() {
     const target = document.querySelector(`[data-p="${data.paragraph}"]`);
     if (!target) return;
     
-    // ResizeObserver ကြောင့် target.offsetHeight က သေချာပေါက် Layout အသစ်၏ အမြင့်အစစ်အမှန် ဖြစ်နေပါပြီ
+    // ResizeObserver ကြောင့် target.offsetHeight က သေჩာပေါက် Layout အသစ်၏ အမြင့်အစစ်အမှန် ဖြစ်နေပါပြီ
     const paragraphHeight = target.offsetHeight;
     const offsetInsideParagraph = paragraphHeight * (data.offsetRatio || 0);
     
@@ -100,7 +100,7 @@ function restoreReadingPosition() {
     });
 }
 
-// 🔥 ခလုတ်နှိပ်လိုက်သည့်အခါ Layout အပြောင်းအလဲ ပြီးမြောက်မှုကို စောင့်ကြည့်ပေးမည့် ဗဟိုတံခါးပေါက်လုပ်ဆောင်ချက်
+// 🔥 ခလုတ်နှိပ်လိုက်သည့်အခါ သို့မဟုတ် Page စပွင့်ချိန် Layout အပြောင်းအလဲ ပြီးမြောက်မှုကို စောင့်ကြည့်ပေးမည့် ဗဟိုတံခါးပေါက်လုပ်ဆောင်ချက်
 function triggerLayoutObserver() {
     if (fontResizeObserver) {
         fontResizeObserver.disconnect();
@@ -347,7 +347,8 @@ function init() {
     const tocSearch = document.getElementById('toc-search');
     const tocItems = document.querySelectorAll('.toc-list li');
     
-    /* ===== LOAD SAVED SETTINGS ===== */
+    /* ===== 🌟 (၁) LOAD & APPLY ALL SAVED SETTINGS FIRST 🌟 ===== */
+    // စာမျက်နှာ စပွင့်ချင်း နေရာမချမီ Layout Settings အဟောင်းအားလုံးကို Engine ထဲ ကြိုတင်ထည့်သွင်းခြင်း
     const savedLH = localStorage.getItem('userLineHeight');
     if (savedLH !== null) {
         currentLineHeight = parseFloat(savedLH);
@@ -359,6 +360,18 @@ function init() {
         currentLetterSpacing = parseFloat(savedLS);
     }
     applyLetterSpacing();
+
+    const savedFS = localStorage.getItem('userFontSize');
+    if (savedFS !== null) {
+        fontSize = parseInt(savedFS);
+    }
+    renderFontSize();
+
+    const savedFW = localStorage.getItem('userFontWeight');
+    if (savedFW !== null) {
+        currentWeight = parseInt(savedFW);
+    }
+    renderWeight();
     
     /* ===== LAST READ ===== */
     saveCurrentPage();
@@ -366,7 +379,10 @@ function init() {
     
     /* ===== SEMANTIC ===== */
     buildSemanticParagraphs();
-    restoreReadingPosition();
+
+    /* ===== 🌟 (၂) INITIAL RESTORE WITH OBSERVER 🌟 ===== */
+    // စာမျက်နှာစဖွင့်ချိန်တွင် Browser က User ရဲ့ Setting အတိုင်း အမြင့်အစစ်အမှန်ကို တွက်ချက်ပြီးစီးမှ တိကျစွာ Scroll ပြန်ဆွဲပေးရန် ချိတ်ဆက်ခြင်း
+    triggerLayoutObserver(); 
     
     let readingTimer;
     window.addEventListener('scroll', () => {
@@ -408,7 +424,7 @@ function init() {
         btn.addEventListener('click', () => {
             saveReadingPosition();
             currentLineHeight = parseFloat(btn.dataset.value);
-            triggerLayoutObserver(); // ⚡ Presets ခလုတ်များအတွက်ပါ ချိတ်ဆက်ပေးထားပါသည်
+            triggerLayoutObserver();
             applyLineHeight();
         });
     });
@@ -419,7 +435,7 @@ function init() {
         btn.addEventListener('click', () => {
             saveReadingPosition();
             currentLetterSpacing = parseFloat(btn.dataset.value);
-            triggerLayoutObserver(); // ⚡ Presets ခလုတ်များအတွက်ပါ ချိတ်ဆက်ပေးထားပါသည်
+            triggerLayoutObserver();
             applyLetterSpacing();
         });
     });
@@ -443,15 +459,13 @@ function init() {
     const sizeMinus1 = document.getElementById('size-minus-1');
     if (sizeMinus1) sizeMinus1.onclick = () => { changeFontSize(-1); };
     
-    renderFontSize();
-    
     /* ===== FONT WEIGHT BUTTON EVENTS ===== */
     const weightButtons = document.querySelectorAll('#weight-buttons .preset-btn');
     weightButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             saveReadingPosition();
             currentWeight = parseInt(btn.dataset.weight);
-            triggerLayoutObserver(); // ⚡ Presets ခလုတ်များအတွက်ပါ ချိတ်ဆက်ပေးထားပါသည်
+            triggerLayoutObserver();
             renderWeight();
         });
     });
@@ -473,8 +487,6 @@ function init() {
     
     const weightMinus1 = document.getElementById('weight-minus-1');
     if (weightMinus1) weightMinus1.onclick = () => { changeWeight(-1); };
-    
-    renderWeight();
     
     /* ===== TOC TOP/BOTTOM ===== */
     const tocTopBtn = document.getElementById('toc-top-btn');
