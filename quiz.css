@@ -13,8 +13,8 @@
   --btn-border: #e3d3be;
   --btn-text: #000000;
   --bottom-nav-bg: #ffffff;
-  --nav-text: #222222;     /* 🌟 Light Mode တွင် အောက်ခြေစာသားများ လုံးဝမွဲမနေဘဲ အထူးထင်ရှားစေရန် */
-  --nav-active-text: #8b4513; 
+  --nav-text: #222222;        /* Light Mode အောက်ခြေ ပုံမှန်စာသားအရောင် */
+  --nav-active-text: #8b4513; /* Light Mode အောက်ခြေ Active စာသားအရောင်စစ်စစ် */
 }
 
 /* 📒 2. Reading Mode (darkmode.css အရောင်စနစ်အတိုင်း တထပ်တည်း) */
@@ -27,8 +27,8 @@ body.reading-mode {
   --btn-border: #dacfa9;
   --btn-text: #5b4636;
   --bottom-nav-bg: #ede4d3;
-  --nav-text: #8b4513;     
-  --nav-active-text: #5b4636;
+  --nav-text: #8b4513;        /* Reading Mode အောက်ခြေ ပုံမှန်စာသားအရောင် */
+  --nav-active-text: #5b4636; /* Reading Mode အောက်ခြေ Active စာသားအရောင်စစ်စစ် */
 }
 
 /* 🌙 3. Dark Mode (ကြာကြာဖတ်လျှင် မျက်စိမညောင်းစေရန် အဖြူရောင်စာသားစနစ် သို့ ပြောင်းလဲခြင်း) */
@@ -41,8 +41,8 @@ body.dark-mode {
   --btn-border: rgba(255, 215, 0, 0.2);
   --btn-text: #ffffff;
   --bottom-nav-bg: #111111;
-  --nav-text: #FFD700;     
-  --nav-active-text: #FFD700; /* 🌟 Dark Mode တွင် Active ဖြစ်ချိန် Icon နှင့် စာသားကိုပါ အဝါရောင်စစ်စစ် ဖြစ်စေရန် ပြောင်းလဲခြင်း */
+  --nav-text: #FFD700;        /* Dark Mode အောက်ခြေ ပုံမှန်စာသားအရောင် (အဝါ) */
+  --nav-active-text: #FFD700; /* Dark Mode အောက်ခြေ Active ဖြစ်ချိန်ပါ အဝါရောင်စစ်စစ်ဖြစ်စေရန် */
 }
 
 /* 🌐 GLOBAL RESET & FONTS */
@@ -326,7 +326,7 @@ body.dark-mode .bottom-nav {
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: var(--nav-text) !important; /* 🌟 Light Mode တွင် စတာများကို လုံးဝပြတ်သားသွားစေရန် ချုပ်ကိုင်ခြင်း */
+  color: var(--nav-text) !important; /* ပုံမှန်ခလုတ်တွေရဲ့ စာသားအရောင်ကို ဗဟိုစနစ်အတိုင်း ချုပ်ကိုင်ခြင်း */
   text-decoration: none;
   font-weight: bold;
   padding: 4px 6px;
@@ -338,16 +338,18 @@ body.dark-mode .bottom-nav {
   font-size: 18px;
   margin-bottom: 4px;
 }
+
+/* 🌟 ACTIVE STATE FOR ALL MODES (မုဒ်အားလုံးအတွက် Active ဖြစ်ချိန်တွင် စာသားကိုပါ စနစ်တကျလင်းစေခြင်း) */
 .bottom-nav a.active {
-  background-color: rgba(212, 175, 55, 0.15);
-  box-shadow: 0 0 6px rgba(212, 175, 55, 0.2);
-  color: var(--nav-active-text) !important;
+  background-color: rgba(212, 175, 55, 0.15) !important;
+  box-shadow: 0 0 6px rgba(212, 175, 55, 0.2) !important;
+  color: var(--nav-active-text) !important; /* White & Reading မုဒ်များအတွက် Active စာသားအရောင် သေချာပေါက်ထွက်စေရန် */
   text-decoration: none;
 }
 body.dark-mode .bottom-nav a.active {
-  background-color: rgba(255, 215, 0, 0.2);
-  box-shadow: 0 0 6px rgba(255, 215, 0, 0.3);
-  color: var(--nav-active-text) !important; /* 🌟 ဤနေရာတွင် စာသားအရောင်ကို အပေါ်မှသတ်မှတ်ချက်အတိုင်း !important ဖြင့် တိကျစွာချုပ်ကိုင်ထားပါသည် */
+  background-color: rgba(255, 215, 0, 0.2) !important;
+  box-shadow: 0 0 6px rgba(255, 215, 0, 0.3) !important;
+  color: var(--nav-active-text) !important; /* Dark မုဒ်အတွက် Active စာသားအရောင် (အဝါ) ကို သေချာပေါက်ထွက်စေရန် */
 }
 
 /* 📱 MOBILE RESPONSIVE OPTIMIZATION */
