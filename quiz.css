@@ -1,5 +1,5 @@
 /* ==========================================================================
-   QUIZ SYSTEM STYLE SHEET (Perfect Mode Switching & Dynamic Nav Bar)
+   QUIZ SYSTEM STYLE SHEET (Strictly Layered Colors Aligned with about.html)
    ========================================================================== */
 * {
   box-sizing: border-box;
@@ -16,14 +16,14 @@ body {
   margin: 0;
   padding: 0;
   font-family: "Myanmar Text", 'Pyidaungsu', sans-serif;
-  background-color: #faf7f1; /* Light Mode နောက်ခံအခြေခံ */
+  background-color: #fcfaf5; /* 🌟 about.html အတိုင်း နူးညံ့သော ခရင်မ်ရောင် နောက်ခံစစ်စစ် */
   color: #3d3123;
   overflow-x: hidden;
   transition: background-color 0.4s ease, color 0.4s ease;
 }
-/* 🌙 DARK MODE BASE (Dark Mode ဝင်လျှင် တစ်ကိုယ်လုံး အရောင်ပြောင်းရန်) */
+/* 🌙 DARK MODE BASE */
 body.dark-mode {
-  background-color: #121212;
+  background-color: #121212; /* 🌟 about.html အတိုင်း အမှောင်မုဒ် အခြေခံနောက်ခံ */
   color: #ffffff;
 }
 
@@ -83,17 +83,18 @@ main {
   object-fit: cover;
   display: block;
 }
-/* 📦 QUIZ PAPER CARD */
+/* 📦 QUIZ PAPER CARD (အတွင်းခံ Box ကတ်ပြား) */
 .paper-card {
-  background: #ffffff;
+  background: #ffffff; /* 🌟 about.html ၏ ကတ်ပြားများကဲ့သို့ အဖြူရောင်စစ်စစ်ဖြင့် ထင်ရှားစေခြင်း */
   border-radius: 24px;
   padding: 24px 18px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+  border: 1px solid #eeeeee; /* 🌟 about.html အတိုင်း သပ်ရပ်သော အနားသတ်လိုင်းပါးပါး */
+  box-shadow: 0 4px 20px rgba(0,0,0,0.05);
   transition: background-color 0.4s ease;
   text-align: left;
 }
 body.dark-mode .paper-card {
-  background: #1a1a1a;
+  background: #1a1a1a; /* 🌟 Dark Mode တွင် Card အား အမည်းနုရောင်ပြောင်းခြင်း */
   border: 1px solid rgba(255, 215, 0, 0.3);
 }
 /* 🔤 TITLES & TEXTS inside CARD */
@@ -115,7 +116,7 @@ body.dark-mode .main-title { color: #ffffff; }
 }
 body.dark-mode .sub-text { color: #e0e0e0; }
 
-/* 🗂️ CHAPTER SELECTION BUTTONS */
+/* 🗂️ CHAPTER SELECTION BUTTONS (အခန်းရွေးချယ်ရန် ခလုတ်များ) */
 .chapter-list {
   display: flex;
   flex-direction: column;
@@ -126,14 +127,14 @@ body.dark-mode .sub-text { color: #e0e0e0; }
   border: none;
   border-radius: 18px;
   padding: 20px 18px;
-  background: #f5efe3;
+  background: #f5efe3; /* 🌟 အဖြူရောင် Card အပေါ်တွင် သိသာထင်ရှားစေမည့် ခလုတ်အရောင် */
   color: #3d3123;
   font-size: 19px;
   font-weight: bold;
   line-height: 1.8;
   cursor: pointer;
   transition: 0.2s;
-
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
 }
 .chapter-btn:hover {
   transform: translateY(-2px);
@@ -141,6 +142,7 @@ body.dark-mode .sub-text { color: #e0e0e0; }
 body.dark-mode .chapter-btn {
   background: #222222;
   color: #ffffff;
+  border: 1px solid rgba(255, 215, 0, 0.2);
 }
 /* ❓ QUESTION STYLES */
 #question-count {
@@ -163,7 +165,7 @@ body.dark-mode #question-count { color: #FFD700; }
 }
 body.dark-mode #question-text { color: #ffffff; }
 
-/* ❑ ANSWER BUTTONS */
+/* ❑ ANSWER BUTTONS (အဖြေရွေးချယ်ရန် ခလုတ်များ) */
 #answers-container {
   display: flex;
   flex-direction: column;
@@ -173,7 +175,7 @@ body.dark-mode #question-text { color: #ffffff; }
   width: 100%;
   border: none;
   border-radius: 18px;
-  background: #faf7f1;
+  background: #f5efe3; /* 🌟 အဖြူရောင် Card အပေါ်တွင် ကွဲပြားပြီး ထင်ရှားစေသော ခလုတ်အရောင် */
   color: #3d3123;
   padding: 20px 18px;
   text-align: left;
@@ -184,15 +186,15 @@ body.dark-mode #question-text { color: #ffffff; }
   transition: 0.2s;
   word-break: break-word;
   overflow-wrap: break-word;
-  
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 .answer-btn:hover {
   transform: translateY(-1px);
 }
 body.dark-mode .answer-btn {
-  background: #111111;
+  background: #222222; /* 🌟 Dark Mode တွင်လည်း Box နောက်ခံထက် ပိုလင်းစေရန် ညှိခြင်း */
   color: #ffffff;
-  
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 /* 🟩 CORRECT & 🟥 WRONG STATES */
 .correct {
@@ -274,7 +276,7 @@ body.dark-mode .finish-text { color: #ffffff; }
   display: none !important;
 }
 
-/* 📚 BOTTOM NAVIGATION BAR (မုဒ်အလိုက် dynamic ပြောင်းလဲခြင်း) */
+/* 📚 BOTTOM NAVIGATION BAR */
 .bottom-nav {
   position: fixed;
   bottom: 0;
@@ -282,18 +284,17 @@ body.dark-mode .finish-text { color: #ffffff; }
   width: 100%;
   display: flex;
   justify-content: space-around;
-  background-color: #faf7f1; /* Light Mode တွင် အဝါနု/ခရင်မ်ရောင်ပြောင်းရန် */
+  background-color: #faf7f1; 
   padding: 0.8rem 0;
   z-index: 5;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
   transition: background-color 0.4s ease;
 }
-/* Light Mode တွင် Nav Bar စာသားအရောင်ကို ဓာတ်ပုံထဲကအတိုင်း ညှိခြင်း */
 .bottom-nav a {
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #a27d35; /* ခရမ်ရောင်နောက်ခံနှင့် လိုက်ဖက်သော ရွှေညိုရောင် */
+  color: #a27d35; 
   text-decoration: none;
   font-weight: bold;
   padding: 4px 6px;
@@ -311,13 +312,13 @@ body.dark-mode .finish-text { color: #ffffff; }
   text-decoration: none;
 }
 
-/* 🌙 DARK MODE NAV BAR (Dark Mode တွင် အရှင်ဘုရားလိုချင်သော အမည်း/အဝါ ပုံစံသို့ ပြောင်းခြင်း) */
+/* 🌙 DARK MODE NAV BAR */
 body.dark-mode .bottom-nav {
-  background-color: #222222; /* ဓာတ်ပုံနမူနာ (၁) အတိုင်း အမည်းရောင် */
+  background-color: #222222; 
   border-top: none;
 }
 body.dark-mode .bottom-nav a {
-  color: #FFD700; /* စာသားကို တောက်ပသော ရွှေဝါရောင် ပြောင်းပေးခြင်း */
+  color: #FFD700; 
 }
 body.dark-mode .bottom-nav a.active {
   background-color: rgba(255, 215, 0, 0.2);
