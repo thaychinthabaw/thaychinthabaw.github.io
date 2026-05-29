@@ -43,17 +43,20 @@ function saveReadingPosition() {
     const paragraphs = document.querySelectorAll('.raw-text p');
     let currentParagraph = null;
     let offsetRatio = 0;
+    
+    // စာဖတ်သူ အဓိက မျက်စိကျနေမယ့် Screen ရဲ့ အလယ်ဗဟို မျဉ်းကြောင်းကို ယူပါတယ်
+    const viewportCenter = window.innerHeight / 2;
+
     paragraphs.forEach(p => {
         const rect = p.getBoundingClientRect();
-        if (
-            rect.top <= window.innerHeight * 0.35 &&
-            rect.bottom > 0
-        ) {
+        // စာပိုဒ်က Screen ရဲ့ အလယ်ဗဟိုကို ဖြတ်သန်းနေသလား စစ်ဆေးခြင်း
+        if (rect.top <= viewportCenter && rect.bottom >= viewportCenter) {
             currentParagraph = p.dataset.p;
-            /* paragraph အတွင်း user ဘယ်လောက်အောက်ရောက်နေတယ် ဆိုတာတွက်ခြင်း */
-            offsetRatio = Math.abs(rect.top) / rect.height;
+            // ထိုစာပိုဒ်ရဲ့ ထိပ်ပိုင်းကနေ Screen အလယ်အထိ ရောက်နေတဲ့ အချိုးအစားကို တွက်ချက်ခြင်း
+            offsetRatio = (viewportCenter - rect.top) / rect.height;
         }
     });
+
     if (currentParagraph) {
         localStorage.setItem(
             'readingPosition',
@@ -74,25 +77,28 @@ function restoreReadingPosition() {
     } catch {
         return;
     }
+
+    // Browser ရဲ့ Layout Engine က စာလုံးဆိုဒ်အသစ်အရ နေရာချတာ သေချာပေါက် ပြီးစီးစေရန် အချိန်ပေးခြင်း
     setTimeout(() => {
         const target = document.querySelector(`[data-p="${data.paragraph}"]`);
         if (!target) return;
         
-        /* paragraph ရဲ့ position */
-        const rect = target.getBoundingClientRect();
-        /* paragraph အမြင့် */
+        // စာလုံးဆိုဒ်သစ်ကြောင့် ပြောင်းလဲသွားသည့် စာပိုဒ်၏ အမြင့်အသစ်
         const paragraphHeight = target.offsetHeight;
-        /* user ဖတ်ခဲ့တဲ့နေရာ */
-        const offset = paragraphHeight * (data.offsetRatio || 0);
-        /* final scroll position */
-        const absoluteTop = target.offsetTop;
-        const finalY = absoluteTop + offset - 120;
+        const offsetInsideParagraph = paragraphHeight * (data.offsetRatio || 0);
+        
+        // စာပိုဒ်၏ လက်ရှိ absolute top နေရာအစစ်အမှန်
+        const absoluteTop = target.getBoundingClientRect().top + window.scrollY;
+        
+        // စာဖတ်သူ ဖတ်လက်စနေရာကို Screen ရဲ့ အလယ်ဗဟို (Center) တွင် ကွက်တိ ပြန်ထားပေးခြင်း
+        const viewportCenter = window.innerHeight / 2;
+        const finalY = absoluteTop + offsetInsideParagraph - viewportCenter;
         
         window.scrollTo({
             top: finalY,
-            behavior: 'smooth'
+            behavior: 'auto' // Layout အကြီးအကျယ်ပြောင်းချိန်တွင် smooth လုပ်ပါက တုန်ခါတတ်သဖြင့် 'auto' က ပိုမိုငြိမ်သက်ပါသည်
         });
-    }, 600);
+    }, 50); 
 }
 
 /* == TOGGLE SYSTEM == */
@@ -205,7 +211,7 @@ function adjustLineHeight(amount) {
         }
         restoreTimer = setTimeout(() => {
             restoreReadingPosition();
-        }, 250);
+        }, 350); // Browser နေရာချရန် အချိန် ၃၅၀ မီလီစက္ကန့် ပေးခြင်း
     }
 }
 
@@ -241,7 +247,7 @@ function adjustLetterSpacing(amount) {
         }
         restoreTimer = setTimeout(() => {
             restoreReadingPosition();
-        }, 250);
+        }, 350);
     }
 }
 
@@ -292,7 +298,7 @@ function changeFontSize(amount) {
         }
         restoreTimer = setTimeout(() => {
             restoreReadingPosition();
-        }, 250);
+        }, 350); // ခလုတ်ဆက်တိုက်နှိပ်စဉ်အတွင်း စုစည်းပြီးမှ တစ်ကြိမ်သာ တိကျစွာ ရွှေ့ခြင်း
     }
 }
 
@@ -336,7 +342,7 @@ function changeWeight(amount) {
         }
         restoreTimer = setTimeout(() => {
             restoreReadingPosition();
-        }, 250);
+        }, 350);
     }
 }
 
@@ -410,7 +416,7 @@ function init() {
             applyLineHeight();
             
             if (restoreTimer) clearTimeout(restoreTimer);
-            restoreTimer = setTimeout(() => { restoreReadingPosition(); }, 250);
+            restoreTimer = setTimeout(() => { restoreReadingPosition(); }, 350);
         });
     });
     
@@ -423,7 +429,7 @@ function init() {
             applyLetterSpacing();
             
             if (restoreTimer) clearTimeout(restoreTimer);
-            restoreTimer = setTimeout(() => { restoreReadingPosition(); }, 250);
+            restoreTimer = setTimeout(() => { restoreReadingPosition(); }, 350);
         });
     });
     
@@ -457,7 +463,7 @@ function init() {
             renderWeight();
             
             if (restoreTimer) clearTimeout(restoreTimer);
-            restoreTimer = setTimeout(() => { restoreReadingPosition(); }, 250);
+            restoreTimer = setTimeout(() => { restoreReadingPosition(); }, 350);
         });
     });
     
