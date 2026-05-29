@@ -1,23 +1,19 @@
 /* ==========================================================================
-   QUIZ SYSTEM STYLE sheet (Dark Mode & Minimalist Compatible)
+   QUIZ SYSTEM STYLE SHEET (Optimized Clean Code)
    ========================================================================== */
-
 * {
   box-sizing: border-box;
   -webkit-tap-highlight-color: transparent;
 }
-
 body {
   margin: 0;
   padding: 0;
   font-family: 'Pyidaungsu', "Myanmar Text", sans-serif;
-  /* darkmode.css ရှိ Variable များနှင့် တိုက်ရိုက်ချိတ်ဆက်ခြင်း */
   background-color: var(--bg-color);
   color: var(--text-color);
   overflow-x: hidden;
   transition: background-color 0.4s ease, color 0.4s ease;
 }
-
 /* 🔝 FIXED TOP-LEFT TITLE */
 #fixedTitle {
   position: fixed;
@@ -31,7 +27,6 @@ body {
   font-weight: bold;
   z-index: 9999;
 }
-
 /* 🌗 MODE TOGGLE BUTTON */
 #modeToggle {
   position: fixed;
@@ -48,19 +43,16 @@ body {
   z-index: 9999;
   transition: transform 0.2s ease;
 }
-
 #modeToggle:active {
   transform: scale(0.9);
 }
-
 /* 📝 MAIN CONTAINER */
 main {
   width: 100%;
   max-width: 760px;
   margin: 0 auto;
-  padding: 90px 14px 140px; /* bottom-nav အတွက် အောက်ခြေ padding ချန်ထားခြင်း */
+  padding: 90px 14px 120px; /* style.css အတိုင်း အောက်ခြေ padding 120px တိတိညှိထားပါသည် */
 }
-
 /* 🔄 AVATAR LOGO */
 .avatar-container {
   width: 110px;
@@ -69,48 +61,45 @@ main {
   border-radius: 50%;
   padding: 4px;
   background: #ffffff;
-  border: 1px solid #FFD700;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
-
 .avatar {
   width: 100%;
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
 }
-
-/* 📦 QUIZ PAPER CARD (ဉာဏ်စမ်းကတ်ပြားနောက်ခံ) */
+/* 📦 QUIZ PAPER CARD (အတွင်းစာသားများကို အမြဲဖတ်ရလွယ်ကူစေရန် ပြင်ဆင်ခြင်း) */
 .paper-card {
-  /* White, Reading, Dark mode အလိုက် နောက်ခံအရောင် ပြောင်းလဲရန် */
-  background: var(--bottom-nav-bg); 
+  background: #ffffff; /* White Mode တွင် အဖြူရောင် */
   border-radius: 24px;
   padding: 24px 18px;
-  border: 1px solid var(--accent-gold);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
   transition: background-color 0.4s ease;
 }
-
-/* 🔤 TITLES */
+/* 🌙 Dark Mode ဖြစ်လျှင် ကတ်နောက်ခံကို အမှောင်ပြောင်းပြီး အတွင်းစာကို အဖြူရောင်စစ်စစ် ပြောင်းပေးခြင်း */
+body.dark-mode .paper-card {
+  background: #111111;
+  border: 1px solid var(--accent-gold);
+}
+/* 🔤 TITLES & TEXTS inside CARD */
 .main-title {
   text-align: center;
   font-size: 30px;
   line-height: 1.6;
   margin-bottom: 10px;
-  color: var(--text-color);
+  color: #3d3123; /* White Mode အတွင်းစာအမည်း */
 }
+body.dark-mode .main-title { color: #ffffff; } /* Dark Mode အတွင်းစာအဖြူ */
 
 .sub-text {
   text-align: center;
   font-size: 16px;
   line-height: 1.9;
   margin-bottom: 28px;
-  color: var(--text-color);
-  opacity: 0.8; /* စာသားခပ်ဖျော့ဖျော့လေး ဖြစ်စေရန် */
+  color: #7b6242;
 }
+body.dark-mode .sub-text { color: #e0e0e0; }
 
 /* 🗂️ CHAPTER SELECTION BUTTONS */
 .chapter-list {
@@ -118,89 +107,89 @@ main {
   flex-direction: column;
   gap: 16px;
 }
-
 .chapter-btn {
   width: 100%;
-  border: 1px solid var(--text-color);
+  border: none;
   border-radius: 18px;
   padding: 20px 18px;
-  background: transparent; /* နောက်ခံရှင်းလင်းပြီး စာလုံးရောင်အတိုင်း လိုက်ပြင်ရန် */
-  color: var(--text-color);
+  background: #f5efe3;
+  color: #3d3123;
   font-size: 19px;
   font-weight: bold;
   line-height: 1.8;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: 0.2s;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
 }
-
 .chapter-btn:hover {
   transform: translateY(-2px);
-  background: rgba(255, 215, 0, 0.1); /* Hover လုပ်လျှင် အဝါဖျော့တင်ရန် */
 }
-
+body.dark-mode .chapter-btn {
+  background: #222222;
+  color: #ffffff;
+  border: 1px solid rgba(255, 215, 0, 0.4);
+}
 /* ❓ QUESTION STYLES */
 #question-count {
   text-align: center;
   font-size: 15px;
   font-weight: bold;
-  color: var(--text-color);
+  color: #a27d35;
   margin-bottom: 20px;
-  letter-spacing: 0.5px;
 }
+body.dark-mode #question-count { color: #FFD700; }
 
 #question-text {
   font-size: 24px;
   font-weight: bold;
   line-height: 2;
   margin-bottom: 28px;
-  color: var(--text-color);
+  color: #3d3123;
   word-break: break-word;
   overflow-wrap: break-word;
 }
+body.dark-mode #question-text { color: #ffffff; }
 
-/* ❑ ANSWER BUTTONS (အဖြေရွေးချယ်မှု ကတ်ပြားများ) */
+/* ❑ ANSWER BUTTONS */
 #answers-container {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
-
 .answer-btn {
   width: 100%;
-  border: 1px solid var(--text-color);
+  border: none;
   border-radius: 18px;
-  background: transparent;
-  color: var(--text-color);
+  background: #faf7f1;
+  color: #3d3123;
   padding: 20px 18px;
   text-align: left;
   font-size: 17px;
   font-weight: bold;
   line-height: 2;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: 0.2s;
   word-break: break-word;
   overflow-wrap: break-word;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
-
 .answer-btn:hover {
   transform: translateY(-1px);
-  background: rgba(255, 215, 0, 0.08);
 }
-
-/* 🟩 CORRECT ANSWER (အဖြေမှန်လျှင် စိမ်းရန်) */
+body.dark-mode .answer-btn {
+  background: #1a1a1a;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+/* 🟩 CORRECT & 🟥 WRONG STATES */
 .correct {
   background: #2e7d32 !important;
   color: #ffffff !important;
-  border-color: #2e7d32 !important;
 }
-
-/* 🟥 WRONG ANSWER (အဖြေမှားလျှင် နီရန်) */
 .wrong {
   background: #c62828 !important;
   color: #ffffff !important;
-  border-color: #c62828 !important;
 }
-
 /* 🛠️ GAME CONTROL ACTIONS */
 .quiz-actions {
   margin-top: 28px;
@@ -209,37 +198,31 @@ main {
   gap: 14px;
   flex-wrap: wrap;
 }
-
 .action-btn {
-  border: 1px solid var(--text-color);
+  border: none;
   border-radius: 14px;
-  background: var(--text-color);
-  /* စာရောင်အလိုက် နောက်ခံကို အမည်း သို့မဟုတ် ဖြူ ပြောင်းလဲပေးရန် */
-  color: var(--bg-color); 
+  background: #3d3123;
+  color: white;
   padding: 14px 24px;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
-  transition: all 0.2s ease;
 }
-
-.action-btn:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
+body.dark-mode .action-btn {
+  background: #FFD700;
+  color: #000000;
 }
-
 #next-btn {
   display: none;
 }
-
-/* 🔙 BACK TO READING ROOM BUTTON (စာဖတ်ခန်းသို့ ပြန်သွားရန် ခလုတ်အလှ) */
+/* 🔙 BACK TO READING ROOM BUTTON */
 .back-reading-btn {
   width: 100%;
   margin-top: 25px;
   padding: 15px;
-  background: transparent;
-  color: var(--text-color);
-  border: 1px dashed var(--text-color); /* ကွဲပြားစေရန် မျဉ်းစက်လေးဖြင့် လုပ်ထားပါသည် */
+  background: #f5efe3;
+  color: #3d3123;
+  border: 1px dashed #3d3123;
   border-radius: 14px;
   font-size: 16px;
   font-weight: bold;
@@ -247,77 +230,67 @@ main {
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  transition: all 0.2s ease;
+  transition: 0.2s;
 }
-
-.back-reading-btn:hover {
-  background: rgba(255, 215, 0, 0.15);
+body.dark-mode .back-reading-btn {
+  background: #222222;
+  color: #ffffff;
+  border: 1px dashed #ffffff;
 }
-
 /* 🏆 FINISH SCREEN */
 .finish-title {
   text-align: center;
   font-size: 30px;
   margin-bottom: 20px;
-  color: var(--text-color);
+  color: #3d3123;
 }
+body.dark-mode .finish-title { color: #ffffff; }
 
 .finish-text {
   text-align: center;
   font-size: 18px;
   line-height: 2;
   margin-bottom: 28px;
-  color: var(--text-color);
+  color: #3d3123;
 }
+body.dark-mode .finish-text { color: #ffffff; }
 
 /* 🙈 HIDDEN UTILITY */
 .hidden {
   display: none !important;
 }
-
-/* 📚 BOTTOM NAVIGATION BAR (ဒေါင်းလုပ်လုပ်ထားသည့် စနစ်အတိုင်း လိုက်လျောညီထွေဖြစ်ရန်) */
+/* 📚 BOTTOM NAVIGATION BAR (style.css ၏ အချိုးအစားအတိုင်း တိကျစွာ ပြန်လည်ညှိနှိုင်းခြင်း) */
 .bottom-nav {
   position: fixed;
   bottom: 0;
   left: 0;
-  right: 0;
   width: 100%;
   display: flex;
   justify-content: space-around;
-  background-color: var(--bottom-nav-bg);
-  border-top: 1px solid var(--accent-gold);
-  padding: 0.75rem 0;
-  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-  transition: background-color 0.4s ease;
+  background: #222222; /* style.css အတိုင်း ပုံသေထားပါသည် */
+  padding: 12px 0; /* style.css ၏ padding အတိုင်း ဖြစ်ပါသည် */
+  z-index: 999;
 }
-
 .bottom-nav a {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4px;
   text-decoration: none;
-  color: var(--nav-text);
+  color: #FFD700;
   font-size: 15px;
   font-weight: bold;
-  padding: 4px 6px;
-  border-radius: 8px;
-  transition: all 0.3s ease;
 }
-
 .bottom-nav .icon {
   font-size: 18px;
 }
-
-/* 🌟 ACTIVE LINK STYLE */
 .bottom-nav a.active {
-  background-color: rgba(255, 215, 0, 0.2);
-  box-shadow: 0 0 6px rgba(255, 215, 0, 0.3);
+  background: rgba(255, 215, 0, 0.12); /* style.css ၏ active background အတိုင်း ဖြစ်ပါသည် */
+  padding: 6px 10px;
+  border-radius: 10px;
 }
-
 /* 📱 MOBILE RESPONSIVE OPTIMIZATION */
-@media (max-width: 600px) {
+@media(max-width:600px){
   #question-text {
     font-size: 21px;
   }
@@ -329,7 +302,6 @@ main {
     font-size: 17px;
   }
 }
-
 /* 🔗 USER SELECTION HIGHLIGHT COLOR */
 ::selection {
   background-color: #ffcc00 !important;
@@ -338,128 +310,4 @@ main {
 ::-moz-selection {
   background-color: #ffcc00 !important;
   color: #000000 !important;
-}
-display:flex;
-justify-content:center;
-
-gap:14px;
-
-flex-wrap:wrap;
-}
-
-.action-btn{
-border:none;
-border-radius:14px;
-
-background:#3d3123;
-color:white;
-
-padding:
-14px
-24px;
-
-font-size:16px;
-font-weight:bold;
-
-cursor:pointer;
-}
-
-#next-btn{
-display:none;
-}
-
-/* FINISH */
-
-.finish-title{
-text-align:center;
-
-font-size:30px;
-
-margin-bottom:20px;
-}
-
-.finish-text{
-text-align:center;
-
-font-size:18px;
-
-line-height:2;
-
-margin-bottom:28px;
-}
-
-/* HIDDEN */
-
-.hidden{
-display:none !important;
-}
-
-/* BOTTOM NAV */
-
-.bottom-nav{
-position:fixed;
-
-bottom:0;
-left:0;
-
-width:100%;
-
-display:flex;
-justify-content:space-around;
-
-background:#222;
-
-padding:12px 0;
-
-z-index:999;
-}
-
-.bottom-nav a{
-display:flex;
-flex-direction:column;
-
-align-items:center;
-
-gap:4px;
-
-text-decoration:none;
-
-color:#FFD700;
-
-font-size:15px;
-font-weight:bold;
-}
-
-.bottom-nav .icon{
-font-size:18px;
-}
-
-.bottom-nav a.active{
-background:
-rgba(255,215,0,0.12);
-
-padding:
-6px
-10px;
-
-border-radius:10px;
-}
-
-/* MOBILE */
-
-@media(max-width:600px){
-
-#question-text{
-font-size:21px;
-}
-
-.answer-btn{
-font-size:16px;
-line-height:1.9;
-}
-
-.chapter-btn{
-font-size:17px;
-}
-
 }
