@@ -6,7 +6,7 @@ let currentLetterSpacing = 0;
 // 🔥 ရုတ်တရက် Scroll ဆွဲတာမျိုး မထပ်စေရန် ဗဟို Timer တစ်ခု သတ်မှတ်ခြင်း
 let restoreTimer = null;
 // 🔥 Layout Engine ၏ ပြောင်းလဲမှု (အမြင့်/အကျယ်) အားလုံးကို ဖမ်းယူမည့် Native Observer
-let fontResizeObserver = null; 
+let fontResizeObserver = null;
 
 /* == SEMANTIC SYSTEM == */
 function buildSemanticParagraphs() {
@@ -45,7 +45,7 @@ function saveReadingPosition() {
     const paragraphs = document.querySelectorAll('.raw-text p');
     let currentParagraph = null;
     let offsetRatio = 0;
-    
+
     // စာဖတ်သူ အဓိက မျက်စိကျနေမယ့် Screen ရဲ့ အလယ်ဗဟို မျဉ်းကြောင်းကို ယူပါတယ်
     const viewportCenter = window.innerHeight / 2;
 
@@ -82,25 +82,25 @@ function restoreReadingPosition() {
 
     const target = document.querySelector(`[data-p="${data.paragraph}"]`);
     if (!target) return;
-    
+
     // ResizeObserver ကြောင့် target.offsetHeight က သေჩာပေါက် Layout အသစ်၏ အမြင့်အစစ်အမှန် ဖြစ်နေပါပြီ
     const paragraphHeight = target.offsetHeight;
     const offsetInsideParagraph = paragraphHeight * (data.offsetRatio || 0);
-    
+
     // စာပိုဒ်၏ လက်ရှိ absolute top နေရာအစစ်အမှန်
     const absoluteTop = target.getBoundingClientRect().top + window.scrollY;
-    
+
     // စာဖတ်သူ ဖတ်လက်စနေရာကို Screen ရဲ့ အလယ်ဗဟို (Center) တွင် ကွက်တိ ပြန်ထားပေးခြင်း
     const viewportCenter = window.innerHeight / 2;
     const finalY = absoluteTop + offsetInsideParagraph - viewportCenter;
-    
+
     window.scrollTo({
         top: finalY,
         behavior: 'auto' // Layout Engine အပြောင်းအလဲတွင် auto သည် ရာနှုန်းပြည့် ငြိမ်သက်မှုပေးနိုင်ပါသည်
     });
 }
 
-// 🔥 ခလုတ်နှိပ်လိုက်သည့်အခါ သို့မဟုတ် Page စပွင့်ချိန် Layout အပြောင်းအလဲ ပြီးမြောက်မှုကို စောင့်ကြည့်ပေးမည့် ဗဟိုတံခါးပေါက်လုပ်ဆောင်ချက်
+// 🔥 ขလုတ်နှိပ်လိုက်သည့်အခါ သို့မဟုတ် Page စပွင့်ချိန် Layout အပြောင်းအလဲ ပြီးမြောက်မှုကို စောင့်ကြည့်ပေးမည့် ဗဟိုတံခါးပေါက်လုပ်ဆောင်ချက်
 function triggerLayoutObserver() {
     if (fontResizeObserver) {
         fontResizeObserver.disconnect();
@@ -323,7 +323,7 @@ function renderWeight() {
     if (ones) {
         ones.textContent = currentWeight % 10;
     }
-    
+
     const weightButtons = document.querySelectorAll('#weight-buttons .preset-btn');
     weightButtons.forEach(btn => {
         btn.classList.toggle('active-preset', parseInt(btn.dataset.weight) === currentWeight);
@@ -341,12 +341,146 @@ function changeWeight(amount) {
     }
 }
 
+/* == 📋 PASTE / FILE SYSTEM 📋 == */
+function saveCustomBook(title, content) {
+    const bookData = {
+        title: title,
+        content: content,
+        updated: Date.now()
+    };
+    localStorage.setItem('customBook', JSON.stringify(bookData));
+    renderRecentBook();
+}
+
+function loadCustomBook() {
+    const saved = localStorage.getItem('customBook');
+    if (!saved) return null;
+    try {
+        return JSON.parse(saved);
+    } catch {
+        return null;
+    }
+}
+
+function renderRecentBook() {
+    const box = document.getElementById('recent-file-box');
+    if (!box) return;
+    const data = loadCustomBook();
+    if (!data) {
+        box.innerHTML = '';
+        return;
+    }
+    box.innerHTML = `
+        <div class="recent-card">
+            <div class="recent-card-title">
+                📖 နောက်ဆုံးဖတ်ခဲ့သောဖိုင်
+            </div>
+            <button class="setting-item" onclick="openSavedBook()">
+                ${data.title}
+            </button>
+        </div>
+    `;
+}
+
+function openSavedBook() {
+    const data = loadCustomBook();
+    if (!data) return;
+    const container = document.querySelector('.raw-text');
+    if (!container) return;
+
+    container.textContent = data.content;
+    buildSemanticParagraphs();
+    triggerLayoutObserver(); // Layout Engine ပြောင်းလဲမှုကို လှမ်းသိစေပြီး နေရာအမှန်ပြန်ချခြင်း
+    toggleSetting();
+}
+
+/* ===== TEXT PASTE ===== */
+function handlePasteRead() {
+    const input = document.getElementById('paste-input');
+    if (!input) return;
+    const text = input.value.trim();
+    if (!text) {
+        alert('စာမရှိသေးပါ');
+        return;
+    }
+    saveCustomBook('Pasted Text', text);
+    const container = document.querySelector('.raw-text');
+    if (container) {
+        container.textContent = text;
+        buildSemanticParagraphs();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    toggleSetting();
+}
+
+/* ===== TXT / PDF UPLOAD & PARSE ===== */
+async function handleFileUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const fileName = file.name;
+
+    const container = document.querySelector('.raw-text');
+    if (!container) return;
+
+    /* ===== (က) TXT FILE PROCESSING ===== */
+    if (file.type === 'text/plain' || fileName.endsWith('.txt')) {
+        const text = await file.text();
+        saveCustomBook(fileName, text);
+        container.textContent = text;
+        buildSemanticParagraphs();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        toggleSetting();
+    }
+    /* ===== (ခ) PDF FILE PROCESSING (USING PDF.JS) ===== */
+    else if (file.type === 'application/pdf' || fileName.endsWith('.pdf')) {
+        if (typeof pdfjsLib === 'undefined') {
+            alert('PDF support အတွက် cdnjs (pdf.js) script ချိတ်ဆက်ရန် လိုအပ်ပါသည်ဗျာ');
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = async function() {
+            try {
+                const typedarray = new Uint8Array(this.result);
+                const pdf = await pdfjsLib.getDocument(typedarray).promise;
+                let fullText = '';
+
+                // စာမျက်နှာအားလုံးကို ပတ်ပြီး စာသားထုတ်ယူခြင်း
+                for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+                    const page = await pdf.getPage(pageNum);
+                    const textContent = await page.getTextContent();
+                    const pageText = textContent.items.map(item => item.str).join(' ');
+                    fullText += pageText + '\n\n';
+                }
+
+                if (!fullText.trim()) {
+                    alert('PDF ထဲမှ စာသားများကို ဖတ်မရပါ (သို့မဟုတ်) ရုပ်ပုံသီးသန့်ဖြစ်နေနိုင်ပါသည်');
+                    return;
+                }
+
+                saveCustomBook(fileName, fullText);
+                container.textContent = fullText;
+                buildSemanticParagraphs();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                toggleSetting();
+            } catch (error) {
+                console.error(error);
+                alert('PDF ဖတ်ရယူရာတွင် အမှားအယွင်းရှိသွားပါသည်');
+            }
+        };
+        reader.readAsArrayBuffer(file);
+    } else {
+        alert('TXT / PDF ဗားရှင်းဖိုင်များသာ တင်သွင်းနိုင်ပါသည်');
+    }
+}
+/* == PASTE / FILE SYSTEM အဆုံး == */
+
 /* == MAIN INIT == */
 function init() {
     const article = document.querySelector('article');
     const tocSearch = document.getElementById('toc-search');
     const tocItems = document.querySelectorAll('.toc-list li');
-    
+
     /* ===== 🌟 (၁) LOAD & APPLY ALL SAVED SETTINGS FIRST 🌟 ===== */
     // စာမျက်နှာ စပွင့်ချင်း နေရာမချမီ Layout Settings အဟောင်းအားလုံးကို Engine ထဲ ကြိုတင်ထည့်သွင်းခြင်း
     const savedLH = localStorage.getItem('userLineHeight');
@@ -354,7 +488,7 @@ function init() {
         currentLineHeight = parseFloat(savedLH);
     }
     applyLineHeight();
-    
+
     const savedLS = localStorage.getItem('userLetterSpacing');
     if (savedLS !== null) {
         currentLetterSpacing = parseFloat(savedLS);
@@ -372,18 +506,26 @@ function init() {
         currentWeight = parseInt(savedFW);
     }
     renderWeight();
-    
+
     /* ===== LAST READ ===== */
     saveCurrentPage();
     showLastReadLink();
-    
+
+    /* ===== 🌟 CUSTOM USER BOOK AUTO-RELOAD 🌟 ===== */
+    // စာမျက်နှာ Refresh ဖြစ်သွားရင်လည်း တင်ထားဖတ်လက်စစာကို အလိုအလျောက် ပြန်ဆွဲတင်ပေးခြင်း
+    const customBook = loadCustomBook();
+    const container = document.querySelector('.raw-text');
+    if (customBook && container) {
+        container.textContent = customBook.content;
+    }
+
     /* ===== SEMANTIC ===== */
     buildSemanticParagraphs();
 
     /* ===== 🌟 (၂) INITIAL RESTORE WITH OBSERVER 🌟 ===== */
     // စာမျက်နှာစဖွင့်ချိန်တွင် Browser က User ရဲ့ Setting အတိုင်း အမြင့်အစစ်အမှန်ကို တွက်ချက်ပြီးစီးမှ တိကျစွာ Scroll ပြန်ဆွဲပေးရန် ချိတ်ဆက်ခြင်း
-    triggerLayoutObserver(); 
-    
+    triggerLayoutObserver();
+
     let readingTimer;
     window.addEventListener('scroll', () => {
         clearTimeout(readingTimer);
@@ -391,7 +533,18 @@ function init() {
             saveReadingPosition();
         }, 200);
     });
-    
+
+    /* ===== 🌟 (၃) PASTE / UPLOAD INITIALIZE 🌟 ===== */
+    renderRecentBook();
+    const pasteBtn = document.getElementById('paste-read-btn');
+    if (pasteBtn) {
+        pasteBtn.addEventListener('click', handlePasteRead);
+    }
+    const fileInput = document.getElementById('file-input');
+    if (fileInput) {
+        fileInput.addEventListener('change', handleFileUpload);
+    }
+
     /* ===== TOC ACTIVE ===== */
     const sections = document.querySelectorAll('section');
     const tocLinks = document.querySelectorAll('.toc-list li a');
@@ -417,7 +570,7 @@ function init() {
     sections.forEach(section => {
         observer.observe(section);
     });
-    
+
     /* ===== LINE HEIGHT BUTTONS ===== */
     const lineButtons = document.querySelectorAll('.line-btn');
     lineButtons.forEach(btn => {
@@ -428,7 +581,7 @@ function init() {
             applyLineHeight();
         });
     });
-    
+
     /* ===== LETTER SPACING BUTTONS ===== */
     const letterButtons = document.querySelectorAll('.letter-btn');
     letterButtons.forEach(btn => {
@@ -439,26 +592,26 @@ function init() {
             applyLetterSpacing();
         });
     });
-    
+
     /* ===== FONT SIZE BUTTON EVENTS ===== */
     const fontIncrease = document.getElementById('font-increase');
     if (fontIncrease) fontIncrease.onclick = () => { changeFontSize(1); };
-    
+
     const fontDecrease = document.getElementById('font-decrease');
     if (fontDecrease) fontDecrease.onclick = () => { changeFontSize(-1); };
-    
+
     const sizePlus10 = document.getElementById('size-plus-10');
     if (sizePlus10) sizePlus10.onclick = () => { changeFontSize(10); };
-    
+
     const sizeMinus10 = document.getElementById('size-minus-10');
     if (sizeMinus10) sizeMinus10.onclick = () => { changeFontSize(-10); };
-    
+
     const sizePlus1 = document.getElementById('size-plus-1');
     if (sizePlus1) sizePlus1.onclick = () => { changeFontSize(1); };
-    
+
     const sizeMinus1 = document.getElementById('size-minus-1');
     if (sizeMinus1) sizeMinus1.onclick = () => { changeFontSize(-1); };
-    
+
     /* ===== FONT WEIGHT BUTTON EVENTS ===== */
     const weightButtons = document.querySelectorAll('#weight-buttons .preset-btn');
     weightButtons.forEach(btn => {
@@ -469,25 +622,25 @@ function init() {
             renderWeight();
         });
     });
-    
+
     const weightPlus100 = document.getElementById('weight-plus-100');
     if (weightPlus100) weightPlus100.onclick = () => { changeWeight(100); };
-    
+
     const weightMinus100 = document.getElementById('weight-minus-100');
     if (weightMinus100) weightMinus100.onclick = () => { changeWeight(-100); };
-    
+
     const weightPlus10 = document.getElementById('weight-plus-10');
     if (weightPlus10) weightPlus10.onclick = () => { changeWeight(10); };
-    
+
     const weightMinus10 = document.getElementById('weight-minus-10');
     if (weightMinus10) weightMinus10.onclick = () => { changeWeight(-10); };
-    
+
     const weightPlus1 = document.getElementById('weight-plus-1');
     if (weightPlus1) weightPlus1.onclick = () => { changeWeight(1); };
-    
+
     const weightMinus1 = document.getElementById('weight-minus-1');
     if (weightMinus1) weightMinus1.onclick = () => { changeWeight(-1); };
-    
+
     /* ===== TOC TOP/BOTTOM ===== */
     const tocTopBtn = document.getElementById('toc-top-btn');
     const tocBottomBtn = document.getElementById('toc-bottom-btn');
@@ -502,7 +655,7 @@ function init() {
             tocContent.scrollTo({ top: tocContent.scrollHeight, behavior: 'smooth' });
         });
     }
-    
+
     /* ===== TOC SEARCH ===== */
     if (tocSearch) {
         tocSearch.addEventListener('input', () => {
@@ -513,7 +666,7 @@ function init() {
             });
         });
     }
-    
+
     /* ===== LONG PRESS SELECT ===== */
     let timer;
     let isLongPressed = false;
@@ -549,7 +702,7 @@ function init() {
             }
         });
     }
-    
+
     /* ===== EXPORT FUNCTIONS ===== */
     window.toggleTOC = toggleTOC;
     window.toggleSetting = toggleSetting;
@@ -559,6 +712,7 @@ function init() {
     window.adjustLetterSpacing = adjustLetterSpacing;
     window.changeFontSize = changeFontSize;
     window.changeWeight = changeWeight;
+    window.openSavedBook = openSavedBook; // HTML inline 'onclick' အတွက် Global Scope သို့ ချိတ်ပေးခြင်း
 }
 
 /* == SINGLE DOMCONTENTLOADED == */
