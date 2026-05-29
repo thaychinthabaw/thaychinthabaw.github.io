@@ -209,9 +209,9 @@ body.dark-mode .answer-btn {
   cursor: pointer;
 }
 body.dark-mode .action-btn {
-  background: #FFD700;
-  color: #000000;
-}
+  background: #222222;
+  color: #ffffff;
+  border: 1px solid rgba(255, 215, 0, 0.4);
 #next-btn {
   display: none;
 }
@@ -235,7 +235,7 @@ body.dark-mode .action-btn {
 body.dark-mode .back-reading-btn {
   background: #222222;
   color: #ffffff;
-  border: 1px dashed #ffffff;
+  border: 1px solid rgba(255, 215, 0, 0.4);
 }
 /* 🏆 FINISH SCREEN */
 .finish-title {
