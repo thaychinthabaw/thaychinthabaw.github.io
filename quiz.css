@@ -42,7 +42,7 @@ body.dark-mode {
   --btn-text: #ffffff;
   --bottom-nav-bg: #111111;
   --nav-text: #FFD700;     
-  --nav-active-text: #ffffff;
+  --nav-active-text: #FFD700; /* 🌟 Dark Mode တွင် Active ဖြစ်ချိန် Icon နှင့် စာသားကိုပါ အဝါရောင်စစ်စစ် ဖြစ်စေရန် ပြောင်းလဲခြင်း */
 }
 
 /* 🌐 GLOBAL RESET & FONTS */
@@ -326,7 +326,7 @@ body.dark-mode .bottom-nav {
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: var(--nav-text) !important; /* 🌟 Light Mode တွင် စာသားကို လုံးဝပြတ်သားသွားစေရန် ချုပ်ကိုင်ခြင်း */
+  color: var(--nav-text) !important; /* 🌟 Light Mode တွင် စတာများကို လုံးဝပြတ်သားသွားစေရန် ချုပ်ကိုင်ခြင်း */
   text-decoration: none;
   font-weight: bold;
   padding: 4px 6px;
@@ -347,7 +347,7 @@ body.dark-mode .bottom-nav {
 body.dark-mode .bottom-nav a.active {
   background-color: rgba(255, 215, 0, 0.2);
   box-shadow: 0 0 6px rgba(255, 215, 0, 0.3);
-  color: var(--nav-active-text) !important;
+  color: var(--nav-active-text) !important; /* 🌟 ဤနေရာတွင် စာသားအရောင်ကို အပေါ်မှသတ်မှတ်ချက်အတိုင်း !important ဖြင့် တိကျစွာချုပ်ကိုင်ထားပါသည် */
 }
 
 /* 📱 MOBILE RESPONSIVE OPTIMIZATION */
