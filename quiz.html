@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Quiz | သေခြင်းသဘော</title>
+
+<link rel="stylesheet" href="quiz.css">
+
+</head>
+
+<body class="sepia-mode">
+
+<!-- TOP BAR -->
+<div class="top-controls">
+
+<a href="index.html" class="back-link">
+<span class="nav-icon">⌂</span>
+<span class="nav-text">ပင်မ</span>
+</a>
+
+<div class="quiz-top-title">
+Quiz
+</div>
+
+</div>
+
+<!-- MAIN -->
+<div class="container">
+
+<!-- HOME SCREEN -->
+<div id="chapter-screen">
+
+<h1 class="main-title">
+မေးခွန်းရွေးပါ
+</h1>
+
+<p class="sub-text">
+အခန်းတစ်ခုရွေးပြီး မေးခွန်းများကို ဖြေဆိုနိုင်ပါသည်။
+</p>
+
+<div class="chapter-list">
+
+<button class="chapter-btn" data-chapter="1">
+အခန်း (၁)
+</button>
+
+<button class="chapter-btn" data-chapter="2">
+အခန်း (၂)
+</button>
+
+<button class="chapter-btn" data-chapter="3">
+အခန်း (၃)
+</button>
+
+</div>
+
+</div>
+
+<!-- QUIZ SCREEN -->
+<div id="quiz-screen" class="hidden">
+
+<div class="quiz-header">
+
+<button id="back-btn">
+← နောက်သို့
+</button>
+
+<div id="question-count">
+1 / 5
+</div>
+
+</div>
+
+<div class="question-box">
+
+<h2 id="question-text">
+မေးခွန်း
+</h2>
+
+<div id="answers-container">
+
+</div>
+
+</div>
+
+<div class="bottom-controls">
+
+<button id="next-btn">
+နောက်မေးခွန်း →
+</button>
+
+</div>
+
+</div>
+
+<!-- FINISH SCREEN -->
+<div id="finish-screen" class="hidden">
+
+<h1 class="finish-title">
+ပြီးဆုံးပါပြီ
+</h1>
+
+<p class="finish-text">
+အခန်းပြီးဆုံးသွားပါပြီ။
+</p>
+
+<button id="restart-btn">
+အခန်းများသို့ ပြန်သွားရန်
+</button>
+
+</div>
+
+</div>
+
+<script src="quiz.js"></script>
+
+</body>
+</html>
