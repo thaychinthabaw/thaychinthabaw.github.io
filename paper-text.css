@@ -789,5 +789,74 @@ article {
 
 .recent-card button{
     width:100%;
-}/* ===== PASTE / UPLOAD SYSTEMအဆုံး ===== */
+}
+
+/* ===== 📚 စာအုပ်စင်ကတ်ပြားများအလှဆင်ခြင်း (Bookshelf UI) ===== */
+.bookshelf-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f4ecd8;
+    border: 1px solid #443300;
+    border-radius: 8px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.bookshelf-card:hover {
+    background: #eadebc;
+}
+
+/* လက်ရှိဖတ်နေတဲ့ စာအုပ်ကို Highlight ပြရန် */
+.active-card-highlight {
+    border: 2px solid #b38b00 !important;
+    background: #eadebc !important;
+}
+
+.bookshelf-card-info {
+    flex-grow: 1;
+    overflow: hidden;
+    text-align: left;
+}
+
+.bookshelf-card-title {
+    font-size: 15px;
+    font-weight: bold;
+    color: #443300;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+
+/* စာအုပ်ဖျက်တဲ့ ခလုတ်လေး */
+.bookshelf-delete-btn {
+    background: #ffdddd !important;
+    color: #cc0000 !important;
+    border: 1px solid #cc0000 !important;
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 12px !important;
+    cursor: pointer;
+    font-weight: bold;
+    margin-left: 8px;
+    width: auto !important; /* width ကန့်သတ်ချက်ဖြုတ်ရန် */
+}
+
+.bookshelf-delete-btn:hover {
+    background: #cc0000 !important;
+    color: #ffffff !important;
+}
+
+/* PDF Loading ပြသမည့် ပုံစံ */
+.pdf-loading-indicator {
+    padding: 20px;
+    text-align: center;
+    font-weight: bold;
+    color: #443300;
+    font-size: 16px;
+}
+/* ===== PASTE / UPLOAD SYSTEMအဆုံး ===== */
 
