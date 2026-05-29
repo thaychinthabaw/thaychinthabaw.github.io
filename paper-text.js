@@ -5,7 +5,7 @@ let currentLineHeight = 2.0;
 let currentLetterSpacing = 0;
 // 🔥 ရုတ်တရက် Scroll ဆွဲတာမျိုး မထပ်စေရန် ဗဟို Timer တစ်ခု သတ်မှတ်ခြင်း
 let restoreTimer = null;
-// 🔥 စာလုံးဆိုဒ်ပြောင်းလဲပြီး Browser က Layout ချတာပြီးစီးမှုကို တိကျစွာသိရှိနိုင်ရန် Native Observer ထည့်သွင်းခြင်း
+// 🔥 Layout Engine ၏ ပြောင်းလဲမှု (အမြင့်/အကျယ်) အားလုံးကို ဖမ်းယူမည့် Native Observer
 let fontResizeObserver = null; 
 
 /* == SEMANTIC SYSTEM == */
@@ -83,7 +83,7 @@ function restoreReadingPosition() {
     const target = document.querySelector(`[data-p="${data.paragraph}"]`);
     if (!target) return;
     
-    // ResizeObserver ကြောင့် target.offsetHeight က သေချာပေါက် Font Size အသစ်ရဲ့ အမြင့်အစစ်အမှန် ဖြစ်နေပါပြီ
+    // ResizeObserver ကြောင့် target.offsetHeight က သေချာပေါက် Layout အသစ်၏ အမြင့်အစစ်အမှန် ဖြစ်နေပါပြီ
     const paragraphHeight = target.offsetHeight;
     const offsetInsideParagraph = paragraphHeight * (data.offsetRatio || 0);
     
@@ -96,8 +96,28 @@ function restoreReadingPosition() {
     
     window.scrollTo({
         top: finalY,
-        behavior: 'auto' // Layout အကြီးအကျယ်ပြောင်းချိန်တွင် smooth လုပ်ပါက တုန်ခါပြီးလွဲတတ်သဖြင့် 'auto' က ရာနှုန်းပြည့် ငြိမ်သက်ပါသည်
+        behavior: 'auto' // Layout Engine အပြောင်းအလဲတွင် auto သည် ရာနှုန်းပြည့် ငြိမ်သက်မှုပေးနိုင်ပါသည်
     });
+}
+
+// 🔥 ခလုတ်နှိပ်လိုက်သည့်အခါ Layout အပြောင်းအလဲ ပြီးမြောက်မှုကို စောင့်ကြည့်ပေးမည့် ဗဟိုတံခါးပေါက်လုပ်ဆောင်ချက်
+function triggerLayoutObserver() {
+    if (fontResizeObserver) {
+        fontResizeObserver.disconnect();
+    }
+
+    const articleElement = document.querySelector('article');
+    if (!articleElement) return;
+
+    fontResizeObserver = new ResizeObserver((entries) => {
+        for (let entry of entries) {
+            restoreReadingPosition(); // Browser က Layout ကွက်တိချပြီးမှ နေရာပြန်ရွှေ့ပေးခြင်း
+            fontResizeObserver.disconnect();
+            fontResizeObserver = null;
+        }
+    });
+
+    fontResizeObserver.observe(articleElement);
 }
 
 /* == TOGGLE SYSTEM == */
@@ -203,14 +223,8 @@ function adjustLineHeight(amount) {
     let next = Math.round((currentLineHeight + amount) * 10) / 10;
     if (next >= 1.0 && next <= 100.0) {
         currentLineHeight = next;
+        triggerLayoutObserver(); // ⚡ ResizeObserver ဖြင့် Engine အပြောင်းအလဲကို စောင့်ကြည့်ခြင်း
         applyLineHeight();
-
-        if (restoreTimer) {
-            clearTimeout(restoreTimer);
-        }
-        restoreTimer = setTimeout(() => {
-            restoreReadingPosition();
-        }, 350);
     }
 }
 
@@ -239,14 +253,8 @@ function adjustLetterSpacing(amount) {
     let next = Math.round((currentLetterSpacing + amount) * 10) / 10;
     if (next >= 0 && next <= 10) {
         currentLetterSpacing = next;
+        triggerLayoutObserver(); // ⚡ ResizeObserver ဖြင့် Engine အပြောင်းအလဲကို စောင့်ကြည့်ခြင်း
         applyLetterSpacing();
-
-        if (restoreTimer) {
-            clearTimeout(restoreTimer);
-        }
-        restoreTimer = setTimeout(() => {
-            restoreReadingPosition();
-        }, 350);
     }
 }
 
@@ -286,35 +294,12 @@ function renderFontSize() {
 }
 
 function changeFontSize(amount) {
-    saveReadingPosition(); // (၁) လက်ရှိဖတ်နေတဲ့ နေရာဗဟိုချက်ကို အရင်မှတ်မယ်
+    saveReadingPosition();
     const next = fontSize + amount;
     if (next >= 10 && next <= 70) {
         fontSize = next;
-        
-        // (၂) တကယ်လို့ အရင်အလုပ်လုပ်နေတဲ့ ဇကာဟောင်း (Observer) ရှိရင် အရင်ဖြုတ်မယ်
-        if (fontResizeObserver) {
-            fontResizeObserver.disconnect();
-        }
-
-        const articleElement = document.querySelector('article');
-        
-        // (၃) စာလုံးဆိုဒ်အသစ်ကြောင့် Article တစ်ခုလုံးရဲ့ အမြင့်အပြောင်းအလဲ ပြီးမြောက်မှုကို စောင့်ကြည့်မည့် စနစ်ထည့်သွင်းခြင်း
-        fontResizeObserver = new ResizeObserver((entries) => {
-            for (let entry of entries) {
-                // Browser က စာသား Layout တွေကို လုံးဝအချောသတ် Render လုပ်ပြီးမှ တိကျစွာ နေရာပြန်ချပေးမယ်
-                restoreReadingPosition();
-                
-                // နေရာပြန်ချပြီးတာနဲ့ စောင့်ကြည့်မှုကို ချက်ချင်းရပ်ဆိုင်းမယ် (Loop ထပ်မပတ်စေရန်)
-                fontResizeObserver.disconnect();
-                fontResizeObserver = null;
-            }
-        });
-
-        renderFontSize(); // (၄) စာလုံးဆိုဒ်ကို ပြောင်းလဲစေခြင်း
-        
-        if (articleElement) {
-            fontResizeObserver.observe(articleElement); // စောင့်ကြည့်ခိုင်းလိုက်ပြီ ဖြစ်ပါတယ်
-        }
+        triggerLayoutObserver(); // ⚡ ResizeObserver ဖြင့် Engine အပြောင်းအလဲကို စောင့်ကြည့်ခြင်း
+        renderFontSize();
     }
 }
 
@@ -351,14 +336,8 @@ function changeWeight(amount) {
     const next = currentWeight + amount;
     if (next >= 100 && next <= 900) {
         currentWeight = next;
+        triggerLayoutObserver(); // ⚡ ResizeObserver ဖြင့် Engine အပြောင်းအလဲကို စောင့်ကြည့်ခြင်း
         renderWeight();
-
-        if (restoreTimer) {
-            clearTimeout(restoreTimer);
-        }
-        restoreTimer = setTimeout(() => {
-            restoreReadingPosition();
-        }, 350);
     }
 }
 
@@ -429,10 +408,8 @@ function init() {
         btn.addEventListener('click', () => {
             saveReadingPosition();
             currentLineHeight = parseFloat(btn.dataset.value);
+            triggerLayoutObserver(); // ⚡ Presets ခလုတ်များအတွက်ပါ ချိတ်ဆက်ပေးထားပါသည်
             applyLineHeight();
-            
-            if (restoreTimer) clearTimeout(restoreTimer);
-            restoreTimer = setTimeout(() => { restoreReadingPosition(); }, 350);
         });
     });
     
@@ -442,10 +419,8 @@ function init() {
         btn.addEventListener('click', () => {
             saveReadingPosition();
             currentLetterSpacing = parseFloat(btn.dataset.value);
+            triggerLayoutObserver(); // ⚡ Presets ခလုတ်များအတွက်ပါ ချိတ်ဆက်ပေးထားပါသည်
             applyLetterSpacing();
-            
-            if (restoreTimer) clearTimeout(restoreTimer);
-            restoreTimer = setTimeout(() => { restoreReadingPosition(); }, 350);
         });
     });
     
@@ -476,10 +451,8 @@ function init() {
         btn.addEventListener('click', () => {
             saveReadingPosition();
             currentWeight = parseInt(btn.dataset.weight);
+            triggerLayoutObserver(); // ⚡ Presets ခလုတ်များအတွက်ပါ ချိတ်ဆက်ပေးထားပါသည်
             renderWeight();
-            
-            if (restoreTimer) clearTimeout(restoreTimer);
-            restoreTimer = setTimeout(() => { restoreReadingPosition(); }, 350);
         });
     });
     
