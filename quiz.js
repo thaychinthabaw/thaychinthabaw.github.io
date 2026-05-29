@@ -3,104 +3,7 @@
 'use strict';
 
 /* =========================
-   QUIZ DATA
-========================= */
-
-const quizData = {
-
-1: [
-
-{
-question: "ဗုဒ္ဓဘာသာ၏ အဓိကအဆုံးအမမှာ ဘာလဲ?",
-answers: [
-"အနိစ္စ",
-"မေတ္တာ",
-"သစ္စာလေးပါး",
-"သမာဓိ"
-],
-correct: 2
-},
-
-{
-question: "အရာအားလုံး မတည်မြဲခြင်းကို ဘာခေါ်သလဲ?",
-answers: [
-"ဒုက္ခ",
-"အနိစ္စ",
-"အနတ္တ",
-"သမာဓိ"
-],
-correct: 1
-},
-
-{
-question: "ဝိပဿနာဆိုသည်မှာ?",
-answers: [
-"သီချင်းဆိုခြင်း",
-"အိပ်စက်ခြင်း",
-"ရှုမှတ်ခြင်း",
-"စာရေးခြင်း"
-],
-correct: 2
-}
-
-],
-
-2: [
-
-{
-question: "သတိ၏ အဓိပ္ပါယ်မှာ?",
-answers: [
-"မေ့ခြင်း",
-"သိနေခြင်း",
-"အိပ်ခြင်း",
-"ပျင်းခြင်း"
-],
-correct: 1
-},
-
-{
-question: "ဒုက္ခသစ္စာ ဆိုသည်မှာ?",
-answers: [
-"ချမ်းသာခြင်း",
-"မတည်မြဲခြင်း",
-"ဆင်းရဲခြင်း",
-"မေတ္တာ"
-],
-correct: 2
-}
-
-],
-
-3: [
-
-{
-question: "အနတ္တ ဆိုသည်မှာ?",
-answers: [
-"ကိုယ်ပိုင်မရှိခြင်း",
-"ကြီးမြတ်ခြင်း",
-"ချမ်းသာခြင်း",
-"တည်မြဲခြင်း"
-],
-correct: 0
-},
-
-{
-question: "နိဗ္ဗာန်သည်?",
-answers: [
-"အိပ်မက်",
-"အဆုံးစွန်ငြိမ်းချမ်းမှု",
-"ဒေါသ",
-"လောဘ"
-],
-correct: 1
-}
-
-]
-
-};
-
-/* =========================
-   ELEMENTS
+ELEMENTS
 ========================= */
 
 const chapterScreen =
@@ -134,55 +37,58 @@ const restartBtn =
 document.getElementById('restart-btn');
 
 /* =========================
-   STATE
+STATE
 ========================= */
 
-let currentChapter = [];
+let currentQuestions = [];
+
 let currentIndex = 0;
+
 let answered = false;
 
 /* =========================
-   SHUFFLE FUNCTION
+SHUFFLE
 ========================= */
 
-function shuffleArray(array) {
+function shuffleArray(array){
 
-const newArray = [...array];
-
-for (
-let i = newArray.length - 1;
+for(
+let i = array.length - 1;
 i > 0;
 i--
-) {
+){
 
 const j =
-Math.floor(Math.random() * (i + 1));
+Math.floor(
+Math.random() * (i + 1)
+);
 
-[newArray[i], newArray[j]] =
-[newArray[j], newArray[i]];
+[array[i], array[j]] =
+[array[j], array[i]];
 
 }
 
-return newArray;
+return array;
 
 }
 
 /* =========================
-   START QUIZ
+START QUIZ
 ========================= */
 
 chapterButtons.forEach(button => {
 
-button.addEventListener('click', () => {
+button.addEventListener(
+'click',
+() => {
 
-const chapterNumber =
+const chapter =
 button.dataset.chapter;
 
-/* RANDOM QUESTIONS */
-currentChapter =
-shuffleArray(
-quizData[chapterNumber]
-);
+currentQuestions =
+[...quizData[chapter]];
+
+shuffleArray(currentQuestions);
 
 currentIndex = 0;
 
@@ -199,55 +105,41 @@ showQuestion();
 });
 
 /* =========================
-   SHOW QUESTION
+SHOW QUESTION
 ========================= */
 
-function showQuestion() {
+function showQuestion(){
 
 answered = false;
 
 nextBtn.style.display = 'none';
 
 const currentQuestion =
-currentChapter[currentIndex];
+currentQuestions[currentIndex];
 
 questionText.textContent =
 currentQuestion.question;
 
 questionCount.textContent =
-`${currentIndex + 1} / ${currentChapter.length}`;
+`${currentIndex + 1} / ${currentQuestions.length}`;
 
 answersContainer.innerHTML = '';
 
-/* ANSWERS RANDOM */
-const shuffledAnswers =
-currentQuestion.answers.map(
-(answer, index) => ({
-text: answer,
-correct:
-index === currentQuestion.correct
-})
-);
-
-const randomizedAnswers =
-shuffleArray(shuffledAnswers);
-
-randomizedAnswers.forEach(answerObj => {
+currentQuestion.answers.forEach(
+(answer, index) => {
 
 const button =
 document.createElement('button');
 
-button.className = 'answer-btn';
+button.className =
+'answer-btn';
 
 button.textContent =
-answerObj.text;
+answer;
 
 button.addEventListener(
 'click',
-() => selectAnswer(
-button,
-answerObj.correct
-)
+() => selectAnswer(button, index)
 );
 
 answersContainer.appendChild(button);
@@ -257,40 +149,39 @@ answersContainer.appendChild(button);
 }
 
 /* =========================
-   SELECT ANSWER
+SELECT ANSWER
 ========================= */
 
-function selectAnswer(button, isCorrect) {
+function selectAnswer(button, index){
 
-if (answered) return;
+if(answered) return;
 
 answered = true;
+
+const currentQuestion =
+currentQuestions[currentIndex];
 
 const buttons =
 document.querySelectorAll('.answer-btn');
 
-buttons.forEach(btn => {
+buttons.forEach((btn, i) => {
 
-const btnText =
-btn.textContent;
+if(i === currentQuestion.correct){
 
-const currentQuestion =
-currentChapter[currentIndex];
-
-const correctText =
-currentQuestion.answers[
-currentQuestion.correct
-];
-
-if (btnText === correctText) {
 btn.classList.add('correct');
+
+}
+
+if(
+i === index &&
+i !== currentQuestion.correct
+){
+
+btn.classList.add('wrong');
+
 }
 
 });
-
-if (!isCorrect) {
-button.classList.add('wrong');
-}
 
 nextBtn.style.display =
 'inline-block';
@@ -298,21 +189,27 @@ nextBtn.style.display =
 }
 
 /* =========================
-   NEXT
+NEXT
 ========================= */
 
-nextBtn.addEventListener('click', () => {
+nextBtn.addEventListener(
+'click',
+() => {
 
 currentIndex++;
 
-if (
+if(
 currentIndex >=
-currentChapter.length
-) {
+currentQuestions.length
+){
 
-quizScreen.classList.add('hidden');
+quizScreen.classList.add(
+'hidden'
+);
 
-finishScreen.classList.remove('hidden');
+finishScreen.classList.remove(
+'hidden'
+);
 
 return;
 
@@ -320,32 +217,49 @@ return;
 
 showQuestion();
 
-});
+}
+);
 
 /* =========================
-   BACK
+BACK
 ========================= */
 
-backBtn.addEventListener('click', () => {
+backBtn.addEventListener(
+'click',
+() => {
 
-quizScreen.classList.add('hidden');
+quizScreen.classList.add(
+'hidden'
+);
 
-finishScreen.classList.add('hidden');
+finishScreen.classList.add(
+'hidden'
+);
 
-chapterScreen.classList.remove('hidden');
+chapterScreen.classList.remove(
+'hidden'
+);
 
-});
+}
+);
 
 /* =========================
-   RESTART
+RESTART
 ========================= */
 
-restartBtn.addEventListener('click', () => {
+restartBtn.addEventListener(
+'click',
+() => {
 
-finishScreen.classList.add('hidden');
+finishScreen.classList.add(
+'hidden'
+);
 
-chapterScreen.classList.remove('hidden');
+chapterScreen.classList.remove(
+'hidden'
+);
 
-});
+}
+);
 
 })();
