@@ -5,6 +5,8 @@ let currentLineHeight = 2.0;
 let currentLetterSpacing = 0;
 // 🔥 ရုတ်တရက် Scroll ဆွဲတာမျိုး မထပ်စေရန် ဗဟို Timer တစ်ခု သတ်မှတ်ခြင်း
 let restoreTimer = null;
+// 🔥 စာလုံးဆိုဒ်ပြောင်းလဲပြီး Browser က Layout ချတာပြီးစီးမှုကို တိကျစွာသိရှိနိုင်ရန် Native Observer ထည့်သွင်းခြင်း
+let fontResizeObserver = null; 
 
 /* == SEMANTIC SYSTEM == */
 function buildSemanticParagraphs() {
@@ -78,27 +80,24 @@ function restoreReadingPosition() {
         return;
     }
 
-    // Browser ရဲ့ Layout Engine က စာလုံးဆိုဒ်အသစ်အရ နေရာချတာ သေချာပေါက် ပြီးစီးစေရန် အချိန်ပေးခြင်း
-    setTimeout(() => {
-        const target = document.querySelector(`[data-p="${data.paragraph}"]`);
-        if (!target) return;
-        
-        // စာလုံးဆိုဒ်သစ်ကြောင့် ပြောင်းလဲသွားသည့် စာပိုဒ်၏ အမြင့်အသစ်
-        const paragraphHeight = target.offsetHeight;
-        const offsetInsideParagraph = paragraphHeight * (data.offsetRatio || 0);
-        
-        // စာပိုဒ်၏ လက်ရှိ absolute top နေရာအစစ်အမှန်
-        const absoluteTop = target.getBoundingClientRect().top + window.scrollY;
-        
-        // စာဖတ်သူ ဖတ်လက်စနေရာကို Screen ရဲ့ အလယ်ဗဟို (Center) တွင် ကွက်တိ ပြန်ထားပေးခြင်း
-        const viewportCenter = window.innerHeight / 2;
-        const finalY = absoluteTop + offsetInsideParagraph - viewportCenter;
-        
-        window.scrollTo({
-            top: finalY,
-            behavior: 'auto' // Layout အကြီးအကျယ်ပြောင်းချိန်တွင် smooth လုပ်ပါက တုန်ခါတတ်သဖြင့် 'auto' က ပိုမိုငြိမ်သက်ပါသည်
-        });
-    }, 50); 
+    const target = document.querySelector(`[data-p="${data.paragraph}"]`);
+    if (!target) return;
+    
+    // ResizeObserver ကြောင့် target.offsetHeight က သေချာပေါက် Font Size အသစ်ရဲ့ အမြင့်အစစ်အမှန် ဖြစ်နေပါပြီ
+    const paragraphHeight = target.offsetHeight;
+    const offsetInsideParagraph = paragraphHeight * (data.offsetRatio || 0);
+    
+    // စာပိုဒ်၏ လက်ရှိ absolute top နေရာအစစ်အမှန်
+    const absoluteTop = target.getBoundingClientRect().top + window.scrollY;
+    
+    // စာဖတ်သူ ဖတ်လက်စနေရာကို Screen ရဲ့ အလယ်ဗဟို (Center) တွင် ကွက်တိ ပြန်ထားပေးခြင်း
+    const viewportCenter = window.innerHeight / 2;
+    const finalY = absoluteTop + offsetInsideParagraph - viewportCenter;
+    
+    window.scrollTo({
+        top: finalY,
+        behavior: 'auto' // Layout အကြီးအကျယ်ပြောင်းချိန်တွင် smooth လုပ်ပါက တုန်ခါပြီးလွဲတတ်သဖြင့် 'auto' က ရာနှုန်းပြည့် ငြိမ်သက်ပါသည်
+    });
 }
 
 /* == TOGGLE SYSTEM == */
@@ -211,7 +210,7 @@ function adjustLineHeight(amount) {
         }
         restoreTimer = setTimeout(() => {
             restoreReadingPosition();
-        }, 350); // Browser နေရာချရန် အချိန် ၃၅၀ မီလီစက္ကန့် ပေးခြင်း
+        }, 350);
     }
 }
 
@@ -287,18 +286,35 @@ function renderFontSize() {
 }
 
 function changeFontSize(amount) {
-    saveReadingPosition();
+    saveReadingPosition(); // (၁) လက်ရှိဖတ်နေတဲ့ နေရာဗဟိုချက်ကို အရင်မှတ်မယ်
     const next = fontSize + amount;
     if (next >= 10 && next <= 70) {
         fontSize = next;
-        renderFontSize();
-
-        if (restoreTimer) {
-            clearTimeout(restoreTimer);
+        
+        // (၂) တကယ်လို့ အရင်အလုပ်လုပ်နေတဲ့ ဇကာဟောင်း (Observer) ရှိရင် အရင်ဖြုတ်မယ်
+        if (fontResizeObserver) {
+            fontResizeObserver.disconnect();
         }
-        restoreTimer = setTimeout(() => {
-            restoreReadingPosition();
-        }, 350); // ခလုတ်ဆက်တိုက်နှိပ်စဉ်အတွင်း စုစည်းပြီးမှ တစ်ကြိမ်သာ တိကျစွာ ရွှေ့ခြင်း
+
+        const articleElement = document.querySelector('article');
+        
+        // (၃) စာလုံးဆိုဒ်အသစ်ကြောင့် Article တစ်ခုလုံးရဲ့ အမြင့်အပြောင်းအလဲ ပြီးမြောက်မှုကို စောင့်ကြည့်မည့် စနစ်ထည့်သွင်းခြင်း
+        fontResizeObserver = new ResizeObserver((entries) => {
+            for (let entry of entries) {
+                // Browser က စာသား Layout တွေကို လုံးဝအချောသတ် Render လုပ်ပြီးမှ တိကျစွာ နေရာပြန်ချပေးမယ်
+                restoreReadingPosition();
+                
+                // နေရာပြန်ချပြီးတာနဲ့ စောင့်ကြည့်မှုကို ချက်ချင်းရပ်ဆိုင်းမယ် (Loop ထပ်မပတ်စေရန်)
+                fontResizeObserver.disconnect();
+                fontResizeObserver = null;
+            }
+        });
+
+        renderFontSize(); // (၄) စာလုံးဆိုဒ်ကို ပြောင်းလဲစေခြင်း
+        
+        if (articleElement) {
+            fontResizeObserver.observe(articleElement); // စောင့်ကြည့်ခိုင်းလိုက်ပြီ ဖြစ်ပါတယ်
+        }
     }
 }
 
