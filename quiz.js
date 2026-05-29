@@ -36,6 +36,10 @@ document.getElementById('back-btn');
 const restartBtn =
 document.getElementById('restart-btn');
 
+/* ✅ LOGO */
+const avatarContainer =
+document.querySelector('.avatar-container');
+
 /* =========================
 STATE
 ========================= */
@@ -85,18 +89,58 @@ button.addEventListener(
 const chapter =
 button.dataset.chapter;
 
+/* =========================
+COPY QUESTIONS
+========================= */
+
 currentQuestions =
 [...quizData[chapter]];
 
+/* =========================
+RANDOM QUESTION ORDER
+========================= */
+
 shuffleArray(currentQuestions);
+
+/* =========================
+RANDOM ANSWER ORDER
+========================= */
+
+currentQuestions.forEach(question => {
+
+const correctAnswer =
+question.answers[
+question.correct
+];
+
+/* answers random */
+shuffleArray(question.answers);
+
+/* new correct index */
+question.correct =
+question.answers.indexOf(
+correctAnswer
+);
+
+});
 
 currentIndex = 0;
 
-chapterScreen.classList.add('hidden');
+/* ✅ HIDE LOGO */
+avatarContainer.style.display =
+'none';
 
-finishScreen.classList.add('hidden');
+chapterScreen.classList.add(
+'hidden'
+);
 
-quizScreen.classList.remove('hidden');
+finishScreen.classList.add(
+'hidden'
+);
+
+quizScreen.classList.remove(
+'hidden'
+);
 
 showQuestion();
 
@@ -228,6 +272,10 @@ backBtn.addEventListener(
 'click',
 () => {
 
+/* ✅ SHOW LOGO */
+avatarContainer.style.display =
+'flex';
+
 quizScreen.classList.add(
 'hidden'
 );
@@ -250,6 +298,10 @@ RESTART
 restartBtn.addEventListener(
 'click',
 () => {
+
+/* ✅ SHOW LOGO */
+avatarContainer.style.display =
+'flex';
 
 finishScreen.classList.add(
 'hidden'
