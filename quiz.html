@@ -8,73 +8,82 @@
 <title>Quiz | သေခြင်းသဘော</title>
 
 <link rel="stylesheet" href="quiz.css">
+<link rel="stylesheet" href="darkmode.css">
+
+<link rel="manifest" href="manifest.json">
+
+<link rel="icon" type="image/webp"
+href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
+
+<meta property="og:image"
+content="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
+
+<script defer src="darkmode.js"></script>
+<script defer src="quiz.js"></script>
 
 </head>
 
-<body class="sepia-mode">
+<body>
 
-<!-- TOP BAR -->
-<div class="top-controls">
-
-<a href="index.html" class="back-link">
-<span class="nav-icon">⌂</span>
-<span class="nav-text">ပင်မ</span>
-</a>
-
-<div class="quiz-top-title">
-Quiz
+<div id="fixedTitle">
+Quiz | သေခြင်းသဘော ☸️
 </div>
 
+<button id="modeToggle">☀️</button>
+
+<main>
+
+<!-- LOGO -->
+<div class="avatar-container">
+<img
+src="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp"
+alt="Logo"
+class="avatar">
 </div>
 
-<!-- MAIN -->
-<div class="container">
+<!-- =========================
+CHAPTER SCREEN
+========================= -->
 
-<!-- HOME SCREEN -->
-<div id="chapter-screen">
+<section id="chapter-screen">
 
 <h1 class="main-title">
 မေးခွန်းရွေးပါ
 </h1>
 
-<p class="sub-text">
-အခန်းတစ်ခုရွေးပြီး မေးခွန်းများကို ဖြေဆိုနိုင်ပါသည်။
-</p>
+<div class="chapter-grid">
 
-<div class="chapter-list">
-
-<button class="chapter-btn" data-chapter="1">
+<button class="chapter-btn"
+data-chapter="1">
 အခန်း (၁)
 </button>
 
-<button class="chapter-btn" data-chapter="2">
+<button class="chapter-btn"
+data-chapter="2">
 အခန်း (၂)
 </button>
 
-<button class="chapter-btn" data-chapter="3">
+<button class="chapter-btn"
+data-chapter="3">
 အခန်း (၃)
 </button>
 
 </div>
 
-</div>
+</section>
 
-<!-- QUIZ SCREEN -->
-<div id="quiz-screen" class="hidden">
+<!-- =========================
+QUIZ SCREEN
+========================= -->
 
-<div class="quiz-header">
+<section id="quiz-screen"
+class="hidden">
 
-<button id="back-btn">
-← နောက်သို့
-</button>
+<div class="quiz-box">
 
 <div id="question-count">
-1 / 5
+1 / 1
 </div>
-
-</div>
-
-<div class="question-box">
 
 <h2 id="question-text">
 မေးခွန်း
@@ -84,38 +93,84 @@ Quiz
 
 </div>
 
-</div>
+<div class="quiz-buttons">
 
-<div class="bottom-controls">
+<button id="back-btn">
+နောက်သို့
+</button>
 
 <button id="next-btn">
-နောက်မေးခွန်း →
+နောက်တစ်ခု
 </button>
 
 </div>
 
 </div>
 
-<!-- FINISH SCREEN -->
-<div id="finish-screen" class="hidden">
+</section>
 
-<h1 class="finish-title">
-ပြီးဆုံးပါပြီ
-</h1>
+<!-- =========================
+FINISH SCREEN
+========================= -->
 
-<p class="finish-text">
-အခန်းပြီးဆုံးသွားပါပြီ။
+<section id="finish-screen"
+class="hidden">
+
+<div class="finish-box">
+
+<h2>
+ပြီးဆုံးပါပြီ ☸️
+</h2>
+
+<p>
+မေးခွန်းအားလုံး ဖြေပြီးပါပြီ
 </p>
 
 <button id="restart-btn">
-အခန်းများသို့ ပြန်သွားရန်
+ပြန်စ
 </button>
 
 </div>
 
-</div>
+</section>
 
-<script src="quiz.js"></script>
+</main>
+
+<!-- BOTTOM NAV -->
+
+<nav class="bottom-nav">
+
+<a href="index.html">
+
+<span class="icon">⌂</span>
+
+<span class="text">
+ပင်မ
+</span>
+
+</a>
+
+<a href="about.html">
+
+<span class="icon">i</span>
+
+<span class="text">
+အကြောင်း
+</span>
+
+</a>
+
+<a href="portfolio.html">
+
+<span class="icon">✎</span>
+
+<span class="text">
+စာရေးသူ
+</span>
+
+</a>
+
+</nav>
 
 </body>
 </html>
