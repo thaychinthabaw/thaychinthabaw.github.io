@@ -5,66 +5,74 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Quiz | သေခြင်းသဘော</title>
+<title>Quiz</title>
 
-<link rel="stylesheet" href="quiz.css">
 <link rel="stylesheet" href="darkmode.css">
-
-<link rel="manifest" href="manifest.json">
-
-<link rel="icon" type="image/webp"
-href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
-
-<meta property="og:image"
-content="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
-
-<script defer src="darkmode.js"></script>
-<script defer src="quiz.js"></script>
+<link rel="stylesheet" href="quiz.css">
 
 </head>
 
 <body>
 
+<!-- TOP -->
+
 <div id="fixedTitle">
-Quiz | သေခြင်းသဘော ☸️
+📖 Quiz
 </div>
 
-<button id="modeToggle">☀️</button>
+<button id="modeToggle">
+🌙
+</button>
+
+<!-- MAIN -->
 
 <main>
 
 <!-- LOGO -->
+
 <div class="avatar-container">
 <img
-src="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp"
-alt="Logo"
-class="avatar">
+src="thaaychinthabawlogo1.webp"
+class="avatar"
+alt="logo"
+>
 </div>
 
-<!-- =========================
-CHAPTER SCREEN
-========================= -->
+<!-- CHAPTER SCREEN -->
 
-<section id="chapter-screen">
+<section
+id="chapter-screen"
+class="paper-card"
+>
 
 <h1 class="main-title">
-မေးခွန်းရွေးပါ
+ဗုဒ္ဓဘာသာ Quiz
 </h1>
 
-<div class="chapter-grid">
+<p class="sub-text">
+အခန်းရွေးပြီး စတင်ဖြေဆိုနိုင်ပါသည်
+</p>
 
-<button class="chapter-btn"
-data-chapter="1">
+<div class="chapter-list">
+
+<button
+class="chapter-btn"
+data-chapter="1"
+>
 အခန်း (၁)
 </button>
 
-<button class="chapter-btn"
-data-chapter="2">
+<button
+class="chapter-btn"
+data-chapter="2"
+>
 အခန်း (၂)
 </button>
 
-<button class="chapter-btn"
-data-chapter="3">
+<button
+class="chapter-btn"
+data-chapter="3"
+>
 အခန်း (၃)
 </button>
 
@@ -72,65 +80,65 @@ data-chapter="3">
 
 </section>
 
-<!-- =========================
-QUIZ SCREEN
-========================= -->
+<!-- QUIZ SCREEN -->
 
-<section id="quiz-screen"
-class="hidden">
-
-<div class="quiz-box">
+<section
+id="quiz-screen"
+class="paper-card hidden"
+>
 
 <div id="question-count">
-1 / 1
+1 / 10
 </div>
 
 <h2 id="question-text">
-မေးခွန်း
+Question
 </h2>
 
 <div id="answers-container">
-
 </div>
 
-<div class="quiz-buttons">
+<div class="quiz-actions">
 
-<button id="back-btn">
-နောက်သို့
+<button
+id="back-btn"
+class="action-btn"
+>
+အပြန်
 </button>
 
-<button id="next-btn">
+<button
+id="next-btn"
+class="action-btn"
+>
 နောက်တစ်ခု
 </button>
 
 </div>
 
-</div>
-
 </section>
 
-<!-- =========================
-FINISH SCREEN
-========================= -->
+<!-- FINISH -->
 
-<section id="finish-screen"
-class="hidden">
+<section
+id="finish-screen"
+class="paper-card hidden"
+>
 
-<div class="finish-box">
-
-<h2>
-ပြီးဆုံးပါပြီ ☸️
+<h2 class="finish-title">
+ပြီးဆုံးပါပြီ
 </h2>
 
-<p>
-မေးခွန်းအားလုံး ဖြေပြီးပါပြီ
+<p class="finish-text">
+Quiz ဖြေဆိုမှု ပြီးဆုံးသွားပါပြီ
 </p>
 
-<button id="restart-btn">
+<button
+id="restart-btn"
+class="action-btn"
+>
 ပြန်စ
 </button>
-
-</div>
 
 </section>
 
@@ -141,36 +149,20 @@ class="hidden">
 <nav class="bottom-nav">
 
 <a href="index.html">
-
-<span class="icon">⌂</span>
-
-<span class="text">
-ပင်မ
-</span>
-
+<span class="icon">🏠</span>
+<span>ပင်မ</span>
 </a>
 
-<a href="about.html">
-
-<span class="icon">i</span>
-
-<span class="text">
-အကြောင်း
-</span>
-
-</a>
-
-<a href="portfolio.html">
-
-<span class="icon">✎</span>
-
-<span class="text">
-စာရေးသူ
-</span>
-
+<a href="quiz.html" class="active">
+<span class="icon">❓</span>
+<span>Quiz</span>
 </a>
 
 </nav>
+
+<script src="darkmode.js"></script>
+<script src="quiz-data.js"></script>
+<script src="quiz.js"></script>
 
 </body>
 </html>
