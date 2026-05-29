@@ -4,7 +4,7 @@
 
 /* 🎨 CENTRAL COLOR SYSTEM (မုဒ်တစ်ခုချင်းစီအလိုက် ဗဟိုအရောင်များ စနစ်တကျပြင်ဆင်ခြင်း) */
 :root {
-  /* ⚪ 1. White Mode (နောက်ခံအဖြူရောင်စစ်စစ် + စာသားအမည်းရောင် + Nav အမြင်ရှင်းလင်းမှု မြှင့်တင်ခြင်း) */
+  /* ⚪ 1. White Mode (နောက်ခံအဖြူရောင်စစ်စစ် + စာသားအမည်းရောင်စစ်စစ် + Nav ပြတ်သားမှုမြှင့်တင်ခြင်း) */
   --bg-color: #ffffff;
   --text-color: #000000;
   --card-bg: #ffffff;
@@ -13,11 +13,11 @@
   --btn-border: #e3d3be;
   --btn-text: #000000;
   --bottom-nav-bg: #ffffff;
-  --nav-text: #3d3123;     /* Light Mode တွင် အောက်ခြေစာသားများ ပိုမိုထင်ရှားပြတ်သားစေရန် အမည်းရောင်လုနီးပါး ပြောင်းလဲခြင်း */
+  --nav-text: #222222;     /* 🌟 Light Mode တွင် အောက်ခြေစာသားများ လုံးဝမွဲမနေဘဲ အထူးထင်ရှားစေရန် */
   --nav-active-text: #8b4513; 
 }
 
-/* 📒 2. Reading Mode (darkmode.css အရောင်စနစ်အတိုင်း) */
+/* 📒 2. Reading Mode (darkmode.css အရောင်စနစ်အတိုင်း တထပ်တည်း) */
 body.reading-mode {
   --bg-color: #f4ecd8;     
   --text-color: #5b4636;   
@@ -34,7 +34,7 @@ body.reading-mode {
 /* 🌙 3. Dark Mode (ကြာကြာဖတ်လျှင် မျက်စိမညောင်းစေရန် အဖြူရောင်စာသားစနစ် သို့ ပြောင်းလဲခြင်း) */
 body.dark-mode {
   --bg-color: #000000;     
-  --text-color: #ffffff;   /* 🌟 မျက်လုံးမထိခိုက်စေရန် စာသားနှင့် မေးခွန်းအားလုံးကို အဖြူရောင်စစ်စစ်သို့ ပြောင်းလဲခြင်း */
+  --text-color: #ffffff !important;   /* 🌟 darkmode.css မှ အဝါရောင် လာရောက်စီးနင်းခြင်းကို !important ဖြင့် တားဆီးခြင်း */
   --card-bg: #111111;      
   --card-border: rgba(255, 215, 0, 0.3);
   --btn-bg: #222222;       
@@ -141,15 +141,14 @@ main {
   font-size: 30px;
   line-height: 1.6;
   margin-bottom: 10px;
-  color: var(--text-color); 
+  color: var(--text-color) !important; /* 🌟 Dark mode တွင် အဖြူရောင်စစ်စစ်ဖြစ်စေရန် သေချာပေါက်ချုပ်ကိုင်ခြင်း */
 }
 .sub-text {
   text-align: center;
   font-size: 16px;
   line-height: 1.9;
   margin-bottom: 28px;
-  color: var(--text-color);
-  opacity: 0.85; 
+  color: var(--text-color) !important;
 }
 
 /* 🗂️ CHAPTER SELECTION BUTTONS */
@@ -186,14 +185,14 @@ main {
   margin-bottom: 20px;
 }
 body.dark-mode #question-count {
-  color: #FFD700; /* Dark Mode တွင် မေးခွန်းအရေအတွက်ပြ စာသားလေးကိုသာ ရွှေရောင်အနည်းငယ်သုံးခြင်း */
+  color: #FFD700; /* Dark Mode တွင် မေးခွန်းအရေအတွက်ပြ စာသားလေးကိုသာ ရွှေရောင်သုံးခြင်း */
 }
 #question-text {
   font-size: 24px;
   font-weight: bold;
   line-height: 2;
   margin-bottom: 28px;
-  color: var(--text-color); /* 🌟 Dark mode တွင် အဖြူရောင်ဖြင့် ရှင်းလင်းစွာ မြင်ရမည် */
+  color: var(--text-color) !important; /* 🌟 Dark mode တွင် မျက်စိအေးစေရန် အဖြူရောင်စစ်စစ် သေချာပေါက်ထွက်စေခြင်း */
   word-break: break-word;
   overflow-wrap: break-word;
 }
@@ -290,14 +289,14 @@ body.dark-mode #question-count {
   text-align: center;
   font-size: 30px;
   margin-bottom: 20px;
-  color: var(--text-color);
+  color: var(--text-color) !important;
 }
 .finish-text {
   text-align: center;
   font-size: 18px;
   line-height: 2;
   margin-bottom: 28px;
-  color: var(--text-color);
+  color: var(--text-color) !important;
 }
 
 /* 🙈 HIDDEN UTILITY */
@@ -313,7 +312,7 @@ body.dark-mode #question-count {
   width: 100%;
   display: flex;
   justify-content: space-around;
-  background-color: var(--bottom-nav-bg);
+  background-color: var(--bottom-nav-bg) !important;
   padding: 0.8rem 0;
   z-index: 5;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
@@ -327,7 +326,7 @@ body.dark-mode .bottom-nav {
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: var(--nav-text); /* 🌟 Light mode တွင် စာသားများ ပိုမိုထင်ရှားနေမည်ဖြစ်ပြီး မွဲခြောက်မနေတော့ပါ */
+  color: var(--nav-text) !important; /* 🌟 Light Mode တွင် စာသားကို လုံးဝပြတ်သားသွားစေရန် ချုပ်ကိုင်ခြင်း */
   text-decoration: none;
   font-weight: bold;
   padding: 4px 6px;
