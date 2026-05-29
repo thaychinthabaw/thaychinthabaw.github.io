@@ -716,3 +716,78 @@ article {
     height: 40px;   /* ကြီးချင်ရင် 80-120px */
     width: 100%;
 }/*raw-text စာကြောင်းကြား အတွက်သုံးသည်။*/
+
+
+/* ===== PASTE / UPLOAD SYSTEM ===== */
+.paste-box{
+    width:100%;
+    min-height:180px;
+    resize:vertical;
+
+    background:#f4ecd8;
+    color:#443300;
+
+    border:1px solid #443300;
+    border-radius:8px;
+
+    padding:12px;
+    box-sizing:border-box;
+
+    font-size:16px;
+    line-height:1.8;
+
+    margin-top:10px;
+}
+
+.paste-actions{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin-top:12px;
+}
+
+.upload-btn{
+    display:block;
+
+    width:100%;
+    padding:12px;
+
+    background:#eadebc;
+    color:#443300;
+
+    border:1px solid #443300;
+    border-radius:8px;
+
+    text-align:center;
+    font-weight:bold;
+
+    cursor:pointer;
+    box-sizing:border-box;
+}
+
+.upload-btn:active{
+    transform:scale(0.98);
+}
+
+.recent-file-box{
+    margin-top:15px;
+}
+
+.recent-card{
+    background:#eadebc;
+    border:1px solid #443300;
+    border-radius:8px;
+
+    padding:12px;
+}
+
+.recent-card-title{
+    font-size:14px;
+    margin-bottom:6px;
+    color:#443300;
+}
+
+.recent-card button{
+    width:100%;
+}/* ===== PASTE / UPLOAD SYSTEMအဆုံး ===== */
+
