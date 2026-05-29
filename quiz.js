@@ -142,6 +142,32 @@ let currentIndex = 0;
 let answered = false;
 
 /* =========================
+   SHUFFLE FUNCTION
+========================= */
+
+function shuffleArray(array) {
+
+const newArray = [...array];
+
+for (
+let i = newArray.length - 1;
+i > 0;
+i--
+) {
+
+const j =
+Math.floor(Math.random() * (i + 1));
+
+[newArray[i], newArray[j]] =
+[newArray[j], newArray[i]];
+
+}
+
+return newArray;
+
+}
+
+/* =========================
    START QUIZ
 ========================= */
 
@@ -152,8 +178,11 @@ button.addEventListener('click', () => {
 const chapterNumber =
 button.dataset.chapter;
 
+/* RANDOM QUESTIONS */
 currentChapter =
-quizData[chapterNumber];
+shuffleArray(
+quizData[chapterNumber]
+);
 
 currentIndex = 0;
 
@@ -190,19 +219,35 @@ questionCount.textContent =
 
 answersContainer.innerHTML = '';
 
-currentQuestion.answers.forEach(
-(answer, index) => {
+/* ANSWERS RANDOM */
+const shuffledAnswers =
+currentQuestion.answers.map(
+(answer, index) => ({
+text: answer,
+correct:
+index === currentQuestion.correct
+})
+);
+
+const randomizedAnswers =
+shuffleArray(shuffledAnswers);
+
+randomizedAnswers.forEach(answerObj => {
 
 const button =
 document.createElement('button');
 
 button.className = 'answer-btn';
 
-button.textContent = answer;
+button.textContent =
+answerObj.text;
 
 button.addEventListener(
 'click',
-() => selectAnswer(button, index)
+() => selectAnswer(
+button,
+answerObj.correct
+)
 );
 
 answersContainer.appendChild(button);
@@ -215,34 +260,40 @@ answersContainer.appendChild(button);
    SELECT ANSWER
 ========================= */
 
-function selectAnswer(button, index) {
+function selectAnswer(button, isCorrect) {
 
 if (answered) return;
 
 answered = true;
 
-const currentQuestion =
-currentChapter[currentIndex];
-
 const buttons =
 document.querySelectorAll('.answer-btn');
 
-buttons.forEach((btn, i) => {
+buttons.forEach(btn => {
 
-if (i === currentQuestion.correct) {
+const btnText =
+btn.textContent;
+
+const currentQuestion =
+currentChapter[currentIndex];
+
+const correctText =
+currentQuestion.answers[
+currentQuestion.correct
+];
+
+if (btnText === correctText) {
 btn.classList.add('correct');
-}
-
-if (
-i === index &&
-i !== currentQuestion.correct
-) {
-btn.classList.add('wrong');
 }
 
 });
 
-nextBtn.style.display = 'inline-block';
+if (!isCorrect) {
+button.classList.add('wrong');
+}
+
+nextBtn.style.display =
+'inline-block';
 
 }
 
@@ -254,7 +305,10 @@ nextBtn.addEventListener('click', () => {
 
 currentIndex++;
 
-if (currentIndex >= currentChapter.length) {
+if (
+currentIndex >=
+currentChapter.length
+) {
 
 quizScreen.classList.add('hidden');
 
