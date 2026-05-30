@@ -518,18 +518,21 @@ textarea {
     font-weight: bold;
 }
 
-/* ၇။ Content Formatting (မြန်မာစာလုံး ထပ်နေခြင်းများကို Fix ရန် ပြင်ဆင်ချက်) */
+/* ၇။ Content Formatting (မြန်မာစာလုံး ထပ်နေခြင်းများကို လုံးဝ Fix ရန် ပြင်ဆင်ချက်) */
 .content-area { 
     padding: 20px; 
     line-height: 2.0; 
     font-size: 19px; 
-    white-space: pre-wrap; /* စာလုံးများ မျဉ်းတစ်ကြောင်းတည်း ဖြတ်မထွက်သွားစေရန် */
+    white-space: pre-wrap; 
     width: 100%;
     box-sizing: border-box;
     overflow-wrap: break-word; 
-    word-break: break-word; /* ယူနီကုဒ် မဟုတ်သော အကျိုးအပဲ့စာလုံးများ ကွဲထွက်မသွားစေရန် */
+    word-break: break-word; 
     font-family: 'Pyidaungsu', sans-serif;
-    font-variant-ligatures: no-common-ligatures; /* Font ligatures ကြောင့် စာလုံးထပ်ခြင်းကို တားဆီးရန် */
+    /* အောက်ပါ Rule များသည် Browser မှ မြန်မာစာလုံးဆင့် (Ligatures) များကို မှန်မှန်ကန်ကန် ပုံဖော်ပေါင်းစပ်ပေးရန် အတင်းအကျပ် ညွှန်ကြားချက်ဖြစ်ပါသည် */
+    font-variant-ligatures: normal !important; 
+    font-feature-settings: "liga" on, "clig" on !important;
+    text-rendering: optimizeLegibility !important;
 }
 
 .raw-text p {
