@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>စာဖတ်ခန်း | သေခြင်းသဘော</title>
     <link rel="stylesheet" href="room.css">
-    <link rel="stylesheet" href="darkmode.css">
-    <script defer src="room.js"></script>
-
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
     <link rel="icon" type="image/png" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
@@ -15,7 +12,7 @@
     <link rel="shortcut icon" sizes="512x512" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
     <meta property="og:image" content="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
 </head>
-<body class="is-paper">
+<body class="sepia-mode">
 
     <div class="container">
         <nav class="top-controls">
@@ -24,21 +21,20 @@
                 <span class="nav-text">ပင်မ</span>
             </a>
             <button id="fs-btn" class="fullscreen-round-btn" onclick="toggleReadingMode()">⛶</button>
-
             <div class="right-controls">
                 <button class="setting-btn" onclick="toggleSetting()">⚙</button>
-                <button id="modeToggle">☀️</button>    
+                <button id="modeToggle">☀️</button>
             </div>
-        </nav>       
+        </nav>
 
         <div id="upload-dashboard" class="upload-dashboard">
             <div class="dashboard-card">
-                <h2>📖 စာဖတ်ခန်းသို့ စာမူသွင်းရန်</h2>
-                <p class="dashboard-sub">မိမိဖတ်လိုသော စာသားများကို အောက်ပါအကွက်တွင် ထည့်သွင်းပါ</p>
-
+                <h2 id="dashboard-title">📖 Сာဖတ်ခန်းသို့ စာမူသွင်းရန်</h2>
+                <p id="dashboard-sub-text" class="dashboard-sub">မိမိဖတ်လိုသော စာသားများကို အောက်ပါအကွက်တွင် ထည့်သွင်းပါ</p>
                 <div class="paste-pane">
                     <textarea id="paste-text-input" placeholder="ဤနေရာတွင် မိမိဖတ်ရှုလိုသည့် စာသားများကို ကူးထည့်ပါ (Paragraph အကွာအဝေးများအတွက် Enter နှစ်ချက် ခေါက်နိုင်ပါသည်)..."></textarea>
-                    <button class="action-btn" onclick="processPastedText()">📖 စာဖတ်ခန်းသို့ လွှတ်ပါ</button>
+                    <button id="process-btn" class="action-btn" onclick="processPastedText()">📖 Сာဖတ်ခန်းသို့ လွှတ်ပါ</button>
+                    <button id="cancel-edit-btn" class="cancel-edit-btn" style="display: none;" onclick="cancelEditMode()">❌ ပြင်ဆင်မှုကို ပယ်ဖျက်ရန်</button>
                 </div>
             </div>
 
@@ -54,12 +50,11 @@
         </div>
 
         <article class="content-area" id="reading-content" style="display: none;">
-            <div id="last-read-container"></div>  
+            <div id="last-read-container"></div>
             <div id="dynamic-book-header" class="book-header">
                 <h1 id="book-main-title">စာမူခေါင်းစဉ်</h1>
             </div>
-            <div class="raw-text" id="book-body-content">
-            </div>
+            <div class="raw-text" id="book-body-content"></div>
         </article>
     </div>
 
@@ -75,8 +70,7 @@
                 <span class="close-btn" onclick="toggleTOC()">×</span>
             </div>
             <input type="text" id="toc-search" placeholder="ရှာဖွေရန်...">
-            <ul class="toc-list" id="dynamic-toc-list">
-            </ul>
+            <ul class="toc-list" id="dynamic-toc-list"></ul>
             <div class="toc-jump-buttons">
                 <button id="toc-top-btn" title="ထိပ်ဆုံးသို့">🔝</button>
                 <button id="toc-bottom-btn" title="အောက်ဆုံးသို့">🔚</button>
@@ -96,8 +90,8 @@
                     <span class="nav-text">အသစ်ဖြစ်အောင်လုပ်ရန်</span>
                 </button>
                 <button id="close-book-btn" class="setting-item" style="background: #cc3300; color: #fff; display:none;" onclick="closeCurrentBook()">📕 ဤစာအုပ်ကို ပိတ်ပြီး စာအုပ်စင်သို့ ပြန်သွားရန်</button>
-                <button class="setting-item" onclick="downloadPDF()">📄 စာအုပ်အဖြစ်သိမ်းရန်</button>
-
+                <button class="setting-item" onclick="downloadPDF()">📄 Сာအုပ်အဖြစ်သိမ်းရန်</button>
+                
                 <div class="setting-item-group">
                     <span class="setting-title2">စာလုံးအရွယ်အစား</span>
                     <div class="font-size-control">
@@ -157,11 +151,16 @@
     </div>
 
     <script src="darkmode.js"></script>
+    <script src="room.js"></script>
     <script>
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
-                try { await navigator.serviceWorker.register('/service-worker.js'); console.log('Service Worker Registered'); } 
-                catch (error) { console.error('Service Worker Failed:', error); }
+                try {
+                    await navigator.serviceWorker.register('/service-worker.js');
+                    console.log('Service Worker Registered');
+                } catch (error) {
+                    console.error('Service Worker Failed:', error);
+                }
             });
         }
     </script>
