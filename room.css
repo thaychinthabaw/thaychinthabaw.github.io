@@ -1,7 +1,7 @@
 /* ၁။ Layout အခြေခံ (Sepia Theme) */
 body.sepia-mode {
     margin: 0;
-    font-family: 'Pyidaungsu', sans-serif;
+    font-family: 'Pyidaungsu', 'Gerd', sans-serif;
     overflow-x: hidden; 
     position: relative;
     width: 100%;
@@ -157,7 +157,6 @@ body.sepia-mode {
     text-align: center;
     cursor: pointer;
     transition: 0.2s;
-    /* စာဖတ်မုဒ်အတွက် Default ကို အညိုရောင် ထားရှိပါသည် */
     color: #443300; 
 }
 
@@ -199,7 +198,7 @@ textarea {
     cursor: pointer;
 }
 
-/* Progress Bar (ရာခိုင်နှုန်းပြစနစ်) */
+/* Progress Bar */
 .progress-container {
     margin-top: 15px;
 }
@@ -210,7 +209,7 @@ textarea {
     font-weight: bold;
     margin-bottom: 5px;
     font-size: 14px;
-    color: #443300; /* Default အညိုရောင် */
+    color: #443300; 
 }
 
 .progress-bar-bg {
@@ -240,7 +239,7 @@ textarea {
     align-items: center;
     border-bottom: 2px solid #443300;
     padding-bottom: 5px;
-    color: #443300; /* Default အညိုရောင် */
+    color: #443300; 
 }
 
 .storage-indicator {
@@ -250,7 +249,7 @@ textarea {
     padding: 2px 8px;
     border: 1px solid #443300;
     border-radius: 4px;
-    color: #443300; /* Default အညိုရောင် */
+    color: #443300; 
 }
 
 .bookshelf-list {
@@ -288,8 +287,35 @@ textarea {
 
 .book-card-meta {
     font-size: 12px;
-    color: #665522;
+    color: #665522; 
     margin: 3px 0 0 0;
+}
+
+.book-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pin-book-btn {
+    background: #f4ecd8;
+    border: 1px solid #443300;
+    width: 32px;
+    height: 28px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.4;
+    transition: opacity 0.2s, background-color 0.2s;
+}
+
+.pin-book-btn.active-pin {
+    opacity: 1 !important;
+    background: #443300 !important;
+    border: 1px solid #443300 !important;
 }
 
 .delete-book-btn {
@@ -490,27 +516,24 @@ textarea {
     font-weight: bold;
 }
 
-.toc-list li a.active-chapter {
-    color: #b38b00 !important; 
-    font-weight: bold !important;
-    border-left: 3px solid #443300;
-    padding-left: 10px;
-}
-
-/* ၇။ Content Formatting */
+/* ၇။ Content Formatting (မြန်မာစာလုံး ထပ်နေခြင်းများကို Fix ရန် ပြင်ဆင်ချက်) */
 .content-area { 
     padding: 20px; 
     line-height: 2.0; 
     font-size: 19px; 
-    white-space: pre-line;
+    white-space: pre-wrap; /* စာလုံးများ မျဉ်းတစ်ကြောင်းတည်း ဖြတ်မထွက်သွားစေရန် */
     width: 100%;
     box-sizing: border-box;
     overflow-wrap: break-word; 
+    word-break: break-word; /* ယူနီကုဒ် မဟုတ်သော အကျိုးအပဲ့စာလုံးများ ကွဲထွက်မသွားစေရန် */
+    font-family: 'Pyidaungsu', sans-serif;
+    font-variant-ligatures: no-common-ligatures; /* Font ligatures ကြောင့် စာလုံးထပ်ခြင်းကို တားဆီးရန် */
 }
 
 .raw-text p {
     margin-bottom: 1.5em; 
     display: block;
+    text-align: left;
 }
 
 .big-gap {
@@ -672,35 +695,7 @@ body.focus-mode .top-controls {
     border: none !important;
 }
 
-
-/* ၁၀။ ပုံထဲက ဝါနေတဲ့ စာလုံးတွေကို မုဒ်အလိုက် ပြောင်းလဲပေးသည့်စနစ် */
-
-/* (က) အလင်းမုဒ် (Light Mode) မှာ အမဲရောင်ပြောင်းရန် */
-body.light-mode .file-drop-zone,
-body.light-mode .bookshelf-header,
-body.light-mode .storage-indicator,
-body.light-mode .progress-text-group {
-    color: #000000 !important;
-}
-
-/* (ခ) စာဖတ်မုဒ် (Sepia / Read Mode) မှာ အညိုရောင်ပြောင်းရန် */
-body.sepia-mode .file-drop-zone,
-body.sepia-mode .bookshelf-header,
-body.sepia-mode .storage-indicator,
-body.sepia-mode .progress-text-group {
-    color: #443300 !important;
-}
-
-/* (ဂ) ဒါ့ခ်မုဒ် (Dark Mode) မှာ အဖြူရောင်ပြောင်းရန် */
-body.dark-mode .file-drop-zone,
-body.dark-mode .bookshelf-header,
-body.dark-mode .storage-indicator,
-body.dark-mode .progress-text-group {
-    color: #ffffff !important;
-}
-
-
-/* ၁၁။ Global Tap Highlight & Selection (မူလ Brand အရောင်အဝါအတိုင်း ထားရှိပါသည်) */
+/* ၁၁။ Global Tap Highlight & Selection */
 * {
     -webkit-tap-highlight-color: rgba(255, 204, 0, 0.4) !important;
 }
