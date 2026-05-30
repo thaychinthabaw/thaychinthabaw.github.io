@@ -1,0 +1,691 @@
+/* ၁။ Layout အခြေခံ (Sepia Theme) */
+body.sepia-mode {
+    margin: 0;
+    font-family: 'Pyidaungsu', sans-serif;
+    overflow-x: hidden; 
+    position: relative;
+    width: 100%;
+    background: #f4ecd8;
+    color: #443300;
+}
+
+.container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding-bottom: 80px;
+    padding-top: 70px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* ၂။ Top Bar & Setting Controls */
+.top-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px; 
+    background: #eadebc;
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100vw; 
+    height: 60px; 
+    z-index: 1000;
+    border-bottom: 1px solid #d4c5a0;
+    box-sizing: border-box;
+}
+
+.back-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #443300;
+    gap: 4px;
+    background: #f4ecd8;
+    border: 1px solid #443300 !important;
+    width: 70px;
+    height: 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.nav-icon {
+    font-size: 28px !important;
+    font-weight: 900 !important;
+    line-height: 1 !important;
+    display: inline-block;
+    margin-top: -4px;
+}
+
+.nav-text {
+    font-size: 18px !important;
+    font-weight: bold;
+    line-height: 1;
+}
+
+.right-controls {
+    display: flex;
+    align-items: center;
+    color: #443300;
+    gap: 8px;
+    font-size: 20px !important;
+    margin-right: 35px;
+}
+
+.setting-btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    color: #443300;
+    font-size: 24px !important;
+    padding: 0 !important;
+    background: #f4ecd8;
+    border: 1px solid #443300;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* ၃။ Dashboard UI (Upload & Bookshelf) */
+.upload-dashboard {
+    padding: 20px;
+    margin-top: 10px;
+}
+
+.dashboard-card {
+    background: #eadebc;
+    border: 2px solid #443300;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.dashboard-card h2 {
+    margin-top: 0;
+    color: #443300;
+    font-size: 22px;
+}
+
+.dashboard-sub {
+    font-size: 14px;
+    color: #665522;
+    margin-top: -10px;
+    margin-bottom: 20px;
+}
+
+/* Tabs */
+.tab-control {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.tab-btn {
+    flex: 1;
+    background: #f4ecd8;
+    border: 1px solid #443300;
+    padding: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 6px;
+    color: #443300;
+}
+
+.tab-btn.active {
+    background: #443300;
+    color: #f4ecd8;
+}
+
+.tab-pane {
+    display: none;
+}
+
+.tab-pane.active {
+    display: block;
+}
+
+/* Drop Zone */
+.file-drop-zone {
+    border: 2px dashed #443300;
+    background: #f4ecd8;
+    border-radius: 8px;
+    padding: 40px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.file-drop-zone:hover {
+    background: #ecdcb0;
+}
+
+.zone-icon {
+    font-size: 40px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* Input Fields */
+textarea {
+    width: 100%;
+    height: 150px;
+    background: #f4ecd8;
+    border: 1px solid #443300;
+    border-radius: 8px;
+    padding: 12px;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 16px;
+    color: #443300;
+    resize: vertical;
+}
+
+.action-btn {
+    width: 100%;
+    background: #443300;
+    color: #f4ecd8;
+    border: none;
+    padding: 12px;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 6px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+/* Progress Bar (ရာခိုင်နှုန်းပြစနစ်) */
+.progress-container {
+    margin-top: 15px;
+}
+
+.progress-text-group {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    margin-bottom: 5px;
+    font-size: 14px;
+}
+
+.progress-bar-bg {
+    width: 100%;
+    background: #f4ecd8;
+    height: 12px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid #443300;
+}
+
+.progress-bar-fill {
+    width: 0%;
+    height: 100%;
+    background: #b38b00;
+    transition: width 0.1s ease;
+}
+
+/* Bookshelf Area */
+.bookshelf-area {
+    margin-top: 30px;
+}
+
+.bookshelf-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #443300;
+    padding-bottom: 5px;
+}
+
+.storage-indicator {
+    font-size: 13px;
+    font-weight: bold;
+    background: #eadebc;
+    padding: 2px 8px;
+    border: 1px solid #443300;
+    border-radius: 4px;
+}
+
+.bookshelf-list {
+    margin-top: 15px;
+}
+
+.empty-shelf-text {
+    text-align: center;
+    color: #887755;
+    font-style: italic;
+}
+
+.book-card {
+    background: #eadebc;
+    border: 1px solid #443300;
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.03);
+}
+
+.book-card-info {
+    cursor: pointer;
+    flex: 1;
+}
+
+.book-card-title {
+    font-weight: bold;
+    margin: 0;
+    font-size: 16px;
+}
+
+.book-card-meta {
+    font-size: 12px;
+    color: #665522;
+    margin: 3px 0 0 0;
+}
+
+.delete-book-btn {
+    background: #cc3300;
+    color: white;
+    border: none;
+    width: 28px;
+    height: 28px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* ၄။ Setting Menu Popup */
+.setting-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    z-index: 1100;
+}
+
+.setting-content {
+    background: #f4ecd8;
+    width: 300px;
+    position: absolute;
+    top: 65px;
+    right: 20px;
+    padding: 0;
+    max-height: 80vh;
+    border-radius: 12px;
+    border: 2px solid #443300;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.setting-body {
+    padding: 0 20px 20px 20px;
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.setting-item {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    background: #eadebc;
+    border: 1px solid #443300;
+    border-radius: 6px;
+    color: #443300;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: center;
+    font-size: 16px !important;
+}
+
+.setting-menu-refresh {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    background: #eadebc;
+    border: 1px solid #443300;
+    color: #443300;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.setting-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background: #f4ecd8;
+    border-bottom: 1px solid #d4c5a0;
+}
+
+.setting-title {
+    margin: 0;
+    color: #443300;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.setting-close-btn {
+    font-size: 32px;
+    color: #443300;
+    cursor: pointer;
+    line-height: 1;
+    font-weight: bold;
+}
+
+/* ၅။ Floating Buttons (Left Side) */
+.floating-left-group {
+    position: fixed;
+    bottom: 25px;
+    left: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    gap: 12px; 
+    z-index: 999;
+}
+
+.toc-toggle-btn {
+    background: rgba(68, 51, 0, 0.8) !important; 
+    color: #f4ecd8;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px; 
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.top-btn {
+    background: #443300;
+    color: #f4ecd8;
+    width: 35px;  
+    height: 35px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%; 
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    opacity: 0.8; 
+    transition: 0.3s;
+}
+
+/* ၆။ မာတိကာ Box */
+.toc-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    z-index: 1050;
+}
+
+.toc-content {
+    background: #f4ecd8;
+    width: 85%; 
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 0; 
+    border-radius: 12px;
+    border: 2px solid #443300;
+    position: relative;
+    max-height: 80vh; 
+    display: flex; 
+    flex-direction: column; 
+    overflow: hidden; 
+}
+
+.toc-content h1 {
+    margin: 0;
+    padding: 10px 15px;
+    background: #eadebc; 
+    border-bottom: 2px solid #443300;
+    font-size: 1.5rem;
+    color: #443300;
+}
+
+.close-btn {
+    position: absolute;
+    right: 15px; 
+    top: 15px; 
+    font-size: 30px;
+    color: #443300;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.toc-list { 
+    list-style: none; 
+    padding: 10px 25px; 
+    margin: 0; 
+    overflow-y: auto; 
+    flex-grow: 1; 
+}
+
+.toc-list li a {
+    color: #443300 !important; 
+    text-decoration: none !important; 
+    display: block;
+    padding: 12px 0;
+    border-bottom: 1px solid #d4c5a0;
+    font-weight: bold;
+}
+
+.toc-list li a.active-chapter {
+    color: #b38b00 !important; 
+    font-weight: bold !important;
+    border-left: 3px solid #443300;
+    padding-left: 10px;
+}
+
+/* ၇။ Content Formatting */
+.content-area { 
+    padding: 20px; 
+    line-height: 2.0; 
+    font-size: 19px; 
+    white-space: pre-line;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-wrap: break-word; 
+}
+
+.raw-text p {
+    margin-bottom: 1.5em; 
+    display: block;
+}
+
+.big-gap {
+    height: 40px;   
+    width: 100%;
+}
+
+/* ၈။ Engine Controls UI */
+.setting-item-group {
+    padding: 12px;
+    background: #eadebc;
+    border: 1px solid #443300;
+    border-radius: 6px;
+    margin: 8px 0;
+    text-align: center;
+}
+
+.setting-title2 {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #443300;
+    font-size: 16px !important;
+}
+
+.font-size-control, .preset-group, .adjust-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.font-size-control button, .adjust-group button {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #443300;
+    background: #f4ecd8;
+    color: #443300;
+    border-radius: 8px;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#font-size-display, #lh-display, #ls-display {
+    min-width: 50px;
+    text-align: center;
+    padding: 6px 10px;
+    background: #f4ecd8;
+    border: 1px solid #443300;
+    border-radius: 6px;
+    font-weight: bold;
+    color: #443300;
+}
+
+.spinner-wrapper {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.spinner-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #f4ecd8;
+    border: 1px solid #443300;
+    border-radius: 4px;
+    width: 40px;
+}
+
+.spinner-box button {
+    background: none;
+    color: #443300;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    width: 100%;
+}
+
+.spinner-box span {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: #443300; 
+    padding: 5px 0;
+}
+
+.preset-btn {
+    background: #f4ecd8;
+    border: 1px solid #443300;
+    color: #443300;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.preset-btn.active-preset {
+    background: #443300;
+    color: #f4ecd8;
+}
+
+/* ၉။ Search & Utilities */
+#toc-search {
+    margin: 10px 15px;
+    padding: 10px;
+    border: 1px solid #443300;
+    border-radius: 6px;
+    background: #f4ecd8;
+    color: #443300;
+}
+
+.toc-jump-buttons {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    display: flex;
+    gap: 10px;
+}
+
+.toc-jump-buttons button {
+    width: 42px;
+    height: 42px;
+    border: 1px solid #443300;
+    border-radius: 50%;
+    background: #eadebc;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+/* Fullscreen Mode */
+.fullscreen-round-btn {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    border: 1px solid #443300;
+    background: rgba(234, 222, 188, 0.4);
+    color: #443300;
+    cursor: pointer;
+    position: fixed; 
+    top: 80px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000; 
+}
+
+body.focus-mode .top-controls .back-link,
+body.focus-mode .top-controls .right-controls,
+body.focus-mode .floating-left-group,
+body.focus-mode .book-header {
+    display: none !important;
+}
+
+body.focus-mode .top-controls {
+    background: transparent !important;
+    border: none !important;
+}
+
+/* Global Tap Highlight */
+* {
+    -webkit-tap-highlight-color: rgba(255, 204, 0, 0.4) !important;
+}
+
+*:focus {
+    outline: 2px solid #ffcc00 !important;
+}
+
+::selection {
+    background-color: #ffcc00 !important;
+    color: #000000 !important;
+}
+
+@media print {
+    .top-controls, .floating-left-group, .setting-overlay, .toc-overlay, #modeToggle, .upload-dashboard {
+        display: none !important;
+    }
+    .container { width: 100% !important; margin: 0 !important; padding: 0 !important; }
+    body { background: #ffffff !important; color: #000000 !important; }
+    * { color: #000000 !important; background: transparent !important; }
+}
