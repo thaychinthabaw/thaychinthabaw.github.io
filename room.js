@@ -95,19 +95,13 @@ function triggerLayoutObserver() {
     fontResizeObserver.observe(articleElement);
 }
 
-/* == PASTE & PDF PROCESSING SYSTEM == */
-window.switchTab = function(type) {
-    document.getElementById('tab-pdf').classList.toggle('active', type === 'pdf');
-    document.getElementById('tab-paste').classList.toggle('active', type === 'paste');
-    document.getElementById('pane-pdf').classList.toggle('active', type === 'pdf');
-    document.getElementById('pane-paste').classList.toggle('active', type === 'paste');
-};
-
+/* == PASTE PROCESSING SYSTEM == */
 // ✍️ စာသားများ ကူးထည့်၍ ဖတ်ရှုခြင်းကို စီမံခြင်း
 window.processPastedText = function() {
     const textInput = document.getElementById('paste-text-input').value.trim();
-    if (!textInput) { alert('ကျေးဇူးပြု၍ စာသားတစ်ခုခု ထည့်သွင်းပါဘုရား။'); return; }
+    if (!textInput) { alert('ကျေးဇူးပြု၍ စာသားတစ်ခုခု ထည့်သွင်းပါဦးဗျာ။'); return; }
     
+    // ခေါင်းစဉ်ကို စာသားပထမ စာလုံး ၂၀ ဖြင့် ဖြတ်ယူခြင်း
     const title = textInput.substring(0, 20) + (textInput.length > 20 ? "..." : "");
     const bookId = 'paste_' + Date.now();
     
@@ -122,70 +116,10 @@ window.processPastedText = function() {
     
     saveBookToStorage(bookData);
     openBook(bookData);
+    
+    // စာသားအဟောင်းအား ရှင်းလင်းပေးခြင်း
+    document.getElementById('paste-text-input').value = '';
 };
-
-// 📄 PDF File ဖတ်ရှုခြင်းနှင့် Loading ရာခိုင်နှုန်းတွက်ချက်မှုစနစ်
-function handlePDFUpload(file) {
-    if (!file || file.type !== "application/pdf") { alert("PDF ဖိုင်များသာ တင်သွင်းနိုင်ပါသည်ဘုရား။"); return; }
-    
-    const reader = new FileReader();
-    const progressContainer = document.getElementById('progress-container');
-    const progressBarFill = document.getElementById('progress-bar-fill');
-    const progressPercent = document.getElementById('progress-percent');
-    const progressStatus = document.getElementById('progress-status');
-    
-    progressContainer.style.display = 'block';
-    progressBarFill.style.width = '0%';
-    progressPercent.textContent = '0%';
-    progressStatus.textContent = 'ဖိုင်အား စတင်ဖတ်ရှုနေပါသည်...';
-
-    reader.onload = function(e) {
-        const typedarray = new Uint8Array(e.target.result);
-        
-        // PDF.js Engine သို့ ဖိုင်ထည့်သွင်းခြင်း
-        pdfjsLib.getDocument(typedarray).promise.then(async function(pdf) {
-            let fullText = "";
-            const totalPages = pdf.numPages;
-            
-            for (let i = 1; i <= totalPages; i++) {
-                const page = await pdf.getPage(i);
-                const textContent = await page.getTextContent();
-                const pageText = textContent.items.map(item => item.str).join(" ");
-                
-                // စာမျက်နှာအလိုက် ခွဲခြားမှတ်သားရန် Tag ထည့်သွင်းခြင်း
-                fullText += `\n\n[=== PAGE_${i} ===]\n\n` + pageText;
-                
-                // ⏳ တွက်ချက်မှု ရာခိုင်နှုန်းအား Bar တွင် ပြသခြင်း
-                let percent = Math.round((i / totalPages) * 100);
-                progressBarFill.style.width = percent + '%';
-                progressPercent.textContent = percent + '%';
-                progressStatus.textContent = `စာမျက်နှာ (${i}/${totalPages}) အား ဖတ်နေပါသည်...`;
-            }
-            
-            progressContainer.style.display = 'none';
-            
-            const bookId = 'pdf_' + Date.now();
-            const bookData = {
-                id: bookId,
-                title: file.name.replace(".pdf", ""),
-                type: 'pdf',
-                content: fullText,
-                totalPages: totalPages,
-                pinned: false,
-                timestamp: Date.now()
-            };
-            
-            saveBookToStorage(bookData);
-            openBook(bookData);
-            
-        }).catch(err => {
-            console.error(err);
-            alert("PDF ဖတ်ရှုခြင်း လွဲချော်သွားပါသည်ဘုရား။");
-            progressContainer.style.display = 'none';
-        });
-    };
-    reader.readAsArrayBuffer(file);
-}
 
 /* == BOOKSHELF ENGINE (FIFO STORAGE SYSTEM WITH PIN/SAVE) == */
 function saveBookToStorage(newBook) {
@@ -204,7 +138,7 @@ function saveBookToStorage(newBook) {
     try {
         localStorage.setItem('room_bookshelf', JSON.stringify(currentBooks));
     } catch (e) {
-        alert("သိုလှောင်မှု ပြည့်သွားပါသဖြင့် အချို့စာအုပ်များကို ဖျက်ပေးတော်မူပါဦးဘုရား။");
+        alert("သိုလှောင်မှု ပြည့်သွားပါသဖြင့် အချို့စာအုပ်များကို ဖျက်ပေးတော်မူပါဦး။");
     }
     renderBookshelf();
 }
@@ -249,17 +183,16 @@ function renderBookshelf() {
         
         const title = document.createElement('p');
         title.className = 'book-card-title';
-        title.textContent = (book.type === 'pdf' ? '📄 ' : '✍️ ') + book.title;
+        title.textContent = '✍️ ' + book.title;
         
         const meta = document.createElement('p');
         meta.className = 'book-card-meta';
         const date = new Date(book.timestamp).toLocaleDateString();
-        meta.textContent = `တင်သွင်းရက် - ${date} ${book.totalPages ? `(| စာမျက်နှာ - ${book.totalPages} မျက်နှာ)` : ''}`;
+        meta.textContent = `တင်သွင်းရက် - ${date}`;
         
         info.appendChild(title);
         info.appendChild(meta);
         
-        // Actions wrapper 
         const actionsWrapper = document.createElement('div');
         actionsWrapper.className = 'book-card-actions';
 
@@ -289,7 +222,7 @@ function renderBookshelf() {
 }
 
 function deleteBook(id) {
-    if (!confirm("ဤစာအုပ်ကို စာအုပ်စင်မှ ဖျက်ရန် သေချာပါသလားဘုရား?")) return;
+    if (!confirm("ဤစာအုပ်ကို စာအုပ်စင်မှ ဖျက်ရန် သေချာပါသလား။")) return;
     let currentBooks = JSON.parse(localStorage.getItem('room_bookshelf') || '[]');
     currentBooks = currentBooks.filter(b => b.id !== id);
     localStorage.setItem('room_bookshelf', JSON.stringify(currentBooks));
@@ -310,7 +243,7 @@ function openBook(book) {
     bodyContent.textContent = book.content;
     
     buildSemanticParagraphs();
-    generateDynamicTOC(book);
+    generateDynamicTOC();
     
     triggerLayoutObserver();
     setTimeout(() => { restoreReadingPosition(); }, 150);
@@ -329,58 +262,26 @@ window.closeCurrentBook = function() {
 };
 
 /* == DYNAMIC TOC GENERATION == */
-function generateDynamicTOC(book) {
+function generateDynamicTOC() {
     const tocList = document.getElementById('dynamic-toc-list');
     tocList.innerHTML = '';
     
-    if (book.type === 'pdf') {
-        // PDF စာမျက်နှာများအလိုက် မာတိကာတည်ဆောက်ခြင်း
-        const paragraphs = document.querySelectorAll('.raw-text p');
-        let pageMarkerParagraphs = {};
-        
-        paragraphs.forEach(p => {
-            const match = p.textContent.match(/\[=== PAGE_(\d+) ===\]/);
-            if (match) {
-                const pageNum = match[1];
-                pageMarkerParagraphs[pageNum] = p;
-                p.innerHTML = `<span style="display:block; border-bottom:1px dashed #443300; margin:20px 0; padding-bottom:5px; color:#b38b00; font-size:14px;">📄 စာမျက်နှာ - ${pageNum}</span>`;
-            }
-        });
-        
-        for (let i = 1; i <= book.totalPages; i++) {
-            const li = document.createElement('li');
-            const a = document.createElement('a');
-            a.href = '#';
-            a.textContent = `စာမျက်နှာ - ${i}`;
-            a.onclick = (e) => {
-                e.preventDefault();
-                const targetP = pageMarkerParagraphs[i];
-                if (targetP) {
-                    targetP.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    toggleTOC();
-                }
-            };
-            li.appendChild(a);
-            tocList.appendChild(li);
-        }
-    } else {
-        // Paste လုပ်ထားသော စာသားဖြစ်ပါက စာပိုဒ်ရေအလိုက် ဖြတ်ခြင်း
-        const paragraphs = document.querySelectorAll('.raw-text p');
-        let step = Math.max(1, Math.floor(paragraphs.length / 10)); // အများဆုံး အပိုင်း ၁၀ ပိုင်းခွဲခြင်း
-        
-        for (let i = 0; i < paragraphs.length; i += step) {
-            const li = document.createElement('li');
-            const a = document.createElement('a');
-            a.href = '#';
-            a.textContent = `အပိုင်း (${Math.floor(i/step) + 1})`;
-            a.onclick = (e) => {
-                e.preventDefault();
-                paragraphs[i].scrollIntoView({ behavior: 'smooth', block: 'center' });
-                toggleTOC();
-            };
-            li.appendChild(a);
-            tocList.appendChild(li);
-        }
+    const paragraphs = document.querySelectorAll('.raw-text p');
+    let step = Math.max(1, Math.floor(paragraphs.length / 10)); // အပိုင်း ၁၀ ပိုင်းခွဲခြင်း
+    
+    for (let i = 0; i < paragraphs.length; i += step) {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.href = '#';
+        a.textContent = `အပိုင်း (${Math.floor(i/step) + 1})`;
+        const targetIndex = i;
+        a.onclick = (e) => {
+            e.preventDefault();
+            paragraphs[targetIndex].scrollIntoView({ behavior: 'smooth', block: 'center' });
+            toggleTOC();
+        };
+        li.appendChild(a);
+        tocList.appendChild(li);
     }
 }
 
@@ -530,14 +431,6 @@ function init() {
         clearTimeout(readingTimer);
         readingTimer = setTimeout(() => { saveReadingPosition(); }, 200);
     });
-
-    /* == UPLOAD LISTENERS == */
-    const fileInput = document.getElementById('pdf-file-input');
-    if (fileInput) {
-        fileInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) handlePDFUpload(e.target.files[0]);
-        });
-    }
 
     /* == ATTACH CLICKS TO CONFIG BUTTONS == */
     document.getElementById('font-increase').onclick = () => changeFontSize(1);
