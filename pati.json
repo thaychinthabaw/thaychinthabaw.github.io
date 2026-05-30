@@ -1,26 +1,19 @@
 {
-  "bookTitle": "သေခြင်းသဘော စာမူ",
+  "bookTitle": "စာဖတ်ခန်း | သေခြင်းသဘော",
+  "mainHeading": "သေခြင်းသဘော စာမူ",
+  "subHeading": "ဝိပဿနာအခြေခံ ☸️",
   "chapters": [
     {
-      "id": "title1",
-      "type": "main-title",
-      "title": "သေခြင်းသဘော စာမူ",
-      "content": "သေခြင်းသဘော တရားစာမူကြီး ဖြစ်ပါသည်၊၊",
-      "audioSrc": "https://thaychinthabaw.github.io/audio/title1.mp3"
-    },
-    {
-      "id": "title2",
-      "type": "sub-title",
-      "title": "ဝိပဿနာအခြေခံ ☸️",
-      "content": "ဝိပဿနာအခြေခံ နာယူမှတ်သားဖွယ်ရာများ၊၊",
-      "audioSrc": "https://thaychinthabaw.github.io/audio/title2.mp3"
-    },
-    {
       "id": "chapter1",
-      "type": "chapter",
       "title": "နိဒါန်း",
-      "content": "∆ နိဒါန်း။\n\nရုပ်နာမ်ဓမ္မ သင်္ခါရတရားတို့၏ အနိစ္စသဘောကို သိမြင်ခြင်းသည် ဝိပဿနာ၏ အခြေခံအကျဆုံးသော အုတ်မြစ်ဖြစ်ပေသည်။ သေခြင်းသဘောကို ဆင်ခြင်ခြင်းဖြင့် သံဝေဂဉာဏ်ကို ရရှိစေနိုင်ပါသည်။\n\n@@gap\n\nဤနေရာတွင် စာဖတ်သူတို့အနေဖြင့် စိတ်ကို တည်ငြိမ်စွာထား၍ ဆင်ခြင်ပွားများရမည် ဖြစ်သည်။",
-      "audioSrc": "https://thaychinthabaw.github.io/audio/chapter1.mp3"
+      "audioSrc": "audio/nidann.mp3",
+      "audioTitle": "နိဒါန်း အသံဖိုင်",
+      "content": "∆ နိဒါန်း။\n\nဤနေရာတွင် သေခြင်းသဘော စာမူ၏ နိဒါန်းအကြောင်းအရာများကို ဆက်လက်ထည့်သွင်းနိုင်ပါသည်။ စာပိုဒ်တစ်ခုနှင့်တစ်ခုကြားကို Line Break နှစ်ခါ (Enter နှစ်ချက်) ခြား၍ ရေးသားနိုင်ပါသည်။"
     }
+  ],
+  "toc": [
+    { "href": "#title1", "class": "main-title", "text": "သေခြင်းသဘော စာမူ" },
+    { "href": "#chapter8.0.21", "class": "title", "text": "သတိပဋ္ဌာနကထာ" },
+    { "href": "#notes5", "class": "sub-title", "text": "သိမှတ်ဖွယ်ရာများ “ပဋိသမ္ဘိဒါမဂ်ကျမ်းမှ သုတ္တန်များ”" }
   ]
 }
