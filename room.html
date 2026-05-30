@@ -53,7 +53,7 @@
 
                 <div id="pane-paste" class="tab-pane">
                     <textarea id="paste-text-input" placeholder="ဤနေရာတွင် မိမိဖတ်ရှုလိုသည့် စာသားများကို ကူးထည့်ပါ (Paragraph အကွာအဝေးများအတွက် Enter နှစ်ချက် ခေါက်နိုင်ပါသည်)..."></textarea>
-                    <button class="action-btn" onclick="processPastedText()">📖 စာတ်ခန်းသို့ လွှတ်ပါ</button>
+                    <button class="action-btn" onclick="processPastedText()">📖 စာဖတ်ခန်းသို့ လွှတ်ပါ</button>
                 </div>
 
                 <div id="progress-container" class="progress-container" style="display: none;">
@@ -84,7 +84,7 @@
                 <h1 id="book-main-title">စာမူခေါင်းစဉ်</h1>
             </div>
             <div class="raw-text" id="book-body-content">
-                </div>
+            </div>
         </article>
     </div>
 
@@ -101,7 +101,7 @@
             </div>
             <input type="text" id="toc-search" placeholder="စာမျက်နှာ ရှာရန်...">
             <ul class="toc-list" id="dynamic-toc-list">
-                </ul>
+            </ul>
             <div class="toc-jump-buttons">
                 <button id="toc-top-btn" title="ထိပ်ဆုံးသို့">🔝</button>
                 <button id="toc-bottom-btn" title="အောက်ဆုံးသို့">🔚</button>
@@ -183,7 +183,6 @@
 
     <script src="darkmode.js"></script>
     <script>
-        // Service Worker Logic
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try { await navigator.serviceWorker.register('/service-worker.js'); console.log('Service Worker Registered'); } 
