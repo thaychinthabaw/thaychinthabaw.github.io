@@ -14,8 +14,6 @@
     <link rel="shortcut icon" sizes="192x192" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
     <link rel="shortcut icon" sizes="512x512" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
     <meta property="og:image" content="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
 </head>
 <body class="is-paper">
 
@@ -36,34 +34,11 @@
         <div id="upload-dashboard" class="upload-dashboard">
             <div class="dashboard-card">
                 <h2>📖 စာဖတ်ခန်းသို့ စာမူသွင်းရန်</h2>
-                <p class="dashboard-sub">မိမိဖတ်လိုသော PDF စာအုပ် သို့မဟုတ် စာသားများကို ထည့်သွင်းပါ</p>
-                
-                <div class="tab-control">
-                    <button id="tab-pdf" class="tab-btn active" onclick="switchTab('pdf')">📄 PDF တင်ရန်</button>
-                    <button id="tab-paste" class="tab-btn" onclick="switchTab('paste')">✍️ စာသားကူးထည့်ရန်</button>
-                </div>
+                <p class="dashboard-sub">မိမိဖတ်လိုသော စာသားများကို အောက်ပါအကွက်တွင် ထည့်သွင်းပါ</p>
 
-                <div id="pane-pdf" class="tab-pane active">
-                    <div class="file-drop-zone" onclick="document.getElementById('pdf-file-input').click()">
-                        <span class="zone-icon">📥</span>
-                        <p>PDF ဖိုင်ကို ဤနေရာတွင် နှိပ်၍ ရွေးချယ်ပါ</p>
-                        <input type="file" id="pdf-file-input" accept="application/pdf" style="display:none">
-                    </div>
-                </div>
-
-                <div id="pane-paste" class="tab-pane">
+                <div class="paste-pane">
                     <textarea id="paste-text-input" placeholder="ဤနေရာတွင် မိမိဖတ်ရှုလိုသည့် စာသားများကို ကူးထည့်ပါ (Paragraph အကွာအဝေးများအတွက် Enter နှစ်ချက် ခေါက်နိုင်ပါသည်)..."></textarea>
                     <button class="action-btn" onclick="processPastedText()">📖 စာဖတ်ခန်းသို့ လွှတ်ပါ</button>
-                </div>
-
-                <div id="progress-container" class="progress-container" style="display: none;">
-                    <div class="progress-text-group">
-                        <span id="progress-status">ဖိုင်အား ဖတ်နေပါသည်...</span>
-                        <span id="progress-percent">0%</span>
-                    </div>
-                    <div class="progress-bar-bg">
-                        <div id="progress-bar-fill" class="progress-bar-fill"></div>
-                    </div>
                 </div>
             </div>
 
@@ -96,10 +71,10 @@
     <div id="toc-overlay" class="toc-overlay" onclick="toggleTOC()">
         <div class="toc-content" onclick="event.stopPropagation()">
             <div class="toc-header">
-                <h1>📖 စာမျက်နှာများ</h1>
+                <h1>📖 အပိုင်းများ</h1>
                 <span class="close-btn" onclick="toggleTOC()">×</span>
             </div>
-            <input type="text" id="toc-search" placeholder="စာမျက်နှာ ရှာရန်...">
+            <input type="text" id="toc-search" placeholder="ရှာဖွေရန်...">
             <ul class="toc-list" id="dynamic-toc-list">
             </ul>
             <div class="toc-jump-buttons">
@@ -183,7 +158,6 @@
 
     <script src="darkmode.js"></script>
     <script>
-        // Service Worker Logic
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try { await navigator.serviceWorker.register('/service-worker.js'); console.log('Service Worker Registered'); } 
