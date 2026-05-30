@@ -6,8 +6,14 @@
     <title>စာဖတ်ခန်း | သေခြင်းသဘော</title>
     <link rel="stylesheet" href="pati-audio.css">
     <link rel="stylesheet" href="pati-text.css">
-    <link rel="apple-touch-icon" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
+  
+    <link class="apple-touch-icon" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
+        
+    <link rel="stylesheet" href="darkmode.css">
     <link rel="icon" type="image/png" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
+
+    <link rel="icon" type="image/png" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
+    <link rel="apple-touch-icon" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
     <link rel="shortcut icon" sizes="192x192" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
     <link rel="shortcut icon" sizes="512x512" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
     <meta property="og:image" content="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
@@ -21,6 +27,7 @@
                 <span class="nav-text">ပင်မ</span>
             </a>
             <button id="fs-btn" class="fullscreen-round-btn" onclick="toggleReadingMode()">⛶</button>
+
             <div class="right-controls">
                 <button class="setting-btn" onclick="toggleSetting()">⚙</button>
                 <button id="modeToggle">☀️</button>    
@@ -29,7 +36,15 @@
 
         <article class="content-area" id="reading-content">
             <div id="last-read-container"></div>   
-            </article>
+            <section id="title1">
+                <h1 id="js-main-heading">သေခြင်းသဘော စာမူ</h1>
+            </section>
+            <section id="title2">
+                <h1 id="js-sub-heading">ဝိပဿနာအခြေခံ ☸️</h1>
+            </section>
+            
+            <div id="dynamic-chapters"></div>
+        </article>
     </div>
 
     <div class="floating-left-group">
@@ -58,41 +73,57 @@
                         <span id="font-size-display">25</span>
                         <button id="font-increase">+</button>
                     </div>
-                    <div class="spinner-wrapper">
-                        <div class="spinner-box"><button id="size-plus-10">▲</button><span id="size-tens">2</span><button id="size-minus-10">▼</button></div>
-                        <div class="spinner-box"><button id="size-plus-1">▲</button><span id="size-ones">5</span><button id="size-minus-1">▼</button></div>
-                    </div>
-                </div>
 
-                <div class="setting-item-group">
+                    <div class="spinner-wrapper">
+                        <div class="spinner-box">
+                            <button id="size-plus-10">▲</button>
+                            <span id="size-tens">2</span>
+                            <button id="size-minus-10">▼</button>
+                        </div>
+                        <div class="spinner-box">
+                            <button id="size-plus-1">▲</button>
+                            <span id="size-ones">5</span>
+                            <button id="size-minus-1">▼</button>
+                        </div>
+                    </div>
+                </div><div class="setting-item-group">
                     <span class="setting-title2">စာလုံးအထူ</span>
                     <div class="preset-group" id="weight-buttons">
                         <button class="preset-btn" data-weight="300">အပါး</button>
                         <button class="preset-btn active-preset" data-weight="500">အလတ်</button>
                         <button class="preset-btn" data-weight="900">အထူ</button>
                     </div>
-                    <div class="spinner-wrapper">
-                        <div class="spinner-box"><button id="weight-plus-100">▲</button><span id="digit-hundreds">5</span><button id="weight-minus-100">▼</button></div>
-                        <div class="spinner-box"><button id="weight-plus-10">▲</button><span id="digit-tens">0</span><button id="weight-minus-10">▼</button></div>
-                        <div class="spinner-box"><button id="weight-plus-1">▲</button><span id="digit-ones">0</span><button id="weight-minus-1">▼</button></div>
-                    </div>
-                </div>
 
-                <div class="setting-item-group">
-                    <span class="setting-title2">စာကြောင်းကြား အကွာအဝေး</span>
+                    <div class="spinner-wrapper">
+                        <div class="spinner-box">
+                            <button id="weight-plus-100">▲</button>
+                            <span id="digit-hundreds">5</span>
+                            <button id="weight-minus-100">▼</button>
+                        </div>
+                        <div class="spinner-box">
+                            <button id="weight-plus-10">▲</button>
+                            <span id="digit-tens">0</span>
+                            <button id="weight-minus-10">▼</button>
+                        </div>
+                        <div class="spinner-box">
+                            <button id="weight-plus-1">▲</button>
+                            <span id="digit-ones">0</span>
+                            <button id="weight-minus-1">▼</button>
+                        </div>
+                    </div>
+                </div> <div class="setting-item-group">
+                    <span class="setting-title2">စာကြောင်းကြား အကွာအဝေး </span>
                     <div class="preset-group">
                         <button class="preset-btn line-btn" data-value="1.7">ကျဉ်း</button>
                         <button class="preset-btn line-btn" data-value="2.0">အလတ်</button>
                         <button class="preset-btn line-btn" data-value="2.5">ကျယ်</button>
                     </div>
                     <div class="adjust-group">
-                        <button onclick="adjustLineHeight(-0.1)">−</button>
+                        <button onclick="adjustLineHeight(-0.1)">− </button>
                         <span id="lh-display">2.0</span>
                         <button onclick="adjustLineHeight(0.1)">+</button>
                     </div>
-                </div>
-
-                <div class="setting-item-group">
+                </div><div class="setting-item-group">
                     <span class="setting-title2">စာလုံးကြား အကွာအဝေး</span>
                     <div class="preset-group">
                         <button class="preset-btn letter-btn" data-value="0">ကျဉ်း</button>
@@ -104,18 +135,18 @@
                         <span id="ls-display">0</span>
                         <button onclick="adjustLetterSpacing(0.5)">+</button>
                     </div>
-                </div>
-            </div> 
+                </div></div> 
         </div>
     </div>
-
+    
     <div id="toc-overlay" class="toc-overlay" onclick="toggleTOC()" style="display: none;">
         <div class="toc-content" onclick="event.stopPropagation()">
             <h1 style="color:#443300;">မာတိကာ</h1>
             <input type="text" id="toc-search" placeholder="ခေါင်းစဉ် ရှာရန်...">
             <span class="close-btn" onclick="toggleTOC()">×</span>
-            <ul class="toc-list" id="toc-list">
-                </ul>
+            
+            <ul class="toc-list" id="toc-list"></ul>
+
             <div class="toc-jump-buttons">
                 <button id="toc-top-btn">⬆</button>
                 <button id="toc-bottom-btn">⬇</button>
@@ -135,6 +166,7 @@
                 <button id="paper-close-btn" class="paper-top-btn" title="Close">×</button>
             </div>
         </div>
+
         <div class="paper-audio-body" id="paper-audio-body">
             <div class="paper-audio-controls">
                 <button id="paper-play-btn">⏸</button>
@@ -146,6 +178,7 @@
                 <button id="paper-slower-btn">နှေး</button>
                 <div id="paper-speed-display">1x</div>
                 <button id="paper-faster-btn">မြန်</button>
+                
                 <div class="paper-volume-wrap">
                     <span class="paper-volume-icon">🔊</span>
                     <input type="range" id="paper-volume-slider" min="0" max="300" value="100">
@@ -153,6 +186,7 @@
                 </div>
                 <button id="paper-voice-btn">🎙 စကားသံရှင်း</button>
                 <button id="paper-night-btn">🌙 ညနားထောင်</button>
+                
                 <div class="paper-sleep-timer">
                     <div class="paper-sleep-title">😴 Sleep Timer</div>
                     <div class="paper-sleep-controls">
@@ -176,7 +210,21 @@
     <audio id="paper-audio"></audio>
     <button id="paper-show-bar-btn" class="paper-show-bar-btn">◯</button>     
         
-    <script src="pati-text.js"></script>
+    <script src="darkmode.js"></script>
     <script src="pati-audio.js"></script>
+    <script src="pati-text.js"></script>
+
+    <script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', async () => {
+            try {
+                await navigator.serviceWorker.register('/service-worker.js');
+                console.log('Service Worker Registered');
+            } catch (error) {
+                console.error('Service Worker Failed:', error);
+            }
+        });
+    }
+    </script>
 </body>
 </html>
