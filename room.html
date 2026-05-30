@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>စာဖတ်ခန်း | သေခြင်းသဘော</title>
+    <link rel="stylesheet" href="room.css">
+    <link rel="stylesheet" href="darkmode.css">
+    <script defer src="room.js"></script>
+
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
+    <link rel="icon" type="image/png" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
+    <link rel="shortcut icon" sizes="192x192" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
+    <link rel="shortcut icon" sizes="512x512" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
+    <meta property="og:image" content="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+</head>
+<body class="is-paper">
+
+    <div class="container">
+        <nav class="top-controls">
+            <a href="index.html" class="back-link">
+                <span class="nav-icon">⌂</span>
+                <span class="nav-text">ပင်မ</span>
+            </a>
+            <button id="fs-btn" class="fullscreen-round-btn" onclick="toggleReadingMode()">⛶</button>
+
+            <div class="right-controls">
+                <button class="setting-btn" onclick="toggleSetting()">⚙</button>
+                <button id="modeToggle">☀️</button>    
+            </div>
+        </nav>       
+
+        <div id="upload-dashboard" class="upload-dashboard">
+            <div class="dashboard-card">
+                <h2>📖 စာဖတ်ခန်းသို့ စာမူသွင်းရန်</h2>
+                <p class="dashboard-sub">မိမိဖတ်လိုသော PDF စာအုပ် သို့မဟုတ် စာသားများကို ထည့်သွင်းပါ</p>
+                
+                <div class="tab-control">
+                    <button id="tab-pdf" class="tab-btn active" onclick="switchTab('pdf')">📄 PDF တင်ရန်</button>
+                    <button id="tab-paste" class="tab-btn" onclick="switchTab('paste')">✍️ စာသားကူးထည့်ရန်</button>
+                </div>
+
+                <div id="pane-pdf" class="tab-pane active">
+                    <div class="file-drop-zone" onclick="document.getElementById('pdf-file-input').click()">
+                        <span class="zone-icon">📥</span>
+                        <p>PDF ဖိုင်ကို ဤနေရာတွင် နှိပ်၍ ရွေးချယ်ပါ</p>
+                        <input type="file" id="pdf-file-input" accept="application/pdf" style="display:none">
+                    </div>
+                </div>
+
+                <div id="pane-paste" class="tab-pane">
+                    <textarea id="paste-text-input" placeholder="ဤနေရာတွင် မိမိဖတ်ရှုလိုသည့် စာသားများကို ကူးထည့်ပါ (Paragraph အကွာအဝေးများအတွက် Enter နှစ်ချက် ခေါက်နိုင်ပါသည်)..."></textarea>
+                    <button class="action-btn" onclick="processPastedText()">📖 စာတ်ခန်းသို့ လွှတ်ပါ</button>
+                </div>
+
+                <div id="progress-container" class="progress-container" style="display: none;">
+                    <div class="progress-text-group">
+                        <span id="progress-status">ဖိုင်အား ဖတ်နေပါသည်...</span>
+                        <span id="progress-percent">0%</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div id="progress-bar-fill" class="progress-bar-fill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bookshelf-area">
+                <div class="bookshelf-header">
+                    <h3>📚 စာအုပ်စင် (သိမ်းဆည်းထားမှုများ)</h3>
+                    <span id="storage-indicator" class="storage-indicator">သိုလှောင်မှု: 0%</span>
+                </div>
+                <div id="bookshelf-list" class="bookshelf-list">
+                    <p class="empty-shelf-text">စာအုပ်စင်ပေါ်တွင် စာအုပ်မရှိသေးပါ။</p>
+                </div>
+            </div>
+        </div>
+
+        <article class="content-area" id="reading-content" style="display: none;">
+            <div id="last-read-container"></div>  
+            <div id="dynamic-book-header" class="book-header">
+                <h1 id="book-main-title">စာမူခေါင်းစဉ်</h1>
+            </div>
+            <div class="raw-text" id="book-body-content">
+                </div>
+        </article>
+    </div>
+
+    <div class="floating-left-group" id="floating-controls" style="display: none;">
+        <a href="#" class="top-btn" title="အပေါ်ဆုံးသို့">⬆</a>
+        <button class="toc-toggle-btn" id="toc-toggle" onclick="toggleTOC()">☰ မာတိကာ</button>
+    </div>
+
+    <div id="toc-overlay" class="toc-overlay" onclick="toggleTOC()">
+        <div class="toc-content" onclick="event.stopPropagation()">
+            <div class="toc-header">
+                <h1>📖 စာမျက်နှာများ</h1>
+                <span class="close-btn" onclick="toggleTOC()">×</span>
+            </div>
+            <input type="text" id="toc-search" placeholder="စာမျက်နှာ ရှာရန်...">
+            <ul class="toc-list" id="dynamic-toc-list">
+                </ul>
+            <div class="toc-jump-buttons">
+                <button id="toc-top-btn" title="ထိပ်ဆုံးသို့">🔝</button>
+                <button id="toc-bottom-btn" title="အောက်ဆုံးသို့">🔚</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="setting-overlay" class="setting-overlay" onclick="toggleSetting()">
+        <div class="setting-content" onclick="event.stopPropagation()">
+            <div class="setting-header">
+                <h1 class="setting-title">ချိန်ညှိချက်များ</h1>
+                <span class="setting-close-btn" onclick="toggleSetting()">×</span>
+            </div>
+            <div class="setting-body">
+                <button class="setting-menu-refresh" onclick="location.reload()">
+                    <span class="nav-icon">⟳</span>
+                    <span class="nav-text">အသစ်ဖြစ်အောင်လုပ်ရန်</span>
+                </button>
+                <button id="close-book-btn" class="setting-item" style="background: #cc3300; color: #fff; display:none;" onclick="closeCurrentBook()">📕 ဤစာအုပ်ကို ပိတ်ပြီး စာအုပ်စင်သို့ ပြန်သွားရန်</button>
+                <button class="setting-item" onclick="downloadPDF()">📄 စာအုပ်အဖြစ်သိမ်းရန်</button>
+
+                <div class="setting-item-group">
+                    <span class="setting-title2">စာလုံးအရွယ်အစား</span>
+                    <div class="font-size-control">
+                        <button id="font-decrease">−</button>
+                        <span id="font-size-display">25</span>
+                        <button id="font-increase">+</button>
+                    </div>
+                    <div class="spinner-wrapper">
+                        <div class="spinner-box"><button id="size-plus-10">▲</button><span id="size-tens">2</span><button id="size-minus-10">▼</button></div>
+                        <div class="spinner-box"><button id="size-plus-11">▲</button><span id="size-ones">5</span><button id="size-minus-11">▼</button></div>
+                    </div>
+                </div>
+
+                <div class="setting-item-group">
+                    <span class="setting-title2">စာလုံးအထူ</span>
+                    <div class="preset-group" id="weight-buttons">
+                        <button class="preset-btn" data-weight="300">အပါး</button>
+                        <button class="preset-btn active-preset" data-weight="500">အလတ်</button>
+                        <button class="preset-btn" data-weight="900">အထူ</button>
+                    </div>
+                    <div class="spinner-wrapper">
+                        <div class="spinner-box"><button id="weight-plus-100">▲</button><span id="digit-hundreds">5</span><button id="weight-minus-100">▼</button></div>
+                        <div class="spinner-box"><button id="weight-plus-10">▲</button><span id="digit-tens">0</span><button id="weight-minus-10">▼</button></div>
+                        <div class="spinner-box"><button id="weight-plus-1">▲</button><span id="digit-ones">0</span><button id="weight-minus-1">▼</button></div>
+                    </div>
+                </div>
+
+                <div class="setting-item-group">
+                    <span class="setting-title2">စာကြောင်းကြား အကွာအဝေး</span>
+                    <div class="preset-group">
+                        <button class="preset-btn line-btn" data-value="1.7">ကျဉ်း</button>
+                        <button class="preset-btn line-btn" data-value="2.0">အလတ်</button>
+                        <button class="preset-btn line-btn" data-value="2.5">ကျယ်</button>
+                    </div>
+                    <div class="adjust-group">
+                        <button onclick="adjustLineHeight(-0.1)">−</button>
+                        <span id="lh-display">2.0</span>
+                        <button onclick="adjustLineHeight(0.1)">+</button>
+                    </div>
+                </div>
+
+                <div class="setting-item-group">
+                    <span class="setting-title2">စာလုံးကြား အကွာအဝေး</span>
+                    <div class="preset-group">
+                        <button class="preset-btn letter-btn" data-value="0">ကျဉ်း</button>
+                        <button class="preset-btn letter-btn" data-value="1">အလတ်</button>
+                        <button class="preset-btn letter-btn" data-value="2">ကျယ်</button>
+                    </div>
+                    <div class="adjust-group">
+                        <button onclick="adjustLetterSpacing(-0.5)">−</button>
+                        <span id="ls-display">0</span>
+                        <button onclick="adjustLetterSpacing(0.5)">+</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="darkmode.js"></script>
+    <script>
+        // Service Worker Logic
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', async () => {
+                try { await navigator.serviceWorker.register('/service-worker.js'); console.log('Service Worker Registered'); } 
+                catch (error) { console.error('Service Worker Failed:', error); }
+            });
+        }
+    </script>
+</body>
+</html>
