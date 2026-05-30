@@ -157,6 +157,8 @@ body.sepia-mode {
     text-align: center;
     cursor: pointer;
     transition: 0.2s;
+    /* စာဖတ်မုဒ်အတွက် Default ကို အညိုရောင် ထားရှိပါသည် */
+    color: #443300; 
 }
 
 .file-drop-zone:hover {
@@ -208,6 +210,7 @@ textarea {
     font-weight: bold;
     margin-bottom: 5px;
     font-size: 14px;
+    color: #443300; /* Default အညိုရောင် */
 }
 
 .progress-bar-bg {
@@ -237,6 +240,7 @@ textarea {
     align-items: center;
     border-bottom: 2px solid #443300;
     padding-bottom: 5px;
+    color: #443300; /* Default အညိုရောင် */
 }
 
 .storage-indicator {
@@ -246,6 +250,7 @@ textarea {
     padding: 2px 8px;
     border: 1px solid #443300;
     border-radius: 4px;
+    color: #443300; /* Default အညိုရောင် */
 }
 
 .bookshelf-list {
@@ -667,7 +672,35 @@ body.focus-mode .top-controls {
     border: none !important;
 }
 
-/* Global Tap Highlight */
+
+/* ၁၀။ ပုံထဲက ဝါနေတဲ့ စာလုံးတွေကို မုဒ်အလိုက် ပြောင်းလဲပေးသည့်စနစ် */
+
+/* (က) အလင်းမုဒ် (Light Mode) မှာ အမဲရောင်ပြောင်းရန် */
+body.light-mode .file-drop-zone,
+body.light-mode .bookshelf-header,
+body.light-mode .storage-indicator,
+body.light-mode .progress-text-group {
+    color: #000000 !important;
+}
+
+/* (ခ) စာဖတ်မုဒ် (Sepia / Read Mode) မှာ အညိုရောင်ပြောင်းရန် */
+body.sepia-mode .file-drop-zone,
+body.sepia-mode .bookshelf-header,
+body.sepia-mode .storage-indicator,
+body.sepia-mode .progress-text-group {
+    color: #443300 !important;
+}
+
+/* (ဂ) ဒါ့ခ်မုဒ် (Dark Mode) မှာ အဖြူရောင်ပြောင်းရန် */
+body.dark-mode .file-drop-zone,
+body.dark-mode .bookshelf-header,
+body.dark-mode .storage-indicator,
+body.dark-mode .progress-text-group {
+    color: #ffffff !important;
+}
+
+
+/* ၁၁။ Global Tap Highlight & Selection (မူလ Brand အရောင်အဝါအတိုင်း ထားရှိပါသည်) */
 * {
     -webkit-tap-highlight-color: rgba(255, 204, 0, 0.4) !important;
 }
