@@ -1,0 +1,26 @@
+[
+  {
+    "id": "title1",
+    "type": "main-title",
+    "title": "သေခြင်းသဘော စာမူ",
+    "audioSrc": "",
+    "audioTitle": "",
+    "content": ""
+  },
+  {
+    "id": "title2",
+    "type": "main-title",
+    "title": "ဝိပဿနာအခြေခံ ☸️",
+    "audioSrc": "",
+    "audioTitle": "",
+    "content": ""
+  },
+  {
+    "id": "chapter1",
+    "type": "chapter",
+    "title": "နိဒါန်း",
+    "audioSrc": "https://thaychinthabaw.github.io/audio/nidann.mp3",
+    "audioTitle": "နိဒါန်း အသံဖိုင်",
+    "content": "∆ နိဒါန်း။\n\nယခု အစက် သင်္ကေတနဲ့ ပြထားသော စာသည် ခေါင်းစဉ် ငယ် တစ်ခုကို ကိုယ်စားပြုပါတယ်။\n\n@@gap\n\n[ဥပမာစာသားများ ထည့်သွင်းရန် နေရာ]"
+  }
+]
