@@ -10,25 +10,32 @@ let currentBookId = null;
 /* == STORAGE LIMIT (FIFO SYSTEM) == */
 const MAX_BOOKS = 5; 
 
-/* == MYANMAR UNICODE EXTRACTION NORMALIZER == */
+/* == MYANMAR UNICODE EXTRACTION NORMALIZER (ADVANCED REGEX ENGINE) == */
 function normalizeMyanmarText(text) {
     if (!text) return "";
     
-    // ၁။ pdf.js မှ ပါလာနိုင်သော မလိုအပ်သည့် စာလုံးကြား space များကို ရှင်းထုတ်ခြင်း
+    // ၁။ pdf.js မှ ပါလာနိုင်သော မလိုအပ်သည့် စာလုံးကြား မူမမှန်သော Spaces များကို ရှင်းထုတ်ခြင်း
     let clean = text.replace(/([က-အ])\s+([ါ-ှေံ်ြ-ှ])/g, '$1$2');
     clean = clean.replace(/([ါ-ှေံ်ြ-ှ])\s+([်ျ-ှ])/g, '$1$2');
     
-    // ၂။ Google Docs PDF များတွင် အဖြစ်များသော ဇောက်ထိုးဖြစ်နေသည့် သရ/အသတ် အစဉ်လိုက်များကို ပြုပြင်ခြင်း (ဥပမာ - င် နှင့် င်း)
+    // ၂။ Google Docs PDF အပါအဝင် မတူညီသော PDF Engine များကြောင့် ရှေ့နောက်လွဲထွက်လာသည့် ဗျည်း၊ သရ၊ အသတ် စဥ်ဆက်များကို စနစ်တကျ ပြန်စီခြင်း
+    // အောက်ပါ Regex Patterns များသည် ကွဲအက်နေသော သရများနှင့် ဗျည်းဆင့်များကို Standard Unicode စဥ်အတိုင်း ပြန်ဖြစ်စေပါသည်
     clean = clean.replace(/်([ေုူံဝာါဥဉ်ညတနမလသဟဠက-အ])/g, '$1်');
     clean = clean.replace(/့([း်])/g, '$1့');
     
-    // ၃။ ကွဲအက်နေသော ဗျည်းဆင့်များကြားခံ Zero Width Joiner စနစ်အား စနစ်တကျ ပြန်လည်ထိန်းညှိခြင်း
+    // ၃။ ကွဲထွက်နေသော လုံးကြီးတင် (ိ)၊ ဆွဲချာ (ာ) နှင့် အသတ် (်) အစီအစဉ်များအား ပြုပြင်ခြင်း (ဥပမာ - ဖြစ်၊ ဆည်း စသည့်စာလုံးများအတွက်)
+    clean = clean.replace(/([က-အ])([ြ-ှ]*)်([ိီုူေံဲာါဝ]*)/g, '$1$2$3်');
+    clean = clean.replace(/([က-အ])([ြ-ှ]*)့([ိီုူေံဲာါဝ]*)/g, '$1$2$3့');
+    clean = clean.replace(/([က-အ])([ြ-ှ]*)း([ိီုူေံဲာါဝ]*)/g, '$1$2$3း');
+    
+    // ၄။ ဗျည်းဆင့်များကြားခံ Zero Width Joiner (ZWJ) နှင့် မလိုအပ်သော နေရာလွတ်ကုဒ်များကို ဖယ်ရှားခြင်း
     clean = clean.replace(/\u200B/g, ''); 
     
-    // ၄။ နှစ်ထပ်ဆင့် Space များကို ပုံမှန် Space တစ်ချက်အဖြစ် ပြောင်းလဲခြင်း
+    // ၅။ နှစ်ထပ်ဆင့် ဖြစ်နေသော Space များကို ပုံမှန် Space တစ်ချက်အဖြစ် ပြောင်းလဲခြင်း
     clean = clean.replace(/[ ]+/g, ' ');
 
-    return clean;
+    // ၆။ JavaScript Standard Unicode Normalization ဖြင့် စာလုံးအကွဲများကို အပြီးသတ်ပေါင်းစပ်ခြင်း
+    return clean.normalize('NFC');
 }
 
 /* == SEMANTIC SYSTEM == */
@@ -359,7 +366,7 @@ function generateDynamicTOC(book) {
         let pageMarkerParagraphs = {};
         
         paragraphs.forEach(p => {
-            const match = p.textContent.match(/\[=== PAGE_(\d+) ===\]/);
+            const match = p.textContent.match(/\[=== PAGE_{0,1}(\d+) ===\]/);
             if (match) {
                 const pageNum = match[1];
                 pageMarkerParagraphs[pageNum] = p;
