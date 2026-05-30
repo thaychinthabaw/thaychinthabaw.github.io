@@ -14,27 +14,36 @@ const MAX_BOOKS = 5;
 function normalizeMyanmarText(text) {
     if (!text) return "";
     
-    // ၁။ pdf.js မှ ပါလာနိုင်သော မလိုအပ်သည့် စာလုံးကြား မူမမှန်သော Spaces များကို ရှင်းထုတ်ခြင်း
-    let clean = text.replace(/([က-အ])\s+([ါ-ှေံ်ြ-ှ])/g, '$1$2');
-    clean = clean.replace(/([ါ-ှေံ်ြ-ှ])\s+([်ျ-ှ])/g, '$1$2');
-    
-    // ၂။ Google Docs PDF အပါအဝင် မတူညီသော PDF Engine များကြောင့် ရှေ့နောက်လွဲထွက်လာသည့် ဗျည်း၊ သရ၊ အသတ် စဥ်ဆက်များကို စနစ်တကျ ပြန်စီခြင်း
-    // အောက်ပါ Regex Patterns များသည် ကွဲအက်နေသော သရများနှင့် ဗျည်းဆင့်များကို Standard Unicode စဥ်အတိုင်း ပြန်ဖြစ်စေပါသည်
+    let clean = text;
+
+    // ၁။ PDF Extract လုပ်စဉ် ပါလာတတ်သော ဇောက်ထိုးဖြစ်နေသည့် အက္ခရာစဉ်များကို Standard Unicode စဉ်အတိုင်း ပြန်စီခြင်း
+    // အသတ် (်) သည် သရများ၊ ဗျည်းဆင့်များ၏ နောက်သို့ ရောက်ရမည်
     clean = clean.replace(/်([ေုူံဝာါဥဉ်ညတနမလသဟဠက-အ])/g, '$1်');
+    
+    // ၂။ ရရစ် (ြ) နှင့် ဗျည်းများ ရှေ့နောက်လွဲနေသည်များကို ပြုပြင်ခြင်း
+    clean = clean.replace(/ြ([က-အ])/g, '$1ြ');
+    
+    // ၃။ ကွဲထွက်နေသော သရ၊ ဗျည်းဆင့် နှင့် အသတ် အစီအစဉ်များအား လုံးဝအမှန်ပြန်ဖြစ်စေရန် ရှာဖွေပြင်ဆင်ခြင်း
+    clean = clean.replace(/([က-အ])([ှုေံဝာါဥဉ်ညတနမလသဟဠ]*)(်)([ိီုူဲး့]*)/g, '$1$2$4$3');
+    
+    // ၄။ အောက်ကမြစ် (့) နှင့် ဝစ္စပdefault (း) များ အသတ်နောက်သို့ ပုံမှန်အတိုင်းရောက်ရှိစေခြင်း
     clean = clean.replace(/့([း်])/g, '$1့');
+    clean = clean.replace(/း([့်])/g, '$1း');
     
-    // ၃။ ကွဲထွက်နေသော လုံးကြီးတင် (ိ)၊ ဆွဲချာ (ာ) နှင့် အသတ် (်) အစီအစဉ်များအား ပြုပြင်ခြင်း (ဥပမာ - ဖြစ်၊ ဆည်း စသည့်စာလုံးများအတွက်)
-    clean = clean.replace(/([က-အ])([ြ-ှ]*)်([ိီုူေံဲာါဝ]*)/g, '$1$2$3်');
-    clean = clean.replace(/([က-အ])([ြ-ှ]*)့([ိီုူေံဲာါဝ]*)/g, '$1$2$3့');
-    clean = clean.replace(/([က-အ])([ြ-ှ]*)း([ိီုူေံဲာါဝ]*)/g, '$1$2$3း');
-    
-    // ၄။ ဗျည်းဆင့်များကြားခံ Zero Width Joiner (ZWJ) နှင့် မလိုအပ်သော နေရာလွတ်ကုဒ်များကို ဖယ်ရှားခြင်း
+    // ၅။ pdf.js မှ ပါလာနိုင်သော မလိုအပ်သည့် စာလုံးကြား မူမမှန်သော Spaces များကို စနစ်တကျ ဖယ်ရှားခြင်း
+    // (မြန်မာစာလုံးတစ်လုံးချင်းစီ ကြားထဲတွင် ညှပ်ပါလာသော space များကို ဖယ်ထုတ်သည်)
+    clean = clean.replace(/([က-အ])\s+([ါ-ှေံ်ြ-ှ])/g, '$1$2');
+    clean = clean.replace(/([ါ-ှေံ်ြ-ှ])\s+([်ျ-ှ့း])/g, '$1$2');
+    clean = clean.replace(/([က-အ])\s+([က-အ])\s*([်ြ-ှေိီုူံဲာါဝ့း]+)/g, '$1$2$3');
+    clean = clean.replace(/([က-အ][ြ-ှေိီုူံဲာါဝ့း]*)\s+([့်း])/g, '$1$2');
+
+    // ၆။ ဗျည်းဆင့်များကြားခံ Zero Width Joiner (ZWJ) နှင့် မလိုအပ်သော နေရာလွတ်ကုဒ်များကို ဖယ်ရှားခြင်း
     clean = clean.replace(/\u200B/g, ''); 
     
-    // ၅။ နှစ်ထပ်ဆင့် ဖြစ်နေသော Space များကို ပုံမှန် Space တစ်ချက်အဖြစ် ပြောင်းလဲခြင်း
+    // ၇။ နှစ်ထပ်ဆင့် ဖြစ်နေသော Space များကို ပုံမှန် Space တစ်ချက်အဖြစ် ပြောင်းလဲခြင်း
     clean = clean.replace(/[ ]+/g, ' ');
 
-    // ၆။ JavaScript Standard Unicode Normalization ဖြင့် စာလုံးအကွဲများကို အပြီးသတ်ပေါင်းစပ်ခြင်း
+    // ၈။ JavaScript Standard Unicode Normalization ဖြင့် စာလုံးအကွဲများကို အပြီးသတ်ပေါင်းစပ်ခြင်း
     return clean.normalize('NFC');
 }
 
@@ -141,7 +150,7 @@ window.processPastedText = function() {
         id: bookId,
         title: title,
         type: 'paste',
-        content: textInput,
+        content: normalizeMyanmarText(textInput), // Paste လုပ်သည့် စာသားများကိုပါ တစ်ပါတည်း Normalize လုပ်ပေးသည်
         pinned: false,
         timestamp: Date.now()
     };
@@ -175,19 +184,27 @@ function handlePDFUpload(file) {
                 const page = await pdf.getPage(i);
                 const textContent = await page.getTextContent();
                 
-                // စာကြောင်းလိုက် နေရာမှန်အောင် Layout Alignment အရင်စီခြင်း
+                // စာကြောင်းလိုက် Layout Alignment တိကျစေရန် X, Y Coordinates အလိုက် စနစ်တကျ ပြန်စီခြင်း (Insertion Sort Algorithm)
+                let items = textContent.items;
+                items.sort((a, b) => {
+                    if (Math.abs(a.transform[5] - b.transform[5]) < 5) {
+                        return a.transform[4] - b.transform[4]; // ဘယ်မှညာသို့ စီခြင်း
+                    }
+                    return b.transform[5] - a.transform[5]; // အပေါ်မှအောက်သို့ စီခြင်း
+                });
+
                 let lastY = null;
                 let pageText = "";
                 
-                for (let item of textContent.items) {
-                    if (lastY !== null && item.transform[5] !== lastY) {
+                for (let item of items) {
+                    if (lastY !== null && Math.abs(item.transform[5] - lastY) > 5) {
                         pageText += "\n"; // စာကြောင်းအသစ်ဆင်းခြင်း
                     }
                     pageText += item.str;
                     lastY = item.transform[5];
                 }
                 
-                // ယူနီကုဒ် စာလုံးဆင့်များအား ပုံမှန်ဖြစ်အောင် ရှင်းထုတ်ခြင်း
+                // ယူနီကုဒ် စာလုံးဆင့်များနှင့် ကွဲထွက်နေသော စာလုံးများကို အဆင့်မြင့် အင်ဂျင်ဖြင့် ရှင်းထုတ်ခြင်း
                 let normalizedPageText = normalizeMyanmarText(pageText);
                 
                 fullText += `\n\n[=== PAGE_${i} ===]\n\n` + normalizedPageText;
