@@ -4,12 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>စာဖတ်ခန်း | သေခြင်းသဘော</title>
-    <link rel="stylesheet" href="pati.css">
+    <link rel="stylesheet" href="paper-audio.css">
+    <link rel="stylesheet" href="pati-text.css">
+    <link rel="apple-touch-icon" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
     <link rel="stylesheet" href="darkmode.css">
-    <link rel="icon" type="image/png" href="https://thaychinthabaw.netlify.app/thaychinthabawlogo1.png">
-    <script defer src="pati.js"></script>
+    <link rel="icon" type="image/png" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
+    <link rel="shortcut icon" sizes="192x192" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
+    <link rel="shortcut icon" sizes="512x512" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
+    <meta property="og:image" content="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
 </head>
 <body class="is-paper">
+
     <div class="container">
         <nav class="top-controls">
             <a href="index.html" class="back-link">
@@ -17,14 +22,15 @@
                 <span class="nav-text">ပင်မ</span>
             </a>
             <button id="fs-btn" class="fullscreen-round-btn" onclick="toggleReadingMode()">⛶</button>
+
             <div class="right-controls">
                 <button class="setting-btn" onclick="toggleSetting()">⚙</button>
                 <button id="modeToggle">☀️</button>    
             </div>
-        </nav>
-        
+        </nav>      
+
         <article class="content-area" id="reading-content">
-            <div id="last-read-container"></div>  
+            <div id="last-read-container"></div>   
         </article>
     </div>
 
@@ -45,7 +51,7 @@
                     <span class="nav-text">အသစ်ဖြစ်အောင်လုပ်ရန်</span>
                 </button>
                 <button class="setting-item" onclick="downloadPDF()">📄 စာအုပ်အဖြစ်သိမ်းရန်</button>
-                
+
                 <div class="setting-item-group">
                     <span class="setting-title2">စာလုံးအရွယ်အစား</span>
                     <div class="font-size-control">
@@ -94,9 +100,9 @@
                 </div>
 
                 <div class="setting-item-group">
-                    <span class="setting-title2">စာကြောင်းကြား အကွာအဝေး</span>
+                    <span class="setting-title2">စာကြောင်းကြား အကွာအဝေး </span>
                     <div class="preset-group">
-                        <button class="preset-btn line-btn" data-value="1.5">ကျဉ်း</button>
+                        <button class="preset-btn line-btn" data-value="1.7">ကျဉ်း</button>
                         <button class="preset-btn line-btn" data-value="2.0">အလတ်</button>
                         <button class="preset-btn line-btn" data-value="2.5">ကျယ်</button>
                     </div>
@@ -120,10 +126,30 @@
                         <button onclick="adjustLetterSpacing(0.5)">+</button>
                     </div>
                 </div>
-            </div>
+
+                <div class="setting-item-group">
+                    <span class="setting-title2">📋 စာ Paste / File Upload</span>
+                    <textarea id="paste-input" class="paste-box" placeholder="ဒီနေရာမှာ စာ paste လုပ်ပါ..."></textarea>
+                    <div class="paste-actions">
+                        <button id="paste-read-btn" class="setting-item">📖 စာဖတ်ခန်းထဲ ထည့်မည်</button>
+                        <label class="upload-btn">
+                            📂 TXT / PDF Upload
+                            <input type="file" id="file-input" accept=".txt,.pdf" hidden>
+                        </label>
+                        <button id="clear-view-btn" class="setting-item" style="background: #eedddd; border-color: #aa3333; color: #aa3333;">❌ စာဖတ်ခန်းကို ရှင်းလင်းမည်</button>
+                    </div>
+                </div>
+
+                <div class="setting-item-group">
+                    <span class="setting-title2">📚 စာအုပ်စင် (အများဆုံး ၁၀ အုပ်)</span>
+                    <div id="storage-usage-display" style="font-size: 13px; font-weight: bold; margin-bottom: 8px; color: #443300;">Storage သုံးစွဲမှု - 0%</div>
+                    <div id="recent-file-box" class="recent-file-box"></div>
+                    <button id="clear-all-storage-btn" class="setting-item" style="background: #ffcccc; color: #cc0000; border-color: #cc0000; margin-top: 15px; font-size: 14px !important;">⚠️ စာအုပ်စင်တစ်ခုလုံး အကုန်ဖျက်မည်</button>
+                </div>
+            </div> 
         </div>
     </div>
-
+    
     <div id="toc-overlay" class="toc-overlay" onclick="toggleTOC()" style="display: none;">
         <div class="toc-content" onclick="event.stopPropagation()">
             <h1 style="color:#443300;">မာတိကာ</h1>
@@ -139,6 +165,77 @@
         </div>
     </div>
 
+    <div class="paper-audio-bar" id="paper-audio-bar">
+        <div class="paper-audio-top">
+            <div class="paper-audio-info">
+                <div id="paper-now-playing">အသံမဖွင့်ရသေးပါ</div>
+                <div id="paper-time-display">00:00 / 00:00</div>
+            </div>
+            <div class="paper-top-buttons">
+                <button id="paper-hide-btn" class="paper-top-btn" title="Hide">​◯</button>   
+                <button id="paper-minimize-btn" class="paper-top-btn" title="Minimize">―</button>
+                <button id="paper-close-btn" class="paper-top-btn" title="Close">×</button>
+            </div>
+        </div>
+
+        <div class="paper-audio-body" id="paper-audio-body">
+            <div class="paper-audio-controls">
+                <button id="paper-play-btn">⏸</button>
+                <button id="paper-repeat-btn">🔂</button>
+                <button id="paper-autonext-btn">🔁</button>
+                <button id="paper-prev-btn">◀️</button>
+                <button id="paper-next-btn">▶️</button>
+                <button id="paper-download-btn">⬇️</button>
+                <button id="paper-slower-btn">နှေး</button>
+                <div id="paper-speed-display">1x</div>
+                <button id="paper-faster-btn">မြန်</button>
+                
+                <div class="paper-volume-wrap">
+                    <span class="paper-volume-icon">🔊</span>
+                    <input type="range" id="paper-volume-slider" min="0" max="300" value="100">
+                    <div id="paper-volume-display">100%</div>
+                </div>
+                <button id="paper-voice-btn">🎙 စကားသံရှင်း</button>
+                <button id="paper-night-btn">🌙 ညနားထောင်</button>
+                
+                <div class="paper-sleep-timer">
+                    <div class="paper-sleep-title">😴 Sleep Timer</div>
+                    <div class="paper-sleep-controls">
+                        <input type="number" id="paper-sleep-input" min="1" max="480" placeholder="Time">
+                        <select id="paper-sleep-unit">
+                            <option value="minute">Minute</option>
+                            <option value="hour">Hour</option>
+                        </select>
+                    </div>
+                    <div class="paper-sleep-buttons">
+                        <button id="paper-sleep-start-btn">Start</button>
+                        <button id="paper-sleep-cancel-btn">Cancel</button>
+                    </div>
+                    <div id="paper-sleep-status">No Timer</div>
+                </div>
+            </div>
+            <input type="range" id="paper-seekbar" value="0" min="0" max="100">
+        </div>
+    </div>
+
+    <audio id="paper-audio"></audio>
+    <button id="paper-show-bar-btn" class="paper-show-bar-btn">​◯</button>     
+        
     <script src="darkmode.js"></script>
+    <script src="pati-audio.js"></script>
+    <script src="pati-text.js"></script>
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', async () => {
+                try {
+                    await navigator.serviceWorker.register('/service-worker.js');
+                    console.log('Service Worker Registered');
+                } catch (error) {
+                    console.error('Service Worker Failed:', error);
+                }
+            });
+        }
+    </script>
 </body>
 </html>
