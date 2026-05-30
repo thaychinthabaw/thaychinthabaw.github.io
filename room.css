@@ -1,7 +1,7 @@
 /* ၁။ Layout အခြေခံ (Sepia Theme) */
 body.sepia-mode {
     margin: 0;
-    font-family: 'Pyidaungsu', 'Gerd', sans-serif;
+    font-family: 'Pyidaungsu', sans-serif;
     overflow-x: hidden; 
     position: relative;
     width: 100%;
@@ -198,7 +198,7 @@ textarea {
     cursor: pointer;
 }
 
-/* Progress Bar */
+/* Progress Bar (ရာခိုင်နှုန်းပြစနစ်) */
 .progress-container {
     margin-top: 15px;
 }
@@ -241,6 +241,7 @@ textarea {
     border-bottom: 2px solid #443300;
     padding-bottom: 5px;
     color: #443300; 
+    border-radius: 6px;
 }
 
 .storage-indicator {
@@ -281,7 +282,7 @@ textarea {
 }
 
 .book-card-title {
-    color: #443300; 
+  color: #443300;
     font-weight: bold;
     margin: 0;
     font-size: 16px;
@@ -299,6 +300,7 @@ textarea {
     gap: 8px;
 }
 
+/* 📌 Pin/Save Button */
 .pin-book-btn {
     background: #f4ecd8;
     border: 1px solid #443300;
@@ -518,27 +520,27 @@ textarea {
     font-weight: bold;
 }
 
-/* ၇။ Content Formatting (မြန်မာစာလုံး ထပ်နေခြင်းများကို လုံးဝ Fix ရန် ပြင်ဆင်ချက်) */
+.toc-list li a.active-chapter {
+    color: #b38b00 !important; 
+    font-weight: bold !important;
+    border-left: 3px solid #443300;
+    padding-left: 10px;
+}
+
+/* ၇။ Content Formatting */
 .content-area { 
     padding: 20px; 
     line-height: 2.0; 
     font-size: 19px; 
-    white-space: pre-wrap; 
+    white-space: pre-line;
     width: 100%;
     box-sizing: border-box;
     overflow-wrap: break-word; 
-    word-break: break-word; 
-    font-family: 'Pyidaungsu', sans-serif;
-    /* အောက်ပါ Rule များသည် Browser မှ မြန်မာစာလုံးဆင့် (Ligatures) များကို မှန်မှန်ကန်ကန် ပုံဖော်ပေါင်းစပ်ပေးရန် အတင်းအကျပ် ညွှန်ကြားချက်ဖြစ်ပါသည် */
-    font-variant-ligatures: normal !important; 
-    font-feature-settings: "liga" on, "clig" on !important;
-    text-rendering: optimizeLegibility !important;
 }
 
 .raw-text p {
     margin-bottom: 1.5em; 
     display: block;
-    text-align: left;
 }
 
 .big-gap {
@@ -700,7 +702,38 @@ body.focus-mode .top-controls {
     border: none !important;
 }
 
-/* ၁၁။ Global Tap Highlight & Selection */
+
+/* ၁၀။ စာသားများနှင့် ခေါင်းစဉ်ငယ်များကို မုဒ်အလိုက် အညိုရောင်/အမဲရောင် သီးသန့်ပြောင်းလဲပေးသည့်စနစ် */
+
+/* (က) အလင်းမုဒ် (Light Mode) တွင် အမဲရောင်ပြောင်းရန် */
+body.light-mode .file-drop-zone,
+body.light-mode .bookshelf-header,
+body.light-mode .storage-indicator,
+body.light-mode .progress-text-group,
+body.light-mode .book-card-meta {
+    color: #000000 !important;
+}
+
+/* (ခ) စာဖတ်မုဒ် (Sepia Mode) တွင် အညိုရောင်ပြောင်းရန် */
+body.sepia-mode .file-drop-zone,
+body.sepia-mode .bookshelf-header,
+body.sepia-mode .storage-indicator,
+body.sepia-mode .progress-text-group,
+body.sepia-mode .book-card-meta {
+    color: #443300 !important;
+}
+
+/* (ဂ) ဒါ့ခ်မုဒ် (Dark Mode) တွင်ပါ စာဖတ်ရလွယ်ကူစေရန် အညိုရောင်ပြောင်းရန် */
+body.dark-mode .file-drop-zone,
+body.dark-mode .bookshelf-header,
+body.dark-mode .storage-indicator,
+body.dark-mode .progress-text-group,
+body.dark-mode .book-card-meta {
+    color: #443300 !important;
+}
+
+
+/* ၁၁။ Global Tap Highlight & Selection (မူလ Brand အရောင်အဝါအတိုင်း အပြည့်အဝ ထားရှိပါသည်) */
 * {
     -webkit-tap-highlight-color: rgba(255, 204, 0, 0.4) !important;
 }
