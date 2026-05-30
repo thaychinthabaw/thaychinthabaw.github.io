@@ -5,10 +5,31 @@
 let currentLineHeight = 2.0;
 let currentLetterSpacing = 0;
 let fontResizeObserver = null; 
-let currentBookId = null; // လက်ရှိ ဖတ်နေသော စာအုပ်၏ ID
+let currentBookId = null; 
 
 /* == STORAGE LIMIT (FIFO SYSTEM) == */
-const MAX_BOOKS = 5; // local မှာ သိမ်းဆည်းမည့် အများဆုံး စာအုပ်အရေအတွက်
+const MAX_BOOKS = 5; 
+
+/* == MYANMAR UNICODE EXTRACTION NORMALIZER == */
+function normalizeMyanmarText(text) {
+    if (!text) return "";
+    
+    // ၁။ pdf.js မှ ပါလာနိုင်သော မလိုအပ်သည့် စာလုံးကြား space များကို ရှင်းထုတ်ခြင်း
+    let clean = text.replace(/([က-အ])\s+([ါ-ှေံ်ြ-ှ])/g, '$1$2');
+    clean = clean.replace(/([ါ-ှေံ်ြ-ှ])\s+([်ျ-ှ])/g, '$1$2');
+    
+    // ၂။ Google Docs PDF များတွင် အဖြစ်များသော ဇောက်ထိုးဖြစ်နေသည့် သရ/အသတ် အစဉ်လိုက်များကို ပြုပြင်ခြင်း (ဥပမာ - င် နှင့် င်း)
+    clean = clean.replace(/်([ေုူံဝာါဥဉ်ညတနမလသဟဠက-အ])/g, '$1်');
+    clean = clean.replace(/့([း်])/g, '$1့');
+    
+    // ၃။ ကွဲအက်နေသော ဗျည်းဆင့်များကြားခံ Zero Width Joiner စနစ်အား စနစ်တကျ ပြန်လည်ထိန်းညှိခြင်း
+    clean = clean.replace(/\u200B/g, ''); 
+    
+    // ၄။ နှစ်ထပ်ဆင့် Space များကို ပုံမှန် Space တစ်ချက်အဖြစ် ပြောင်းလဲခြင်း
+    clean = clean.replace(/[ ]+/g, ' ');
+
+    return clean;
+}
 
 /* == SEMANTIC SYSTEM == */
 function buildSemanticParagraphs() {
@@ -16,7 +37,6 @@ function buildSemanticParagraphs() {
     let globalIndex = 1;
     containers.forEach((container) => {
         const rawText = container.textContent.trim();
-        // Line break အလိုက် စာပိုဒ်ခွဲခြင်း
         const paragraphs = rawText.split(/\n\s*\n/).filter(p => p.trim() !== '');
         container.innerHTML = '';
         paragraphs.forEach((text) => {
@@ -103,7 +123,6 @@ window.switchTab = function(type) {
     document.getElementById('pane-paste').classList.toggle('active', type === 'paste');
 };
 
-// ✍️ စာသားများ ကူးထည့်၍ ဖတ်ရှုခြင်းကို စီမံခြင်း
 window.processPastedText = function() {
     const textInput = document.getElementById('paste-text-input').value.trim();
     if (!textInput) { alert('ကျေးဇူးပြု၍ စာသားတစ်ခုခု ထည့်သွင်းပါဘုရား။'); return; }
@@ -116,6 +135,7 @@ window.processPastedText = function() {
         title: title,
         type: 'paste',
         content: textInput,
+        pinned: false,
         timestamp: Date.now()
     };
     
@@ -123,7 +143,6 @@ window.processPastedText = function() {
     openBook(bookData);
 };
 
-// 📄 PDF File ဖတ်ရှုခြင်းနှင့် Loading ရာခိုင်နှုန်းတွက်ချက်မှုစနစ်
 function handlePDFUpload(file) {
     if (!file || file.type !== "application/pdf") { alert("PDF ဖိုင်များသာ တင်သွင်းနိုင်ပါသည်ဘုရား။"); return; }
     
@@ -141,7 +160,6 @@ function handlePDFUpload(file) {
     reader.onload = function(e) {
         const typedarray = new Uint8Array(e.target.result);
         
-        // PDF.js Engine သို့ ဖိုင်ထည့်သွင်းခြင်း
         pdfjsLib.getDocument(typedarray).promise.then(async function(pdf) {
             let fullText = "";
             const totalPages = pdf.numPages;
@@ -149,12 +167,24 @@ function handlePDFUpload(file) {
             for (let i = 1; i <= totalPages; i++) {
                 const page = await pdf.getPage(i);
                 const textContent = await page.getTextContent();
-                const pageText = textContent.items.map(item => item.str).join(" ");
                 
-                // စာမျက်နှာအလိုက် ခွဲခြားမှတ်သားရန် Tag ထည့်သွင်းခြင်း
-                fullText += `\n\n[=== PAGE_${i} ===]\n\n` + pageText;
+                // စာကြောင်းလိုက် နေရာမှန်အောင် Layout Alignment အရင်စီခြင်း
+                let lastY = null;
+                let pageText = "";
                 
-                // ⏳ တွက်ချက်မှု ရာခိုင်နှုန်းအား Bar တွင် ပြသခြင်း
+                for (let item of textContent.items) {
+                    if (lastY !== null && item.transform[5] !== lastY) {
+                        pageText += "\n"; // စာကြောင်းအသစ်ဆင်းခြင်း
+                    }
+                    pageText += item.str;
+                    lastY = item.transform[5];
+                }
+                
+                // ယူနီကုဒ် စာလုံးဆင့်များအား ပုံမှန်ဖြစ်အောင် ရှင်းထုတ်ခြင်း
+                let normalizedPageText = normalizeMyanmarText(pageText);
+                
+                fullText += `\n\n[=== PAGE_${i} ===]\n\n` + normalizedPageText;
+                
                 let percent = Math.round((i / totalPages) * 100);
                 progressBarFill.style.width = percent + '%';
                 progressPercent.textContent = percent + '%';
@@ -170,6 +200,7 @@ function handlePDFUpload(file) {
                 type: 'pdf',
                 content: fullText,
                 totalPages: totalPages,
+                pinned: false,
                 timestamp: Date.now()
             };
             
@@ -185,16 +216,16 @@ function handlePDFUpload(file) {
     reader.readAsArrayBuffer(file);
 }
 
-/* == BOOKSHELF ENGINE (FIFO STORAGE SYSTEM) == */
+/* == BOOKSHELF ENGINE == */
 function saveBookToStorage(newBook) {
     let currentBooks = JSON.parse(localStorage.getItem('room_bookshelf') || '[]');
-    // ID တူညီပါက အဟောင်းကို ဖယ်ထုတ်ခြင်း
     currentBooks = currentBooks.filter(b => b.id !== newBook.id);
     
-    // FIFO စနစ် - စာအုပ်အရေအတွက် ပြည့်ပါက ရှေးအကျဆုံးစာအုပ်ကို ဖြုတ်ခြင်း
-    if (currentBooks.length >= MAX_BOOKS) {
-        const oldestBook = currentBooks.shift();
-        localStorage.removeItem(`readingPos_${oldestBook.id}`);
+    const unpinnedBooks = currentBooks.filter(b => !b.pinned);
+    if (currentBooks.length >= MAX_BOOKS && unpinnedBooks.length > 0) {
+        const oldestUnpinned = unpinnedBooks[0];
+        currentBooks = currentBooks.filter(b => b.id !== oldestUnpinned.id);
+        localStorage.removeItem(`readingPos_${oldestUnpinned.id}`);
     }
     
     currentBooks.push(newBook);
@@ -206,12 +237,22 @@ function saveBookToStorage(newBook) {
     renderBookshelf();
 }
 
+function togglePinBook(id, event) {
+    if (event) event.stopPropagation();
+    let currentBooks = JSON.parse(localStorage.getItem('room_bookshelf') || '[]');
+    currentBooks = currentBooks.map(b => {
+        if (b.id === id) { b.pinned = !b.pinned; }
+        return b;
+    });
+    localStorage.setItem('room_bookshelf', JSON.stringify(currentBooks));
+    renderBookshelf();
+}
+
 function renderBookshelf() {
     const shelfList = document.getElementById('bookshelf-list');
     const storageIndicator = document.getElementById('storage-indicator');
     const currentBooks = JSON.parse(localStorage.getItem('room_bookshelf') || '[]');
     
-    // သိုလှောင်မှု အချိုးအစား တွက်ချက်ခြင်း
     let usedSpace = JSON.stringify(localStorage).length;
     let spacePercent = Math.min(Math.round((usedSpace / (5 * 1024 * 1024)) * 100), 100);
     storageIndicator.textContent = `သိုလှောင်မှု: ${spacePercent}%`;
@@ -222,7 +263,6 @@ function renderBookshelf() {
     }
 
     shelfList.innerHTML = '';
-    // အသစ်တင်သောစာအုပ်ကို ထိပ်ဆုံးမှ ပြရန် Reverse ပတ်ခြင်း
     currentBooks.slice().reverse().forEach(book => {
         const card = document.createElement('div');
         card.className = 'book-card';
@@ -243,6 +283,15 @@ function renderBookshelf() {
         info.appendChild(title);
         info.appendChild(meta);
         
+        const actionsWrapper = document.createElement('div');
+        actionsWrapper.className = 'book-card-actions';
+
+        const pinBtn = document.createElement('button');
+        pinBtn.className = `pin-book-btn ${book.pinned ? 'active-pin' : ''}`;
+        pinBtn.innerHTML = '📌';
+        pinBtn.title = book.pinned ? 'အသေသိမ်းဆည်းမှုကို ပယ်ဖျက်ရန်' : 'စနစ်မှ အလိုအလျောက်မဖျက်စေရန် အသေသိမ်းဆည်းထားမည်';
+        pinBtn.onclick = (e) => togglePinBook(book.id, e);
+        
         const delBtn = document.createElement('button');
         delBtn.className = 'delete-book-btn';
         delBtn.textContent = '×';
@@ -251,8 +300,11 @@ function renderBookshelf() {
             deleteBook(book.id);
         };
         
+        actionsWrapper.appendChild(pinBtn);
+        actionsWrapper.appendChild(delBtn);
+        
         card.appendChild(info);
-        card.appendChild(delBtn);
+        card.appendChild(actionsWrapper);
         shelfList.appendChild(card);
     });
 }
@@ -292,7 +344,7 @@ window.closeCurrentBook = function() {
     document.getElementById('reading-content').style.display = 'none';
     document.getElementById('floating-controls').style.display = 'none';
     document.getElementById('close-book-btn').style.display = 'none';
-    toggleSetting(); // setting box ပိတ်ရန်
+    toggleSetting(); 
     renderBookshelf();
     window.scrollTo({ top: 0 });
 };
@@ -303,7 +355,6 @@ function generateDynamicTOC(book) {
     tocList.innerHTML = '';
     
     if (book.type === 'pdf') {
-        // PDF စာမျက်နှာများအလိုက် မာတိကာတည်ဆောက်ခြင်း
         const paragraphs = document.querySelectorAll('.raw-text p');
         let pageMarkerParagraphs = {};
         
@@ -333,9 +384,8 @@ function generateDynamicTOC(book) {
             tocList.appendChild(li);
         }
     } else {
-        // Paste လုပ်ထားသော စာသားဖြစ်ပါက စာပိုဒ်ရေအလိုက် ဖြတ်ခြင်း
         const paragraphs = document.querySelectorAll('.raw-text p');
-        let step = Math.max(1, Math.floor(paragraphs.length / 10)); // အများဆုံး အပိုင်း ၁၀ ပိုင်းခွဲခြင်း
+        let step = Math.max(1, Math.floor(paragraphs.length / 10)); 
         
         for (let i = 0; i < paragraphs.length; i += step) {
             const li = document.createElement('li');
@@ -353,7 +403,7 @@ function generateDynamicTOC(book) {
     }
 }
 
-/* == ORIGINAL INTERFACES & UTILITIES == */
+/* == INTERFACES & UTILITIES == */
 function toggleTOC() {
     const tocOverlay = document.getElementById('toc-overlay');
     if (!tocOverlay) return;
@@ -500,7 +550,6 @@ function init() {
         readingTimer = setTimeout(() => { saveReadingPosition(); }, 200);
     });
 
-    /* == UPLOAD LISTENERS == */
     const fileInput = document.getElementById('pdf-file-input');
     if (fileInput) {
         fileInput.addEventListener('change', (e) => {
@@ -508,7 +557,6 @@ function init() {
         });
     }
 
-    /* == ATTACH CLICKS TO CONFIG BUTTONS == */
     document.getElementById('font-increase').onclick = () => changeFontSize(1);
     document.getElementById('font-decrease').onclick = () => changeFontSize(-1);
     document.getElementById('size-plus-10').onclick = () => changeFontSize(10);
@@ -550,7 +598,6 @@ function init() {
     document.getElementById('weight-plus-1').onclick = () => changeWeight(1);
     document.getElementById('weight-minus-1').onclick = () => changeWeight(-1);
 
-    /* == TOC SEARCH == */
     const tocSearch = document.getElementById('toc-search');
     if (tocSearch) {
         tocSearch.addEventListener('input', () => {
@@ -561,7 +608,6 @@ function init() {
         });
     }
 
-    /* == EXPORT FUNCTIONS == */
     window.toggleTOC = toggleTOC;
     window.toggleSetting = toggleSetting;
     window.downloadPDF = downloadPDF;
