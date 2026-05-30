@@ -1,0 +1,374 @@
+/* ==
+PAPER AUDIO BAR
+== */
+.paper-audio-bar {
+position: fixed;
+
+/* fullscreen button ဘေး */
+top: 78px;
+left: 65px;
+width: 320px;
+background: #eadebc;
+border: 1px solid #443300;
+border-radius: 14px;
+padding: 12px;
+box-sizing: border-box;
+z-index: 9999;
+display: none;
+box-shadow:
+0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* ==
+MINIMIZED
+== */
+.paper-audio-bar.minimized
+.paper-audio-body {
+display: none;
+}
+
+/* ==
+TOP
+== */
+
+.paper-audio-top {
+display: flex;
+justify-content: space-between;
+align-items: center;
+gap: 10px;
+}
+
+.paper-audio-info {
+flex: 1;
+min-width: 0;
+}
+
+#paper-now-playing {
+font-size: 14px;
+font-weight: bold;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+color: #443300;
+}
+
+#paper-time-display {
+font-size: 12px;
+margin-top: 3px;
+color: #443300;
+}
+
+/* ==
+TOP BUTTONS
+== */
+.paper-top-buttons {
+display: flex;
+gap: 6px;
+}
+
+.paper-top-btn {
+width: 30px;
+height: 30px;
+border: none;
+border-radius: 8px;
+background: #f4ecd8;
+color: #443300;
+    border: 1px solid #443300;   
+font-size: 18px;
+cursor: pointer;
+}
+
+/* ==
+BODY
+== */
+.paper-audio-body {
+margin-top: 12px;
+}
+
+/*  SLEEP TIMER  */
+.paper-sleep-timer {
+    margin-top: 14px;
+    padding: 12px;
+    background: #f4ecd8;
+    border: 1px solid #443300;
+    border-radius: 10px;
+}
+
+.paper-sleep-title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #443300;
+    margin-bottom: 10px;
+}
+
+.paper-sleep-controls {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+#paper-sleep-input {
+    flex: 1;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #443300;
+    background: #fffdf8;
+    color: #443300;
+    font-size: 14px;
+    outline: none;
+}
+
+#paper-sleep-unit {
+    width: 100px;
+    border-radius: 8px;
+    border: 1px solid #443300;
+    background: #fffdf8;
+    color: #443300;
+    padding: 8px;
+    font-size: 14px;
+}
+
+.paper-sleep-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.paper-sleep-buttons button {
+    flex: 1;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #443300;
+    background: #eadebc;
+    color: #443300;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#paper-sleep-status {
+    margin-top: 10px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #443300;
+    text-align: center;
+}/*  SLEEP TIMERအဆုံး*/
+
+/* ==
+SCROLLABLE AUDIO CONTROLS
+== */
+.paper-audio-controls {
+    display: flex;
+    flex-wrap: wrap; /* အပေါ်အောက် ဆင်းစေ */
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+/* buttons */
+.paper-audio-controls button {
+    min-width: 78px;
+    padding: 10px 14px;
+    border: 1px solid #443300;
+    border-radius: 10px;
+    background: #f4ecd8;
+    color: #443300;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    flex: 1;
+}/* ==SCROLLABLE AUDIO CONTROLSအဆုံး== */
+
+.paper-audio-controls button {
+padding: 8px 12px;
+border: none;
+border-radius: 8px;
+background: #f4ecd8;
+color: #443300;
+ border: 1px solid #443300;   
+font-weight: bold;
+cursor: pointer;
+font-size: 13px;
+}
+
+#paper-play-btn {
+min-width: 50px;
+}
+
+#paper-speed-display {
+min-width: 50px;
+text-align: center;
+font-weight: bold;
+font-size: 15px;
+color: #443300;
+}
+
+/* ==
+SEEKBAR
+== */
+
+#paper-seekbar {
+width: 100%;
+cursor: pointer;
+}
+
+/* ==
+MOBILE
+== */
+
+@media (max-width: 600px) {
+.paper-audio-bar {
+width: calc(100vw - 90px);
+left: 65px;
+right: 15px;
+}}
+
+/* ==
+HIDDEN MODE
+== */
+
+.paper-audio-bar.hidden-bar {
+
+opacity: 0;
+pointer-events: none;
+transform: translateX(-20px);
+transition: 0.25s;
+}
+
+/* ==
+SHOW AUDIO BAR BUTTON
+== */
+
+.paper-show-bar-btn {
+position: fixed;
+top: 80px;
+
+/* fullscreen button ဘေး */
+left: 65px;
+width: 35px;
+height: 35px;
+border-radius: 50%;
+border: 1px solid #443300;
+background: rgba(234, 222, 188, 0.9);
+color: #443300;
+font-size: 18px;
+cursor: pointer;
+display: none;
+z-index: 9999;
+align-items: center;
+justify-content: center;
+}
+
+/* mobile */
+
+@media (max-width: 600px) {
+.paper-show-bar-btn {
+left: 65px;
+}
+}
+/* ==
+ACTIVE AUDIO MODE
+== */
+
+.paper-mode-active {
+background: #443300 !important;
+color: #f4ecd8 !important;
+}
+/*အသံ ဘားတန်းအတွက် ကုဒ် အဆုံး*/
+
+/* SPEAKER BUTTON 🔊 သီချင်းခလုပ်အတွက် */
+.speaker-btn {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 1px solid #443300;
+    background: #f4ecd8;
+    color: #443300;
+    font-size: 26px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-right: 10px;
+    vertical-align: middle;
+    box-shadow:
+    0 4px 10px rgba(0,0,0,0.15);
+    transition: 0.2s;
+}
+
+/* hover */
+
+.speaker-btn:hover {
+    transform: scale(1.05);
+}
+
+/* playing state */
+.speaker-btn:active {
+    transform: scale(0.96);
+
+}/* SPEAKER BUTTON 🔊 သီချင်းခလုပ်အတွက် */
+
+/* ==
+VOLUME BOOSTER
+== */
+
+.paper-volume-wrap {
+display: flex;
+align-items: center;
+gap: 8px;
+width: 100%;
+margin-top: 10px;
+}
+
+.paper-volume-icon {
+font-size: 18px;
+}
+
+#paper-volume-slider {
+flex: 1;
+cursor: pointer;
+}
+
+#paper-volume-display {
+min-width: 60px;
+text-align: center;
+font-weight: bold;
+color: #443300;
+font-size: 14px;
+}/*VOLUME BOOSTER အသံအတိုးအလျော့ အတွက်သုံးသည်*/
+
+/* ==
+VOICE / NIGHT MODE BUTTON
+== */
+
+#paper-voice-btn,
+#paper-night-btn {
+    background: #f4ecd8;
+    border: 1px solid #443300;
+    color: #443300;
+    padding: 8px 12px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+    box-shadow:
+    0 2px 6px rgba(0,0,0,0.08);}
+
+/* Hover Effect */
+#paper-voice-btn:hover,
+#paper-night-btn:hover {
+    background: #eadebc;
+    transform: translateY(-1px);}
+
+/* နှိပ်နေချိန် */
+#paper-voice-btn:active,
+#paper-night-btn:active {
+    transform: scale(0.97);}
+
+/* ACTIVE MODE */
+.paper-mode-active {
+    background: #443300 !important;
+    color: #f4ecd8 !important;
+    border-color: #443300 !important;
+}/* ==
+VOICE / NIGHT MODE BUTTON အဆုံး
+== */
