@@ -183,6 +183,7 @@
 
     <script src="darkmode.js"></script>
     <script>
+        // Service Worker Logic
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try { await navigator.serviceWorker.register('/service-worker.js'); console.log('Service Worker Registered'); } 
