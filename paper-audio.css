@@ -372,3 +372,50 @@ VOICE / NIGHT MODE BUTTON
 }/* ==
 VOICE / NIGHT MODE BUTTON အဆုံး
 == */
+
+
+/* ... (အပေါ်က မင်းရဲ့ မူရင်း CSS ကုဒ်ဟောင်းတွေ ပြီးဆုံးတဲ့နေရာ) ... */
+
+#paper-voice-btn:active,
+#paper-night-btn:active {
+    transform: scale(0.97);}
+
+.paper-mode-active {
+    background: #443300 !important;
+    color: #f4ecd8 !important;
+    border-color: #443300 !important;
+}
+
+
+/* 🚨 ဤနေရာတွင် (ဖိုင်ရဲ့ အောက်ဆုံးလိုင်းအလွတ်မှာ) အောက်ကကုဒ်ကို ကူးထည့်ပါ 🚨 */
+
+/* == ARCHIVE SPEAKER BUTTON == */
+.archive-speaker-btn {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 1px solid #443300;
+    background: #f4ecd8;
+    color: #443300;
+    font-size: 26px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    margin-right: 10px;
+    vertical-align: middle;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transition: 0.2s;
+}
+
+.archive-speaker-btn:hover {
+    transform: scale(1.05);
+}
+
+.archive-speaker-btn:active {
+    transform: scale(0.96);
+}/* == ARCHIVE SPEAKER BUTTONအဆုံး == */
+
+
+
