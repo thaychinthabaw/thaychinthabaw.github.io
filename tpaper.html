@@ -4512,392 +4512,244 @@
     </div>
 
     <div class="floating-left-group">
-        <a href="#" class="top-btn" title="အပေါ်ဆုံးသို့">⬆</a>
-        <button class="toc-toggle-btn" id="toc-toggle" onclick="toggleTOC()">☰</button>
-    </div>
+    <a href="#" class="top-btn" title="အပေါ်ဆုံးသို့">⬆</a>
+    <button class="toc-toggle-btn" id="toc-toggle" onclick="toggleTOC()">☰</button>
+</div>
 
-    <div id="setting-overlay" class="setting-overlay" onclick="toggleSetting()">
+<div id="setting-overlay" class="setting-overlay" onclick="toggleSetting()">
     <div class="setting-content" onclick="event.stopPropagation()">
-        
         <div class="setting-header">
             <h1 class="setting-title">ချိန်ညှိချက်များ</h1>
             <span class="setting-close-btn" onclick="toggleSetting()">×</span>
         </div>
-<div class="setting-body">
-            
+        <div class="setting-body">
             <button class="setting-menu-refresh" onclick="location.reload()">
-    <span class="nav-icon">⟳</span>
-    <span class="nav-text">အသစ်ဖြစ်အောင်လုပ်ရန်</span>
+                <span class="nav-icon">⟳</span>
+                <span class="nav-text">အသစ်ဖြစ်အောင်လုပ်ရန်</span>
             </button>
+            <button class="setting-item" onclick="downloadPDF()">📄 စာအုပ်အဖြစ်သိမ်းရန်</button>
 
-<button class="setting-item" onclick="downloadPDF()">📄 စာအုပ်အဖြစ်သိမ်းရန်   </button>
-
-<!-- Font Size -->
-<div class="setting-item-group">
-
-    <span class="setting-title2">
-        စာလုံးအရွယ်အစား
-    </span>
-
-    <div class="font-size-control">
-
-    <button id="font-decrease">
-        −
-    </button>
-
-    <span id="font-size-display">
-        25
-    </span>
-
-    <button id="font-increase">
-        +
-    </button>
-
+            <div class="setting-item-group">
+                <span class="setting-title2">စာလုံးအရွယ်အစား</span>
+                <div class="font-size-control">
+                    <button id="font-decrease">−</button>
+                    <span id="font-size-display">25</span>
+                    <button id="font-increase">+</button>
+                </div>
+                <div class="spinner-wrapper">
+                    <div class="spinner-box">
+                        <button id="size-plus-10">▲</button>
+                        <span id="size-tens">2</span>
+                        <button id="size-minus-10">▼</button>
+                    </div>
+                    <div class="spinner-box">
+                        <button id="size-plus-1">▲</button>
+                        <span id="size-ones">5</span>
+                        <button id="size-minus-1">▼</button>
+                    </div>
+                </div>
+            </div><div class="setting-item-group">
+                <span class="setting-title2">စာလုံးအထူ</span>
+                <div class="preset-group" id="weight-buttons">
+                    <button class="preset-btn" data-weight="300">အပါး</button>
+                    <button class="preset-btn active-preset" data-weight="500">အလတ်</button>
+                    <button class="preset-btn" data-weight="900">အထူ</button>
+                </div>
+                <div class="spinner-wrapper">
+                    <div class="spinner-box">
+                        <button id="weight-plus-100">▲</button>
+                        <span id="digit-hundreds">5</span>
+                        <button id="weight-minus-100">▼</button>
+                    </div>
+                    <div class="spinner-box">
+                        <button id="weight-plus-10">▲</button>
+                        <span id="digit-tens">0</span>
+                        <button id="weight-minus-10">▼</button>
+                    </div>
+                    <div class="spinner-box">
+                        <button id="weight-plus-1">▲</button>
+                        <span id="digit-ones">0</span>
+                        <button id="weight-minus-1">▼</button>
+                    </div>
+                </div>
+            </div> <div class="setting-item-group">
+                <span class="setting-title2">စာကြောင်းကြား အကွာအဝေး </span>
+                <div class="preset-group">
+                    <button class="preset-btn line-btn" data-value="1.7"> ကျဉ်း</button>
+                    <button class="preset-btn line-btn" data-value="2.0">အလတ် </button>
+                    <button class="preset-btn line-btn" data-value="2.5">ကျယ်</button>
+                </div>
+                <div class="adjust-group">
+                    <button onclick="adjustLineHeight(-0.1)">−</button>
+                    <span id="lh-display">2.0</span>
+                    <button onclick="adjustLineHeight(0.1)">+</button>
+                </div>
+            </div><div class="setting-item-group">
+                <span class="setting-title2">စာလုံးကြား အကွာအဝေး</span>
+                <div class="preset-group">
+                    <button class="preset-btn letter-btn" data-value="0">ကျဉ်း </button>
+                    <button class="preset-btn letter-btn" data-value="1"> အလတ် </button>
+                    <button class="preset-btn letter-btn" data-value="2">ကျယ်</button>
+                </div>
+                <div class="adjust-group">
+                    <button onclick="adjustLetterSpacing(-0.5)"> − </button>
+                    <span id="ls-display">0</span>
+                    <button onclick="adjustLetterSpacing(0.5)">+</button>
+                </div>
+            </div></div> 
+    </div>
 </div>
-
-<div class="spinner-wrapper">
-
-    <div class="spinner-box">
-
-        <button id="size-plus-10">
-            ▲
-        </button>
-
-        <span id="size-tens">
-            2
-        </span>
-
-        <button id="size-minus-10">
-            ▼
-        </button>
-
-    </div>
-
-    <div class="spinner-box">
-
-        <button id="size-plus-1">
-            ▲
-        </button>
-
-        <span id="size-ones">
-            5
-        </span>
-
-        <button id="size-minus-1">
-            ▼
-        </button>
-
-    </div>
-
-</div>
-    </div><!-- Font Size အဆုံး-->
-        
-        <!-- Font Weight -->
-<div class="setting-item-group">
-
-    <span class="setting-title2">
-        စာလုံးအထူ
-    </span>
-
-    <div class="preset-group" id="weight-buttons">
-
-        <button
-            class="preset-btn"
-            data-weight="300">
-            အပါး
-        </button>
-
-        <button
-            class="preset-btn active-preset"
-            data-weight="500">
-            အလတ်
-        </button>
-
-        <button
-            class="preset-btn"
-            data-weight="900">
-            အထူ
-        </button>
-    </div>
-
-    <div class="spinner-wrapper">
-        <div class="spinner-box">
-    <button id="weight-plus-100">▲</button>
-  <span id="digit-hundreds">5</span>
-  <button id="weight-minus-100">▼</button>
-</div>
-   <div class="spinner-box">
-<button id="weight-plus-10">▲</button>
-<span id="digit-tens">0</span>
-<button id="weight-minus-10">▼</button>
-</div>
-   <div class="spinner-box">
-<button id="weight-plus-1">▲</button>
-<span id="digit-ones">0</span>
-<button id="weight-minus-1">▼</button>
- </div></div></div> <!-- Font Weight အဆုံး-->
-
-                    <!-- စာကြောင်းကြား -->
-<div class="setting-item-group">
-    <span class="setting-title2">စာကြောင်းကြား အကွာအဝေး </span>
-    <div class="preset-group">
-        <button class="preset-btn line-btn"
-            data-value="1.7"> ကျဉ်း</button>
-        <button class="preset-btn line-btn"
-            data-value="2.0">အလတ် </button>
-        <button class="preset-btn line-btn"
-   data-value="2.5">ကျယ်</button>
-    </div>
-    <div class="adjust-group">
-        <button onclick="adjustLineHeight(-0.1)">− </button>
-        <span id="lh-display">2.0</span>
-        <button onclick="adjustLineHeight(0.1)">+</button>
-    </div></div><!-- စာကြောင်းကြား အဆုံး-->
-
-<!-- စာလုံးကြား -->
-<div class="setting-item-group">
-    <span class="setting-title2">စာလုံးကြား အကွာအဝေး</span>
-
-    <div class="preset-group">
-        <button class="preset-btn letter-btn"
- data-value="0">ကျဉ်း </button>
-        <button class="preset-btn letter-btn"
-data-value="1"> အလတ် </button>
-<button class="preset-btn letter-btn" data-value="2">ကျယ်</button>
-    </div>
-
-    <div class="adjust-group">
-        <button onclick="adjustLetterSpacing(-0.5)"> − </button>
-        <span id="ls-display">0</span>
-        <button onclick="adjustLetterSpacing(0.5)">+</button>
-    </div></div><!-- စာလုံးကြား အဆုံး-->
-
-<!-- setting ခလုပ်အတွက် အဓိက အပိတ်များ-->
-</div> </div></div>
-    <!-- setting ခလုပ်အတွက် အဓိက အပိတ်များ-->
-    
-    <div id="toc-overlay" class="toc-overlay" onclick="toggleTOC()" style="display: none;">
+<div id="toc-overlay" class="toc-overlay" onclick="toggleTOC()" style="display: none;">
     <div class="toc-content" onclick="event.stopPropagation()">
         <h1 style="color:#443300;">မာတိကာ</h1>
-           <!-- Search Bar -->
-    <input type="text" id="toc-search"
-        placeholder="ခေါင်းစဉ် ရှာရန်...">
+        <input type="text" id="toc-search" placeholder="ခေါင်းစဉ် ရှာရန်...">
         <span class="close-btn" onclick="toggleTOC()">×</span>
         
-            <ul class="toc-list" id="toc-list">
-                             
-<li><a href="#title1" class="main-title" onclick="toggleTOC()">သေခြင်းသဘော စာမူ</a></li>
- <li><a href="#title2" class="main-title" onclick="toggleTOC()">ဝိပဿနာအခြေခံ ☸️</a></li>               
+        <ul class="toc-list" id="toc-list">
+            <li><a href="#title1" class="main-title" onclick="toggleTOC()">သေခြင်းသဘော စာမူ</a></li>
+            <li><a href="#title2" class="main-title" onclick="toggleTOC()">ဝိပဿနာအခြေခံ ☸️</a></li>               
+            <li><a href="#chapter1" class="main-title" onclick="toggleTOC()">နိဒါန်း</a></li>
+            <li><a href="#chapter2" class="main-title" onclick="toggleTOC()">၁။ ဗာဟိယသုတ်အရရှုမှတ်နည်း အကျဉ်းပြခြင်း </a></li>
+            <li><a href="#chapter3" class="main-title" onclick="toggleTOC()">၂။ ရှုမှတ်မှုလုပ်ငန်းစဉ် အကျဉ်းပြခြင်း </a></li>
+            <li><a href="#chapter4" class="main-title" onclick="toggleTOC()"> ၃။ စတုက္ကနိပါတ်၊ အပရိဟာနိယသုတ်အရ ကျင့်ကြံအားထုတ်ခြင်း</a></li>
+            <li><a href="#chapter4.1" class="title" onclick="toggleTOC()">အပရိဟာနိယသုတ်</a></li>
+            <li><a href="#notes1" class="sub-title" onclick="toggleTOC()">သိမှတ်ဖွယ်ရာများ “စတုက္ကနိပါတ်၊ အပရိဟာနိယသုတ်အရ ကျင့်ကြံအားထုတ်ခြင်း” </a></li> 
+            <li><a href="#chapter5" class="main-title" onclick="toggleTOC()">၄။ ဗာဟိယသုတ်အရ ရှုမှတ်နည်း အကျယ်ပြခြင်း</a></li>
+            <li><a href="#chapter5.1" class="sub-title" onclick="toggleTOC()">နံပါတ်(၁) အသက်ရှူသွင်းပါ။</a></li>
+            <li><a href="#chapter5.2" class="sub-title" onclick="toggleTOC()">နံပါတ်(၂) အသက်ရှူထုတ်ပါ။</a></li>
+            <li><a href="#chapter5.3" class="sub-title" onclick="toggleTOC()">နံပါတ်(၃) အသက်ရှူသွင်း‌ပြီးရင် ကြည့်ရမဲ့နေရာကို စိတ်နဲ့ကြည့်ပါ။</a></li>
+            <li><a href="#chapter5.4" class="sub-title" onclick="toggleTOC()">နံပါတ်(၄) စိတ်နဲ့ကြည့်စဉ်က ထင်ရှားခဲ့တဲ့ စိတ်နဲ့ဆိုင်တဲ့ စကားလုံးကို စိတ်နဲ့ရွတ်ပါ။</a></li>
+            <li><a href="#chapter5.4.1" class="title" onclick="toggleTOC()">ဗာဟိယသုတ်</a></li>
+            <li><a href="#chapter5.4.2" class="title" onclick="toggleTOC()">ပဌမ သညာသုတ်</a></li>
+            <li><a href="#chapter5.4.3" class="title" onclick="toggleTOC()">မနသိကာရသုတ်</a></li>
+            <li><a href="#chapter5.5" class="sub-title" onclick="toggleTOC()">နံပါတ်(၅) စိတ်နဲ့ရွတ်လိုက်တဲ့စကားလုံးက စိတ်ထဲမှာ ဖြစ်လာပြီး ပျက်သွားတာကို စိတ်နဲ့ကြည့်ပါ။</a></li>
+            <li><a href="#chapter5.5.1" class="title" onclick="toggleTOC()">ဥဒယဗ္ဗယဉာဏ် အကျယ်ပြခြင်း</a></li>
+            <li><a href="#chapter5.7" class="sub-title" onclick="toggleTOC()">နံပါတ်(၇) အသက်ရှူသွင်းပြီး အနားယူပါ။</a></li>
+            <li><a href="#chapter5.8" class="sub-title" onclick="toggleTOC()">နံပါတ်(၈) အသက်ရှူထုတ်ပြီး အနားယူပါ။</a></li>
+            <li><a href="#chapter5.9" class="sub-title" onclick="toggleTOC()">နံပါတ်(၉) အသက်ရှူသွင်းပါ။ </a></li>               
+            <li><a href="#chapter5.10" class="sub-title" onclick="toggleTOC()">နံပါတ်(၁၀) အသက်ရှူထုတ်ပါ။</a></li>              
+            <li><a href="#chapter5.11" class="sub-title" onclick="toggleTOC()">နံပါတ်(၁၁) အသက်ရှူထုတ်ပြီးလျှင် ပျက်သွားတဲ့စကားလုံးကို ပြန်ဖြစ်လာနိုင်သေးလား ဆိုတဲ့ အမေးနဲ့ဆင်ခြင်ပါ။ </a></li>               
+            <li><a href="#chapter5.12" class="sub-title" onclick="toggleTOC()">နံပါတ်(၁၂) လုံးဝပြန်မဖြစ်လာနိုင်တော့ဘူး ဆိုတဲ့ အဖြေရလာပါလိမ့်မယ်။ </a></li>
+            <li><a href="#chapter5.14" class="sub-title" onclick="toggleTOC()">နံပါတ်(၁၄) အသက်ရှူထုတ်ပြီး အနားယူပါ။</a></li>
+            <li><a href="#chapter5.15" class="sub-title" onclick="toggleTOC()">နံပါတ်(၁၅) အသက်ရှူသွင်းပါ။</a></li>
+            <li><a href="#chapter5.16" class="sub-title" onclick="toggleTOC()">နံပါတ်(၁၆) အသက်ရှူထုတ်ပါ။</a></li>
+            <li><a href="#chapter5.17" class="sub-title" onclick="toggleTOC()">နံပါတ်(၁၇) အသက်ရှူထုတ်ပြီးလျှင် ပျက်သွားတဲ့စကားလုံးရဲ့ မမြဲခြင်းအနိစ္စသဘောကို ရည်ရွယ်ပြီး “သေ” ဆိုတဲ့ စကားလုံးကို စိတ်နဲ့ရွတ်ပါ။</a></li>
+            <li><a href="#chapter5.17.1" class="title" onclick="toggleTOC()">ဝိပဿနာ ကထာ</a></li>
+            <li><a href="#chapter5.17.2" class="title" onclick="toggleTOC()">ဘင်္ဂါနုပဿနာဉာဏ် အကျယ်ပြခြင်း</a></li>                
+            <li><a href="#chapter5.17.3" class="title" onclick="toggleTOC()">ပဌမ ပုဗ္ဗေသမ္ဗောဓသုတ်</a></li>                        
+            <li><a href="#chapter5.18" class="sub-title" onclick="toggleTOC()">နံပါတ်(၁၈) အသက်ရှူသွင်းပြီး အနားယူပါ။</a></li>   
+            <li><a href="#chapter5.19" class="sub-title" onclick="toggleTOC()">နံပါတ်(၁၉) အသက်ရှူထုတ်ပြီး အနားယူပါ။ </a></li>
+            <li><a href="#notes2" class="sub-title" onclick="toggleTOC()">သိမှတ်ဖွယ်ရာများ “ဗာဟိယသုတ်အရ ရှုမှတ်နည်း အကျယ်ပြခြင်း”</a></li>
+            <li><a href="#chapter6" class="main-title" onclick="toggleTOC()"> ၅။ ရှုမှတ်မှုလုပ်ငန်းစဉ် အကျယ်ပြခြင်း</a></li>
+            <li><a href="#chapter6.1" class="sub-title" onclick="toggleTOC()">ရှုမှတ်မှုလုပ်ငန်းစဉ်(၁) </a></li>             
+            <li><a href="#chapter6.2" class="sub-title" onclick="toggleTOC()">ရှုမှတ်မှုလုပ်ငန်းစဉ်(၂) </a></li>                
+            <li><a href="#chapter6.3" class="sub-title" onclick="toggleTOC()">ရှုမှတ်မှုလုပ်ငန်းစဉ်(၃) </a></li>    
+            <li><a href="#notes3" class="sub-title" onclick="toggleTOC()">သိမှတ်ဖွယ်ရာများ “ရှုမှတ်မှုလုပ်ငန်းစဉ် အကျယ်ပြခြင်း”</a></li>
+            <li><a href="#chapter7" class="main-title" onclick="toggleTOC()"> ၆။ သစ္စာ(၄)ပါး</a></li>
+            <li><a href="#chapter7.0.1" class="title" onclick="toggleTOC()">ဒုက္ခ အရိယသစ္စာ</a></li>
+            <li><a href="#chapter7.0.2" class="title" onclick="toggleTOC()">ဒုက္ခသမုဒယ အရိယသစ္စာ</a></li>
+            <li><a href="#chapter7.0.3" class="title" onclick="toggleTOC()">ဒုက္ခနိရောဓ အရိယသစ္စာ</a></li>
+            <li><a href="#chapter7.0.4" class="title" onclick="toggleTOC()">ဒုက္ခနိရောဓဂါမိနီပဋိပဒါ အရိယသစ္စာ</a></li>
+            <li><a href="#notes4" class="sub-title" onclick="toggleTOC()">သိမှတ်ဖွယ်ရာများ “သစ္စာ(၄)ပါး”</a></li>  
+            <li><a href="#chapter8" class="main-title" onclick="toggleTOC()">၇။ ပဋိသမ္ဘိဒါမဂ်ကျမ်းမှ သုတ္တန်များ</a></li>
+            <li><a href="#chapter8.0.1" class="title" onclick="toggleTOC()">၁-သုတမယဉာဏ် အကျယ်ပြခြင်း</a></li>
+            <li><a href="#chapter8.0.2" class="title" onclick="toggleTOC()">ဒုတိယအခန်း</a></li>
+            <li><a href="#chapter8.0.3" class="title" onclick="toggleTOC()">တတိယအခန်း</a></li>
+            <li><a href="#chapter8.0.4" class="title" onclick="toggleTOC()">စတုတ္ထအခန်း</a></li>             
+            <li><a href="#chapter8.0.5" class="title" onclick="toggleTOC()">၂-သီလမယဉာဏ် အကျယ်ပြခြင်း</a></li>
+            <li><a href="#chapter8.0.6" class="title" onclick="toggleTOC()">၃-သမာဓိဘာဝနာမယဉာဏ် အကျယ်ပြခြင်း</a></li>
+            <li><a href="#chapter8.0.7" class="title" onclick="toggleTOC()">၄-ဓမ္မဋ္ဌိတိဉာဏ် အကျယ်ပြခြင်း</a></li>
+            <li><a href="#chapter8.0.8" class="title" onclick="toggleTOC()">၅-သမ္မသနဉာဏ် အကျယ်ပြခြင်း</a></li>
+            <li><a href="#chapter8.0.9" class="title" onclick="toggleTOC()">၆-ဥဒယဗ္ဗယဉာဏ် အကျယ်ပြခြင်း</a></li>
+            <li><a href="#chapter8.0.10" class="title" onclick="toggleTOC()">၇-ဘင်္ဂါနုပဿနာဉာဏ် အကျယ်ပြခြင်း</a></li>
+            <li><a href="#chapter8.0.11" class="title" onclick="toggleTOC()">၈-အာဒီနဝဉာဏ် အကျယ်ပြခြင်း</a></li>
+            <li><a href="#chapter8.0.12" class="title" onclick="toggleTOC()">၉-သင်္ခါရုပေက္ခာဉာဏ် အကျယ်ပြခြင်း</a></li>             
+            <li><a href="#chapter8.0.13" class="title" onclick="toggleTOC()">၁၀-ဂေါတြဘူဉာဏ် အကျယ်ပြခြင်း</a></li>
+            <li><a href="#chapter8.0.14" class="title" onclick="toggleTOC()">၁၁-မဂ်ဉာဏ် အကျယ်ပြခြင်း</a></li>
+            <li><a href="#chapter8.0.15" class="title" onclick="toggleTOC()">၁၂-ဖိုလ်ဉာဏ် အကျယ်ပြခြင်း</a></li>
+            <li><a href="#chapter8.0.16" class="title" onclick="toggleTOC()">၁၃-ဝိမုတ္တိဉာဏ် အကျယ်ပြခြင်း</a></li>
+            <li><a href="#chapter8.0.17" class="title" onclick="toggleTOC()">၁၄-ပစ္စဝေက္ခဏာဉာဏ် အကျယ်ပြခြင်း</a></li>
+            <li><a href="#chapter8.0.18" class="title" onclick="toggleTOC()">၁၅-ဝတ္ထုနာနတ္တဉာဏ် အကျယ်ပြခြင်း</a></li>                 
+            <li><a href="#chapter8.0.19" class="title" onclick="toggleTOC()">၁၆-ဂေါစရနာနတ္တဉာဏ် အကျယ်ပြခြင်း</a></li>
+            <li><a href="#chapter8.0.20" class="title" onclick="toggleTOC()">၁၇-စရိယာနာနတ္တဉာဏ် အကျယ်ပြခြင်း</a></li> 
+            <li><a href="#chapter8.0.21" class="title" onclick="toggleTOC()">သတိပဋ္ဌာနကထာ</a></li> 
+            <li><a href="#notes5" class="sub-title" onclick="toggleTOC()">သိမှတ်ဖွယ်ရာများ “ပဋိသမ္ဘိဒါမဂ်ကျမ်းမှ သုတ္တန်များ”</a></li>    
+            <li><a href="#chapter9" class="main-title" onclick="toggleTOC()">ကျမ်းကိုး</a></li>          
+            <li><a href="#chapter5.13" class="main-title" onclick="toggleTOC()">ကျမ်းကိုး</a></li>          
+        </ul>
 
-                <li><a href="#chapter1" class="main-title" onclick="toggleTOC()">နိဒါန်း</a></li>
- <li><a href="#chapter2" class="main-title" onclick="toggleTOC()">၁။ ဗာဟိယသုတ်အရရှုမှတ်နည်း အကျဉ်းပြခြင်း </a></li>
-                <li><a href="#chapter3" class="main-title" onclick="toggleTOC()">၂။ ရှုမှတ်မှုလုပ်ငန်းစဉ် အကျဉ်းပြခြင်း </a></li>
-           <li><a href="#chapter4" class="main-title" onclick="toggleTOC()"> ၃။ စတုက္ကနိပါတ်၊ အပရိဟာနိယသုတ်အရ ကျင့်ကြံအားထုတ်ခြင်း</a></li>
-                <li><a href="#chapter4.1" class="title" onclick="toggleTOC()">အပရိဟာနိယသုတ်</a></li>
-                <li><a href="#notes1" class="sub-title" onclick="toggleTOC()">သိမှတ်ဖွယ်ရာများ “စတုက္ကနိပါတ်၊ အပရိဟာနိယသုတ်အရ ကျင့်ကြံအားထုတ်ခြင်း” </a></li> 
-<li><a href="#chapter5" class="main-title" onclick="toggleTOC()">၄။ ဗာဟိယသုတ်အရ ရှုမှတ်နည်း အကျယ်ပြခြင်း</a></li>
-<li><a href="#chapter5.1" class="sub-title" onclick="toggleTOC()">နံပါတ်(၁) အသက်ရှူသွင်းပါ။</a></li>
-<li><a href="#chapter5.2" class="sub-title" onclick="toggleTOC()">နံပါတ်(၂) အသက်ရှူထုတ်ပါ။</a></li>
-<li><a href="#chapter5.3" class="sub-title" onclick="toggleTOC()">နံပါတ်(၃) အသက်ရှူသွင်း‌ပြီးရင် ကြည့်ရမဲ့နေရာကို စိတ်နဲ့ကြည့်ပါ။</a></li>
-<li><a href="#chapter5.4" class="sub-title" onclick="toggleTOC()">နံပါတ်(၄) စိတ်နဲ့ကြည့်စဉ်က ထင်ရှားခဲ့တဲ့ စိတ်နဲ့ဆိုင်တဲ့ စကားလုံးကို စိတ်နဲ့ရွတ်ပါ။</a></li>
-<li><a href="#chapter5.4.1" class="title" onclick="toggleTOC()">ဗာဟိယသုတ်</a></li>
-<li><a href="#chapter5.4.2" class="title" onclick="toggleTOC()">ပဌမ သညာသုတ်</a></li>
-<li><a href="#chapter5.4.3" class="title" onclick="toggleTOC()">မနသိကာရသုတ်</a></li>
-<li><a href="#chapter5.5" class="sub-title" onclick="toggleTOC()">နံပါတ်(၅) စိတ်နဲ့ရွတ်လိုက်တဲ့စကားလုံးက စိတ်ထဲမှာ ဖြစ်လာပြီး ပျက်သွားတာကို စိတ်နဲ့ကြည့်ပါ။</a></li>
-<li><a href="#chapter5.5.1" class="title" onclick="toggleTOC()">ဥဒယဗ္ဗယဉာဏ် အကျယ်ပြခြင်း</a></li>
-<li><a href="#chapter5.7" class="sub-title" onclick="toggleTOC()">နံပါတ်(၇) အသက်ရှူသွင်းပြီး အနားယူပါ။</a></li>
-<li><a href="#chapter5.8" class="sub-title" onclick="toggleTOC()">နံပါတ်(၈) အသက်ရှူထုတ်ပြီး အနားယူပါ။</a></li>
-<li><a href="#chapter5.9" class="sub-title" onclick="toggleTOC()">နံပါတ်(၉) အသက်ရှူသွင်းပါ။ </a></li>               
-<li><a href="#chapter5.10" class="sub-title" onclick="toggleTOC()">နံပါတ်(၁၀) အသက်ရှူထုတ်ပါ။</a></li>              
-<li><a href="#chapter5.11" class="sub-title" onclick="toggleTOC()">နံပါတ်(၁၁) အသက်ရှူထုတ်ပြီးလျှင် ပျက်သွားတဲ့စကားလုံးကို ပြန်ဖြစ်လာနိုင်သေးလား ဆိုတဲ့ အမေးနဲ့ဆင်ခြင်ပါ။ </a></li>               
-<li><a href="#chapter5.12" class="sub-title" onclick="toggleTOC()">နံပါတ်(၁၂) လုံးဝပြန်မဖြစ်လာနိုင်တော့ဘူး ဆိုတဲ့ အဖြေရလာပါလိမ့်မယ်။ </a></li>
-
-                <!-- <li><a href="#chapter5.13" class="sub-title" onclick="toggleTOC()">နံပါတ်(၁၃) အသက်ရှူသွင်းပြီး အနားယူပါ။ </a></li>
--->
-                <li><a href="#chapter5.14" class="sub-title" onclick="toggleTOC()">နံပါတ်(၁၄) အသက်ရှူထုတ်ပြီး အနားယူပါ။</a></li>
-<li><a href="#chapter5.15" class="sub-title" onclick="toggleTOC()">နံပါတ်(၁၅) အသက်ရှူသွင်းပါ။</a></li>
-<li><a href="#chapter5.16" class="sub-title" onclick="toggleTOC()">နံပါတ်(၁၆) အသက်ရှူထုတ်ပါ။</a></li>
-<li><a href="#chapter5.17" class="sub-title" onclick="toggleTOC()">နံပါတ်(၁၇) အသက်ရှူထုတ်ပြီးလျှင် ပျက်သွားတဲ့စကားလုံးရဲ့ မမြဲခြင်းအနိစ္စသဘောကို ရည်ရွယ်ပြီး “သေ” ဆိုတဲ့ စကားလုံးကို စိတ်နဲ့ရွတ်ပါ။
-<li><a href="#chapter5.17.1" class="title" onclick="toggleTOC()">ဝိပဿနာ ကထာ</a></li>
-<li><a href="#chapter5.17.2" class="title" onclick="toggleTOC()">ဘင်္ဂါနုပဿနာဉာဏ် အကျယ်ပြခြင်း</a></li>                
-<li><a href="#chapter5.17.3" class="title" onclick="toggleTOC()">ပဌမ ပုဗ္ဗေသမ္ဗောဓသုတ်</a></li>                        
-<li><a href="#chapter5.18" class="sub-title" onclick="toggleTOC()">နံပါတ်(၁၈) အသက်ရှူသွင်းပြီး အနားယူပါ။</a></li>   
-<li><a href="#chapter5.19" class="sub-title" onclick="toggleTOC()">နံပါတ်(၁၉) အသက်ရှူထုတ်ပြီး အနားယူပါ။ </a></li>
-    <li><a href="#notes2" class="sub-title" onclick="toggleTOC()">သိမှတ်ဖွယ်ရာများ “ဗာဟိယသုတ်အရ ရှုမှတ်နည်း အကျယ်ပြခြင်း”</a></li>
- 
-<li><a href="#chapter6" class="main-title" onclick="toggleTOC()"> ၅။ ရှုမှတ်မှုလုပ်ငန်းစဉ် အကျယ်ပြခြင်း</a></li>
-<li><a href="#chapter6.1" class="sub-title" onclick="toggleTOC()">ရှုမှတ်မှုလုပ်ငန်းစဉ်(၁) </a></li>             
-<li><a href="#chapter6.2" class="sub-title" onclick="toggleTOC()">ရှုမှတ်မှုလုပ်ငန်းစဉ်(၂) </a></li>                
-<li><a href="#chapter6.3" class="sub-title" onclick="toggleTOC()">ရှုမှတ်မှုလုပ်ငန်းစဉ်(၃) </a></li>    
-    <li><a href="#notes3" class="sub-title" onclick="toggleTOC()">သိမှတ်ဖွယ်ရာများ “ရှုမှတ်မှုလုပ်ငန်းစဉ် အကျယ်ပြခြင်း”</a></li>
-<li><a href="#chapter7" class="main-title" onclick="toggleTOC()"> ၆။ သစ္စာ(၄)ပါး</a></li>
-<li><a href="#chapter7.0.1" class="title" onclick="toggleTOC()">ဒုက္ခ အရိယသစ္စာ</a></li>
-<li><a href="#chapter7.0.2" class="title" onclick="toggleTOC()">ဒုက္ခသမုဒယ အရိယသစ္စာ</a></li>
-<li><a href="#chapter7.0.3" class="title" onclick="toggleTOC()">ဒုက္ခနိရောဓ အရိယသစ္စာ</a></li>
-<li><a href="#chapter7.0.4" class="title" onclick="toggleTOC()">ဒုက္ခနိရောဓဂါမိနီပဋိပဒါ အရိယသစ္စာ</a></li>
-<li><a href="#notes4" class="sub-title" onclick="toggleTOC()">သိမှတ်ဖွယ်ရာများ “သစ္စာ(၄)ပါး”</a></li>  
-<li><a href="#chapter8" class="main-title" onclick="toggleTOC()">၇။ ပဋိသမ္ဘိဒါမဂ်ကျမ်းမှ သုတ္တန်များ</a></li>
-<li><a href="#chapter8.0.1" class="title" onclick="toggleTOC()">၁-သုတမယဉာဏ် အကျယ်ပြခြင်း</a></li>
-<li><a href="#chapter8.0.2" class="title" onclick="toggleTOC()">ဒုတိယအခန်း</a></li>
-<li><a href="#chapter8.0.3" class="title" onclick="toggleTOC()">တတိယအခန်း</a></li>
-<li><a href="#chapter8.0.4" class="title" onclick="toggleTOC()">စတုတ္ထအခန်း</a></li>             
-<li><a href="#chapter8.0.5" class="title" onclick="toggleTOC()">၂-သီလမယဉာဏ် အကျယ်ပြခြင်း</a></li>
-<li><a href="#chapter8.0.6" class="title" onclick="toggleTOC()">၃-သမာဓိဘာဝနာမယဉာဏ် အကျယ်ပြခြင်း</a></li>
-<li><a href="#chapter8.0.7" class="title" onclick="toggleTOC()">၄-ဓမ္မဋ္ဌိတိဉာဏ် အကျယ်ပြခြင်း</a></li>
-<li><a href="#chapter8.0.8" class="title" onclick="toggleTOC()">၅-သမ္မသနဉာဏ် အကျယ်ပြခြင်း</a></li>
-<li><a href="#chapter8.0.9" class="title" onclick="toggleTOC()">၆-ဥဒယဗ္ဗယဉာဏ် အကျယ်ပြခြင်း</a></li>
-<li><a href="#chapter8.0.10" class="title" onclick="toggleTOC()">၇-ဘင်္ဂါနုပဿနာဉာဏ် အကျယ်ပြခြင်း</a></li>
-<li><a href="#chapter8.0.11" class="title" onclick="toggleTOC()">၈-အာဒီနဝဉာဏ် အကျယ်ပြခြင်း</a></li>
-<li><a href="#chapter8.0.12" class="title" onclick="toggleTOC()">၉-သင်္ခါရုပေက္ခာဉာဏ် အကျယ်ပြခြင်း</a></li>             
-<li><a href="#chapter8.0.13" class="title" onclick="toggleTOC()">၁၀-ဂေါတြဘူဉာဏ် အကျယ်ပြခြင်း</a></li>
-<li><a href="#chapter8.0.14" class="title" onclick="toggleTOC()">၁၁-မဂ်ဉာဏ် အကျယ်ပြခြင်း</a></li>
-<li><a href="#chapter8.0.15" class="title" onclick="toggleTOC()">၁၂-ဖိုလ်ဉာဏ် အကျယ်ပြခြင်း</a></li>
-<li><a href="#chapter8.0.16" class="title" onclick="toggleTOC()">၁၃-ဝိမုတ္တိဉာဏ် အကျယ်ပြခြင်း</a></li>
-<li><a href="#chapter8.0.17" class="title" onclick="toggleTOC()">၁၄-ပစ္စဝေက္ခဏာဉာဏ် အကျယ်ပြခြင်း</a></li>
-<li><a href="#chapter8.0.18" class="title" onclick="toggleTOC()">၁၅-ဝတ္ထုနာနတ္တဉာဏ် အကျယ်ပြခြင်း</a></li>                 
-<li><a href="#chapter8.0.19" class="title" onclick="toggleTOC()">၁၆-ဂေါစရနာနတ္တဉာဏ် အကျယ်ပြခြင်း</a></li>
-<li><a href="#chapter8.0.20" class="title" onclick="toggleTOC()">၁၇-စရိယာနာနတ္တဉာဏ် အကျယ်ပြခြင်း</a></li> 
-<li><a href="#chapter8.0.21" class="title" onclick="toggleTOC()">သတိပဋ္ဌာနကထာ</a></li> 
-<li><a href="#notes5" class="sub-title" onclick="toggleTOC()">သိမှတ်ဖွယ်ရာများ “ပဋိသမ္ဘိဒါမဂ်ကျမ်းမှ သုတ္တန်များ”</a></li>    
-<li><a href="#chapter9" class="main-title" onclick="toggleTOC()">ကျမ်းကိုး</a></li>          
-<li><a href="#chapter5.13" class="main-title" onclick="toggleTOC()">ကျမ်းကိုး</a></li>          
-
-            </ul>
-
-<!-- မာတိကာ Jump Buttons -->
-<div class="toc-jump-buttons">
-    <!-- အပေါ်ဆုံး -->
-    <button id="toc-top-btn">⬆</button>
-    <!-- အောက်ဆုံး -->
-    <button id="toc-bottom-btn">⬇</button>
-</div><!-- မာတိကာ Jump Buttons အဆုံး -->
-
-<!--toc-overlay and toc-content အတွက်  -->
-     </div>
-    </div><!--toc-overlay and toc-content အတွက်  -->
-
-<!-- FLOATING AUDIO BAR အစ -->
-<div
-class="paper-audio-bar"
-id="paper-audio-bar">
-
-<!-- HEADER -->
-<div class="paper-audio-top">
-<div class="paper-audio-info">
-<div id="paper-now-playing">အသံမဖွင့်ရသေးပါ</div>
-
-<div id="paper-time-display">00:00 / 00:00</div>
-
-</div>
-
-<div class="paper-top-buttons">
- <button id="paper-hide-btn"
-class="paper-top-btn" title="Hide">​◯</button>   
-
-    <!-- minimize -->
-<button id="paper-minimize-btn"
-class="paper-top-btn" title="Minimize">―</button>
-
-<!-- close -->
-<button id="paper-close-btn"
-class="paper-top-btn" title="Close">×</button>
-
-</div>
-</div>
-
-<!-- BODY -->
-<div class="paper-audio-body" id="paper-audio-body">
-<div class="paper-audio-controls">
-
-<button id="paper-play-btn">⏸</button>
-
-<!-- 🔂 repeat one -->
-<button id="paper-repeat-btn">🔂</button>
-
-<!-- 🔁 auto next mode -->
-<button id="paper-autonext-btn">🔁</button>
-
-<!-- ◀️ previous -->
-<button id="paper-prev-btn">◀️</button>
-
-<!-- ▶️ next -->
-<button id="paper-next-btn">▶️</button>
-
-<!-- ⬇️ download -->
-<button id="paper-download-btn">⬇️</button>
-    
-<button id="paper-slower-btn">နှေး</button>
-
-<div id="paper-speed-display">1x</div>
-
-<button id="paper-faster-btn">မြန်</button>
-
-    
-<!-- 🔊 volume booster -->
-<div class="paper-volume-wrap">
-<span class="paper-volume-icon">🔊</span>
-<input
-type="range"
-id="paper-volume-slider"min="0"max="300"value="100">
-<div id="paper-volume-display">100%</div>
-</div><!-- 🔊 volume booster အဆုံး-->
-
-  <button id="paper-voice-btn">🎙 စကားသံရှင်း</button>
-
-<button id="paper-night-btn">🌙 ညနားထောင်</button>
-    
-<!--  SLEEP TIMER  -->
-<div class="paper-sleep-timer">
-
-    <div class="paper-sleep-title">😴 Sleep Timer</div>
-    <div class="paper-sleep-controls">
-        <input type="number" id="paper-sleep-input"
-            min="1" max="480" placeholder="Time">
-        <select id="paper-sleep-unit">
-            <option value="minute">Minute</option>
-            <option value="hour">Hour</option>
-        </select>
+        <div class="toc-jump-buttons">
+            <button id="toc-top-btn">⬆</button>
+            <button id="toc-bottom-btn">⬇</button>
+        </div></div>
+</div><div class="paper-audio-bar" id="paper-audio-bar">
+    <div class="paper-audio-top">
+        <div class="paper-audio-info">
+            <div id="paper-now-playing">အသံမဖွင့်ရသေးပါ</div>
+            <div id="paper-time-display">00:00 / 00:00</div>
+        </div>
+        <div class="paper-top-buttons">
+            <button id="paper-hide-btn" class="paper-top-btn" title="Hide">​◯</button>   
+            <button id="paper-minimize-btn" class="paper-top-btn" title="Minimize">―</button>
+            <button id="paper-close-btn" class="paper-top-btn" title="Close">×</button>
+        </div>
     </div>
 
-    <div class="paper-sleep-buttons">
-        <button id="paper-sleep-start-btn">Start</button>
-        <button id="paper-sleep-cancel-btn">Cancel</button>
-    </div>
-
-    <div id="paper-sleep-status"> No Timer </div>
-</div><!-- SLEEP TIMER အဆုံး -->
-   
-</div>
-<input type="range" id="paper-seekbar"
-value="0" min="0" max="100">
-
-</div>
-</div>
-
-<audio id="paper-audio"></audio><!--INLINE AUDIO BAR -->
-
-<button id="paper-show-bar-btn" 
-    class="paper-show-bar-btn">​◯</button>     
-
-    <script src="darkmode.js"></script>
-    <script src="paper-audio.js"></script>
-    <script src="paper-text.js"></script>
+    <div class="paper-audio-body" id="paper-audio-body">
+        <div class="paper-audio-controls">
+            <button id="paper-play-btn">⏸</button>
+            <button id="paper-repeat-btn">🔂</button>
+            <button id="paper-autonext-btn">🔁</button>
+            <button id="paper-prev-btn">◀️</button>
+            <button id="paper-next-btn">▶️</button>
+            <button id="paper-download-btn">⬇️</button>
+            <button id="paper-slower-btn">နှေး</button>
+            <div id="paper-speed-display">1x</div>
+            <button id="paper-faster-btn">မြန်</button>
+            <div class="paper-volume-wrap">
+                <span class="paper-volume-icon">🔊</span>
+                <input type="range" id="paper-volume-slider" min="0" max="300" value="100">
+                <div id="paper-volume-display">100%</div>
+            </div><button id="paper-voice-btn">🎙 စကားသံရှင်း</button>
+            <button id="paper-night-btn">🌙 ညနားထောင်</button>
     
-    <script>
-             // (ခ) အင်တာနက်မရှိရင်လည်း ဖတ်လို့ရအောင် Service Worker ကို မှတ်ပုံတင်ခြင်း
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', async () => {
-                try {
-                    await navigator.serviceWorker.register('/service-worker.js');
-                    console.log('Service Worker Registered');
-                } catch (error) {
-                    console.error('Service Worker Failed:', error);
-                }
-            });
-        }
-    </script> </body>
-</html>
+            <div class="paper-sleep-timer">
+                <div class="paper-sleep-title">😴 Sleep Timer</div>
+                <div class="paper-sleep-controls">
+                    <input type="number" id="paper-sleep-input" min="1" max="480" placeholder="Time">
+                    <select id="paper-sleep-unit">
+                        <option value="minute">Minute</option>
+                        <option value="hour">Hour</option>
+                    </select>
+                </div>
+                <div class="paper-sleep-buttons">
+                    <button id="paper-sleep-start-btn">Start</button>
+                    <button id="paper-sleep-cancel-btn">Cancel</button>
+                </div>
+                <div id="paper-sleep-status"> No Timer </div>
+            </div></div>
+        <input type="range" id="paper-seekbar" value="0" min="0" max="100">
+    </div>
+</div>
 
-  
+<audio id="paper-audio"></audio><button id="paper-show-bar-btn" class="paper-show-bar-btn">​◯</button>     
+
+<script src="darkmode.js"></script>
+<script src="paper-audio.js"></script>
+<script src="paper-text.js"></script>
+    
+<script>
+    // (ခ) အင်တာနက်မရှိရင်လည်း ဖတ်လို့ရအောင် Service Worker ကို မှတ်ပုံတင်ခြင်း
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', async () => {
+            try {
+                await navigator.serviceWorker.register('/service-worker.js');
+                console.log('Service Worker Registered');
+            } catch (error) {
+                console.error('Service Worker Failed:', error);
+            }
+        });
+    }
+</script>
 </body>
 </html>
