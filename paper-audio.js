@@ -481,25 +481,3 @@ paperDownloadBtn?.addEventListener('click', () => {
             });
     };
 
-   // 👈 အသံ archive link ဖွင့်ရန်အစ
-    archiveAudio.addEventListener('timeupdate', () => {
-        const paperSeekbar = document.getElementById('paper-seekbar');
-        const paperTimeDisplay = document.getElementById('paper-time-display');
-        if (!archiveAudio.duration) return;
-
-        if(paperSeekbar) paperSeekbar.value = (archiveAudio.currentTime / archiveAudio.duration) * 100;
-        
-        if (paperTimeDisplay) {
-            const formatTime = (sec) => {
-                const m = Math.floor(sec / 60);
-                const s = Math.floor(sec % 60);
-                return `${m}:${s.toString().padStart(2, '0')}`;
-            };
-            paperTimeDisplay.innerHTML = `${formatTime(archiveAudio.currentTime)} / ${formatTime(archiveAudio.duration || 0)}`;
-        }
-    });// 👈 အသံ archive link ဖွင့်ရန်အဆုံး
-  
-
-
-})(); // 👈 ဒါက ဖိုင်ရဲ့ အောက်ဆုံး ပိတ်ထားတဲ့ မူရင်းစာသားပါ။ ဒီစာသားရဲ့ အပေါ်မှာပဲ ထည့်ရပါမယ်။
-
