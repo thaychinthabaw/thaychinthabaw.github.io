@@ -428,4 +428,78 @@ paperDownloadBtn?.addEventListener('click', () => {
     document.body.removeChild(a);
 });
 
-})();
+    /* =========================
+       DOWNLOAD AUDIO
+    ========================= */
+    paperDownloadBtn?.addEventListener('click', () => {
+        // ... (မင်းရဲ့ မူရင်းဒေါင်းလုဒ်ကုဒ်တွေ ရှိနေမယ့်နေရာ) ...
+    });
+
+
+    // 🚨 ဤနေရာတွင် အောက်ပါကုဒ်အသစ်ကို အစအဆုံး ကူးထည့်ပါ 🚨
+
+    /* ========================================================
+       ARCHIVE AUDIO TEST SYSTEM
+    ======================================================== */
+    const archiveAudio = document.getElementById('archive-pure-audio');
+    let currentArchiveButton = null;
+
+    window.toggleArchiveAudio = function(button, src, title) {
+        if (currentArchiveButton === button && !archiveAudio.paused) {
+            archiveAudio.pause();
+            button.innerHTML = '🔊';
+            return;
+        }
+
+        if (currentArchiveButton && currentArchiveButton !== button) {
+            currentArchiveButton.innerHTML = '🔊';
+        }
+
+        currentArchiveButton = button;
+        
+        const paperNowPlaying = document.getElementById('paper-now-playing');
+        const paperAudioBar = document.getElementById('paper-audio-bar');
+        if(paperNowPlaying) paperNowPlaying.innerHTML = title;
+        if(paperAudioBar) {
+            paperAudioBar.style.display = 'block';
+            paperAudioBar.classList.remove('hidden-bar', 'minimized');
+        }
+
+        const paperAudio = document.getElementById('paper-audio');
+        if(paperAudio) paperAudio.pause();
+
+        archiveAudio.src = src;
+        archiveAudio.play()
+            .then(() => {
+                button.innerHTML = '⏸';
+                const paperPlayBtn = document.getElementById('paper-play-btn');
+                if(paperPlayBtn) paperPlayBtn.innerHTML = '⏸';
+            })
+            .catch(error => {
+                console.log("Playback error:", error);
+                alert("အသံဖိုင်ဆွဲရာတွင် အဆင်မပြေဖြစ်ပါသဖြင့် ၎င်းလင့်ခ်ကို ဘရောက်ဇာတွင် တိုက်ရိုက်ဖွင့်ကြည့်ပါ");
+            });
+    };
+
+   // 👈 အသံ archive link ဖွင့်ရန်အစ
+    archiveAudio.addEventListener('timeupdate', () => {
+        const paperSeekbar = document.getElementById('paper-seekbar');
+        const paperTimeDisplay = document.getElementById('paper-time-display');
+        if (!archiveAudio.duration) return;
+
+        if(paperSeekbar) paperSeekbar.value = (archiveAudio.currentTime / archiveAudio.duration) * 100;
+        
+        if (paperTimeDisplay) {
+            const formatTime = (sec) => {
+                const m = Math.floor(sec / 60);
+                const s = Math.floor(sec % 60);
+                return `${m}:${s.toString().padStart(2, '0')}`;
+            };
+            paperTimeDisplay.innerHTML = `${formatTime(archiveAudio.currentTime)} / ${formatTime(archiveAudio.duration || 0)}`;
+        }
+    });// 👈 အသံ archive link ဖွင့်ရန်အဆုံး
+  
+
+
+})(); // 👈 ဒါက ဖိုင်ရဲ့ အောက်ဆုံး ပိတ်ထားတဲ့ မူရင်းစာသားပါ။ ဒီစာသားရဲ့ အပေါ်မှာပဲ ထည့်ရပါမယ်။
+
