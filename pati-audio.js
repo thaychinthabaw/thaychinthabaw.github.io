@@ -428,52 +428,46 @@ paperDownloadBtn?.addEventListener('click', () => {
     const originalBtnText = paperDownloadBtn.innerHTML;
     paperDownloadBtn.innerHTML = '⏳';
 
-    // Archive.org လင့်ခ်ဖြစ်ပါက Telegram က Player မည်းမည်းကြီးဆီ လမ်းလွှဲမသွားအောင် /items/ ကို /download/ သို့ အစားထိုးခြင်း
-    if (audioSrc.includes('archive.org')) {
-        if (audioSrc.includes('/items/')) {
-            audioSrc = audioSrc.replace('/items/', '/download/');
+    // ဖိုင်နာမည်ကို URL ကနေ သန့်စင်ပြီး ထုတ်ယူခြင်း
+    let fileName = "audio-archive.mp3";
+    try {
+        const urlPath = new URL(audioSrc).pathname;
+        const extractedFile = urlPath.split('/').pop();
+        if (extractedFile) {
+            fileName = decodeURIComponent(extractedFile);
         }
-        if (!audioSrc.includes('?download=1')) {
-            audioSrc = audioSrc + (audioSrc.includes('?') ? '&' : '?') + 'download=1';
-        }
-    }
+    } catch(e) { console.log(e); }
 
-    // Telegram In-App Browser ဟုတ်မဟုတ် စစ်ဆေးခြင်း
-    const isTelegram = /Telegram/i.test(navigator.userAgent);
-
-    if (isTelegram) {
-        // Telegram Webview အတွက် အမည်းရောင် Player ဆီမသွားဘဲ လက်ရှိစာမျက်နှာပေါ်တင် "Download file" Box တန်းတက်လာစေရန်
-        window.location.href = audioSrc;
-    } else {
-        // ပုံမှန် Browser များအတွက် Anchor (a) download attribute စနစ်
-        try {
+    // Telegram UI ထဲကနေ ထွက်မသွားဘဲ ဒေါင်းလုဒ်စနစ် တန်းပေါ်လာစေရန် JavaScript Blob နည်းလမ်းဖြင့် ရယူခြင်း
+    fetch(audioSrc)
+        .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.blob();
+        })
+        .then(blob => {
+            const blobUrl = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
-            a.href = audioSrc;
-            
-            let fileName = "audio-archive.mp3";
-            try {
-                const urlPath = new URL(audioSrc).pathname;
-                const extractedFile = urlPath.split('/').pop();
-                if (extractedFile) {
-                    fileName = decodeURIComponent(extractedFile).replace('?download=1', '').replace('&download=1', '');
-                }
-            } catch(e) { console.log(e); }
-            
+            a.href = blobUrl;
             a.setAttribute('download', fileName);
             a.style.display = 'none';
             document.body.appendChild(a);
             a.click();
+            
+            // ဒေါင်းလုဒ်ခေါ်ပြီးနောက် မန်မိုရီရှင်းလင်းခြင်း
             document.body.removeChild(a);
-        } catch (error) {
-            console.error("Standard download failed, forcing new window:", error);
-            window.open(audioSrc, '_blank');
-        }
-    }
-
-    // ၁ စက္ကန့်အကြာတွင် ခလုတ်သင်္ကေတအား မူလအတိုင်း ပြန်ပြောင်းပေးခြင်း
-    setTimeout(() => {
-        paperDownloadBtn.innerHTML = originalBtnText;
-    }, 1000);
+            window.URL.revokeObjectURL(blobUrl);
+        })
+        .catch(error => {
+            console.error("Blob download failed, falling back to direct URL:", error);
+            // အကယ်၍ Blob နဲ့ ဆွဲမရခဲ့ပါက Player မည်းမည်းကြီးထဲပဲဖြစ်ဖြစ် ပုံမှန်အတိုင်း လမ်းကြောင်းပြောင်းပေးရန် Backup
+            window.location.href = audioSrc;
+        })
+        .finally(() => {
+            // ၁ စက္ကန့်အကြာတွင် ခလုတ်သင်္ကေတအား မူလအတိုင်း ပြန်ပြောင်းပေးခြင်း
+            setTimeout(() => {
+                paperDownloadBtn.innerHTML = originalBtnText;
+            }, 1000);
+        });
 });
 
 })();
