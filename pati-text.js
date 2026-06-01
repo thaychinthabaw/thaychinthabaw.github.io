@@ -1,463 +1,566 @@
 (() => {
 'use strict';
+/* == GLOBAL STATE == */
+let currentLineHeight = 2.0;
+let currentLetterSpacing = 0;
+// 🔥 ရုတ်တရက် Scroll ဆွဲတာမျိုး မထပ်စေရန် ဗဟို Timer တစ်ခု သတ်မှတ်ခြင်း
+let restoreTimer = null;
+// 🔥 Layout Engine ၏ ပြောင်းလဲမှု (အမြင့်/အကျယ်) အားလုံးကို ဖမ်းယူမည့် Native Observer
+let fontResizeObserver = null; 
 
-/* =========================
-   AUDIO ELEMENTS
-========================= */
-const paperAudio = document.getElementById('paper-audio');
-const paperAudioBar = document.getElementById('paper-audio-bar');
-const paperPlayBtn = document.getElementById('paper-play-btn');
-const paperSeekbar = document.getElementById('paper-seekbar');
-const paperVolumeSlider = document.getElementById('paper-volume-slider');
-const paperVolumeDisplay = document.getElementById('paper-volume-display');
-const paperNowPlaying = document.getElementById('paper-now-playing');
-const paperTimeDisplay = document.getElementById('paper-time-display');
+/* == SEMANTIC SYSTEM == */
+function buildSemanticParagraphs() {
+    const containers = document.querySelectorAll('.raw-text');
+    let globalIndex = 1;
+    containers.forEach((container) => {
+        // 🔥 IMPORTANT FIX: textContent
+        const rawText = container.textContent.trim();
+        const paragraphs = rawText
+            .split(/\n\s*\n/)
+            .filter(p => p.trim() !== '');
+        container.innerHTML = '';
+        paragraphs.forEach((text) => {
+            const cleanText = text.trim();
 
-const paperCloseBtn = document.getElementById('paper-close-btn');
-const paperMinimizeBtn = document.getElementById('paper-minimize-btn');
-const paperHideBtn = document.getElementById('paper-hide-btn');
-const paperShowBarBtn = document.getElementById('paper-show-bar-btn');
+            // ===== GAP SYSTEM =====
+            if (cleanText === '@@gap') {
+                const gap = document.createElement('div');
+                gap.className = 'big-gap';
+                container.appendChild(gap);
+                return;
+            }
 
-const paperFasterBtn = document.getElementById('paper-faster-btn');
-const paperSlowerBtn = document.getElementById('paper-slower-btn');
-const paperSpeedDisplay = document.getElementById('paper-speed-display');
+            // ===== PARAGRAPH =====
+            const p = document.createElement('p');
+            p.setAttribute('data-p', globalIndex);
+            p.textContent = cleanText;
 
-const paperRepeatBtn = document.getElementById('paper-repeat-btn');
-const paperAutonextBtn = document.getElementById('paper-autonext-btn');
-
-const paperPrevBtn = document.getElementById('paper-prev-btn');
-const paperNextBtn = document.getElementById('paper-next-btn');
-
-const paperVoiceBtn = document.getElementById('paper-voice-btn');
-const paperNightBtn = document.getElementById('paper-night-btn');
-
-/* SLEEP TIMER */
-const paperSleepInput = document.getElementById('paper-sleep-input');
-const paperSleepUnit = document.getElementById('paper-sleep-unit');
-const paperSleepStartBtn = document.getElementById('paper-sleep-start-btn');
-const paperSleepCancelBtn = document.getElementById('paper-sleep-cancel-btn');
-const paperSleepStatus = document.getElementById('paper-sleep-status');
-
-/* DOWNLOAD */
-const paperDownloadBtn = document.getElementById('paper-download-btn');
-
-/* =========================
-   STATE
-========================= */
-let currentSpeakerButton = null;
-let currentSpeed = 1;
-
-let repeatOne = false;
-let autoNextEnabled = false;
-
-let voiceModeEnabled = false;
-let nightModeEnabled = false;
-
-let sleepTimer = null;
-let sleepEndTime = null;
-let sleepInterval = null;
-
-/* =========================
-   AUDIO CONTEXT (BOOST + FILTERS)
-========================= */
-// မူရင်းအတိုင်း Web Audio API ဖြင့် Filters များနှင့် Gain Node ကို စနစ်တကျ ပြန်လည်ချိတ်ဆက်ပေးထားပါသည်။
-const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-const source = audioContext.createMediaElementSource(paperAudio);
-const gainNode = audioContext.createGain();
-
-const voiceEQ = audioContext.createBiquadFilter();
-voiceEQ.type = 'peaking';
-voiceEQ.frequency.value = 2500;
-voiceEQ.Q.value = 1;
-voiceEQ.gain.value = 0;
-
-const nightEQ = audioContext.createBiquadFilter();
-nightEQ.type = 'highshelf';
-nightEQ.frequency.value = 3000;
-nightEQ.gain.value = 0;
-
-source.connect(gainNode);
-gainNode.connect(voiceEQ);
-voiceEQ.connect(nightEQ);
-nightEQ.connect(audioContext.destination);
-
-gainNode.gain.value = 1;
-
-/* =========================
-   MAIN PLAY FUNCTION
-========================= */
-window.togglePaperAudio = function(button, src, title) {
-
-    const isSameButton = currentSpeakerButton === button;
-    const isSameAudio = decodeURI(paperAudio.src).includes(src);
-
-    if (isSameButton && isSameAudio && !paperAudio.paused) {
-        paperAudio.pause();
-        paperAudioBar.style.display = 'none';
-        paperShowBarBtn.style.display = 'none';
-        button.innerHTML = '🔊';
-        return;
-    }
-
-    if (currentSpeakerButton && currentSpeakerButton !== button) {
-        currentSpeakerButton.innerHTML = '🔊';
-    }
-
-    currentSpeakerButton = button;
-
-    paperAudioBar.style.display = 'block';
-    paperShowBarBtn.style.display = 'none';
-
-    paperAudioBar.classList.remove('hidden-bar');
-    paperAudioBar.classList.remove('minimized');
-
-    paperAudio.src = src;
-    paperAudio.playbackRate = currentSpeed;
-
-    // အော်ဒီယို ကွန်တက်စ် အလုပ်လုပ်ရန် စတင်နှိုးဆော်ခြင်း
-    if (audioContext.state === 'suspended') {
-        audioContext.resume();
-    }
-
-    paperAudio.play()
-        .catch(err => console.log("Archive Playback trigger:", err));
-
-    paperNowPlaying.innerHTML = title;
-
-    button.innerHTML = '⏸';
-    if (paperPlayBtn) paperPlayBtn.innerHTML = '⏸';
-};
-
-/* =========================
-   PLAY / PAUSE BUTTON
-========================= */
-paperPlayBtn?.addEventListener('click', () => {
-    if (paperAudio.paused) {
-        if (audioContext.state === 'suspended') audioContext.resume();
-        paperAudio.play();
-        paperPlayBtn.innerHTML = '⏸';
-        if (currentSpeakerButton) currentSpeakerButton.innerHTML = '⏸';
-    } else {
-        paperAudio.pause();
-        paperPlayBtn.innerHTML = '▶';
-        if (currentSpeakerButton) currentSpeakerButton.innerHTML = '🔊';
-    }
-});
-
-/* =========================
-   END EVENT
-========================= */
-paperAudio?.addEventListener('ended', () => {
-
-    if (repeatOne) {
-        paperAudio.currentTime = 0;
-        paperAudio.play();
-        return;
-    }
-
-    if (autoNextEnabled) {
-        playNextAudio();
-        return;
-    }
-
-    paperAudioBar.style.display = 'none';
-    paperShowBarBtn.style.display = 'none';
-
-    if (currentSpeakerButton) {
-        currentSpeakerButton.innerHTML = '🔊';
-    }
-});
-
-/* =========================
-   SEEK / TIME
-========================= */
-paperAudio?.addEventListener('timeupdate', () => {
-    if (!paperAudio.duration) return;
-
-    paperSeekbar.value =
-        (paperAudio.currentTime / paperAudio.duration) * 100;
-
-    updatePaperTime();
-});
-
-paperSeekbar?.addEventListener('input', () => {
-    if (!paperAudio.duration) return;
-
-    paperAudio.currentTime =
-        (paperSeekbar.value / 100) * paperAudio.duration;
-});
-
-/* =========================
-   VOLUME
-========================= */
-paperVolumeSlider?.addEventListener('input', () => {
-    const value = parseInt(paperVolumeSlider.value);
-    gainNode.gain.value = value / 100;
-    paperVolumeDisplay.innerHTML = value + '%';
-});
-
-/* =========================
-   SPEED
-========================= */
-paperFasterBtn?.addEventListener('click', () => {
-    if (currentSpeed < 3) {
-        currentSpeed += 0.25;
-        currentSpeed = parseFloat(currentSpeed.toFixed(2));
-        paperAudio.playbackRate = currentSpeed;
-        updateSpeedDisplay();
-    }
-});
-
-paperSlowerBtn?.addEventListener('click', () => {
-    if (currentSpeed > 0.25) {
-        currentSpeed -= 0.25;
-        currentSpeed = parseFloat(currentSpeed.toFixed(2));
-        paperAudio.playbackRate = currentSpeed;
-        updateSpeedDisplay();
-    }
-});
-
-function updateSpeedDisplay() {
-    if (paperSpeedDisplay)
-        paperSpeedDisplay.innerHTML = currentSpeed + 'x';
+            container.appendChild(p);
+            globalIndex++;
+        });
+    });
 }
 
-/* =========================
-   REPEAT / AUTO NEXT
-========================= */
-paperRepeatBtn?.addEventListener('click', () => {
-    repeatOne = !repeatOne;
-    paperRepeatBtn.classList.toggle('paper-mode-active', repeatOne);
+function saveReadingPosition() {
+    const paragraphs = document.querySelectorAll('.raw-text p');
+    let currentParagraph = null;
+    let offsetRatio = 0;
+    
+    // စာဖတ်သူ အဓိက မျက်စိကျနေမယ့် Screen ရဲ့ အလယ်ဗဟို မျဉ်းကြောင်းကို ယူပါတယ်
+    const viewportCenter = window.innerHeight / 2;
 
-    if (repeatOne) {
-        autoNextEnabled = false;
-        paperAutonextBtn?.classList.remove('paper-mode-active');
+    paragraphs.forEach(p => {
+        const rect = p.getBoundingClientRect();
+        // စာပိုဒ်က Screen ရဲ့ အလယ်ဗဟိုကို ဖြတ်သန်းနေသလား စစ်ဆေးခြင်း
+        if (rect.top <= viewportCenter && rect.bottom >= viewportCenter) {
+            currentParagraph = p.dataset.p;
+            // ထိုစာပိုဒ်ရဲ့ ထိပ်ပိုင်းကနေ Screen အလယ်အထိ ရောက်နေတဲ့ အချိုးအစားကို တွက်ချက်ခြင်း
+            offsetRatio = (viewportCenter - rect.top) / rect.height;
+        }
+    });
+
+    if (currentParagraph) {
+        localStorage.setItem(
+            'readingPosition',
+            JSON.stringify({
+                paragraph: currentParagraph,
+                offsetRatio: offsetRatio
+            })
+        );
     }
-});
-
-paperAutonextBtn?.addEventListener('click', () => {
-    autoNextEnabled = !autoNextEnabled;
-    paperAutonextBtn.classList.toggle('paper-mode-active', autoNextEnabled);
-
-    if (autoNextEnabled) {
-        repeatOne = false;
-        paperRepeatBtn?.classList.remove('paper-mode-active');
-    }
-});
-
-/* =========================
-   VOICE / NIGHT MODE (မူရင်းအတိုင်း နှစ်ခုလုံးတွဲသုံးနိုင်ခွင့် ပေးထားပါသည်)
-========================= */
-paperVoiceBtn?.addEventListener('click', () => {
-    voiceModeEnabled = !voiceModeEnabled;
-    paperVoiceBtn.classList.toggle('paper-mode-active', voiceModeEnabled);
-    voiceEQ.gain.value = voiceModeEnabled ? 8 : 0;
-});
-
-paperNightBtn?.addEventListener('click', () => {
-    nightModeEnabled = !nightModeEnabled;
-    paperNightBtn.classList.toggle('paper-mode-active', nightModeEnabled);
-    nightEQ.gain.value = nightModeEnabled ? -10 : 0;
-});
-
-/* =========================
-   TIME FORMAT
-========================= */
-function formatPaperTime(sec) {
-    const m = Math.floor(sec / 60);
-    const s = Math.floor(sec % 60);
-    return `${m}:${s.toString().padStart(2, '0')}`;
 }
 
-function updatePaperTime() {
-    if (!paperTimeDisplay) return;
-
-    paperTimeDisplay.innerHTML =
-        `${formatPaperTime(paperAudio.currentTime)} / ${formatPaperTime(paperAudio.duration || 0)}`;
-}
-
-/* =========================
-   BAR CONTROLS
-========================= */
-paperHideBtn?.addEventListener('click', () => {
-    paperAudioBar.classList.add('hidden-bar');
-    paperShowBarBtn.style.display = 'flex';
-});
-
-paperMinimizeBtn?.addEventListener('click', () => {
-    paperAudioBar.classList.toggle('minimized');
-});
-
-paperShowBarBtn?.addEventListener('click', () => {
-    paperAudioBar.classList.remove('hidden-bar');
-    paperShowBarBtn.style.display = 'none';
-});
-
-paperCloseBtn?.addEventListener('click', () => {
-    paperAudio.pause();
-    paperAudio.currentTime = 0;
-
-    paperAudioBar.style.display = 'none';
-    paperShowBarBtn.style.display = 'none';
-
-    paperAudioBar.classList.remove('minimized');
-
-    if (currentSpeakerButton) {
-        currentSpeakerButton.innerHTML = '🔊';
-    }
-});
-
-/* =========================
-   AUDIO LIST NAVIGATION
-========================= */
-function getAudioButtons() {
-    return Array.from(document.querySelectorAll('[onclick*="togglePaperAudio"]'));
-}
-
-function extractAudioData(button) {
-    const match = button.getAttribute('onclick')
-        .match(/togglePaperAudio\(this,\s*'([^']+)'\s*,\s*'([^']+)'\)/);
-
-    if (!match) return null;
-
-    return { src: match[1], title: match[2] };
-}
-
-function playAudioByIndex(index) {
-    const buttons = getAudioButtons();
-    if (index < 0 || index >= buttons.length) return;
-
-    const btn = buttons[index];
-    const data = extractAudioData(btn);
-    if (!data) return;
-
-    window.togglePaperAudio(btn, data.src, data.title);
-}
-
-function playNextAudio() {
-    const buttons = getAudioButtons();
-    if (!currentSpeakerButton) return;
-
-    let i = buttons.indexOf(currentSpeakerButton);
-    playAudioByIndex((i + 1) % buttons.length);
-}
-
-function playPreviousAudio() {
-    const buttons = getAudioButtons();
-    if (!currentSpeakerButton) return;
-
-    let i = buttons.indexOf(currentSpeakerButton);
-    playAudioByIndex((i - 1 + buttons.length) % buttons.length);
-}
-
-paperNextBtn?.addEventListener('click', playNextAudio);
-paperPrevBtn?.addEventListener('click', playPreviousAudio);
-
-/* =========================
-   SLEEP TIMER
-========================= */
-paperSleepStartBtn?.addEventListener('click', () => {
-
-    let value = parseInt(paperSleepInput.value);
-    let unit = paperSleepUnit.value;
-
-    if (isNaN(value)) return alert('အချိန်ရိုက်ထည့်ပါ');
-
-    let minutes = unit === 'hour' ? value * 60 : value;
-
-    if (minutes < 1 || minutes > 480)
-        return alert('1 minute မှ 8 hour အတွင်းပဲရပါတယ်');
-
-    clearTimeout(sleepTimer);
-    clearInterval(sleepInterval);
-
-    sleepEndTime = Date.now() + minutes * 60000;
-
-    sleepTimer = setTimeout(() => {
-        paperAudio.pause();
-        paperAudioBar.style.display = 'none';
-        paperShowBarBtn.style.display = 'none';
-        if (currentSpeakerButton) currentSpeakerButton.innerHTML = '🔊';
-        paperSleepStatus.innerHTML = '⏰ Sleep Finished';
-    }, minutes * 60000);
-
-    sleepInterval = setInterval(() => {
-        const remain = sleepEndTime - Date.now();
-        if (remain <= 0) return clearInterval(sleepInterval);
-
-        const sec = Math.floor(remain / 1000);
-        const h = Math.floor(sec / 3600);
-        const m = Math.floor((sec % 3600) / 60);
-        const s = sec % 60;
-
-        paperSleepStatus.innerHTML = `😴 ${h}h ${m}m ${s}s`;
-
-    }, 1000);
-});
-
-paperSleepCancelBtn?.addEventListener('click', () => {
-    clearTimeout(sleepTimer);
-    clearInterval(sleepInterval);
-    paperSleepStatus.innerHTML = 'No Timer';
-});
-
-/* =========================
-   AUTO PLAY FROM LINK
-========================= */
-window.addEventListener('load', () => {
-    const params = new URLSearchParams(location.search);
-    const hash = location.hash;
-
-    if (params.get('autoplay') === '1' && hash) {
-        setTimeout(() => {
-            const target = document.querySelector(hash);
-            const btn = target?.querySelector('.speaker-btn');
-            if (btn) btn.click();
-        }, 1200);
-    }
-});
-
-/* ========================================================
-   DOWNLOAD AUDIO (DIRECT FILE DOWNLOAD FOR EXTERNAL ARCHIVE)
-======================================================== */
-paperDownloadBtn?.addEventListener('click', async () => {
-    if (!paperAudio.src) return alert('အသံဖိုင် မရှိသေးပါ');
-
-    const originalBtnText = paperDownloadBtn.innerHTML;
+function restoreReadingPosition() {
+    const saved = localStorage.getItem('readingPosition');
+    if (!saved) return;
+    let data;
     try {
-        paperDownloadBtn.innerHTML = '⏳'; // ဒေါင်းလုဒ်စတင်ချိန် ပြောင်းလဲပေးသည့်အိုင်ကွန်
-        
-        // ပြင်ပလင့်ခ်ဖိုင်ကို Blob data အနေဖြင့် ဆွဲယူပြီး စက်ထဲသို့ အတင်းတွန်းထည့်စနစ်
-        const response = await fetch(paperAudio.src);
-        if (!response.ok) throw new Error("Network issue");
-        
-        const blob = await response.blob();
-        const blobUrl = URL.createObjectURL(blob);
-
-        const a = document.createElement('a');
-        a.href = blobUrl;
-
-        const file = new URL(paperAudio.src).pathname.split('/').pop();
-        a.download = decodeURIComponent(file) || "audio-archive.mp3";
-
-        document.body.appendChild(a);
-        a.click();
-        
-        document.body.removeChild(a);
-        URL.revokeObjectURL(blobUrl);
-    } catch (error) {
-        console.error("Direct download failed, fallback to window open:", error);
-        // CORS သို့မဟုတ် အခြားပြဿနာရှိပါက ဒေါင်းလုဒ်လင့်ခ်အတိုင်း တွန်းပို့ပေးခြင်း
-        const a = document.createElement('a');
-        a.href = paperAudio.src;
-        a.target = '_blank';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-    } finally {
-        paperDownloadBtn.innerHTML = originalBtnText;
+        data = JSON.parse(saved);
+    } catch {
+        return;
     }
-});
 
+    const target = document.querySelector(`[data-p="${data.paragraph}"]`);
+    if (!target) return;
+    
+    // ResizeObserver ကြောင့် target.offsetHeight က သေჩာပေါက် Layout အသစ်၏ အမြင့်အစစ်အမှန် ဖြစ်နေပါပြီ
+    const paragraphHeight = target.offsetHeight;
+    const offsetInsideParagraph = paragraphHeight * (data.offsetRatio || 0);
+    
+    // စာပိုဒ်၏ လက်ရှိ absolute top နေရာအစစ်အမှန်
+    const absoluteTop = target.getBoundingClientRect().top + window.scrollY;
+    
+    // စာဖတ်သူ ဖတ်လက်စနေရာကို Screen ရဲ့ အလယ်ဗဟို (Center) တွင် ကွက်တိ ပြန်ထားပေးခြင်း
+    const viewportCenter = window.innerHeight / 2;
+    const finalY = absoluteTop + offsetInsideParagraph - viewportCenter;
+    
+    window.scrollTo({
+        top: finalY,
+        behavior: 'auto' // Layout Engine အပြောင်းအလဲတွင် auto သည် ရာနှုန်းပြည့် ငြိမ်သက်မှုပေးနိုင်ပါသည်
+    });
+}
+
+// 🔥 ခလုတ်နှိပ်လိုက်သည့်အခါ သို့မဟုတ် Page စပွင့်ချိန် Layout အပြောင်းအလဲ ပြီးမြောက်မှုကို စောင့်ကြည့်ပေးမည့် ဗဟိုတံခါးပေါက်လုပ်ဆောင်ချက်
+function triggerLayoutObserver() {
+    if (fontResizeObserver) {
+        fontResizeObserver.disconnect();
+    }
+
+    const articleElement = document.querySelector('article');
+    if (!articleElement) return;
+
+    fontResizeObserver = new ResizeObserver((entries) => {
+        for (let entry of entries) {
+            restoreReadingPosition(); // Browser က Layout ကွက်တိချပြီးမှ နေရာပြန်ရွှေ့ပေးခြင်း
+            fontResizeObserver.disconnect();
+            fontResizeObserver = null;
+        }
+    });
+
+    fontResizeObserver.observe(articleElement);
+}
+
+/* == TOGGLE SYSTEM == */
+function toggleTOC() {
+    const tocOverlay = document.getElementById('toc-overlay');
+    if (!tocOverlay) return;
+    const isOpening = tocOverlay.style.display !== 'block';
+    if (isOpening) {
+        tocOverlay.style.display = 'block';
+        setTimeout(() => {
+            const activeItem = document.querySelector('.active-chapter');
+            const tocList = document.querySelector('.toc-list');
+            if (activeItem && tocList) {
+                activeItem.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center'
+                });
+            }
+        }, 100);
+    } else {
+        tocOverlay.style.display = 'none';
+        clearTOCSearch();
+    }
+}
+
+function toggleSetting() {
+    const settingOverlay = document.getElementById('setting-overlay');
+    if (!settingOverlay) return;
+    const isVisible = settingOverlay.style.display === 'block';
+    settingOverlay.style.display = isVisible ? 'none' : 'block';
+}
+
+function downloadPDF() {
+    toggleSetting();
+    setTimeout(() => {
+        window.print();
+    }, 500);
+}
+
+function toggleReadingMode() {
+    document.body.classList.toggle('focus-mode');
+    const fsBtn = document.getElementById('fs-btn');
+    if (document.body.classList.contains('focus-mode')) {
+        fsBtn.innerHTML = '✖';
+        fsBtn.style.background = 'rgba(234, 222, 188, 0.2)';
+    } else {
+        fsBtn.innerHTML = '⛶';
+        fsBtn.style.background = 'rgba(234, 222, 188, 0.4)';
+    }
+}
+
+/* == LAST READ SYSTEM == */
+function saveCurrentPage() {
+    localStorage.setItem('lastReadTitle', document.title);
+    localStorage.setItem('lastReadUrl', window.location.href);
+}
+
+function showLastReadLink() {
+    const lastTitle = localStorage.getItem('lastReadTitle');
+    const lastUrl = localStorage.getItem('lastReadUrl');
+    const lastReadContainer = document.getElementById('last-read-container');
+    if (
+        lastTitle &&
+        lastUrl &&
+        window.location.href !== lastUrl &&
+        lastReadContainer
+    ) {
+        lastReadContainer.innerHTML = `
+            <div style="background: #eadebc; border: 1px solid #443300; padding: 15px; margin: 10px; border-radius: 8px; text-align:center;">
+                <p style="color: #443300; font-size: 14px; margin-bottom: 5px;">
+                    သင်နောက်ဆုံး ဖတ်လက်စအပိုင်း -
+                </p>
+                <a href="${lastUrl}" style="color: #443300; font-weight: bold; text-decoration: none;">
+                    📖 ${lastTitle} သို့ ပြန်သွားရန်
+                </a>
+            </div>
+        `;
+    }
+}
+
+/* == LINE HEIGHT SYSTEM == */
+function applyLineHeight() {
+    const content = document.getElementById('reading-content');
+    if (content) {
+        content.style.lineHeight = currentLineHeight;
+    }
+    const lhDisplay = document.getElementById('lh-display');
+    if (lhDisplay) {
+        lhDisplay.innerText = currentLineHeight.toFixed(1);
+    }
+    const lineButtons = document.querySelectorAll('.line-btn');
+    lineButtons.forEach(btn => {
+        btn.classList.remove('active-preset');
+        if (parseFloat(btn.dataset.value) === currentLineHeight) {
+            btn.classList.add('active-preset');
+        }
+    });
+    localStorage.setItem('userLineHeight', currentLineHeight);
+}
+
+function adjustLineHeight(amount) {
+    saveReadingPosition();
+    let next = Math.round((currentLineHeight + amount) * 10) / 10;
+    if (next >= 1.0 && next <= 100.0) {
+        currentLineHeight = next;
+        triggerLayoutObserver(); // ⚡ ResizeObserver ဖြင့် Engine အပြောင်းအလဲကို စောင့်ကြည့်ခြင်း
+        applyLineHeight();
+    }
+}
+
+/* == LETTER SPACING SYSTEM == */
+function applyLetterSpacing() {
+    const content = document.getElementById('reading-content');
+    if (content) {
+        content.style.letterSpacing = currentLetterSpacing + 'px';
+    }
+    const lsDisplay = document.getElementById('ls-display');
+    if (lsDisplay) {
+        lsDisplay.innerText = currentLetterSpacing;
+    }
+    const letterButtons = document.querySelectorAll('.letter-btn');
+    letterButtons.forEach(btn => {
+        btn.classList.remove('active-preset');
+        if (parseFloat(btn.dataset.value) === currentLetterSpacing) {
+            btn.classList.add('active-preset');
+        }
+    });
+    localStorage.setItem('userLetterSpacing', currentLetterSpacing);
+}
+
+function adjustLetterSpacing(amount) {
+    saveReadingPosition();
+    let next = Math.round((currentLetterSpacing + amount) * 10) / 10;
+    if (next >= 0 && next <= 10) {
+        currentLetterSpacing = next;
+        triggerLayoutObserver(); // ⚡ ResizeObserver ဖြင့် Engine အပြောင်းအလဲကို စောင့်ကြည့်ခြင်း
+        applyLetterSpacing();
+    }
+}
+
+/* == TOC SEARCH == */
+function clearTOCSearch() {
+    const tocSearch = document.getElementById('toc-search');
+    const tocItems = document.querySelectorAll('.toc-list li');
+    if (tocSearch) {
+        tocSearch.value = '';
+    }
+    tocItems.forEach(item => {
+        item.style.display = 'block';
+    });
+}
+
+/* == FONT SIZE SYSTEM == */
+let fontSize = parseInt(localStorage.getItem('userFontSize')) || 25;
+
+function renderFontSize() {
+    const articleElement = document.querySelector('article');
+    if (articleElement) {
+        articleElement.style.fontSize = fontSize + 'px';
+    }
+    const fontDisplay = document.getElementById('font-size-display');
+    if (fontDisplay) {
+        fontDisplay.textContent = fontSize;
+    }
+    const sizeTens = document.getElementById('size-tens');
+    const sizeOnes = document.getElementById('size-ones');
+    if (sizeTens) {
+        sizeTens.textContent = Math.floor(fontSize / 10);
+    }
+    if (sizeOnes) {
+        sizeOnes.textContent = fontSize % 10;
+    }
+    localStorage.setItem('userFontSize', fontSize);
+}
+
+function changeFontSize(amount) {
+    saveReadingPosition();
+    const next = fontSize + amount;
+    if (next >= 10 && next <= 70) {
+        fontSize = next;
+        triggerLayoutObserver(); // ⚡ ResizeObserver ဖြင့် Engine အပြောင်းအလဲကို စောင့်ကြည့်ခြင်း
+        renderFontSize();
+    }
+}
+
+/* == FONT WEIGHT SYSTEM == */
+let currentWeight = parseInt(localStorage.getItem('userFontWeight')) || 500;
+
+function renderWeight() {
+    const articleElement = document.querySelector('article');
+    if (articleElement) {
+        articleElement.style.fontWeight = currentWeight;
+    }
+    const hundreds = document.getElementById('digit-hundreds');
+    const tens = document.getElementById('digit-tens');
+    const ones = document.getElementById('digit-ones');
+    if (hundreds) {
+        hundreds.textContent = Math.floor(currentWeight / 100);
+    }
+    if (tens) {
+        tens.textContent = Math.floor((currentWeight % 100) / 10);
+    }
+    if (ones) {
+        ones.textContent = currentWeight % 10;
+    }
+    
+    const weightButtons = document.querySelectorAll('#weight-buttons .preset-btn');
+    weightButtons.forEach(btn => {
+        btn.classList.toggle('active-preset', parseInt(btn.dataset.weight) === currentWeight);
+    });
+    localStorage.setItem('userFontWeight', currentWeight);
+}
+
+function changeWeight(amount) {
+    saveReadingPosition();
+    const next = currentWeight + amount;
+    if (next >= 100 && next <= 900) {
+        currentWeight = next;
+        triggerLayoutObserver(); // ⚡ ResizeObserver ဖြင့် Engine အပြောင်းအလဲကို စောင့်ကြည့်ခြင်း
+        renderWeight();
+    }
+}
+
+/* == MAIN INIT == */
+function init() {
+    const article = document.querySelector('article');
+    const tocSearch = document.getElementById('toc-search');
+    const tocItems = document.querySelectorAll('.toc-list li');
+    
+    /* ===== 🌟 (၁) LOAD & APPLY ALL SAVED SETTINGS FIRST 🌟 ===== */
+    // စာမျက်နှာ စပွင့်ချင်း နေရာမချမီ Layout Settings အဟောင်းအားလုံးကို Engine ထဲ ကြိုတင်ထည့်သွင်းခြင်း
+    const savedLH = localStorage.getItem('userLineHeight');
+    if (savedLH !== null) {
+        currentLineHeight = parseFloat(savedLH);
+    }
+    applyLineHeight();
+    
+    const savedLS = localStorage.getItem('userLetterSpacing');
+    if (savedLS !== null) {
+        currentLetterSpacing = parseFloat(savedLS);
+    }
+    applyLetterSpacing();
+
+    const savedFS = localStorage.getItem('userFontSize');
+    if (savedFS !== null) {
+        fontSize = parseInt(savedFS);
+    }
+    renderFontSize();
+
+    const savedFW = localStorage.getItem('userFontWeight');
+    if (savedFW !== null) {
+        currentWeight = parseInt(savedFW);
+    }
+    renderWeight();
+    
+    /* ===== LAST READ ===== */
+    saveCurrentPage();
+    showLastReadLink();
+    
+    /* ===== SEMANTIC ===== */
+    buildSemanticParagraphs();
+
+    /* ===== 🌟 (၂) INITIAL RESTORE WITH OBSERVER 🌟 ===== */
+    // စာမျက်နှာစဖွင့်ချိန်တွင် Browser က User ရဲ့ Setting အတိုင်း အမြင့်အစစ်အမှန်ကို တွက်ချက်ပြီးစီးမှ တိကျစွာ Scroll ပြန်ဆွဲပေးရန် ချိတ်ဆက်ခြင်း
+    triggerLayoutObserver(); 
+    
+    let readingTimer;
+    window.addEventListener('scroll', () => {
+        clearTimeout(readingTimer);
+        readingTimer = setTimeout(() => {
+            saveReadingPosition();
+        }, 200);
+    });
+    
+    /* ===== TOC ACTIVE ===== */
+    const sections = document.querySelectorAll('section');
+    const tocLinks = document.querySelectorAll('.toc-list li a');
+    const observerOptions = {
+        root: null,
+        rootMargin: '-10% 0px -70% 0px',
+        threshold: 0
+    };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                tocLinks.forEach(link => {
+                    link.classList.remove('active-chapter');
+                    if (link.getAttribute('href') === `#${id}`) {
+                        link.classList.add('active-chapter');
+                        localStorage.setItem('lastReadChapter', id);
+                    }
+                });
+            }
+        });
+    }, observerOptions);
+    sections.forEach(section => {
+        observer.observe(section);
+    });
+    
+    /* ===== LINE HEIGHT BUTTONS ===== */
+    const lineButtons = document.querySelectorAll('.line-btn');
+    lineButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            saveReadingPosition();
+            currentLineHeight = parseFloat(btn.dataset.value);
+            triggerLayoutObserver();
+            applyLineHeight();
+        });
+    });
+    
+    /* ===== LETTER SPACING BUTTONS ===== */
+    const letterButtons = document.querySelectorAll('.letter-btn');
+    letterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            saveReadingPosition();
+            currentLetterSpacing = parseFloat(btn.dataset.value);
+            triggerLayoutObserver();
+            applyLetterSpacing();
+        });
+    });
+    
+    /* ===== FONT SIZE BUTTON EVENTS ===== */
+    const fontIncrease = document.getElementById('font-increase');
+    if (fontIncrease) fontIncrease.onclick = () => { changeFontSize(1); };
+    
+    const fontDecrease = document.getElementById('font-decrease');
+    if (fontDecrease) fontDecrease.onclick = () => { changeFontSize(-1); };
+    
+    const sizePlus10 = document.getElementById('size-plus-10');
+    if (sizePlus10) sizePlus10.onclick = () => { changeFontSize(10); };
+    
+    const sizeMinus10 = document.getElementById('size-minus-10');
+    if (sizeMinus10) sizeMinus10.onclick = () => { changeFontSize(-10); };
+    
+    const sizePlus1 = document.getElementById('size-plus-1');
+    if (sizePlus1) sizePlus1.onclick = () => { changeFontSize(1); };
+    
+    const sizeMinus1 = document.getElementById('size-minus-1');
+    if (sizeMinus1) sizeMinus1.onclick = () => { changeFontSize(-1); };
+    
+    /* ===== FONT WEIGHT BUTTON EVENTS ===== */
+    const weightButtons = document.querySelectorAll('#weight-buttons .preset-btn');
+    weightButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            saveReadingPosition();
+            currentWeight = parseInt(btn.dataset.weight);
+            triggerLayoutObserver();
+            renderWeight();
+        });
+    });
+    
+    const weightPlus100 = document.getElementById('weight-plus-100');
+    if (weightPlus100) weightPlus100.onclick = () => { changeWeight(100); };
+    
+    const weightMinus100 = document.getElementById('weight-minus-100');
+    if (weightMinus100) weightMinus100.onclick = () => { changeWeight(-100); };
+    
+    const weightPlus10 = document.getElementById('weight-plus-10');
+    if (weightPlus10) weightPlus10.onclick = () => { changeWeight(10); };
+    
+    const weightMinus10 = document.getElementById('weight-minus-10');
+    if (weightMinus10) weightMinus10.onclick = () => { changeWeight(-10); };
+    
+    const weightPlus1 = document.getElementById('weight-plus-1');
+    if (weightPlus1) weightPlus1.onclick = () => { changeWeight(1); };
+    
+    const weightMinus1 = document.getElementById('weight-minus-1');
+    if (weightMinus1) weightMinus1.onclick = () => { changeWeight(-1); };
+    
+    /* ===== TOC TOP/BOTTOM ===== */
+    const tocTopBtn = document.getElementById('toc-top-btn');
+    const tocBottomBtn = document.getElementById('toc-bottom-btn');
+    const tocContent = document.querySelector('.toc-list');
+    if (tocTopBtn && tocContent) {
+        tocTopBtn.addEventListener('click', () => {
+            tocContent.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+    if (tocBottomBtn && tocContent) {
+        tocBottomBtn.addEventListener('click', () => {
+            tocContent.scrollTo({ top: tocContent.scrollHeight, behavior: 'smooth' });
+        });
+    }
+    
+    /* ===== TOC SEARCH ===== */
+    if (tocSearch) {
+        tocSearch.addEventListener('input', () => {
+            const searchText = tocSearch.value.toLowerCase();
+            tocItems.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                item.style.display = text.includes(searchText) ? 'block' : 'none';
+            });
+        });
+    }
+    
+    /* ===== LONG PRESS SELECT ===== */
+    let timer;
+    let isLongPressed = false;
+    let startX, startY;
+    if (article) {
+        article.addEventListener('touchstart', e => {
+            isLongPressed = false;
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+            timer = setTimeout(() => {
+                isLongPressed = true;
+                article.style.webkitUserSelect = 'text';
+                article.style.userSelect = 'text';
+            }, 500);
+        });
+        article.addEventListener('touchmove', e => {
+            let moveX = e.touches[0].clientX;
+            let moveY = e.touches[0].clientY;
+            if (
+                Math.abs(moveX - startX) > 10 ||
+                Math.abs(moveY - startY) > 10
+            ) {
+                clearTimeout(timer);
+            }
+        });
+        article.addEventListener('touchend', () => {
+            clearTimeout(timer);
+            if (!isLongPressed) {
+                if (window.getSelection().toString() === '') {
+                    article.style.webkitUserSelect = 'none';
+                    article.style.userSelect = 'none';
+                }
+            }
+        });
+    }
+    
+    /* ===== EXPORT FUNCTIONS ===== */
+    window.toggleTOC = toggleTOC;
+    window.toggleSetting = toggleSetting;
+    window.downloadPDF = downloadPDF;
+    window.toggleReadingMode = toggleReadingMode;
+    window.adjustLineHeight = adjustLineHeight;
+    window.adjustLetterSpacing = adjustLetterSpacing;
+    window.changeFontSize = changeFontSize;
+    window.changeWeight = changeWeight;
+}
+
+/* == SINGLE DOMCONTENTLOADED == */
+document.addEventListener('DOMContentLoaded', init);
 })();
