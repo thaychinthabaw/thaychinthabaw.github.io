@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>စာဖတ်ခန်း | သေခြင်းသဘော</title>
-    <link rel="stylesheet" href="paper-audio.css">
-    <link rel="stylesheet" href="paper-text.css">
+    <link rel="stylesheet" href="pati-audio.css">
+    <link rel="stylesheet" href="pati-text.css">
 
     <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
@@ -42,8 +42,11 @@
 <div id="last-read-container"></div>   
     <section id="title1">  <h1> သေခြင်းသဘော စာမူ</h1></section>
   <section id="title2">  <h1> ဝိပဿနာအခြေခံ ☸️</h1></section>
-  <section id="chapter1"><h1>နိဒါန်း</h1> 
-    
+ 
+     <section id="chapter1"><h1><button class="speaker-btn" onclick="togglePaperAudio(this, 'https://archive.org/download/thadi-d-t1/thadi-d-t1.mp3', 'ဒိဋ္ဌိကထာ နမူနာ')">🔊</button>
+                     
+နိဒါန်း</h1> 
+      
   <div class="raw-text">၁
 
 ခုဒ္ဒကနိကာယ်
@@ -6691,7 +6694,12 @@
          ၈။ သံယုတ္တနိကာယ် ၊သဠာယတနသံယုတ် ၊ယမကဝဂ် ၊ပဌမ ပုဗ္ဗေသမ္ဗောဓသုတ်
 </div></section>
 
-          </article>
+  <!--အသံဖိုင် archive စနစ်အတွက်သုံးထားသည် အစ-->  
+    <div id="dynamic-chapters"></div>
+<!--အသံဖိုင် archive စနစ်အတွက်သုံးထားသည် အဆုံး -->  
+   
+    
+</article>
   
     </div>
 
@@ -6916,11 +6924,15 @@
     </div>
 </div>
 
-<audio id="paper-audio"></audio><button id="paper-show-bar-btn" class="paper-show-bar-btn">​◯</button>     
+    
+  <!-- crossorigin="anonymous" ထည့်မှသာ Filter တွေနဲ့ Download တွေ အလုပ်လုပ်မှာပါ -->
+<audio id="paper-audio" crossorigin="anonymous"></audio>
+    
+<button id="paper-show-bar-btn" class="paper-show-bar-btn">​◯</button>     
 
 <script src="darkmode.js"></script>
-<script src="paper-audio.js"></script>
-<script src="paper-text.js"></script>
+<script src="pati-audio.js"></script>
+<script src="pati-text.js"></script>
     
 <script>
     // (ခ) အင်တာနက်မရှိရင်လည်း ဖတ်လို့ရအောင် Service Worker ကို မှတ်ပုံတင်ခြင်း
