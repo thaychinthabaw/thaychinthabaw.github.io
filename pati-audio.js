@@ -428,46 +428,41 @@ paperDownloadBtn?.addEventListener('click', () => {
     const originalBtnText = paperDownloadBtn.innerHTML;
     paperDownloadBtn.innerHTML = '⏳';
 
-    // ဖိုင်နာမည်ကို URL ကနေ သန့်စင်ပြီး ထုတ်ယူခြင်း
-    let fileName = "audio-archive.mp3";
-    try {
-        const urlPath = new URL(audioSrc).pathname;
-        const extractedFile = urlPath.split('/').pop();
-        if (extractedFile) {
-            fileName = decodeURIComponent(extractedFile);
+    // Archive.org လင့်ခ်ဖြစ်ပါက ဒေါင်းလုဒ်ဆွဲရန် Force လုပ်သည့် parameter ကို ထည့်သွင်းခြင်း
+    if (audioSrc.includes('archive.org')) {
+        if (audioSrc.includes('/items/')) {
+            audioSrc = audioSrc.replace('/items/', '/download/');
         }
-    } catch(e) { console.log(e); }
+        if (!audioSrc.includes('?download=1')) {
+            audioSrc = audioSrc + (audioSrc.includes('?') ? '&' : '?') + 'download=1';
+        }
+    }
 
-    // Telegram UI ထဲကနေ ထွက်မသွားဘဲ ဒေါင်းလုဒ်စနစ် တန်းပေါ်လာစေရန် JavaScript Blob နည်းလမ်းဖြင့် ရယူခြင်း
-    fetch(audioSrc)
-        .then(response => {
-            if (!response.ok) throw new Error('Network response was not ok');
-            return response.blob();
-        })
-        .then(blob => {
-            const blobUrl = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = blobUrl;
-            a.setAttribute('download', fileName);
-            a.style.display = 'none';
-            document.body.appendChild(a);
-            a.click();
-            
-            // ဒေါင်းလုဒ်ခေါ်ပြီးနောက် မန်မိုရီရှင်းလင်းခြင်း
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(blobUrl);
-        })
-        .catch(error => {
-            console.error("Blob download failed, falling back to direct URL:", error);
-            // အကယ်၍ Blob နဲ့ ဆွဲမရခဲ့ပါက Player မည်းမည်းကြီးထဲပဲဖြစ်ဖြစ် ပုံမှန်အတိုင်း လမ်းကြောင်းပြောင်းပေးရန် Backup
-            window.location.href = audioSrc;
-        })
-        .finally(() => {
-            // ၁ စက္ကန့်အကြာတွင် ခလုတ်သင်္ကေတအား မူလအတိုင်း ပြန်ပြောင်းပေးခြင်း
-            setTimeout(() => {
-                paperDownloadBtn.innerHTML = originalBtnText;
-            }, 1000);
-        });
+    // Telegram UI ထဲကနေ အပြင် Browser သို့ အတင်းတွန်းပို့ပြီး ဒေါင်းလုဒ် Box တန်းကျလာစေခြင်း
+    const isTelegram = /Telegram/i.test(navigator.userAgent);
+
+    if (isTelegram) {
+        // Telegram ရဲ့ စနစ်အရ ဤကဲ့သို့ လင့်ခ်ချိတ်ပေးလိုက်ခြင်းဖြင့် အမည်းရောင် Player ဆီမသွားတော့ဘဲ ဖုန်း Browser ထဲမှာ ဒေါင်းလုဒ် Box တန်းကျလာပါမည်
+        const outerLink = document.createElement('a');
+        outerLink.href = audioSrc;
+        outerLink.setAttribute('target', '_blank');
+        outerLink.setAttribute('rel', 'noopener noreferrer');
+        document.body.appendChild(outerLink);
+        outerLink.click();
+        document.body.removeChild(outerLink);
+    } else {
+        // ပုံမှန် Browser များအတွက် စနစ်
+        const a = document.createElement('a');
+        a.href = audioSrc;
+        a.setAttribute('download', '');
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+    }
+
+    setTimeout(() => {
+        paperDownloadBtn.innerHTML = originalBtnText;
+    }, 1000);
 });
 
 })();
