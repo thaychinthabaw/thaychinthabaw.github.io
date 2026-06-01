@@ -428,60 +428,24 @@ paperDownloadBtn?.addEventListener('click', () => {
     const originalBtnText = paperDownloadBtn.innerHTML;
     paperDownloadBtn.innerHTML = '⏳';
 
-    // Archive.org လင့်ခ်ဖြစ်ပါက ဒေါင်းလုဒ်သီးသန့် တွန်းပို့ပေးမည့် URL ပုံစံသို့ ပြောင်းလဲခြင်း
+    // Archive.org လင့်ခ်ဖြစ်ပါက Telegram က Player မည်းမည်းကြီးဆီ လမ်းလွှဲမသွားအောင် /items/ ကို /download/ သို့ အစားထိုးခြင်း
     if (audioSrc.includes('archive.org')) {
-        // အကယ်၍ လင့်ခ်ထဲတွင် /items/ ပါဝင်နေပါက ၎င်းကို /download/ သို့ အစားထိုးလိုက်သည်
-        // ဤနည်းလမ်းသည် Telegram Browser အား အမည်းရောင် Player ဆီသို့ မပြောင်းစေဘဲ တိုက်ရိုက် ဒေါင်းလုဒ် Box တက်လာစေပါသည်
         if (audioSrc.includes('/items/')) {
             audioSrc = audioSrc.replace('/items/', '/download/');
         }
-        
-        // ?download=1 ပါရာမီတာ ထပ်မံဖြည့်စွက်ခြင်း
         if (!audioSrc.includes('?download=1')) {
             audioSrc = audioSrc + (audioSrc.includes('?') ? '&' : '?') + 'download=1';
         }
     }
 
+    // Telegram In-App Browser ဟုတ်မဟုတ် စစ်ဆေးခြင်း
     const isTelegram = /Telegram/i.test(navigator.userAgent);
 
     if (isTelegram) {
-        // Telegram Webview အတွက် အမည်းရောင် Player ဆီ မသွားဘဲ လက်ရှိ မျက်နှာပြင်မှာတင် Download Box ပေါ်လာစေရန် အတင်းတွန်းပို့ခြင်း
+        // Telegram Webview အတွက် အမည်းရောင် Player ဆီမသွားဘဲ လက်ရှိစာမျက်နှာပေါ်တင် "Download file" Box တန်းတက်လာစေရန်
         window.location.href = audioSrc;
     } else {
         // ပုံမှန် Browser များအတွက် Anchor (a) download attribute စနစ်
-        try {
-            const a = document.createElement('a');
-            a.href = audioSrc;
-            
-            let fileName = "audio-archive.mp3";
-            try {
-                const urlPath = new URL(audioSrc).pathname;
-                const extractedFile = urlPath.split('/').pop();
-                if (extractedFile) {
-                    fileName = decodeURIComponent(extractedFile).replace('?download=1', '').replace('&download=1', '');
-                }
-            } catch(e) { console.log(e); }
-            
-            a.setAttribute('download', fileName);
-            a.style.display = 'none';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        } catch (error) {
-            console.error("Standard download failed, forcing new window:", error);
-            window.open(audioSrc, '_blank');
-        }
-    }
-
-    setTimeout(() => {
-        paperDownloadBtn.innerHTML = originalBtnText;
-    }, 1000);
-});
-
-})();
-        window.location.href = audioSrc;
-    } else {
-        // ပုံမှန် Browser များအတွက် Anchor (a) download attribute ဖြင့် စနစ်တကျ ဒေါင်းလုဒ်ဆွဲခြင်း
         try {
             const a = document.createElement('a');
             a.href = audioSrc;
