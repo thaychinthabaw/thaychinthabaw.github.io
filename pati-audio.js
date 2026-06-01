@@ -60,6 +60,7 @@ let sleepInterval = null;
 /* =========================
    AUDIO CONTEXT (BOOST + FILTERS)
 ========================= */
+// မူရင်းအတိုင်း Web Audio API ဖြင့် Filters များနှင့် Gain Node ကို စနစ်တကျ ပြန်လည်ချိတ်ဆက်ပေးထားပါသည်။
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
 const source = audioContext.createMediaElementSource(paperAudio);
@@ -114,6 +115,7 @@ window.togglePaperAudio = function(button, src, title) {
     paperAudio.src = src;
     paperAudio.playbackRate = currentSpeed;
 
+    // အော်ဒီယို ကွန်တက်စ် အလုပ်လုပ်ရန် စတင်နှိုးဆော်ခြင်း
     if (audioContext.state === 'suspended') {
         audioContext.resume();
     }
@@ -245,7 +247,7 @@ paperAutonextBtn?.addEventListener('click', () => {
 });
 
 /* =========================
-   VOICE / NIGHT MODE
+   VOICE / NIGHT MODE (မူရင်းအတိုင်း နှစ်ခုလုံးတွဲသုံးနိုင်ခွင့် ပေးထားပါသည်)
 ========================= */
 paperVoiceBtn?.addEventListener('click', () => {
     voiceModeEnabled = !voiceModeEnabled;
@@ -419,50 +421,43 @@ window.addEventListener('load', () => {
 /* ========================================================
    DOWNLOAD AUDIO (DIRECT FILE DOWNLOAD FOR EXTERNAL ARCHIVE)
 ======================================================== */
-paperDownloadBtn?.addEventListener('click', () => {
-    let audioSrc = paperAudio.src;
-    if (!audioSrc || audioSrc === window.location.href) {
-        return alert('အသံဖိုင် မရှိသေးပါ သို့မဟုတ် ဖွင့်မထားပါ');
-    }
+paperDownloadBtn?.addEventListener('click', async () => {
+    if (!paperAudio.src) return alert('အသံဖိုင် မရှိသေးပါ');
 
     const originalBtnText = paperDownloadBtn.innerHTML;
-    paperDownloadBtn.innerHTML = '⏳';
+    try {
+        paperDownloadBtn.innerHTML = '⏳'; // ဒေါင်းလုဒ်စတင်ချိန် ပြောင်းလဲပေးသည့်အိုင်ကွန်
+        
+        // ပြင်ပလင့်ခ်ဖိုင်ကို Blob data အနေဖြင့် ဆွဲယူပြီး စက်ထဲသို့ အတင်းတွန်းထည့်စနစ်
+        const response = await fetch(paperAudio.src);
+        if (!response.ok) throw new Error("Network issue");
+        
+        const blob = await response.blob();
+        const blobUrl = URL.createObjectURL(blob);
 
-    // Archive.org လင့်ခ်ဖြစ်ပါက ဒေါင်းလုဒ်ဆွဲရန် Force လုပ်သည့် parameter ကို ထည့်သွင်းခြင်း
-    if (audioSrc.includes('archive.org')) {
-        if (audioSrc.includes('/items/')) {
-            audioSrc = audioSrc.replace('/items/', '/download/');
-        }
-        if (!audioSrc.includes('?download=1')) {
-            audioSrc = audioSrc + (audioSrc.includes('?') ? '&' : '?') + 'download=1';
-        }
-    }
-
-    // Telegram UI ထဲကနေ အပြင် Browser သို့ အတင်းတွန်းပို့ပြီး ဒေါင်းလုဒ် Box တန်းကျလာစေခြင်း
-    const isTelegram = /Telegram/i.test(navigator.userAgent);
-
-    if (isTelegram) {
-        // Telegram ရဲ့ စနစ်အရ ဤကဲ့သို့ လင့်ခ်ချိတ်ပေးလိုက်ခြင်းဖြင့် အမည်းရောင် Player ဆီမသွားတော့ဘဲ ဖုန်း Browser ထဲမှာ ဒေါင်းလုဒ် Box တန်းကျလာပါမည်
-        const outerLink = document.createElement('a');
-        outerLink.href = audioSrc;
-        outerLink.setAttribute('target', '_blank');
-        outerLink.setAttribute('rel', 'noopener noreferrer');
-        document.body.appendChild(outerLink);
-        outerLink.click();
-        document.body.removeChild(outerLink);
-    } else {
-        // ပုံမှန် Browser များအတွက် စနစ်
         const a = document.createElement('a');
-        a.href = audioSrc;
-        a.setAttribute('download', '');
+        a.href = blobUrl;
+
+        const file = new URL(paperAudio.src).pathname.split('/').pop();
+        a.download = decodeURIComponent(file) || "audio-archive.mp3";
+
+        document.body.appendChild(a);
+        a.click();
+        
+        document.body.removeChild(a);
+        URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+        console.error("Direct download failed, fallback to window open:", error);
+        // CORS သို့မဟုတ် အခြားပြဿနာရှိပါက ဒေါင်းလုဒ်လင့်ခ်အတိုင်း တွန်းပို့ပေးခြင်း
+        const a = document.createElement('a');
+        a.href = paperAudio.src;
+        a.target = '_blank';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-    }
-
-    setTimeout(() => {
+    } finally {
         paperDownloadBtn.innerHTML = originalBtnText;
-    }, 1000);
+    }
 });
 
 })();
