@@ -60,7 +60,6 @@ let sleepInterval = null;
 /* =========================
    AUDIO CONTEXT (BOOST + FILTERS)
 ========================= */
-// မူရင်းအတိုင်း Web Audio API ဖြင့် Filters များနှင့် Gain Node ကို စနစ်တကျ ပြန်လည်ချိတ်ဆက်ပေးထားပါသည်။
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
 const source = audioContext.createMediaElementSource(paperAudio);
@@ -115,7 +114,6 @@ window.togglePaperAudio = function(button, src, title) {
     paperAudio.src = src;
     paperAudio.playbackRate = currentSpeed;
 
-    // အော်ဒီယို ကွန်တက်စ် အလုပ်လုပ်ရန် စတင်နှိုးဆော်ခြင်း
     if (audioContext.state === 'suspended') {
         audioContext.resume();
     }
@@ -247,7 +245,7 @@ paperAutonextBtn?.addEventListener('click', () => {
 });
 
 /* =========================
-   VOICE / NIGHT MODE (မူရင်းအတိုင်း နှစ်ခုလုံးတွဲသုံးနိုင်ခွင့် ပေးထားပါသည်)
+   VOICE / NIGHT MODE
 ========================= */
 paperVoiceBtn?.addEventListener('click', () => {
     voiceModeEnabled = !voiceModeEnabled;
@@ -421,43 +419,56 @@ window.addEventListener('load', () => {
 /* ========================================================
    DOWNLOAD AUDIO (DIRECT FILE DOWNLOAD FOR EXTERNAL ARCHIVE)
 ======================================================== */
-paperDownloadBtn?.addEventListener('click', async () => {
-    if (!paperAudio.src) return alert('အသံဖိုင် မရှိသေးပါ');
+paperDownloadBtn?.addEventListener('click', () => {
+    let audioSrc = paperAudio.src;
+    if (!audioSrc || audioSrc === window.location.href) {
+        return alert('အသံဖိုင် မရှိသေးပါ သို့မဟုတ် ဖွင့်မထားပါ');
+    }
 
     const originalBtnText = paperDownloadBtn.innerHTML;
-    try {
-        paperDownloadBtn.innerHTML = '⏳'; // ဒေါင်းလုဒ်စတင်ချိန် ပြောင်းလဲပေးသည့်အိုင်ကွန်
-        
-        // ပြင်ပလင့်ခ်ဖိုင်ကို Blob data အနေဖြင့် ဆွဲယူပြီး စက်ထဲသို့ အတင်းတွန်းထည့်စနစ်
-        const response = await fetch(paperAudio.src);
-        if (!response.ok) throw new Error("Network issue");
-        
-        const blob = await response.blob();
-        const blobUrl = URL.createObjectURL(blob);
+    paperDownloadBtn.innerHTML = '⏳';
 
-        const a = document.createElement('a');
-        a.href = blobUrl;
-
-        const file = new URL(paperAudio.src).pathname.split('/').pop();
-        a.download = decodeURIComponent(file) || "audio-archive.mp3";
-
-        document.body.appendChild(a);
-        a.click();
-        
-        document.body.removeChild(a);
-        URL.revokeObjectURL(blobUrl);
-    } catch (error) {
-        console.error("Direct download failed, fallback to window open:", error);
-        // CORS သို့မဟုတ် အခြားပြဿနာရှိပါက ဒေါင်းလုဒ်လင့်ခ်အတိုင်း တွန်းပို့ပေးခြင်း
-        const a = document.createElement('a');
-        a.href = paperAudio.src;
-        a.target = '_blank';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-    } finally {
-        paperDownloadBtn.innerHTML = originalBtnText;
+    // Archive.org လင့်ခ်ဖြစ်ပါက ဒေါင်းလုဒ်ဆွဲရန် Force လုပ်သည့် parameter ကို ထည့်သွင်းခြင်း
+    if (audioSrc.includes('archive.org') && !audioSrc.includes('?download=1')) {
+        audioSrc = audioSrc + (audioSrc.includes('?') ? '&' : '?') + 'download=1';
     }
+
+    // Telegram In-App Browser ဖြစ်နေသလား သို့မဟုတ် အခြား Browser လား စစ်ဆေးခြင်း
+    const isTelegram = /Telegram/i.test(navigator.userAgent);
+
+    if (isTelegram) {
+        // Telegram ထဲမှာ တိုက်ရိုက် 'Download ဖိုင်' ဆိုပြီး ပေါ်လာစေရန် တိုက်ရိုက် လင့်ခ်ပြောင်းပေးခြင်း
+        window.location.href = audioSrc;
+    } else {
+        // ပုံမှန် Browser များအတွက် Anchor (a) download attribute ဖြင့် စနစ်တကျ ဒေါင်းလုဒ်ဆွဲခြင်း
+        try {
+            const a = document.createElement('a');
+            a.href = audioSrc;
+            
+            let fileName = "audio-archive.mp3";
+            try {
+                const urlPath = new URL(audioSrc).pathname;
+                const extractedFile = urlPath.split('/').pop();
+                if (extractedFile) {
+                    fileName = decodeURIComponent(extractedFile).replace('?download=1', '').replace('&download=1', '');
+                }
+            } catch(e) { console.log(e); }
+            
+            a.setAttribute('download', fileName);
+            a.style.display = 'none';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        } catch (error) {
+            console.error("Standard download failed, forcing new window:", error);
+            window.open(audioSrc, '_blank');
+        }
+    }
+
+    // ၁ စက္ကန့်အကြာတွင် ခလုတ်သင်္ကေတအား မူလအတိုင်း ပြန်ပြောင်းပေးခြင်း
+    setTimeout(() => {
+        paperDownloadBtn.innerHTML = originalBtnText;
+    }, 1000);
 });
 
 })();
