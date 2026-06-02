@@ -41,8 +41,8 @@ body.dark-mode {
   --btn-border: rgba(255, 215, 0, 0.2);
   --btn-text: #ffffff;
   --bottom-nav-bg: #111111;
-  --nav-text: #FFD700;        /* Dark Mode အောက်ခြေ ပုံမှန်စာသားနှင့် အိုင်ကွန်အရောင် (အဝါ) */
-  --nav-active-text: #FFD700; /* 🌟 Active ဖြစ်သော်လည်း စာသား/အိုင်ကွန်ကို ဘေးခလုတ်များနည်းတူ အဝါရောင်အတိုင်း ထားရှိခြင်း */
+  --nav-text: #EAB308;        /* Dark Mode အောက်ခြေ ပုံမှန်စာသားနှင့် အိုင်ကွန်အရောင် (အဝါ) */
+  --nav-active-text: #EAB308; /* 🌟 Active ဖြစ်သော်လည်း စာသား/အိုင်ကွန်ကို ဘေးခလုတ်များနည်းတူ အဝါရောင်အတိုင်း ထားရှိခြင်း */
 }
 
 /* 🌐 GLOBAL RESET & FONTS */
@@ -78,7 +78,7 @@ body {
   font-size: 1rem;
   font-weight: bold;
   background-color: black;
-  color: #FFD700;
+  color:  #EAB308;
   padding: 3px 7px;
   border-radius: 6px;
   z-index: 9999;
@@ -113,7 +113,7 @@ main {
   height: 120px;
   margin: 1rem auto;
   border-radius: 50%;
-  border: 1px solid #FFD700;
+  border: 1px solid  #EAB308;
   padding: 5px;
   display: flex;
   justify-content: center;
@@ -188,7 +188,7 @@ main {
   margin-bottom: 20px;
 }
 body.dark-mode #question-count {
-  color: #FFD700;
+  color: #EAB308;
 }
 #question-text {
   font-size: 24px;
