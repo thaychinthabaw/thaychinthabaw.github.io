@@ -144,11 +144,12 @@ body {
 .section-title {
     font-size: 1.1rem;
     margin: 60px 0 10px 5px;
-    border-left: 5px solid #ffc107; /* အဝါရောင် ဘေးလိုင်းလေး */
+    border-left: 5px solid #EAB308; /* အဝါရောင် ဘေးလိုင်းလေး */
     padding-left: 12px;
     background-color:#121212; 
     border-radius:5px;
-    margin-top: 100px; 
+    margin-top: 100px;
+    color: #EAB308;
 }
 
 /* ၃။ ပုံများကို ဘေးတိုက် Scroll ဆွဲနိုင်အောင် လုပ်ဆောင်ခြင်း (Container) */
