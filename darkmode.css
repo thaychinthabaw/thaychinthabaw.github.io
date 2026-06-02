@@ -3,10 +3,10 @@
 :root {
   /* White Mode (မူလလက်ရှိအရောင်) */
   --bg-color: #ffffff;
-  --text-color:  #FFD700;
+  --text-color:  #EAB308;
   --bottom-nav-bg: #ffffff;
   --nav-text: #000000;
-  --accent-gold: #FFD700;
+  --accent-gold: #EAB308;
 }
 
 /* 📒 Reading Mode Class */
@@ -20,9 +20,9 @@ body.reading-mode {
 /* 🌙 Dark Mode Class */
 body.dark-mode {
   --bg-color: #000000;
-  --text-color: #FFD700;
+  --text-color: #EAB308;
   --bottom-nav-bg: #111111;
-  --nav-text: #FFD700;
+  --nav-text: #EAB308;
 }
 
 /* တစ်ဆိုဒ်လုံး၏ နောက်ခံနှင့် စာသားအရောင်ကို Variable ဖြင့် ချိတ်ဆက်ခြင်း */
@@ -97,7 +97,7 @@ body:not(.dark-mode):not(.reading-mode) .book-header h1 {
 
 /* ၁။ Reading Mode ဖွင့်ထားရင် Body ထဲက စာသားအားလုံးကို အဝါရောင်ပြမည် */
 body.reading-mode {
-  color: #FFD700 !important;
+  color: #EAB308 !important;
 }
 
 
