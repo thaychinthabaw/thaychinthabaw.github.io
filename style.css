@@ -152,6 +152,14 @@ body {
     color: #EAB308;
 }
 
+/*အောက်ဆုံးကြေညာစာအတွက် အစ*/
+.adboard {
+color: #EAB308;
+background-color:#121212; 
+padding:10px; 
+border-radius:5px;
+}/*အောက်ဆုံးကြေညာစာအတွက် အဆုံး*/
+
 /* ၃။ ပုံများကို ဘေးတိုက် Scroll ဆွဲနိုင်အောင် လုပ်ဆောင်ခြင်း (Container) */
 .gallery-list {
     display: flex;             /* ပုံများကို ဘေးချင်းကပ်စီရန် */
