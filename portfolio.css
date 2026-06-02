@@ -165,7 +165,7 @@ body:not(.dark-mode) .label {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: var(--primary-gold) !important;
+    background: #EAB308 !important;
     padding: 18px 25px;
     border-radius: 12px;
     text-decoration: none;
