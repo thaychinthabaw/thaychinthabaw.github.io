@@ -290,6 +290,7 @@ body:not(.dark-mode) .gallery-item .text {
   left: 0.5rem;        /* ဘယ်ဘက် margin */
   font-size: 1rem;   /* စာအရွယ် */
   font-weight: bold;
+  font-family: "Myanmar Text", sans-serif !important; /* 🌟 ဤလိုင်းလေး ဖြည့်ပေးပါ (စာလုံးစနစ် တူညီသွားစေရန်) */ 
   background-color: black;
   color: #EAB308;
   padding: 3px 7px;
