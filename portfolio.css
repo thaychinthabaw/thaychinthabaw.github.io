@@ -17,7 +17,7 @@ body {
 
 .main-wrapper {
     width: 100%;
-    max-width: 480px;
+    max-width: 720px; /* 💻 Desktop တွင် အချိုးကျကျယ်ပြန့်စေရန် 480px မှ 720px သို့ ပြောင်းလဲထားပါသည် */
     margin-left: auto;
     margin-right: auto;
     /* အရှင်ဘုရား အလိုရှိတဲ့ အတိုင်းအတာများ */
