@@ -57,6 +57,9 @@ body.dark-mode {
 button:active, a:active {
   background-color: rgba(255, 204, 0, 0.2) !important;
 }
+
+
+
 body {
   margin: 0;
   padding: 0;
@@ -343,14 +346,15 @@ body.dark-mode .bottom-nav {
 
 /* 🌟 ACTIVE STATE FOR ALL MODES (ခလုတ်အတွင်းရှိ စာသားနှင့် အိုင်ကွန်ကို ဘေးခလုတ်များနည်းတူ အရောင်တစ်ထပ်တည်း ထိန်းသိမ်းခြင်း) */
 .bottom-nav a.active {
-  box-shadow: 0 0 6px rgba(212, 175, 55, 0.2) !important;
+  box-shadow: 0 0 6px rgba(225, 215, 0, 0.3) !important;
   color: var(--nav-active-text) !important; /* 🌟 စာသားနှင့် အိုင်ကွန်ကို `--nav-active-text` (မုဒ်အလိုက် ပုံမှန်အရောင်အတိုင်း) ချုပ်ကိုင်ခြင်း */
   text-decoration: none;
 }
 
 /* ⚪ White Mode & 📒 Reading Mode Active Background */
 .bottom-nav a.active {
-  background-color: rgba(212, 175, 55, 0.15) !important; /* Active နောက်ခံအရောင် (ဝါကျင်ကျင်) သီးသန့်ပြောင်းလဲခြင်း */
+  background-color: rgba(255, 215, 0, 0.2) !important; /* Active နောက်ခံအရောင် (ဝါကျင်ကျင်) သီးသန့်ပြောင်းလဲခြင်း */
+box-shadow: 0 0 6px rgba(255, 215, 0, 0.3);
 }
 
 /* 🌙 Dark Mode Active Background */
