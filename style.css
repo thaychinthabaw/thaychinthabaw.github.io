@@ -1,7 +1,7 @@
 body {
   font-family: "Myanmar Text", sans-serif;
   background-color: #ffffff;
-  color: #FFD700; /* စာအဝါ */
+  color: #EAB308; /* စာအဝါ */
   margin: 0;
   padding: 0;
 }
@@ -70,7 +70,7 @@ main {
   display: flex;            /* vertical layout */
   flex-direction: column;   /* emoji အပေါ်၊ စာ အောက် */
   align-items: center;
-  color: #FFD700;
+  color: #EAB308;
   text-decoration: none;
   font-weight: bold;
   padding: 4px 6px;
@@ -91,7 +91,7 @@ main {
   font-size: 1rem;   /* စာအရွယ် */
   font-weight: bold;
   background-color: black;
-  color: #FFD700;
+  color: #EAB308;
   padding: 3px 7px;
   border-radius: 6px;
   z-index: 9999;
