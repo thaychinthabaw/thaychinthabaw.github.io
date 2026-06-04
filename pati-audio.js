@@ -60,7 +60,6 @@ let sleepInterval = null;
 /* =========================
    AUDIO CONTEXT (BOOST + FILTERS)
 ========================= */
-// မူရင်းအတိုင်း Web Audio API ဖြင့် Filters များနှင့် Gain Node ကို စနစ်တကျ ပြန်လည်ချိတ်ဆက်ပေးထားပါသည်။
 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
 
 const source = audioContext.createMediaElementSource(paperAudio);
@@ -85,21 +84,24 @@ nightEQ.connect(audioContext.destination);
 gainNode.gain.value = 1;
 
 /* =========================
-   MAIN PLAY FUNCTION
+   MAIN PLAY FUNCTION (FIXED BUG)
 ========================= */
 window.togglePaperAudio = function(button, src, title) {
 
+    // လက်ရှိ ဖွင့်နေဆဲ ခလုတ်ကိုပဲ ထပ်နှိပ်တာလားဆိုတာ တိုက်ရိုက်စစ်ဆေးခြင်း
     const isSameButton = currentSpeakerButton === button;
-    const isSameAudio = decodeURI(paperAudio.src).includes(src);
 
-    if (isSameButton && isSameAudio && !paperAudio.paused) {
+    // အကယ်၍ ဖွင့်နေဆဲခလုတ်ကို ပြန်နှိပ်ပြီး အသံကလည်း လာနေဆဲဖြစ်ပါက အသံပိတ်မည်
+    if (isSameButton && !paperAudio.paused) {
         paperAudio.pause();
         paperAudioBar.style.display = 'none';
         paperShowBarBtn.style.display = 'none';
         button.innerHTML = '🔊';
+        if (paperPlayBtn) paperPlayBtn.innerHTML = '▶';
         return;
     }
 
+    // တခြားခလုတ်အသစ်ကို နှိပ်လိုက်ရင် လက်ရှိခလုတ်ဟောင်းကို 🔊 ပြန်ပြောင်းမည်
     if (currentSpeakerButton && currentSpeakerButton !== button) {
         currentSpeakerButton.innerHTML = '🔊';
     }
@@ -112,10 +114,14 @@ window.togglePaperAudio = function(button, src, title) {
     paperAudioBar.classList.remove('hidden-bar');
     paperAudioBar.classList.remove('minimized');
 
-    paperAudio.src = src;
+    // တကယ်လို့ ခလုတ်အသစ်ဖြစ်မှသာ လင့်ခ်အသစ်ပြောင်းထည့်ပြီး အစကဖွင့်ပါမည်
+    if (!isSameButton) {
+        paperAudio.src = src;
+    }
+    
     paperAudio.playbackRate = currentSpeed;
 
-    // အော်ဒီယို ကွန်တက်စ် အလုပ်လုပ်ရန် စတင်နှိုးဆော်ခြင်း
+    // AudioContext ကို နှိုးခြင်း
     if (audioContext.state === 'suspended') {
         audioContext.resume();
     }
@@ -247,7 +253,7 @@ paperAutonextBtn?.addEventListener('click', () => {
 });
 
 /* =========================
-   VOICE / NIGHT MODE (မူရင်းအတိုင်း နှစ်ခုလုံးတွဲသုံးနိုင်ခွင့် ပေးထားပါသည်)
+   VOICE / NIGHT MODE
 ========================= */
 paperVoiceBtn?.addEventListener('click', () => {
     voiceModeEnabled = !voiceModeEnabled;
@@ -419,16 +425,15 @@ window.addEventListener('load', () => {
 });
 
 /* ========================================================
-   DOWNLOAD AUDIO (DIRECT FILE DOWNLOAD FOR EXTERNAL ARCHIVE)
+   DOWNLOAD AUDIO
 ======================================================== */
 paperDownloadBtn?.addEventListener('click', async () => {
     if (!paperAudio.src) return alert('အသံဖိုင် မရှိသေးပါ');
 
     const originalBtnText = paperDownloadBtn.innerHTML;
     try {
-        paperDownloadBtn.innerHTML = '⏳'; // ဒေါင်းလုဒ်စတင်ချိန် ပြောင်းလဲပေးသည့်အိုင်ကွန်
+        paperDownloadBtn.innerHTML = '⏳';
         
-        // ပြင်ပလင့်ခ်ဖိုင်ကို Blob data အနေဖြင့် ဆွဲယူပြီး စက်ထဲသို့ အတင်းတွန်းထည့်စနစ်
         const response = await fetch(paperAudio.src);
         if (!response.ok) throw new Error("Network issue");
         
@@ -448,7 +453,6 @@ paperDownloadBtn?.addEventListener('click', async () => {
         URL.revokeObjectURL(blobUrl);
     } catch (error) {
         console.error("Direct download failed, fallback to window open:", error);
-        // CORS သို့မဟုတ် အခြားပြဿနာရှိပါက ဒေါင်းလုဒ်လင့်ခ်အတိုင်း တွန်းပို့ပေးခြင်း
         const a = document.createElement('a');
         a.href = paperAudio.src;
         a.target = '_blank';
