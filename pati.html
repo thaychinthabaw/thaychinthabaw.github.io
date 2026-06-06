@@ -6,12 +6,8 @@
     <title>စာဖတ်ခန်း | သေခြင်းသဘော</title>
     <link rel="stylesheet" href="pati-audio.css">
     <link rel="stylesheet" href="pati-text.css">
-  
-    <link class="apple-touch-icon" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
-        
     <link rel="stylesheet" href="darkmode.css">
-    <link rel="icon" type="image/png" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
-
+    
     <link rel="icon" type="image/png" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
     <link rel="apple-touch-icon" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
     <link rel="shortcut icon" sizes="192x192" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
@@ -20,7 +16,7 @@
 </head>
 <body class="is-paper">
 
-        <div class="container">
+    <div class="container">
         <nav class="top-controls">
             <a href="index.html" class="back-link">
                 <span class="nav-icon">⌂</span>
@@ -40,7 +36,7 @@
                 <h1 id="js-main-heading">ပဋိသမ္ဘိဒါမဂ်ကျမ်း</h1>
             </section>
             <section id="title2">
-                <h1 id="js-sub-heading">အသံဖိုင်နာမူများ ☸️</h1>
+                <h1 id="js-sub-heading">अသံဖိုင်နာမူများ ☸️</h1>
             </section>
             
             <div class="audio-chapters-list">
@@ -63,12 +59,13 @@
                         <button class="speaker-btn" onclick="togglePaperAudio(this, 'https://archive.org/download/20260601_20260601_1405/%E1%80%92%E1%80%AF%E1%80%80%E1%80%B9%E1%80%81%E1%80%94%E1%80%AD%E1%80%9B%E1%80%B1%E1%80%AC%E1%80%93%E1%80%A1%E1%80%9B%E1%80%AD%E1%80%9A%E1%80%9E%E1%80%85%E1%80%B9%E1%80%85%E1%80%AC.mp3', 'ဒိဋ္ဌိကထာ နမူနာ')">🔊</button>
                         ဒိဋ္ဌိကထာ နမူနာ
                     </h3>
-                    <div class="raw-text" id=chapter-1> ဒီနေရာမှာ စာသားတွေ ဝင်လာရမယ်ထင်တယ် ငါလုပ်တာမှန်လား </div>
                 </section>
             </div>
 
             <div id="dynamic-chapters"></div>
         </article>
+    </div>
+
     <div class="floating-left-group">
         <a href="#" class="top-btn" title="အပေါ်ဆုံးသို့">⬆</a>
         <button class="toc-toggle-btn" id="toc-toggle" onclick="toggleTOC()">☰</button>
@@ -108,7 +105,9 @@
                             <button id="size-minus-1">▼</button>
                         </div>
                     </div>
-                </div><div class="setting-item-group">
+                </div>
+
+                <div class="setting-item-group">
                     <span class="setting-title2">စာလုံးအထူ</span>
                     <div class="preset-group" id="weight-buttons">
                         <button class="preset-btn" data-weight="300">အပါး</button>
@@ -133,7 +132,9 @@
                             <button id="weight-minus-1">▼</button>
                         </div>
                     </div>
-                </div> <div class="setting-item-group">
+                </div>
+
+                <div class="setting-item-group">
                     <span class="setting-title2">စာကြောင်းကြား အကွာအဝေး </span>
                     <div class="preset-group">
                         <button class="preset-btn line-btn" data-value="1.7">ကျဉ်း</button>
@@ -145,7 +146,9 @@
                         <span id="lh-display">2.0</span>
                         <button onclick="adjustLineHeight(0.1)">+</button>
                     </div>
-                </div><div class="setting-item-group">
+                </div>
+
+                <div class="setting-item-group">
                     <span class="setting-title2">စာလုံးကြား အကွာအဝေး</span>
                     <div class="preset-group">
                         <button class="preset-btn letter-btn" data-value="0">ကျဉ်း</button>
@@ -157,7 +160,8 @@
                         <span id="ls-display">0</span>
                         <button onclick="adjustLetterSpacing(0.5)">+</button>
                     </div>
-                </div></div> 
+                </div>
+            </div> 
         </div>
     </div>
     
@@ -230,18 +234,19 @@
     </div>
 
     <!-- crossorigin="anonymous" ထည့်မှသာ Filter တွေနဲ့ Download တွေ အလုပ်လုပ်မှာပါ -->
-<audio id="paper-audio" crossorigin="anonymous"></audio>
+    <audio id="paper-audio" crossorigin="anonymous"></audio>
 
     <button id="paper-show-bar-btn" class="paper-show-bar-btn">◯</button>     
         
     <script src="darkmode.js"></script>
     <script src="pati-audio.js"></script>
-<!-- 🌟 အောက်ပါအတိုင်း type="module" ထည့်ပြီး ပြင်လိုက်ပါ -->
-<script type="module" src="pati-text.js"></script>
+    
+    <!-- 🌟 အခန်းလိုက်စာသား Array များတည်ရှိရာ text.js ဖိုင်ကို တင်သွင်းခြင်း -->
+    <script src="text.js"></script>
+    
+    <!-- 🌟 Module စနစ်ဖြင့် အလုပ်လုပ်မည့် JavaScript ဖိုင် -->
+    <script type="module" src="pati-text.js"></script>
 
-
-
-            
     <script>
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', async () => {
