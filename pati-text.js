@@ -1,4 +1,3 @@
-(() => {
 'use strict';
 
 // 🌟 text.js ထဲက အခန်းလိုက် စာသား Array ကို Import လုပ်ပါတယ်
@@ -14,16 +13,10 @@ let fontResizeObserver = null;
 function buildSemanticParagraphs() {
     let globalIndex = 1;
     
-    // 🌟 text.js ထဲက အခန်းတွေကို တစ်ခုချင်းစီ Loop ပတ်ပြီး HTML ထဲက ID နဲ့ တိုက်စစ်ပါတယ်
     novelChapters.forEach((chapter) => {
-        
-        // HTML ထဲမှာ ရှိပြီးသား id="chapter-1" စတဲ့ Section တွေကို လှမ်းရှာပါတယ်
         const existingSection = document.getElementById(chapter.id);
         
-        // အကယ်၍ HTML မှာ အဲဒီ Section ရှိနေရင် (ပျက်မသွားစေဘဲ) ၎င်းရဲ့ အောက်ခြေမှာ စာသားတွေပဲ သွားဖြည့်ပါမယ်
         if (existingSection) {
-            
-            // စာသားများကို စာပိုဒ်ခွဲခြင်း
             const rawText = chapter.content.trim();
             const paragraphs = rawText
                 .split(/\n\s*\n/)
@@ -45,7 +38,6 @@ function buildSemanticParagraphs() {
                 p.setAttribute('data-p', globalIndex);
                 p.textContent = cleanText;
 
-                // Existing Section ရဲ့ အောက်ခြေမှာ စာသား <p> ကို အလိုအလျောက် ပေါင်းထည့်ပါတယ်
                 existingSection.appendChild(p);
                 globalIndex++;
             });
@@ -54,7 +46,6 @@ function buildSemanticParagraphs() {
 }
 
 function saveReadingPosition() {
-    // 🌟 ၎င်းနေရာတွင် HTML container class ကို ညွှန်းဆိုရန် .audio-chapters-list p ဟု ပြောင်းလဲထားပါသည်
     const paragraphs = document.querySelectorAll('.audio-chapters-list p');
     let currentParagraph = null;
     let offsetRatio = 0;
@@ -227,6 +218,7 @@ function applyLineHeight() {
     localStorage.setItem('userLineHeight', currentLineHeight);
 }
 
+// 🌟 Global Window ကနေ လှမ်းခေါ်နိုင်အောင် ပြောင်းလဲပြင်ဆင်ထားပါသည်
 function adjustLineHeight(amount) {
     saveReadingPosition();
     let next = Math.round((currentLineHeight + amount) * 10) / 10;
@@ -257,6 +249,7 @@ function applyLetterSpacing() {
     localStorage.setItem('userLetterSpacing', currentLetterSpacing);
 }
 
+// 🌟 Global Window ကနေ လှမ်းခေါ်နိုင်အောင် ပြောင်းလဲပြင်ဆင်ထားပါသည်
 function adjustLetterSpacing(amount) {
     saveReadingPosition();
     let next = Math.round((currentLetterSpacing + amount) * 10) / 10;
@@ -355,10 +348,8 @@ function init() {
     const article = document.querySelector('article');
     const tocSearch = document.getElementById('toc-search');
     
-    /* ===== 🌟 BUILD SEMANTIC PARAGRAPHS FIRST 🌟 ===== */
     buildSemanticParagraphs();
     
-    // စာသားတွေ ဆောက်ပြီးမှ ၎င်းတို့အတွင်းရှိ toc-list li ကို ရှာရမှာဖြစ်ပါတယ်
     const tocItems = document.querySelectorAll('.toc-list li');
 
     /* ===== LOAD & APPLY ALL SAVED SETTINGS ===== */
@@ -403,7 +394,6 @@ function init() {
     });
     
     /* ===== TOC ACTIVE ===== */
-    // 🌟 HTML ဖွဲ့စည်းပုံအသစ်အရ .audio-chapters-list section ကို ခြေရာခံရန် ပြင်ဆင်ထားပါသည်
     const sections = document.querySelectorAll('.audio-chapters-list section');
     const tocLinks = document.querySelectorAll('.toc-list li a');
     const observerOptions = {
@@ -560,18 +550,18 @@ function init() {
             }
         });
     }
-    
-    /* ===== EXPORT FUNCTIONS ===== */
-    window.toggleTOC = toggleTOC;
-    window.toggleSetting = toggleSetting;
-    window.downloadPDF = downloadPDF;
-    window.toggleReadingMode = toggleReadingMode;
-    window.adjustLineHeight = adjustLineHeight;
-    window.adjustLetterSpacing = adjustLetterSpacing;
-    window.changeFontSize = changeFontSize;
-    window.changeWeight = changeWeight;
 }
+
+/* ===== 🌟 EXPORT FUNCTIONS TO GLOBAL WINDOW 🌟 ===== */
+// IIFE closure block ကို ဖျက်လိုက်ပြီး ၎င်းနေရာတွင် တိုက်ရိုက်ထုတ်ပေးထားပါသည်
+window.toggleTOC = toggleTOC;
+window.toggleSetting = toggleSetting;
+window.downloadPDF = downloadPDF;
+window.toggleReadingMode = toggleReadingMode;
+window.adjustLineHeight = adjustLineHeight;
+window.adjustLetterSpacing = adjustLetterSpacing;
+window.changeFontSize = changeFontSize;
+window.changeWeight = changeWeight;
 
 /* == SINGLE DOMCONTENTLOADED == */
 document.addEventListener('DOMContentLoaded', init);
-})();
