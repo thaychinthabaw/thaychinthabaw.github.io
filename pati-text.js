@@ -12,32 +12,23 @@ let fontResizeObserver = null;
 
 /* == SEMANTIC SYSTEM == */
 function buildSemanticParagraphs() {
-    const containers = document.querySelectorAll('.raw-text');
     let globalIndex = 1;
     
-    containers.forEach((container) => {
-        container.innerHTML = ''; // Container အဟောင်းကို အရင်ရှင်းတယ်
-
-        // 🌟 ခေါင်းစဉ် တစ်ခုချင်းစီကို ပတ်ပတ်လည် Loop ပတ်ပြီး ဆောက်ပေးပါတယ်
-        novelChapters.forEach((chapter) => {
+    // 🌟 text.js ထဲက အခန်းတွေကို တစ်ခုချင်းစီ Loop ပတ်ပြီး HTML ထဲက ID နဲ့ တိုက်စစ်ပါတယ်
+    novelChapters.forEach((chapter) => {
+        
+        // HTML ထဲမှာ ရှိပြီးသား id="chapter-1" စတဲ့ Section တွေကို လှမ်းရှာပါတယ်
+        const existingSection = document.getElementById(chapter.id);
+        
+        // အကယ်၍ HTML မှာ အဲဒီ Section ရှိနေရင် (ပျက်မသွားစေဘဲ) ၎င်းရဲ့ အောက်ခြေမှာ စာသားတွေပဲ သွားဖြည့်ပါမယ်
+        if (existingSection) {
             
-            // ၁။ အခန်းတစ်ခုချင်းစီအတွက် <section id="chapter-x"> ဆောက်ပါတယ် (မာတိကာ အလုပ်လုပ်ရန်)
-            const section = document.createElement('section');
-            section.setAttribute('id', chapter.id);
-
-            // ၂။ ခေါင်းစဉ်အတွက် <h2> ဆောက်ပြီး ထည့်ပါတယ်
-            const h2 = document.createElement('h2');
-            h2.className = 'chapter-title';
-            h2.textContent = chapter.title;
-            section.appendChild(h2);
-
-            // ၃။ စာသားတွေကို စာပိုဒ်ခွဲပါတယ်
+            // စာသားများကို စာပိုဒ်ခွဲခြင်း
             const rawText = chapter.content.trim();
             const paragraphs = rawText
                 .split(/\n\s*\n/)
                 .filter(p => p.trim() !== '');
 
-            // ၄။ စာပိုဒ်တွေကို Section ထဲ ထည့်ပါတယ်
             paragraphs.forEach((text) => {
                 const cleanText = text.trim();
 
@@ -45,7 +36,7 @@ function buildSemanticParagraphs() {
                 if (cleanText === '@@gap') {
                     const gap = document.createElement('div');
                     gap.className = 'big-gap';
-                    section.appendChild(gap);
+                    existingSection.appendChild(gap);
                     return;
                 }
 
@@ -54,18 +45,17 @@ function buildSemanticParagraphs() {
                 p.setAttribute('data-p', globalIndex);
                 p.textContent = cleanText;
 
-                section.appendChild(p);
+                // Existing Section ရဲ့ အောက်ခြေမှာ စာသား <p> ကို အလိုအလျောက် ပေါင်းထည့်ပါတယ်
+                existingSection.appendChild(p);
                 globalIndex++;
             });
-
-            // Section တစ်ခုလုံး ပြီးရင် ပင်မ Container ထဲ ထည့်ပါတယ်
-            container.appendChild(section);
-        });
+        }
     });
 }
 
 function saveReadingPosition() {
-    const paragraphs = document.querySelectorAll('.raw-text p');
+    // 🌟 ၎င်းနေရာတွင် HTML container class ကို ညွှန်းဆိုရန် .audio-chapters-list p ဟု ပြောင်းလဲထားပါသည်
+    const paragraphs = document.querySelectorAll('.audio-chapters-list p');
     let currentParagraph = null;
     let offsetRatio = 0;
     const viewportCenter = window.innerHeight / 2;
@@ -184,7 +174,6 @@ function toggleReadingMode() {
 }
 
 /* == LAST READ SYSTEM == */
-// 🌟 တိုးတက်မှု- လက်ရှိဖတ်နေတဲ့ အခန်းခေါင်းစဉ်ကိုပါ Title အနေနဲ့ သိမ်းပေးပါတယ်
 function saveCurrentPage() {
     const activeChapterLink = document.querySelector('.active-chapter');
     if (activeChapterLink) {
@@ -409,12 +398,13 @@ function init() {
         clearTimeout(readingTimer);
         readingTimer = setTimeout(() => {
             saveReadingPosition();
-            saveCurrentPage(); // Scroll ဆွဲတိုင်း ဖတ်လက်စ ခေါင်းစဉ်ကိုပါ ထပ်မှတ်ပေးရန်
+            saveCurrentPage(); 
         }, 200);
     });
     
     /* ===== TOC ACTIVE ===== */
-    const sections = document.querySelectorAll('.raw-text section');
+    // 🌟 HTML ဖွဲ့စည်းပုံအသစ်အရ .audio-chapters-list section ကို ခြေရာခံရန် ပြင်ဆင်ထားပါသည်
+    const sections = document.querySelectorAll('.audio-chapters-list section');
     const tocLinks = document.querySelectorAll('.toc-list li a');
     const observerOptions = {
         root: null,
