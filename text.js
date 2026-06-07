@@ -56,6 +56,9 @@ export const novelChapters = [
 
     {
         id: "pati-m-t0", // HTML က ID နဲ့ ကွက်တိ တူရပါမယ်
+        title: "ဉာဏ်စဉ် မာတိကာ",
+        audio: "https://archive.org/download/20260531_20260531_1241/%E1%80%92%E1%80%AF%E1%80%80%E1%80%B9%E1%80%81%E1%80%A1%E1%80%9B%E1%80%AD%E1%80%9A%E1%80%9E%E1%80%85%E1%80%B9%E1%80%85%E1%80%AC.mp3",
+        tocClass: "title",         
         content: `
 
 
@@ -223,7 +226,10 @@ export const novelChapters = [
     },
     {
         id: "pati-m-t1", // HTML က ID နဲ့ ကွက်တိ တူရပါမယ်
-        content: `
+        title: "(၁) သုတမယဉာဏ် အကျယ်ပြခြင်း",
+        audio: "https://archive.org/download/20260531_20260531_1241/%E1%80%92%E1%80%AF%E1%80%80%E1%80%B9%E1%80%81%E1%80%A1%E1%80%9B%E1%80%AD%E1%80%9A%E1%80%9E%E1%80%85%E1%80%B9%E1%80%85%E1%80%AC.mp3",
+        tocClass: "title",
+content: `
 ။ ခုဒ္ဒကနိကာယ်၊ ပဋိသမ္ဘိဒါမဂ်၊ မဟာဝဂ်၊ ‌ဉာဏ ကထာ၊ (၁) သုတမယဉာဏ် အကျယ်ပြခြင်း
 
 အဘယ်သို့လျှင် နာကြားအပ်သော တရားသဘော၌ (ဖြစ်သော) ပညာသည် သုတမယဉာဏ် မည်သနည်း။
@@ -445,7 +451,10 @@ export const novelChapters = [
     },
 {
         id: "pati-m-t2", // HTML က ID နဲ့ ကွက်တိ တူရပါမယ်
-        content: `
+title: "ဒုတိယအခန်း",
+        audio: "https://archive.org/download/20260531_20260531_1241/%E1%80%92%E1%80%AF%E1%80%80%E1%80%B9%E1%80%81%E1%80%A1%E1%80%9B%E1%80%AD%E1%80%9A%E1%80%9E%E1%80%85%E1%80%B9%E1%80%85%E1%80%AC.mp3",
+        tocClass: "title",
+    content: `
 သိမ်းဆည်းခြင်းသဘောကို ထူးခြားစွာ သိအပ်၏။
 
          အခြံအရံသဘောကို ထူးခြားစွာ သိအပ်၏။
