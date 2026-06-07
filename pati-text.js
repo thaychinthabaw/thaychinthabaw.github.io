@@ -2,6 +2,9 @@
 
 // 🌟 text.js ထဲက အခန်းလိုက် စာသား Array ကို Import လုပ်ပါတယ်
 import { novelChapters } from './text.js';
+// 🌟 အသစ်တိုးလာသော text1.js ထဲက စာသား Array ကိုပါ ထပ်မံ Import လုပ်ပါတယ်
+import { novelChapters1 } from './text1.js';
+
 
 /* == GLOBAL STATE == */
 let currentLineHeight = 2.0;
@@ -9,11 +12,16 @@ let currentLetterSpacing = 0;
 let restoreTimer = null;
 let fontResizeObserver = null; 
 
+
 /* == SEMANTIC SYSTEM == */
 function buildSemanticParagraphs() {
     let globalIndex = 1;
     
-    novelChapters.forEach((chapter) => {
+    // 🌟 text.js က Array ကော text1.js က Array ကိုပါ တစ်ခုတည်းဖြစ်အောင် စုစည်းလိုက်ခြင်း
+    const allChapters = [...novelChapters, ...novelChapters1];
+    
+    // မူလ novelChapters.forEach နေရာတွင် allChapters.forEach ဟု ပြောင်းလဲအသုံးပြုပါမည်
+    allChapters.forEach((chapter) => {
         const existingSection = document.getElementById(chapter.id);
         
         if (existingSection) {
