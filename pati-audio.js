@@ -84,7 +84,7 @@ nightEQ.connect(audioContext.destination);
 gainNode.gain.value = 1;
 
 /* =========================
-   MAIN PLAY FUNCTION (FIXED BUG)
+   MAIN PLAY FUNCTION
 ========================= */
 window.togglePaperAudio = function(button, src, title) {
 
@@ -314,20 +314,22 @@ paperCloseBtn?.addEventListener('click', () => {
     }
 });
 
-/* =========================
-   AUDIO LIST NAVIGATION
-========================= */
+/* ========================================================
+   🌟 AUDIO LIST NAVIGATION (DYNAMIC စနစ်အတွက် ပြင်ဆင်ပြီး)
+======================================================== */
 function getAudioButtons() {
-    return Array.from(document.querySelectorAll('[onclick*="togglePaperAudio"]'));
+    // DOM ပေါ်မှာရှိတဲ့ အသံဖွင့်ခလုတ် (.speaker-btn) အားလုံးကို ဖမ်းယူခြင်း
+    return Array.from(document.querySelectorAll('.speaker-btn'));
 }
 
 function extractAudioData(button) {
-    const match = button.getAttribute('onclick')
-        .match(/togglePaperAudio\(this,\s*'([^']+)'\s*,\s*'([^']+)'\)/);
+    // Dynamic ဆောက်တုန်းက Element ပေါ်မှာ တိုက်ရိုက် သိမ်းထားခဲ့မယ့် (သို့မဟုတ်) onclick ထဲက data ကို ယူခြင်း
+    // အကယ်၍ အစ်ကို့ pati-text.js အသစ်မှာ btn.setAttribute('data-src') နဲ့ သိမ်းခိုင်းထားရင် ဒါကိုသုံးလို့ရပါတယ်
+    const src = button.getAttribute('data-src') || button.getAttribute('onclick')?.match(/'([^']+)'/)?.[1];
+    const title = button.getAttribute('data-title') || button.parentNode?.textContent?.replace('🔊', '')?.trim();
 
-    if (!match) return null;
-
-    return { src: match[1], title: match[2] };
+    if (!src) return null;
+    return { src, title };
 }
 
 function playAudioByIndex(index) {
@@ -335,10 +337,9 @@ function playAudioByIndex(index) {
     if (index < 0 || index >= buttons.length) return;
 
     const btn = buttons[index];
-    const data = extractAudioData(btn);
-    if (!data) return;
-
-    window.togglePaperAudio(btn, data.src, data.title);
+    
+    // Dynamic ခလုတ်ဖြစ်တဲ့အတွက် တိုက်ရိုက် click() ပေးလိုက်တာက ပိုမိုဘေးကင်းပြီး ရိုးရှင်းပါတယ်
+    btn.click();
 }
 
 function playNextAudio() {
@@ -346,7 +347,9 @@ function playNextAudio() {
     if (!currentSpeakerButton) return;
 
     let i = buttons.indexOf(currentSpeakerButton);
-    playAudioByIndex((i + 1) % buttons.length);
+    if (i !== -1) {
+        playAudioByIndex((i + 1) % buttons.length);
+    }
 }
 
 function playPreviousAudio() {
@@ -354,7 +357,9 @@ function playPreviousAudio() {
     if (!currentSpeakerButton) return;
 
     let i = buttons.indexOf(currentSpeakerButton);
-    playAudioByIndex((i - 1 + buttons.length) % buttons.length);
+    if (i !== -1) {
+        playAudioByIndex((i - 1 + buttons.length) % buttons.length);
+    }
 }
 
 paperNextBtn?.addEventListener('click', playNextAudio);
