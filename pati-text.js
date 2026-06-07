@@ -5,26 +5,78 @@ import { novelChapters } from './text.js';
 // 🌟 အသစ်တိုးလာသော text1.js ထဲက စာသား Array ကိုပါ ထပ်မံ Import လုပ်ပါတယ်
 import { novelChapters1 } from './text1.js';
 
-
 /* == GLOBAL STATE == */
 let currentLineHeight = 2.0;
 let currentLetterSpacing = 0;
 let restoreTimer = null;
 let fontResizeObserver = null; 
 
-
-/* == SEMANTIC SYSTEM == */
+/* == SEMANTIC SYSTEM & DYNAMIC UI GENERATION == */
 function buildSemanticParagraphs() {
     let globalIndex = 1;
     
-    // 🌟 text.js က Array ကော text1.js က Array ကိုပါ တစ်ခုတည်းဖြစ်အောင် စုစည်းလိုက်ခြင်း
-    const allChapters = [...novelChapters, ...novelChapters1];
+    // စာသားတွေ dynamic ဝင်မယ့် အဓိက Container နှင့် မာတိကာ Container ကို ဖမ်းယူခြင်း
+    const container = document.getElementById('js-audio-chapters-container') || document.querySelector('.audio-chapters-list');
+    const tocList = document.getElementById('toc-list');
     
-    // မူလ novelChapters.forEach နေရာတွင် allChapters.forEach ဟု ပြောင်းလဲအသုံးပြုပါမည်
+    if (!container) return;
+    container.innerHTML = ''; // Container အဟောင်းကို ရှင်းထုတ်ခြင်း
+
+    if (tocList) tocList.innerHTML = ''; // မာတိကာအဟောင်းကို ရှင်းထုတ်ခြင်း
+
+    // 🌟 text.js ကော text1.js ကပါ Array များကို စုစည်းပေါင်းစပ်ခြင်း (မရှိခဲ့လျှင်လည်း Error မတက်အောင် ကာကွယ်ထားပါသည်)
+    const chaptersPart1 = typeof novelChapters !== 'undefined' ? novelChapters : [];
+    const chaptersPart2 = typeof novelChapters1 !== 'undefined' ? novelChapters1 : [];
+    const allChapters = [...chaptersPart1, ...chaptersPart2];
+    
     allChapters.forEach((chapter) => {
-        const existingSection = document.getElementById(chapter.id);
+        // --- ၁။ HTML အတွင်း Section နှင့် ခေါင်းစဉ် (H3) ၊ အသံဖွင့်ခလုတ်ကို Dynamic ဆောက်ခြင်း ---
+        const section = document.createElement('section');
+        section.id = chapter.id;
+        section.style.marginBottom = "25px";
+
+        const h3 = document.createElement('h3');
         
-        if (existingSection) {
+        // အသံဖိုင်ရှိလျှင် ဖွင့်ရန် ခလုတ်ထည့်မည်
+        if (chapter.audio) {
+            const btn = document.createElement('button');
+            btn.className = 'speaker-btn';
+            btn.textContent = '🔊';
+            
+            // pati-audio.js ဘက်က Next/Prev စနစ်တွေအတွက် data attribute ထည့်ပေးထားခြင်း
+            btn.setAttribute('data-src', chapter.audio);
+            btn.setAttribute('data-title', chapter.title);
+            
+            btn.onclick = function() {
+                if (typeof window.togglePaperAudio === 'function') {
+                    window.togglePaperAudio(btn, chapter.audio, chapter.title);
+                }
+            };
+            h3.appendChild(btn);
+            h3.appendChild(document.createTextNode(' ' + chapter.title));
+        } else {
+            h3.textContent = chapter.title;
+        }
+        
+        section.appendChild(h3);
+        container.appendChild(section);
+
+        // --- ၂။ မာတိကာ (TOC List) ကိုပါ Dynamic အလိုအလျောက် ထည့်သွင်းခြင်း ---
+        if (tocList) {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = `#${chapter.id}`;
+            a.className = chapter.tocClass || 'title'; 
+            a.textContent = chapter.title;
+            a.onclick = function() {
+                if (typeof window.toggleTOC === 'function') window.toggleTOC();
+            };
+            li.appendChild(a);
+            tocList.appendChild(li);
+        }
+
+        // --- ၃။ ကျမ်းစာ စာပိုဒ်များကို ခွဲထုတ်တည်ဆောက်ခြင်း ---
+        if (chapter.content) {
             const rawText = chapter.content.trim();
             const paragraphs = rawText
                 .split(/\n\s*\n/)
@@ -37,7 +89,7 @@ function buildSemanticParagraphs() {
                 if (cleanText === '@@gap') {
                     const gap = document.createElement('div');
                     gap.className = 'big-gap';
-                    existingSection.appendChild(gap);
+                    section.appendChild(gap);
                     return;
                 }
 
@@ -46,7 +98,7 @@ function buildSemanticParagraphs() {
                 p.setAttribute('data-p', globalIndex);
                 p.textContent = cleanText;
 
-                existingSection.appendChild(p);
+                section.appendChild(p);
                 globalIndex++;
             });
         }
@@ -54,7 +106,7 @@ function buildSemanticParagraphs() {
 }
 
 function saveReadingPosition() {
-    const paragraphs = document.querySelectorAll('.audio-chapters-list p');
+    const paragraphs = document.querySelectorAll('article p');
     let currentParagraph = null;
     let offsetRatio = 0;
     const viewportCenter = window.innerHeight / 2;
@@ -183,6 +235,7 @@ function saveCurrentPage() {
     localStorage.setItem('lastReadUrl', window.location.href);
 }
 
+// သီးခြားခွဲထားသော Show Last Read Link Function
 function showLastReadLink() {
     const lastTitle = localStorage.getItem('lastReadTitle');
     const lastUrl = localStorage.getItem('lastReadUrl');
@@ -226,7 +279,6 @@ function applyLineHeight() {
     localStorage.setItem('userLineHeight', currentLineHeight);
 }
 
-// 🌟 Global Window ကနေ လှမ်းခေါ်နိုင်အောင် ပြောင်းလဲပြင်ဆင်ထားပါသည်
 function adjustLineHeight(amount) {
     saveReadingPosition();
     let next = Math.round((currentLineHeight + amount) * 10) / 10;
@@ -257,7 +309,6 @@ function applyLetterSpacing() {
     localStorage.setItem('userLetterSpacing', currentLetterSpacing);
 }
 
-// 🌟 Global Window ကနေ လှမ်းခေါ်နိုင်အောင် ပြောင်းလဲပြင်ဆင်ထားပါသည်
 function adjustLetterSpacing(amount) {
     saveReadingPosition();
     let next = Math.round((currentLetterSpacing + amount) * 10) / 10;
@@ -356,6 +407,7 @@ function init() {
     const article = document.querySelector('article');
     const tocSearch = document.getElementById('toc-search');
     
+    // 🌟 Dynamic ပုံစံဖြင့် စာသား၊ ခေါင်းစဉ်နှင့် မာတိကာများကို ဆောက်လုပ်ခြင်း
     buildSemanticParagraphs();
     
     const tocItems = document.querySelectorAll('.toc-list li');
@@ -402,7 +454,7 @@ function init() {
     });
     
     /* ===== TOC ACTIVE ===== */
-    const sections = document.querySelectorAll('.audio-chapters-list section');
+    const sections = document.querySelectorAll('article section');
     const tocLinks = document.querySelectorAll('.toc-list li a');
     const observerOptions = {
         root: null,
@@ -560,8 +612,7 @@ function init() {
     }
 }
 
-/* ===== 🌟 EXPORT FUNCTIONS TO GLOBAL WINDOW 🌟 ===== */
-// IIFE closure block ကို ဖျက်လိုက်ပြီး ၎င်းနေရာတွင် တိုက်ရိုက်ထုတ်ပေးထားပါသည်
+/* ===== EXPORT FUNCTIONS TO GLOBAL WINDOW ===== */
 window.toggleTOC = toggleTOC;
 window.toggleSetting = toggleSetting;
 window.downloadPDF = downloadPDF;
