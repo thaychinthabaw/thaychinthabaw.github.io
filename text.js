@@ -1,6 +1,23 @@
 // text.js
 export const novelChapters = [
     {
+        id: "pati-m-t1",
+        title: "၁-သုတမယဉာဏ် အကျယ်ပြခြင်း",
+        audio: "https://archive.org/download/20260531_20260531_1241/%E1%80%92%E1%80%AF%E1%80%80%E1%80%B9%E1%80%81%E1%80%A1%E1%80%9B%E1%80%AD%E1%80%9A%E1%80%9E%E1%80%85%E1%80%B9%E1%80%85%E1%80%AC.mp3",
+        tocClass: "title", // title သို့မဟုတ် sub-title သို့မဟုတ် main-title စိတ်ကြိုက်ထည့်ပါ
+        content: `စာပိုဒ် ပထမပိုင်း စာသားများ...
+        
+        စာပိုဒ် ဒုတိယပိုင်း စာသားများ...`
+    },
+    {
+        id: "pati-m-t2",
+        title: "ဒုတိယအခန်း",
+        audio: "https://archive.org/download/20260601_20260601_1357/%E1%80%92%E1%80%AF%E1%80%80%E1%80%B9%E1%80%81%E1%80%9E%E1%80%99%E1%80%AF%E1%80%92%E1%80%9A%E1%80%A1%E1%80%9B%E1%80%AD%E1%80%9A%E1%80%9E%E1%80%85%E1%80%B9%E1%80%85%E1%80%AC.mp3",
+        tocClass: "sub-title",
+        content: `ကျမ်းစာ စာသားများ...`
+    },
+
+    {
         id: "pati-m-t0", // HTML က ID နဲ့ ကွက်တိ တူရပါမယ်
         content: `
 
