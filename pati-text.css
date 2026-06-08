@@ -43,7 +43,7 @@ body.sepia-mode {
     color: #443300;
     gap: 4px;               /* icon နဲ့ စာကြား အကွာအဝေး */
 
-    /* +,- ခလုတ်တွေရဲ့ ပုံစံအတိုင်း border ထည့်ခြင်း */
+    /* +,- ခလုတ်တွေရဲ့ ပုံစံအတိုင်း borderထည့်ခြင်း */
     background: #f4ecd8;                /* ခလုတ်နောက်ခံအရောင် */
     border: 1px solid #443300 !important; /* အညိုရောင် ဘောင် */
     width: 70px;              /* အကျယ် 60px */
@@ -370,6 +370,8 @@ body.sepia-mode {
     box-sizing: border-box;
     overflow-wrap: break-word; 
     word-wrap: break-word;
+    /* 🌟 ဖြည့်စွက်ချက်- အခန်းတစ်ခုပြီးတိုင်း အောက်ကလာမည့် ခေါင်းစဉ်သစ်နှင့် ကပ်မနေစေရန် Space ခြားပေးခြင်း */
+    margin-bottom: 60px; 
 }
 
 @media print {
