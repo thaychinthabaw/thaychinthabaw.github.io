@@ -30,12 +30,14 @@ function buildSemanticParagraphs() {
     const allChapters = [...chaptersPart1, ...chaptersPart2];
     
     allChapters.forEach((chapter) => {
-        // --- ၁။ HTML အတွင်း Section နှင့် ခေါင်းစဉ် (H3) ၊ အသံဖွင့်ခလုတ်ကို Dynamic ဆောက်ခြင်း ---
+        // --- ၁။ HTML အတွင်း Section နှင့် ခေါင်းစဉ် (H1/H2/H3) ၊ အသံဖွင့်ခလုတ်ကို Dynamic ဆောက်ခြင်း ---
         const section = document.createElement('section');
         section.id = chapter.id;
         section.style.marginBottom = "25px";
 
-        const h3 = document.createElement('h3');
+        // 🌟 text.js က ပေးလိုက်တဲ့ headerTag (h1, h2, h3) အတိုင်း ယူပါမည်။ မပါရင် h3 လို့ ပုံမှန်အတိုင်း သတ်မှတ်ပါမည်။
+        const headerTagName = chapter.headerTag || 'h3'; 
+        const headerElement = document.createElement(headerTagName); 
         
         // အသံဖိုင်ရှိလျှင် ဖွင့်ရန် ခလုတ်ထည့်မည်
         if (chapter.audio) {
@@ -52,13 +54,13 @@ function buildSemanticParagraphs() {
                     window.togglePaperAudio(btn, chapter.audio, chapter.title);
                 }
             };
-            h3.appendChild(btn);
-            h3.appendChild(document.createTextNode(' ' + chapter.title));
+            headerElement.appendChild(btn);
+            headerElement.appendChild(document.createTextNode(' ' + chapter.title));
         } else {
-            h3.textContent = chapter.title;
+            headerElement.textContent = chapter.title;
         }
         
-        section.appendChild(h3);
+        section.appendChild(headerElement);
         container.appendChild(section);
 
         // --- ၂။ မာတိကာ (TOC List) ကိုပါ Dynamic အလိုအလျောက် ထည့်သွင်းခြင်း ---
