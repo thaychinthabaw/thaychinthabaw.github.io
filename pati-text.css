@@ -370,8 +370,6 @@ body.sepia-mode {
     box-sizing: border-box;
     overflow-wrap: break-word; 
     word-wrap: break-word;
-    /* 🌟 ဖြည့်စွက်ချက်- အခန်းတစ်ခုပြီးတိုင်း အောက်ကလာမည့် ခေါင်းစဉ်သစ်နှင့် ကပ်မနေစေရန် Space ခြားပေးခြင်း */
-    margin-bottom: 60px; 
 }
 
 @media print {
@@ -722,3 +720,13 @@ article {
     height: 40px;   /* ကြီးချင်ရင် 80-120px */
     width: 100%;
 }/*raw-text စာကြောင်းကြား အတွက်သုံးသည်။*/
+
+/* 🌟 အခန်းခေါင်းစဉ်များ အပေါ်ကစာသားနှင့် ကပ်မနေစေရန် အပေါ်ဘက်တွင် နေရာလွတ် ခြားပေးခြင်း */
+.content-area h1, 
+.content-area h2,
+.content-area h3 {
+    margin-top: 80px !important;    /* 80px ကို စိတ်ကြိုက် အတိုးအလျှော့ လုပ်နိုင်ပါတယ် */
+    margin-bottom: 20px !important; /* ခေါင်းစဉ်နဲ့ သူ့အောက်က စာကိုယ်ကြား အကွာအဝေး */
+}
+
+
