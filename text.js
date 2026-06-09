@@ -14,16 +14,7 @@ content: `
 { id: "pati-h-h2", // HTML က ID နဲ့ ကွက်တိ တူရပါမယ်
         title: "ပဋိသမ္ဘိဒါမဂ်",
         audio: "",
-        tocClass: "sub-title",         
-        headerTag: "h2", 
-content: ` 
-
-`
-},
-    { id: "pati-h-h2", // HTML က ID နဲ့ ကွက်တိ တူရပါမယ်
-        title: "ပဋိသမ္ဘိဒါမဂ်",
-        audio: "",
-        tocClass: "sub-title",         
+        tocClass: "main-title",         
         headerTag: "h2", 
 content: ` 
 
@@ -33,10 +24,9 @@ content: `
   { id: "pati-h-h2", // HTML က ID နဲ့ ကွက်တိ တူရပါမယ်
         title: "မဟာဝဂ်",
         audio: "",
-        tocClass: "sub-title",         
+        tocClass: "main-title",         
         headerTag: "h2", 
 content: ` 
-
 `
 },  
     
