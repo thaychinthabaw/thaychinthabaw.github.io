@@ -1,8 +1,47 @@
 // 🌟 ဒေတာများကို pati-text.js က လှမ်းယူနိုင်ရန် export လုပ်ပေးထားပါသည်
 export const novelChapters = [
+
+
+    { id: "pati-h-h1", // HTML က ID နဲ့ ကွက်တိ တူရပါမယ်
+        title: "ခုဒ္ဒကနိကာယ်",
+        audio: "",
+        tocClass: "main-title",         
+        headerTag: "h1", 
+content: ` 
+
+`
+},
+{ id: "pati-h-h2", // HTML က ID နဲ့ ကွက်တိ တူရပါမယ်
+        title: "ပဋိသမ္ဘိဒါမဂ်",
+        audio: "",
+        tocClass: "sub-title",         
+        headerTag: "h2", 
+content: ` 
+
+`
+},
+    { id: "pati-h-h2", // HTML က ID နဲ့ ကွက်တိ တူရပါမယ်
+        title: "ပဋိသမ္ဘိဒါမဂ်",
+        audio: "",
+        tocClass: "sub-title",         
+        headerTag: "h2", 
+content: ` 
+
+`
+},
+
+  { id: "pati-h-h2", // HTML က ID နဲ့ ကွက်တိ တူရပါမယ်
+        title: "မဟာဝဂ်",
+        audio: "",
+        tocClass: "sub-title",         
+        headerTag: "h2", 
+content: ` 
+
+`
+},  
     
     {
-        id: "pati-m-t0", // HTML က ID နဲ့ ကွက်တိ တူရပါမယ်
+    id: "pati-m-t0", // HTML က ID နဲ့ ကွက်တိ တူရပါမယ်
         title: "ဉာဏ်စဉ် မာတိကာ",
         audio: "https://archive.org/download/20260531_20260531_1241/%E1%80%92%E1%80%AF%E1%80%80%E1%80%B9%E1%80%81%E1%80%A1%E1%80%9B%E1%80%AD%E1%80%9A%E1%80%9E%E1%80%85%E1%80%B9%E1%80%85%E1%80%AC.mp3",
         tocClass: "title",         
