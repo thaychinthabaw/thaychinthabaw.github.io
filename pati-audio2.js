@@ -425,33 +425,66 @@ window.addEventListener('load', () => {
 });
 
 /* ========================================================
-   ⚙️ DOWNLOAD AUDIO (Telegram Browser အတွက် လုံးဝအဆင်ပြေအောင် ပြင်ဆင်ပြီး)
+   ⚙️ DOWNLOAD AUDIO (Smart Hybrid စနစ် - Telegram အတွက် သီးသန့်ခွဲထုတ်ထားသည်)
 ======================================================== */
-paperDownloadBtn?.addEventListener('click', () => {
+paperDownloadBtn?.addEventListener('click', async () => {
     if (!paperAudio.src) return alert('အသံဖိုင် မရှိသေးပါ');
 
     const audioUrl = paperAudio.src;
     const file = new URL(audioUrl).pathname.split('/').pop();
     const cleanFileName = decodeURIComponent(file) || "audio-archive.mp3";
 
-    // 1️⃣ Repo ထဲက ဖိုင်ဆိုလျှင် (မူရင်းစနစ်အတိုင်း တိုက်ရိုက်ဒေါင်းမည်)
-    if (!audioUrl.includes('archive.org')) {
+    // Telegram App Browser ဖြစ်နေလား စစ်ဆေးခြင်း
+    const isTelegram = /Telegram/i.test(navigator.userAgent);
+
+    // 1️⃣ Repo ထဲက ဖိုင်ဖြစ်လျှင် (သို့မဟုတ်) Telegram ထဲကနေ ဝင်ထားတာဖြစ်လျှင် 
+    if (!audioUrl.includes('archive.org') || isTelegram) {
         const a = document.createElement('a');
         a.href = audioUrl;
-        a.download = cleanFileName;
+        
+        // Telegram မဟုတ်တဲ့ Repo ဖိုင်တွေဆို အလိုအလျောက် ဒေါင်းလုဒ်စတင်ရန်
+        if (!isTelegram) {
+            a.download = cleanFileName;
+        } else {
+            a.target = '_blank'; // Telegram ဖြစ်ရင် Direct URL ပွင့်ပြီး ဒေါင်းနိုင်စေရန်
+        }
 
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
     } 
-    // 2️⃣ Archive က ဖိုင်ဆိုလျှင် (Telegram UI ထဲမှာပါ အလုပ်လုပ်စေရန် Direct Window Open စနစ် သုံးမည်)
+    // 2️⃣ ပုံမှန် Browser (Chrome, Safari စသည်) ဖြစ်ပြီး Archive ဖိုင်ဖြစ်လျှင် (Loading ပြပြီး အနောက်ကနေ လှမ်းဆွဲမည့် မူရင်းစနစ်)
     else {
-        const a = document.createElement('a');
-        a.href = audioUrl;
-        a.target = '_blank';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
+        const originalBtnText = paperDownloadBtn.innerHTML;
+        try {
+            paperDownloadBtn.innerHTML = '⏳';
+            
+            const response = await fetch(audioUrl);
+            if (!response.ok) throw new Error("Network issue");
+            
+            const blob = await response.blob();
+            const blobUrl = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = blobUrl;
+            a.download = cleanFileName;
+
+            document.body.appendChild(a);
+            a.click();
+            
+            document.body.removeChild(a);
+            URL.revokeObjectURL(blobUrl);
+        } catch (error) {
+            console.error("Direct download failed, fallback to window open:", error);
+            const a = document.createElement('a');
+            a.href = audioUrl;
+            a.target = '_blank';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+        } finally {
+            paperDownloadBtn.innerHTML = originalBtnText;
+        }
     }
 });
 
