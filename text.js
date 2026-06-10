@@ -4,7 +4,7 @@ export const novelChapters = [
 
     { id: "pati-h-h1", // HTML က ID နဲ့ ကွက်တိ တူရပါမယ်
         title: "ခုဒ္ဒကနိကာယ်",
-        audio: "",
+        audio: "/audio/ဒုက္ခအရိယသစ္စာ.mp3",
         tocClass: "main-title",         
         headerTag: "h1", 
 content: ` 
@@ -13,7 +13,7 @@ content: `
 },
 { id: "pati-h-h2", // HTML က ID နဲ့ ကွက်တိ တူရပါမယ်
         title: "ပဋိသမ္ဘိဒါမဂ်",
-        audio: "",
+        audio: "/audio/ဒုက္ခသမုဒယအရိယသစ္စာ.mp3",
         tocClass: "main-title",         
         headerTag: "h2", 
 content: ` 
@@ -23,7 +23,7 @@ content: `
 
   { id: "pati-h-h2", // HTML က ID နဲ့ ကွက်တိ တူရပါမယ်
         title: "မဟာဝဂ်",
-        audio: "",
+        audio: "/audio/ဒုက္ခနိရောဓအရိယသစ္စာ.mp3",
         tocClass: "main-title",         
         headerTag: "h2", 
 content: ` 
@@ -47,9 +47,19 @@ content: `
 
 နမော တဿ ဘဂဝတော အရဟတော သမ္မာသမ္ဗုဒ္ဓဿ။
 
+@@gap
+
 ၁-မဟာဝဂ်
+
+@@gap
+
 ဉာဏ်စဉ် မာတိကာ
+
+@@gap
+
 ၁။ နာကြားအပ်သော တရားသဘော၌ (ဖြစ်သော) ပညာ သုတမယဉာဏ် 'နာကြားမှုဖြင့် ပြီးသောဉာဏ်'။
+
+@@gap
 
 ၂။ နာကြားရ၍ စောင့်စည်းမှု၌ (ဖြစ်သော) ပညာ သီလမယဉာဏ် 'သီလဖြင့် ပြီးသောဉာဏ်'။
 
