@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>စာဖတ်ခန်း | သေခြင်းသဘော</title>
+    <link rel="stylesheet" href="pati-audio.css">
+    <link rel="stylesheet" href="pati-text.css">
+    <link rel="stylesheet" href="darkmode.css">
+    <link rel="manifest" href="manifest.json">
+    
+    <link rel="icon" type="image/png" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
+    <link rel="apple-touch-icon" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
+    <link rel="shortcut icon" sizes="192x192" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
+    <link rel="shortcut icon" sizes="512x512" href="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
+    <meta property="og:image" content="https://thaychinthabaw.github.io/thaychinthabawlogo1.webp">
+</head>
+<body class="is-paper">
+
+
+    <div class="container">
+        <nav class="top-controls">
+            <a href="index.html" class="back-link">
+                <span class="nav-icon">⌂</span>
+                <span class="nav-text">ပင်မ</span>
+            </a>
+            <button id="fs-btn" class="fullscreen-round-btn" onclick="toggleReadingMode()">⛶</button>
+
+            <div class="right-controls">
+                <button class="setting-btn" onclick="toggleSetting()">⚙</button>
+                <button id="modeToggle">☀️</button>    
+            </div>
+        </nav>      
+
+        <article class="content-area" id="reading-content">
+            <div id="last-read-container"></div>   
+
+            
+            <!-- 🌟 ဒီနေရာတွင် ခေါင်းစဉ်နှင့် အသံဖိုင်ခလုတ်များကို JavaScript က အလိုအလျောက် ထုတ်ပေးမည်ဖြစ်၍ ကုဒ်များရှင်းသွားပါပြီ -->
+            <div class="audio-chapters-list" id="js-audio-chapters-container"></div>
+            
+            <div id="dynamic-chapters"></div>
+        </article>
+    </div>
+
+    <div class="floating-left-group">
+        <a href="#" class="top-btn" title="အပေါ်ဆုံးသို့">⬆</a>
+        <button class="toc-toggle-btn" id="toc-toggle" onclick="toggleTOC()">☰</button>
+    </div>
+
+    <div id="setting-overlay" class="setting-overlay" onclick="toggleSetting()">
+        <div class="setting-content" onclick="event.stopPropagation()">
+            <div class="setting-header">
+                <h1 class="setting-title">ချိန်ညှိချက်များ</h1>
+                <span class="setting-close-btn" onclick="toggleSetting()">×</span>
+            </div>
+            <div class="setting-body">
+                <button class="setting-menu-refresh" onclick="location.reload()">
+                    <span class="nav-icon">⟳</span>
+                    <span class="nav-text">အသစ်ဖြစ်အောင်လုပ်ရန်</span>
+                </button>
+
+                <button class="setting-item" onclick="downloadPDF()">📄 စာအုပ်အဖြစ်သိမ်းရန်</button>
+
+                <div class="setting-item-group">
+                    <span class="setting-title2">စာလုံးအရွယ်အစား</span>
+                    <div class="font-size-control">
+                        <button id="font-decrease">−</button>
+                        <span id="font-size-display">25</span>
+                        <button id="font-increase">+</button>
+                    </div>
+
+                    <div class="spinner-wrapper">
+                        <div class="spinner-box">
+                            <button id="size-plus-10">▲</button>
+                            <span id="size-tens">2</span>
+                            <button id="size-minus-10">▼</button>
+                        </div>
+                        <div class="spinner-box">
+                            <button id="size-plus-1">▲</button>
+                            <span id="size-ones">5</span>
+                            <button id="size-minus-1">▼</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="setting-item-group">
+                    <span class="setting-title2">စာလုံးအထူ</span>
+                    <div class="preset-group" id="weight-buttons">
+                        <button class="preset-btn" data-weight="300">အပါး</button>
+                        <button class="preset-btn active-preset" data-weight="500">အလတ်</button>
+                        <button class="preset-btn" data-weight="900">အထူ</button>
+                    </div>
+
+                    <div class="spinner-wrapper">
+                        <div class="spinner-box">
+                            <button id="weight-plus-100">▲</button>
+                            <span id="digit-hundreds">5</span>
+                            <button id="weight-minus-100">▼</button>
+                        </div>
+                        <div class="spinner-box">
+                            <button id="weight-plus-10">▲</button>
+                            <span id="digit-tens">0</span>
+                            <button id="weight-minus-10">▼</button>
+                        </div>
+                        <div class="spinner-box">
+                            <button id="weight-plus-1">▲</button>
+                            <span id="digit-ones">0</span>
+                            <button id="weight-minus-1">▼</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="setting-item-group">
+                    <span class="setting-title2">စာကြောင်းကြား အကွာအဝေး </span>
+                    <div class="preset-group">
+                        <button class="preset-btn line-btn" data-value="1.7">ကျဉ်း</button>
+                        <button class="preset-btn line-btn" data-value="2.0">အလတ်</button>
+                        <button class="preset-btn line-btn" data-value="2.5">ကျယ်</button>
+                    </div>
+                    <div class="adjust-group">
+                        <button onclick="adjustLineHeight(-0.1)">− </button>
+                        <span id="lh-display">2.0</span>
+                        <button onclick="adjustLineHeight(0.1)">+</button>
+                    </div>
+                </div>
+
+                <div class="setting-item-group">
+                    <span class="setting-title2">စာလုံးကြား အကွာအဝေး</span>
+                    <div class="preset-group">
+                        <button class="preset-btn letter-btn" data-value="0">ကျဉ်း</button>
+                        <button class="preset-btn letter-btn" data-value="1">အလတ်</button>
+                        <button class="preset-btn letter-btn" data-value="2">ကျယ်</button>
+                    </div>
+                    <div class="adjust-group">
+                        <button onclick="adjustLetterSpacing(-0.5)">−</button>
+                        <span id="ls-display">0</span>
+                        <button onclick="adjustLetterSpacing(0.5)">+</button>
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>
+    
+    <div id="toc-overlay" class="toc-overlay" onclick="toggleTOC()" style="display: none;">
+        <div class="toc-content" onclick="event.stopPropagation()">
+            <h1 style="color:#443300;">မာတိကာ</h1>
+            <input type="text" id="toc-search" placeholder="ခေါင်းစဉ် ရှာရန်...">
+            <span class="close-btn" onclick="toggleTOC()">×</span>
+            
+            <!-- 🌟 မာတိကာစာရင်းများကိုလည်း JavaScript က Data ပေါ်မူတည်ပြီး Dynamic ထုတ်ပေးမည်ဖြစ်၍ ရှင်းလင်းလိုက်ပါသည် -->
+            <ul class="toc-list" id="toc-list"></ul>
+
+            <div class="toc-jump-buttons">
+                <button id="toc-top-btn">⬆</button>
+                <button id="toc-bottom-btn">⬇</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="paper-audio-bar" id="paper-audio-bar">
+        <div class="paper-audio-top">
+            <div class="paper-audio-info">
+                <div id="paper-now-playing">အသံမဖွင့်ရသေးပါ</div>
+                <div id="paper-time-display">00:00 / 00:00</div>
+            </div>
+            <div class="paper-top-buttons">
+                <button id="paper-hide-btn" class="paper-top-btn" title="Hide">◯</button>   
+                <button id="paper-minimize-btn" class="paper-top-btn" title="Minimize">―</button>
+                <button id="paper-close-btn" class="paper-top-btn" title="Close">×</button>
+            </div>
+        </div>
+
+        <div class="paper-audio-body" id="paper-audio-body">
+            <div class="paper-audio-controls">
+                <button id="paper-play-btn">⏸</button>
+                <button id="paper-repeat-btn">🔂</button>
+                <button id="paper-autonext-btn">🔁</button>
+                <button id="paper-prev-btn">◀️</button>
+                <button id="paper-next-btn">▶️</button>
+                <button id="paper-download-btn">⬇️</button>
+                <button id="paper-slower-btn">နှေး</button>
+                <div id="paper-speed-display">1x</div>
+                <button id="paper-faster-btn">မြန်</button>
+                
+                <div class="paper-volume-wrap">
+                    <span class="paper-volume-icon">🔊</span>
+                    <input type="range" id="paper-volume-slider" min="0" max="300" value="100">
+                    <div id="paper-volume-display">100%</div>
+                </div>
+                <button id="paper-voice-btn">🎙 စကားသံရှင်း</button>
+                <button id="paper-night-btn">🌙 ညနားထောင်</button>
+                
+                <div class="paper-sleep-timer">
+                    <div class="paper-sleep-title">😴 Sleep Timer</div>
+                    <div class="paper-sleep-controls">
+                        <input type="number" id="paper-sleep-input" min="1" max="480" placeholder="Time">
+                        <select id="paper-sleep-unit">
+                            <option value="minute">Minute</option>
+                            <option value="hour">Hour</option>
+                        </select>
+                    </div>
+                    <div class="paper-sleep-buttons">
+                        <button id="paper-sleep-start-btn">Start</button>
+                        <button id="paper-sleep-cancel-btn">Cancel</button>
+                    </div>
+                    <div id="paper-sleep-status">No Timer</div>
+                </div>
+            </div>
+            <input type="range" id="paper-seekbar" value="0" min="0" max="100">
+        </div>
+    </div>
+
+    <!-- crossorigin="anonymous" ထည့်မှသာ Filter တွေနဲ့ Download တွေ အလုပ်လုပ်မှာပါ -->
+    <audio id="paper-audio" crossorigin="anonymous"></audio>
+
+    <button id="paper-show-bar-btn" class="paper-show-bar-btn">◯</button>     
+        
+    <script src="darkmode.js"></script>
+    <script src="pati-audio1.js"></script>
+    
+    <!-- 🌟 အခန်းလိုက်စာသား Array များတည်ရှိရာ text.js ဖိုင်ကို တင်သွင်းခြင်း -->
+    <script type="module" src="ptext.js"></script>
+    <script type="module" src="ptext1.js"></script>
+    <!-- 🌟 Module စနစ်ဖြင့် အလုပ်လုပ်မည့် JavaScript ဖိုင် -->
+    <script type="module" src="pati-text1.js"></script>
+
+    <script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', async () => {
+            try {
+                await navigator.serviceWorker.register('/service-worker.js');
+                console.log('Service Worker Registered');
+            } catch (error) {
+                console.error('Service Worker Failed:', error);
+            }
+        });
+    }
+    </script>
+</body>
+</html>
