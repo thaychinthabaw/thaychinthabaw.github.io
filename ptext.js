@@ -64,7 +64,7 @@ export const ptextChapters = [
       
     
     {
-        id: "paper-b3",
+        id: "paper-b4",
         title: "၁။ ဗာဟိယသုတ်အရ ရှုမှတ်နည်း အကျဉ်းပြခြင်း",
         audio: "", // Archive သို့မဟုတ် Repo လင့်ခ် ထည့်ရန်
         headerTag: "h1", // h1, h2, h3 ကြိုက်တာ သုံးနိုင်ပါတယ်
@@ -96,11 +96,11 @@ export const ptextChapters = [
     
 
    {
-        id: "pati-m-t3", // HTML က ID နဲ့ ကွက်တိ တူရပါမယ်
-        title: "တတိယအခန်း",
-        audio: "https://archive.org/download/20260531_20260531_1241/%E1%80%92%E1%80%AF%E1%80%80%E1%80%B9%E1%80%81%E1%80%A1%E1%80%9B%E1%80%AD%E1%80%9A%E1%80%9E%E1%80%85%E1%80%B9%E1%80%85%E1%80%AC.mp3",
+        id: "paper-b4", // HTML က ID နဲ့ ကွက်တိ တူရပါမယ်
+        title: " ၂။ ရှုမှတ်မှုလုပ်ငန်းစဉ် အကျဉ်းပြခြင်း ",
+        audio: "",
         tocClass: "title",
-        headerTag: "h3", 
+        headerTag: "h1", 
 content: `
    <section id="chapter3"><h1> ၂။ ရှုမှတ်မှုလုပ်ငန်းစဉ် အကျဉ်းပြခြင်း </h1>
                    
