@@ -1,9 +1,7 @@
-(() => {
 'use strict';
 
-// 🌟 ptext.js ထဲက အခန်းလိုက် စာသား Array ကို Import လုပ်ပါတယ်
+// 🌟 ptext.js နှင့် ptext1.js ထဲက စာသား Array များကို Import လုပ်ပါတယ်
 import { ptextChapters } from './ptext.js';
-// 🌟 အသစ်တိုးလာသော ptext1.js ထဲက စာသား Array ကိုပါ ထပ်မံ Import လုပ်ပါတယ်
 import { ptextChapters1 } from './ptext1.js';
 
 /* == GLOBAL STATE == */
@@ -627,5 +625,3 @@ window.changeWeight = changeWeight;
 
 /* == SINGLE DOMCONTENTLOADED == */
 document.addEventListener('DOMContentLoaded', init);
-
-})();
