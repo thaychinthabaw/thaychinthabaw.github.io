@@ -1,8 +1,8 @@
 'use strict';
 
 // 🌟 ptext.js နှင့် ptext1.js ထဲက စာသား Array များကို Import လုပ်ပါတယ်
-//import { ptextChapters } from './ptext.js';
-//import { ptextChapters1 } from './ptext1.js';
+import { ptextChapters } from './ptext.js';
+import { ptextChapters1 } from './ptext1.js';
 
 /* == GLOBAL STATE == */
 let currentLineHeight = 2.0;
