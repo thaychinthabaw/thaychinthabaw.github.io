@@ -94,7 +94,15 @@ export const ptextChapters = [
 ---
  <hr> `},
     
-<section id="chapter3"><h1> ၂။ ရှုမှတ်မှုလုပ်ငန်းစဉ် အကျဉ်းပြခြင်း </h1>
+
+   {
+        id: "pati-m-t3", // HTML က ID နဲ့ ကွက်တိ တူရပါမယ်
+        title: "တတိယအခန်း",
+        audio: "https://archive.org/download/20260531_20260531_1241/%E1%80%92%E1%80%AF%E1%80%80%E1%80%B9%E1%80%81%E1%80%A1%E1%80%9B%E1%80%AD%E1%80%9A%E1%80%9E%E1%80%85%E1%80%B9%E1%80%85%E1%80%AC.mp3",
+        tocClass: "title",
+        headerTag: "h3", 
+content: `
+   <section id="chapter3"><h1> ၂။ ရှုမှတ်မှုလုပ်ငန်းစဉ် အကျဉ်းပြခြင်း </h1>
                    
 <div class="raw-text">∆ ရှုမှတ်မှုလုပ်ငန်းစဉ် အကျဉ်းပြခြင်း။
 
@@ -1311,30 +1319,7 @@ export const ptextChapters = [
  </h2> 
      <div class="raw-text"> ∆ သိမှတ်ဖွယ်ရာများ “ရှုမှတ်မှုလုပ်ငန်းစဉ် အကျယ်ပြခြင်း”။
      
----</div><hr></section>
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+---</div><hr></section>`},   
     
     {
         id: "chapter-1",
