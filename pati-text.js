@@ -4,6 +4,16 @@
 import { novelChapters } from './text.js';
 // 🌟 အသစ်တိုးလာသော text1.js ထဲက စာသား Array ကိုပါ ထပ်မံ Import လုပ်ပါတယ်
 import { novelChapters1 } from './text1.js';
+// 🌟 text2.js မှ text10.js အထိ Import လုပ်ပါတယ်
+import { novelChapters2 } from './text2.js';
+import { novelChapters3 } from './text3.js';
+import { novelChapters4 } from './text4.js';
+import { novelChapters5 } from './text5.js';
+import { novelChapters6 } from './text6.js';
+import { novelChapters7 } from './text7.js';
+import { novelChapters8 } from './text8.js';
+import { novelChapters9 } from './text9.js';
+import { novelChapters10 } from './text10.js';
 
 /* == GLOBAL STATE == */
 let currentLineHeight = 2.0;
@@ -24,10 +34,20 @@ function buildSemanticParagraphs() {
 
     if (tocList) tocList.innerHTML = ''; // မာတိကာအဟောင်းကို ရှင်းထုတ်ခြင်း
 
-    // 🌟 text.js ကော text1.js ကပါ Array များကို စုစည်းပေါင်းစပ်ခြင်း (မရှိခဲ့လျှင်လည်း Error မတက်အောင် ကာကွယ်ထားပါသည်)
-    const chaptersPart1 = typeof novelChapters !== 'undefined' ? novelChapters : [];
-    const chaptersPart2 = typeof novelChapters1 !== 'undefined' ? novelChapters1 : [];
-    const allChapters = [...chaptersPart1, ...chaptersPart2];
+    // 🌟 Array ၁၀ ခုလုံးကို စုစည်းပေါင်းစပ်ခြင်း (မရှိခဲ့လျှင်လည်း Error မတက်အောင် ကာကွယ်ထားပါသည်)
+    const allChapters = [
+        ...(typeof novelChapters !== 'undefined' ? novelChapters : []),
+        ...(typeof novelChapters1 !== 'undefined' ? novelChapters1 : []),
+        ...(typeof novelChapters2 !== 'undefined' ? novelChapters2 : []),
+        ...(typeof novelChapters3 !== 'undefined' ? novelChapters3 : []),
+        ...(typeof novelChapters4 !== 'undefined' ? novelChapters4 : []),
+        ...(typeof novelChapters5 !== 'undefined' ? novelChapters5 : []),
+        ...(typeof novelChapters6 !== 'undefined' ? novelChapters6 : []),
+        ...(typeof novelChapters7 !== 'undefined' ? novelChapters7 : []),
+        ...(typeof novelChapters8 !== 'undefined' ? novelChapters8 : []),
+        ...(typeof novelChapters9 !== 'undefined' ? novelChapters9 : []),
+        ...(typeof novelChapters10 !== 'undefined' ? novelChapters10 : [])
+    ];
     
     allChapters.forEach((chapter) => {
         // --- ၁။ HTML အတွင်း Section နှင့် ခေါင်းစဉ် (H1/H2/H3) ၊ အသံဖွင့်ခလုတ်ကို Dynamic ဆောက်ခြင်း ---
