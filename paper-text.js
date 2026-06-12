@@ -611,9 +611,6 @@ function init() {
             }
         });
     }
-    
-    // 🌟 အားလုံးပြီးဆုံးကြောင်း အချက်ပေးခြင်း (Auto Play အတွက်)
-    window.dispatchEvent(new Event('textReady'));
 }
 
 /* ===== EXPORT FUNCTIONS TO GLOBAL WINDOW ===== */
