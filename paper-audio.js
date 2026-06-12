@@ -414,20 +414,32 @@ paperSleepCancelBtn?.addEventListener('click', () => {
 });
 
 /* =========================
-   AUTO PLAY FROM LINK
+   FIXED: AUTO PLAY FROM LINK
 ========================= */
-window.addEventListener('load', () => {
+function tryAutoPlay() {
     const params = new URLSearchParams(location.search);
     const hash = location.hash;
 
     if (params.get('autoplay') === '1' && hash) {
-        setTimeout(() => {
+        // စာတွေဆောက်ပြီးမှ ခလုတ်ကို ရှာနိုင်အောင် နည်းနည်းပိုစောင့်ပေးခြင်း
+        const interval = setInterval(() => {
             const target = document.querySelector(hash);
             const btn = target?.querySelector('.speaker-btn');
-            if (btn) btn.click();
-        }, 1200);
+            
+            if (btn) {
+                btn.click();
+                clearInterval(interval); // ခလုတ်တွေ့ရင် စောင့်တာရပ်မယ်
+            }
+        }, 500); // 0.5 စက္ကန့်တိုင်း ခလုတ်ရှိမရှိ စစ်မယ်
+
+        // ၅ စက္ကန့်ထိမှ ခလုတ်မတွေ့ရင် ရပ်လိုက်မယ် (Error မတက်အောင်)
+        setTimeout(() => clearInterval(interval), 5000);
     }
-});
+}
+
+// စာမျက်နှာ Load ဖြစ်ရင် အလုပ်လုပ်မယ်
+window.addEventListener('load', tryAutoPlay);
+
 
 /* ========================================================
    DOWNLOAD AUDIO
