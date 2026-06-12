@@ -18,7 +18,7 @@ content: `
 
  { id: "paper-b-t4.1", // HTML က ID နဲ့ ကွက်တိ တူရပါမယ်
         title: "ဒုက္ခ အရိယသစ္စာ",
-        audio: "",
+        audio: "/audio/ဒုက္ခအရိယသစ္စာ.mp3",
         tocClass: "title",         
         headerTag: "h3", 
 content: ` 
@@ -67,7 +67,7 @@ content: `
 
    { id: "paper-b-t4.2", // HTML က ID နဲ့ ကွက်တိ တူရပါမယ်
         title: "ဒုက္ခသမုဒယ အရိယသစ္စာ",
-        audio: "",
+        audio: "/audio/ဒုက္ခသမုဒယအရိယသစ္စာ.mp3",
         tocClass: "title",         
         headerTag: "h3", 
 content: ` 
@@ -147,7 +147,7 @@ content: `
    
   { id: "paper-b-t4.3", // HTML က ID နဲ့ ကွက်တိ တူရပါမယ်
         title: "ဒုက္ခနိရောဓ အရိယသစ္စာ",
-        audio: "",
+        audio: "/audio/ဒုက္ခနိရောဓအရိယသစ္စာ.mp3",
         tocClass: "title",         
         headerTag: "h3", 
 content: ` 
