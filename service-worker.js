@@ -24,20 +24,38 @@ return cache.addAll([
 '/index.html',
   '/paper.html',
   '/about.html',
+  '/pati.html',
+ 
   '/style.css',
-  '/paper.css',
+  '/darkmode.js',
   '/darkmode.css',
   '/script.js',
  '/service-worker.js',
-  '/paper.js',
+
+  '/paper-text.js',
+    '/paper-audio.js',
+  '/paper-audio.css',
+  '/paper-text.css',
+'/ptext.js',
+  '/ptext1.js',
+
+'/pati-text.js',
+    '/pati-audio.js',
+  '/pati-audio.css',
+  '/pati-text.css',
+'/text.js',
+  '/text1.js',
+
+  
   '/robots.txt',
   '/README.md',
   '/_headers',
   '/sitemap.xml',
-  '/darkmode.js',
+
   '/bookphoto1.webp',
   '/bookphoto2.webp',
   '/bookphoto3.webp',
+  
   '/portfolio.html',
 '/portfolio.css',
 '/portfolio.js',
@@ -45,6 +63,11 @@ return cache.addAll([
 '/portfoliophoto2.webp',
   '/portfoliophoto3.webp',
   '/thaychinthabawlogo1.webp',
+
+'/quiz.html',
+'/quiz.js',
+  '/quiz.css',
+  
   '/manifest.json'
 
 ]);
