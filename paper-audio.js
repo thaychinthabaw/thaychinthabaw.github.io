@@ -416,16 +416,16 @@ paperSleepCancelBtn?.addEventListener('click', () => {
 /* =========================
    AUTO PLAY FROM LINK
 ========================= */
-window.addEventListener('textReady', () => {
+window.addEventListener('load', () => {
     const params = new URLSearchParams(location.search);
     const hash = location.hash;
 
     if (params.get('autoplay') === '1' && hash) {
-        const target = document.querySelector(hash);
-        const btn = target?.querySelector('.speaker-btn');
-        if (btn) {
-            btn.click();
-        }
+        setTimeout(() => {
+            const target = document.querySelector(hash);
+            const btn = target?.querySelector('.speaker-btn');
+            if (btn) btn.click();
+        }, 1200);
     }
 });
 
