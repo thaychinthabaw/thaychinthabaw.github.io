@@ -258,7 +258,7 @@ content: `
 `
 },
 { id: "pati-h-h2", // HTML က ID နဲ့ ကွက်တိ တူရပါမယ်
-        title: "ပဋိသမ္ဘိဒါမဂ်",
+        title: "ပဋိသမ္ဘိဒါမဂ်ကျမ်းမှ သုတ္တန်များ",
         audio: "",
         tocClass: "main-title",         
         headerTag: "h2", 
@@ -3496,7 +3496,7 @@ content: `
         id: "paper-b-t5", // HTML က ID နဲ့ ကွက်တိ တူရပါမယ်
       title: "ကျမ်းကိုး",
         audio: "",
-        tocClass: "subtitle",
+        tocClass: "main-title",
         headerTag: "h1", 
 content: `
 
