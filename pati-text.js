@@ -34,7 +34,7 @@ function buildSemanticParagraphs() {
 
     if (tocList) tocList.innerHTML = ''; // မာတိကာအဟောင်းကို ရှင်းထုတ်ခြင်း
 
-    // 🌟 Array ၁၀ ခုလုံးကို စုစည်းပေါင်းစပ်ခြင်း (မရှိခဲ့လျှင်လည်း Error မတက်အောင် ကာကွယ်ထားပါသည်)
+    // 🌟 text.js ကော text1.js ကပါ Array များကို စုစည်းပေါင်းစပ်ခြင်း (မရှိခဲ့လျှင်လည်း Error မတက်အောင် ကာကွယ်ထားပါသည်)
     const allChapters = [
         ...(typeof novelChapters !== 'undefined' ? novelChapters : []),
         ...(typeof novelChapters1 !== 'undefined' ? novelChapters1 : []),
@@ -90,6 +90,7 @@ function buildSemanticParagraphs() {
             a.href = `#${chapter.id}`;
             a.className = chapter.tocClass || 'title'; 
             a.textContent = chapter.title;
+            // 🌟 အရေးကြီး - toggleTOC ကို window object ကနေ တိုက်ရိုက်ခေါ်ပါ
             a.onclick = function() {
                 if (typeof window.toggleTOC === 'function') window.toggleTOC();
             };
