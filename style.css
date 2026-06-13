@@ -84,19 +84,43 @@ main {
 }
 
 /* 🔝 Fixed Top-Left Title */
-#fixedTitle {
+/*#fixedTitle {
   position: fixed;
   top: 0rem;           /* အပေါ် margin – လိုချင်သလို ပြင်နိုင် */
-  left: 0.5rem;        /* ဘယ်ဘက် margin */
-  font-size: 1rem;   /* စာအရွယ် */
-  font-weight: bold;
+ /* left: 0.5rem;        /* ဘယ်ဘက် margin */
+ /* font-size: 1rem;   /* စာအရွယ် */
+ /* font-weight: bold;
   background-color: black;
   color: #EAB308;
   padding: 3px 7px;
   border-radius: 6px;
   z-index: 9999;
   pointer-events: none;
+}*/
+
+/* 🔝 Fixed Top-Left Title - Telegram Style Rounded Border */
+#fixedTitle {
+  position: fixed;
+  top: 0.5rem;          
+  left: 0.5rem;        
+  font-size: 1rem;   
+  font-weight: bold;
+  background-color: black;
+  color: #EAB308;
+  padding: 5px 15px;      /* ဘေးအနည်းငယ် ပိုချဲ့ပေးထားပါတယ် */
+  
+  /* Telegram ပုံစံ အနားဝိုင်း */
+  border-radius: 20px;    
+  
+  /* အနားသတ် အဝါရောင် ပါးပါးလေး */
+  border: 1px solid #EAB308; 
+  
+  z-index: 9999;
+  pointer-events: none;
 }
+
+
+
 
 /* အခြားမူရင်း style မတွေ့ရင် */
 body {
