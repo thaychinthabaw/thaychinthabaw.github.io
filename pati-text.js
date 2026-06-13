@@ -612,7 +612,13 @@ function init() {
             }
         });
     }
+
+        // 🌟 အားလုံးပြီးဆုံးကြောင်း အချက်ပေးခြင်း (Auto Play အတွက်)
+    setTimeout(() => {
+        document.dispatchEvent(new Event('paperReady'));
+    }, 100);
 }
+
 
 /* ===== EXPORT FUNCTIONS TO GLOBAL WINDOW ===== */
 window.toggleTOC = toggleTOC;
