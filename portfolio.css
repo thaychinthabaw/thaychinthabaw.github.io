@@ -167,7 +167,7 @@ body:not(.dark-mode) .label {
     align-items: center;
     background: #EAB308 !important;
     padding: 18px 25px;
-    border-radius: 12px;
+    border-radius: 20px;
     text-decoration: none;
     color: #000000 !important;
     margin-bottom: 15px;
