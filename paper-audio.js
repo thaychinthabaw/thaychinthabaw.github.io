@@ -323,8 +323,6 @@ function getAudioButtons() {
 }
 
 function extractAudioData(button) {
-    // Dynamic ဆောက်တုန်းက Element ပေါ်မှာ တိုက်ရိုက် သိမ်းထားခဲ့မယ့် (သို့မဟုတ်) onclick ထဲက data ကို ယူခြင်း
-    // အကယ်၍ အစ်ကို့ pati-text.js အသစ်မှာ btn.setAttribute('data-src') နဲ့ သိမ်းခိုင်းထားရင် ဒါကိုသုံးလို့ရပါတယ်
     const src = button.getAttribute('data-src') || button.getAttribute('onclick')?.match(/'([^']+)'/)?.[1];
     const title = button.getAttribute('data-title') || button.parentNode?.textContent?.replace('🔊', '')?.trim();
 
@@ -337,8 +335,6 @@ function playAudioByIndex(index) {
     if (index < 0 || index >= buttons.length) return;
 
     const btn = buttons[index];
-    
-    // Dynamic ခလုတ်ဖြစ်တဲ့အတွက် တိုက်ရိုက် click() ပေးလိုက်တာက ပိုမိုဘေးကင်းပြီး ရိုးရှင်းပါတယ်
     btn.click();
 }
 
@@ -416,16 +412,19 @@ paperSleepCancelBtn?.addEventListener('click', () => {
 /* =========================
    AUTO PLAY FROM LINK
 ========================= */
-window.addEventListener('load', () => {
+document.addEventListener('paperReady', () => {
     const params = new URLSearchParams(location.search);
     const hash = location.hash;
 
     if (params.get('autoplay') === '1' && hash) {
-        setTimeout(() => {
-            const target = document.querySelector(hash);
-            const btn = target?.querySelector('.speaker-btn');
-            if (btn) btn.click();
-        }, 1200);
+        const target = document.querySelector(hash);
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            const btn = target.querySelector('.speaker-btn');
+            if (btn) {
+                setTimeout(() => btn.click(), 300);
+            }
+        }
     }
 });
 
@@ -439,7 +438,6 @@ paperDownloadBtn?.addEventListener('click', async () => {
     const file = new URL(audioUrl).pathname.split('/').pop();
     const cleanFileName = decodeURIComponent(file) || "audio-archive.mp3";
 
-    // 1️⃣ Repo ထဲက ဖိုင်ဆိုလျှင် (paper-audio.js ရဲ့ မူရင်းစနစ်အတိုင်း တိုက်ရိုက်ဒေါင်းမည်)
     if (!audioUrl.includes('archive.org')) {
         const a = document.createElement('a');
         a.href = audioUrl;
@@ -449,7 +447,6 @@ paperDownloadBtn?.addEventListener('click', async () => {
         a.click();
         document.body.removeChild(a);
     } 
-    // 2️⃣ Archive က ဖိုင်ဆိုလျှင် (pati-audio.js ရဲ့ မူရင်း fetch() စနစ်အတိုင်း အလုပ်လုပ်မည်)
     else {
         const originalBtnText = paperDownloadBtn.innerHTML;
         try {
