@@ -294,7 +294,11 @@ body:not(.dark-mode) .gallery-item .text {
   background-color: black;
   color: #EAB308;
   padding: 3px 7px;
-  border-radius: 6px;
+border-radius: 20px;    
+  
+  /* အနားသတ် အဝါရောင် ပါးပါးလေး */
+  border: 1px solid #EAB308; 
+    
   z-index: 9999;
   pointer-events: none;
 }
