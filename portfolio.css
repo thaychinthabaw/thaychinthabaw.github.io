@@ -378,10 +378,11 @@ button:active, a:active {
 .section-title {
     font-size: 1.1rem;
     margin: 60px 0 10px 5px;
-    border-left: 5px solid #EAB308; /* အဝါရောင် ဘေးလိုင်းလေး */
+    /*border-left: 5px solid #EAB308; /* အဝါရောင် ဘေးလိုင်းလေး */
     padding-left: 12px;
   background-color:#121212; 
-  border-radius:5px;
+  border-radius:20px;
+    border: 1px solid rgba(255, 215, 0, 0.3); 
     margin-top: 100px; 
 color: #EAB308;
 text-align: center;
