@@ -99,7 +99,7 @@ main {
   border-radius: 20px;    
   
   /* အနားသတ် အဝါရောင် ပါးပါးလေး */
-  border: 0.5px solid #EAB308; 
+  border: 0.5px solid rgba(255, 215, 0, 0.3); 
   
   z-index: 9999;
   pointer-events: none;
