@@ -83,7 +83,7 @@ body {
   border-radius: 20px;    
   
   /* အနားသတ် အဝါရောင် ပါးပါးလေး */
-  border: 0.5px solid #EAB308; 
+  border: 1px solid  #eeeeee; 
   z-index: 9999;
   pointer-events: none;
 }
