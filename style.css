@@ -101,7 +101,7 @@ main {
 /* 🔝 Fixed Top-Left Title - Telegram Style Rounded Border */
 #fixedTitle {
   position: fixed;
-  top: 0.5rem;          
+  top: 0.0rem;          
   left: 0.5rem;        
   font-size: 1rem;   
   font-weight: bold;
@@ -113,7 +113,7 @@ main {
   border-radius: 20px;    
   
   /* အနားသတ် အဝါရောင် ပါးပါးလေး */
-  border: 1px solid #EAB308; 
+ /* border: 1px solid #EAB308; */
   
   z-index: 9999;
   pointer-events: none;
