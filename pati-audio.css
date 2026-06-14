@@ -76,7 +76,11 @@ color: #443300;
     border: 1px solid #443300;   
 font-size: 18px;
 cursor: pointer;
+transition: 0.2s;
 }
+/* Hover & Active for Top Buttons */
+.paper-top-btn:hover { background: #eadebc; transform: translateY(-1px); }
+.paper-top-btn:active { transform: scale(0.95); }
 
 /* ==
 BODY
@@ -142,7 +146,11 @@ margin-top: 12px;
     color: #443300;
     font-weight: bold;
     cursor: pointer;
+    transition: 0.2s;
 }
+/* Hover & Active for Sleep Buttons */
+.paper-sleep-buttons button:hover { background: #dcd0b2; transform: translateY(-1px); }
+.paper-sleep-buttons button:active { transform: scale(0.97); }
 
 #paper-sleep-status {
     margin-top: 10px;
@@ -174,6 +182,7 @@ SCROLLABLE AUDIO CONTROLS
     font-size: 14px;
     cursor: pointer;
     flex: 1;
+    transition: 0.2s;
 }/* ==SCROLLABLE AUDIO CONTROLSအဆုံး== */
 
 .paper-audio-controls button {
@@ -186,7 +195,11 @@ color: #443300;
 font-weight: bold;
 cursor: pointer;
 font-size: 13px;
+transition: 0.2s;
 }
+/* Hover & Active for Audio Controls */
+.paper-audio-controls button:hover { background: #eadebc; transform: translateY(-1px); }
+.paper-audio-controls button:active { transform: scale(0.97); }
 
 #paper-play-btn {
 min-width: 50px;
@@ -254,7 +267,11 @@ display: none;
 z-index: 9999;
 align-items: center;
 justify-content: center;
+transition: 0.2s;
 }
+/* Hover & Active for Show Bar Button */
+.paper-show-bar-btn:hover { background: rgba(220, 208, 178, 1); transform: scale(1.05); }
+.paper-show-bar-btn:active { transform: scale(0.95); }
 
 /* mobile */
 
