@@ -1,4 +1,4 @@
-/*၁။ Layout အခြေခံ (Sepia Theme) */
+/* ၁။ Layout အခြေခံ (Sepia Theme) */
 body.sepia-mode {
     margin: 0;
     font-family: 'Pyidaungsu', sans-serif;
@@ -124,7 +124,7 @@ body.sepia-mode {
     padding: 0 !important;
     background: #f4ecd8;
     border: 1px solid #443300;
-    border-radius: 8px;
+    border-radius: 50%;
     cursor: pointer;
     font-weight: bold;
 }
@@ -179,7 +179,7 @@ body.sepia-mode {
     margin: 8px 0;
     background: #eadebc;
     border: 1px solid #443300;
-    border-radius: 6px;
+    border-radius: 50px;
     color: #443300;
     font-weight: bold;
     cursor: pointer;
@@ -199,7 +199,7 @@ body.sepia-mode {
     background: #eadebc;
     border: 1px solid #443300;
     color: #443300;
-    border-radius: 6px;
+    border-radius: 50px;
     cursor: pointer;
     font-weight: bold;
 }
@@ -264,7 +264,7 @@ body.sepia-mode {
     color: #f4ecd8;
     border: none;
     padding: 12px 20px;
-    border-radius: 25px; 
+    border-radius: 50px; 
     cursor: pointer;
     font-weight: bold;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
@@ -563,7 +563,7 @@ article {
     border: 1px solid #443300;
     color: #443300;
     padding: 8px 14px;
-    border-radius: 6px;
+    border-radius: 50px;
     cursor: pointer;
     font-weight: bold;
     transition: 0.2s;}
@@ -604,7 +604,7 @@ article {
     border: 1px solid #443300;
     color: #443300;
     padding: 6px 14px;
-    border-radius: 6px;
+    border-radius: 50px;
     cursor: pointer;
     font-weight: bold;
     transition: 0.15s ease;
@@ -635,7 +635,7 @@ article {
     border: 1px solid #443300;
     background: #f4ecd8;
     color: #443300;
-    border-radius: 8px;
+    border-radius: 50%;
     font-size: 22px;
     font-weight: bold;
     cursor: pointer;
@@ -737,4 +737,3 @@ article {
     margin-top: 150px !important;    /* အပေါ်စာနဲ့ နည်းနည်းပဲ ခွာချင်ရင် */
     margin-bottom: 30px !important;
 }
-
