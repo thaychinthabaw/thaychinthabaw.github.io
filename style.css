@@ -1,4 +1,4 @@
-body {
+Body {
   font-family: "Myanmar Text", sans-serif;
   background-color: #ffffff;
   color: #EAB308; /* စာအဝါ */
@@ -15,7 +15,9 @@ body {
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
+  transition: 0.2s;
 }
+#modeToggle:hover { transform: scale(1.1); }
 
 /* 📝 Main content */
 main {
@@ -77,6 +79,7 @@ main {
   border-radius: 6px;
   transition: background-color 0.3s ease; font-size: 16px;
 }
+.bottom-nav a:hover { background-color: rgba(255, 215, 0, 0.1); }
 
 .bottom-nav a .icon {
   font-size: 18px;       /* emoji အရွယ်အစား */
@@ -138,7 +141,9 @@ body {
   height: 80px;
   border-radius: 50%; /* လိုဂိုကို အဝိုင်းပုံစံ ဖြစ်စေချင်လျှင် သုံးပါ */
   object-fit: cover;
+  transition: 0.3s;
 }
+.fixed-logo img:hover { transform: scale(1.05); }
 
 /* --- ဓာတ်ပုံဘေးဆွဲ CSS အစ --- */
 
@@ -156,7 +161,7 @@ body {
     margin: 60px 0 10px 5px;
    /* border-left: 5px solid #EAB308; /* 5px အဝါရောင် ဘေးလိုင်းလေး */
     padding-left: 12px;
-    background-color:#121212; 
+  background-color:#121212; 
   border-radius:20px;
  /* border-radius:5px;*/
   border: 1px solid rgba(255, 215, 0, 0.3); 
@@ -247,7 +252,9 @@ body {
     text-decoration: none; 
     display: flex;
     flex-direction: column;
+    transition: 0.3s;
 }
+.gallery-item:hover { transform: translateY(-5px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
 
 /* ၅။ ဓာတ်ပုံများ ဖုန်း Screen ပေါ်တွင် အံကိုက်ဖြစ်အောင် ထိန်းခြင်း */
 .gallery-item img {
@@ -266,12 +273,13 @@ body {
     font-weight: bold;         /* စာလုံးကို အထူ (Bold) လုပ်ခြင်း */
     text-align: center;
     color: #000000;            /* စာလုံးအရောင်ကို အဖြူရောင်ပြောင်းခြင်း */
-    background-color: #EAB308; /*   #ffcc00 စာသားနောက်ခံကို မင်းရဲ့ ကိုယ်ပိုင် အဝါရောင် သတ်မှတ်ခြင်း */
+    background-color: #EAB308; /* #ffcc00 စာသားနောက်ခံကို မင်းရဲ့ ကိုယ်ပိုင် အဝါရောင် သတ်မှတ်ခြင်း */
     border-radius: 50px;       /* ခလုတ်ထောင့်လေးတွေကို ဝိုင်းဝိုင်းလေး ဖြစ်စေရန် */
     display: inline-block;     /* စာသားအကျယ်အတိုင်းပဲ နောက်ခံအရောင်ယူရန် */
     box-shadow: 0 2px 6px rgba(255, 204, 0, 0.3); /* ခလုတ်လေး ကြွနေသတ်ပုံစံ Shadow ထည့်ခြင်း */
     transition: background-color 0.2s ease;
 }
+.gallery-item:hover .text { background-color: #d4a017; }
 
 /* --- ဓာတ်ပုံဘေးဆွဲ CSS အဆုံး --- */
 
@@ -305,7 +313,9 @@ body {
     border: 2px solid #E0E0E0;       /* အနားသတ်ဘောင် */
     white-space: normal;             /* စာသားရှည်လျှင် အောက်ကြောင်းဆင်းရန် */
     padding: 10px;                   /* ခလုတ်အတွင်း စာသားအကွာအဝေး */
+    transition: 0.3s;
 }
+.app-link:hover { background-color: #d1d1d1; border-color: #d1d1d1; transform: scale(1.05); }
 
 /* --- အရောင်အတွက် အပိုင်း အစ --- */
 .viber-text {
