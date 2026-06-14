@@ -212,7 +212,7 @@ body.dark-mode #question-count {
 .answer-btn {
   width: 100%;
   border: 1px solid var(--btn-border);
-  border-radius: 18px;
+  border-radius: 50px;
   background-color: var(--btn-bg);
   color: var(--btn-text);
   padding: 20px 18px;
