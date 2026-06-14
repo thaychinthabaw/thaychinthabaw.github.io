@@ -1,4 +1,4 @@
-/*၁။ Layout အခြေခံ (Sepia Theme) */
+/* ၁။ Layout အခြေခံ (Sepia Theme) */
 body.sepia-mode {
     margin: 0;
     font-family: 'Pyidaungsu', sans-serif;
@@ -35,6 +35,8 @@ body.sepia-mode {
     box-sizing: border-box;
 }
 
+
+
 .back-link {
     display: flex;
     align-items: center;    /* ဒေါင်လိုက် အလယ်ချရန် */
@@ -43,12 +45,12 @@ body.sepia-mode {
     color: #443300;
     gap: 4px;               /* icon နဲ့ စာကြား အကွာအဝေး */
 
-    /* +,- ခလုတ်တွေရဲ့ ပုံစံအတိုင်း borderထည့်ခြင်း */
+    /* +,- ခလုတ်တွေရဲ့ ပုံစံအတိုင်း border ထည့်ခြင်း */
     background: #f4ecd8;                /* ခလုတ်နောက်ခံအရောင် */
     border: 1px solid #443300 !important; /* အညိုရောင် ဘောင် */
     width: 70px;              /* အကျယ် 60px */
     height: 30px;             /* အမြင့် 30px */                  /* အတွင်းနေရာလွတ် */
-    border-radius: 8px;                 /* ထောင့်ဝိုင်း */
+    border-radius: 50px;                 /* ထောင့်ဝိုင်း */
     cursor: pointer;                    /* လက်ညှိုးပုံစံ */
     font-weight: bold;                  /* စာသားအထူ */
 }
@@ -67,6 +69,7 @@ body.sepia-mode {
     line-height: 1;         /* စာသား၏ line-height ကို 1 ထားမှ တည့်ပါမည် */
 }
 
+
 /* Icon (⌂) အတွက် သီးသန့် ဆိုဒ် */
 .nav-icon {
     font-size: 28px !important; /* Icon ကို ပိုကြီးအောင် လုပ်ထားပါသည် */
@@ -79,6 +82,7 @@ body.sepia-mode {
     font-weight: bold;
 }
 
+
 /* ညာဘက်က ခလုတ်စုစည်းမှု (Layout မှန်စေရန်) */
 .right-controls {
     display: flex;
@@ -89,6 +93,7 @@ body.sepia-mode {
     /* အရှင်ဘုရား လိုချင်သည့်အတိုင်း ဘယ်ဘက်သို့ တိုးရန် */
     margin-right: 35px; /* ညာဘက်အစွန်းမှ ခပ်ခွာခွာဖြစ်အောင် နေရာချခြင်း */
 }
+
 
 /* ⚙️ Setting ခလုတ်နှင့် Font ခလုတ်များ (ပထမပုံက ဆိုဒ်အတိုင်း) */
 .font-controls button {
@@ -101,11 +106,12 @@ body.sepia-mode {
     padding: 0 !important;  /* Padding ကို 0 ထားပြီး width/height နဲ့ ထိန်းပါ */
     background: #f4ecd8;
     border: 1px solid #443300;
-    border-radius: 8px;
+    border-radius: 50%;
     cursor: pointer;
     color: #443300;
     font-weight: bold;
 }
+
 
 .setting-btn {
     display: inline-flex !important;
@@ -118,10 +124,11 @@ body.sepia-mode {
     padding: 0 !important;
     background: #f4ecd8;
     border: 1px solid #443300;
-    border-radius: 8px;
+    border-radius: 50%;
     cursor: pointer;
     font-weight: bold;
 }
+
 
 /* အလယ်က ဂဏန်း (25/30) နေရာမှန်စေရန် */
 #font-size-display {
@@ -129,7 +136,9 @@ body.sepia-mode {
     font-weight: bold;
     color: #443300;
     font-size: 1.2rem;
+    
 }
+
 
 /* ၃။ Setting Menu Popup */
 .setting-overlay {
@@ -139,6 +148,7 @@ body.sepia-mode {
     display: none;
     z-index: 1100;
 }
+
 
 .setting-content {
     background: #f4ecd8;
@@ -169,7 +179,7 @@ body.sepia-mode {
     margin: 8px 0;
     background: #eadebc;
     border: 1px solid #443300;
-    border-radius: 6px;
+    border-radius: 50px;
     color: #443300;
     font-weight: bold;
     cursor: pointer;
@@ -189,7 +199,7 @@ body.sepia-mode {
     background: #eadebc;
     border: 1px solid #443300;
     color: #443300;
-    border-radius: 6px;
+    border-radius: 50px;
     cursor: pointer;
     font-weight: bold;
 }
@@ -202,6 +212,7 @@ body.sepia-mode {
 .setting-menu-refresh .nav-text {
     font-size: 16px !important;
 }
+
 
 /* Setting Header နှင့် ပိတ်ရန်ခလုတ် */
 .setting-header {
@@ -253,12 +264,16 @@ body.sepia-mode {
     color: #f4ecd8;
     border: none;
     padding: 12px 20px;
-    border-radius: 25px; 
+    border-radius: 50px; 
     cursor: pointer;
     font-weight: bold;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     text-align: center;
+    
+    /* Blur (ဝါးခြင်း) ကို လုံးဝဖြုတ်လိုက်ပါပြီ */
 }
+
+
 
 .top-btn {
     background: #443300;
@@ -349,16 +364,14 @@ body.sepia-mode {
 
 /* နှိပ်ပြီးသား Link များကိုလည်း အပြာရောင်/ခရမ်းရောင် မပြောင်းစေရန် */
 .toc-list li a:visited {
-    color: #443300 !important; 
-}
+    color: #443300 !important; }
 
 /* ခေါင်းစဉ်ကြီးလျှင် အောက်ကြောင်းဆင်းပေးရန် ပြင်ဆင်ချက် */
 .book-header h1, 
 .book-header h2 { 
     inline-size: 100%;
     overflow-wrap: break-word; 
-    word-break: break-word;
-}
+    word-break: break-word;}
 
 /* စာကိုယ်ပိုင်း Font ကြီးလျှင် ဘေးမကားစေရန် ပြင်ဆင်ချက် */
 .content-area { 
@@ -369,8 +382,7 @@ body.sepia-mode {
     width: 100%;
     box-sizing: border-box;
     overflow-wrap: break-word; 
-    word-wrap: break-word;
-}
+    word-wrap: break-word;}
 
 @media print {
     .top-controls, 
@@ -378,27 +390,23 @@ body.sepia-mode {
     .setting-overlay, 
     .toc-overlay,
     #modeToggle {
-        display: none !important; 
-    }
+        display: none !important; }
 
     .container {
         width: 100% !important;
         margin: 0 !important;
-        padding: 0 !important;  
-    }
+        padding: 0 !important;  }
 
      /* ၃။ စာသားအမည်း၊ နောက်ခံအဖြူ ဖြစ်စေရန် */
     body {
         background: #ffffff !important; 
-        color: #000000 !important; 
-    }
+        color: #000000 !important; }
 
     /* ၄။ စာသားအားလုံးကို အမည်းရောင်ဖြစ်စေရန် */
     * {
         color: #000000 !important;
         background: transparent !important;
-    }
-}
+    }}
 
 /* Fullscreen ခလုတ် Style */
 .fullscreen-round-btn {
@@ -416,46 +424,40 @@ body.sepia-mode {
     align-items: center;
     justify-content: center;
     z-index: 2000; 
-    transition: 0.3s;
-}
+    transition: 0.3s;}
 
 /* Focus Mode အသက်ဝင်ချိန် */
 body.focus-mode .top-controls .back-link,
 body.focus-mode .top-controls .right-controls,
 body.focus-mode .floating-left-group,
 body.focus-mode .book-header {
-    display: none !important;
-}
+    display: none !important;}
 
 body.focus-mode .top-controls {
     background: transparent !important;
     border: none !important;
-    box-shadow: none !important;
-}
+    box-shadow: none !important;}
 
 /* မာတိကာတွင် လက်ရှိဖတ်နေသည့် အခန်းကို Highlight ပြရန် */
 .toc-list li a.active-chapter {
     color: #b38b00 !important; 
     font-weight: bold !important;
     border-left: 3px solid #443300;
-    padding-left: 10px;
-}
+    padding-left: 10px;}
 
 /*မာတိကာ အတွင်းမှ စာလုံးဆိုဒ် အစ*/
 /* ခေါင်းစဉ်ကြီးအတွက် CSS */
 .main-title {
     font-size: 22px !important;    /* စာလုံးဆိုဒ်ကို ၂၂ ပေးထားပါသည် */
     font-weight: bold !important;  /* စာလုံးကို အထူးပြု (Bold) လုပ်ထားပါသည် */
-    text-decoration: none;
-}
+    text-decoration: none;}
 
 /* ခေါင်းစဉ်ငယ်အတွက် CSS */
 .sub-title {
     font-size: 22px !important;    /* စာလုံးဆိုဒ်ကို ၁၆ သို့ လျှော့ထားပါသည် */
     font-weight: normal !important; /* စာလုံးကို ပုံမှန်အတိုင်းထားပါသည် */
     padding-left: 20px !important;  /* ဘေးကို နည်းနည်းတိုးပြီး ခေါင်းစဉ်ငယ်ပုံစံသွင်းသည် */
-    text-decoration: none;
-}
+    text-decoration: none;}
 
 /*သုတ္တန်အတွက် css*/
 .title  {
@@ -484,22 +486,19 @@ body.focus-mode .top-controls {
     border: 1px solid #443300;
     border-radius: 6px;
     margin: 8px 0;
-    text-align: center;
-}
+    text-align: center;}
 
 .setting-title2 {
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
     color: #443300;
-    font-size: 16px !important;
-}
+    font-size: 16px !important;}
 
 .weight-spinner-wrapper {
     display: flex;
     justify-content: center;
-    gap: 12px;
-}
+    gap: 12px;}
 
 .spinner-box {
     display: flex;
@@ -524,21 +523,18 @@ body.focus-mode .top-controls {
     font-size: 1.3rem;
     font-weight: bold;
     color: #443300; 
-    padding: 5px 0;
-}/* စာလုံးအထူအပါး အတွက် Style အဆုံး */
+    padding: 5px 0;}/* စာလုံးအထူအပါး အတွက် Style အဆုံး */
 
 /* နှိပ်လိုက်ရင် အဝါရောင် ပေါ်ရန် အစ*/
 /* ၁။ တစ်ကမ္ဘာလုံးရှိ နှိပ်သမျှ အရာအားလုံးအတွက် (Safari အပါအဝင်) */
 * { /* ဖုန်းမှာ နှိပ်လိုက်ရင် ပေါ်တဲ့ အပြာရောင်ကို အဝါဖျော့ပြောင်းခြင်း (iOS Safari အတွက် အဓိက) */
     -webkit-tap-highlight-color:
-    rgba(255, 204, 0, 0.4) !important;
-}
+    rgba(255, 204, 0, 0.4) !important;}
 
 /* ၂။ Desktop မှာ Tab ခလုတ်နှိပ်လို့ဖြစ်ဖြစ်၊ Mouse နဲ့နှိပ်လို့ဖြစ်ဖြစ် ပေါ်တဲ့ အပြာရောင်ဘောင်ကို ဖျောက်ခြင်း */
 *:focus {
     outline: 2px solid #ffcc00 !important; /* အပြာရောင်အစား အဝါရောင်ဘောင်ပြောင်းခြင်း */
-    outline-offset: 1px;
-}
+    outline-offset: 1px;}
 
 /* ၃။ Safari မှာ ခလုတ်တွေ နှိပ်လိုက်တဲ့အခါ အပြာရောင် Highlight ဖြစ်တာကို တားဆီးရန် */
 button:active, a:active {
@@ -559,8 +555,7 @@ article {
     display: flex;
     justify-content: center;
     gap: 8px;
-    margin-top: 12px;
-}
+    margin-top: 12px;}
 
 .preset-btn,
 .adjust-group button {
@@ -568,24 +563,22 @@ article {
     border: 1px solid #443300;
     color: #443300;
     padding: 8px 14px;
-    border-radius: 6px;
+    border-radius: 50px;
     cursor: pointer;
     font-weight: bold;
-    transition: 0.2s;
-}
+    transition: 0.2s;}
 
 .preset-btn:hover,
 .adjust-group button:hover {
-    transform: translateY(-1px);
-}
+    transform: translateY(-1px);}
 
 .preset-btn.active-preset {
     background: #443300;
-    color: #f4ecd8;
-}
+    color: #f4ecd8;}
 
 #lh-display,
 #ls-display {
+
     min-width: 55px;
     text-align: center;
     background: #f4ecd8;
@@ -596,7 +589,9 @@ article {
     color: #443300;
 }
 
+
 /* ===== Optimized Setting UI ===== */
+
 .preset-group {
     display: flex;
     gap: 8px;
@@ -609,7 +604,7 @@ article {
     border: 1px solid #443300;
     color: #443300;
     padding: 6px 14px;
-    border-radius: 6px;
+    border-radius: 50px;
     cursor: pointer;
     font-weight: bold;
     transition: 0.15s ease;
@@ -640,7 +635,7 @@ article {
     border: 1px solid #443300;
     background: #f4ecd8;
     color: #443300;
-    border-radius: 8px;
+    border-radius: 50%;
     font-size: 22px;
     font-weight: bold;
     cursor: pointer;
@@ -667,6 +662,7 @@ article {
     margin-bottom: 20px;
 }
 
+
 /* ==
    TOC SEARCH BAR
 == */
@@ -676,8 +672,7 @@ article {
     border: none;
     border-radius: 12px;
     font-size: 14px;
-    outline: none;
-}
+    outline: none;}
 
 /* ==
    TOC JUMP BUTTONS
@@ -704,6 +699,7 @@ article {
 }
 
 /* Hover */
+
 .toc-jump-buttons button:hover {
     transform: scale(1.08);
 }
@@ -732,12 +728,12 @@ article {
 
 /* h2 (ခေါင်းစဉ်လတ်) အတွက် သီးသန့် အကွာအဝေး */
 .content-area h2 {
-    margin-top: 180px !important;     /* အပေါ်စာနဲ့ အသင့်အတင့်ပဲ ခွာချင်ရင် */
+    margin-top: 180px !important;    /* အပေါ်စာနဲ့ အသင့်အတင့်ပဲ ခွာချင်ရင် */
     margin-bottom: 35px !important;
 }
 
 /* h3 (ခေါင်းစဉ်ငယ်) အတွက် သီးသန့် အကွာအဝေး */
 .content-area h3 {
-    margin-top: 150px !important;     /* အပေါ်စာနဲ့ နည်းနည်းပဲ ခွာချင်ရင် */
+    margin-top: 150px !important;    /* အပေါ်စာနဲ့ နည်းနည်းပဲ ခွာချင်ရင် */
     margin-bottom: 30px !important;
 }
