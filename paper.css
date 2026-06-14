@@ -50,7 +50,7 @@ body.sepia-mode {
     border: 1px solid #443300 !important; /* အညိုရောင် ဘောင် */
     width: 70px;              /* အကျယ် 60px */
     height: 30px;             /* အမြင့် 30px */                  /* အတွင်းနေရာလွတ် */
-    border-radius: 8px;                 /* ထောင့်ဝိုင်း */
+    border-radius: 50px;                 /* ထောင့်ဝိုင်း */
     cursor: pointer;                    /* လက်ညှိုးပုံစံ */
     font-weight: bold;                  /* စာသားအထူ */
 }
@@ -106,7 +106,7 @@ body.sepia-mode {
     padding: 0 !important;  /* Padding ကို 0 ထားပြီး width/height နဲ့ ထိန်းပါ */
     background: #f4ecd8;
     border: 1px solid #443300;
-    border-radius: 8px;
+    border-radius: 50%;
     cursor: pointer;
     color: #443300;
     font-weight: bold;
@@ -199,7 +199,7 @@ body.sepia-mode {
     background: #eadebc;
     border: 1px solid #443300;
     color: #443300;
-    border-radius: 6px;
+    border-radius: 50px;
     cursor: pointer;
     font-weight: bold;
 }
