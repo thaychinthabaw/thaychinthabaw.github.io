@@ -253,7 +253,7 @@ body.dark-mode #question-count {
 }
 .action-btn {
   border: 1px solid var(--btn-border);
-  border-radius: 14px;
+  border-radius: 50px;
   background-color: var(--btn-bg);
   color: var(--btn-text);
   padding: 14px 24px;
@@ -277,7 +277,7 @@ body.dark-mode #question-count {
   background-color: var(--btn-bg);
   color: var(--btn-text);
   border: 1px dashed var(--btn-text);
-  border-radius: 14px;
+  border-radius: 50px;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
