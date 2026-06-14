@@ -53,7 +53,9 @@ body.sepia-mode {
     border-radius: 50px;                 /* ထောင့်ဝိုင်း */
     cursor: pointer;                    /* လက်ညှိုးပုံစံ */
     font-weight: bold;                  /* စာသားအထူ */
+    transition: 0.2s;
 }
+.back-link:hover { background: #eadebc; }
 
 .nav-icon {
     font-size: 28px !important;
@@ -110,7 +112,9 @@ body.sepia-mode {
     cursor: pointer;
     color: #443300;
     font-weight: bold;
+    transition: 0.2s;
 }
+.font-controls button:hover { background: #eadebc; }
 
 
 .setting-btn {
@@ -127,7 +131,9 @@ body.sepia-mode {
     border-radius: 50%;
     cursor: pointer;
     font-weight: bold;
+    transition: 0.2s;
 }
+.setting-btn:hover { background: #eadebc; }
 
 
 /* အလယ်က ဂဏန်း (25/30) နေရာမှန်စေရန် */
@@ -185,7 +191,9 @@ body.sepia-mode {
     cursor: pointer;
     text-align: center;
     font-size: 16px !important;
+    transition: 0.2s;
 }
+.setting-item:hover { background: #dcd0b2; }
 
 /* ၁။ အသစ်လုပ်ရန် ခလုတ် (Refresh) */
 .setting-menu-refresh {
@@ -202,7 +210,9 @@ body.sepia-mode {
     border-radius: 50px;
     cursor: pointer;
     font-weight: bold;
+    transition: 0.2s;
 }
+.setting-menu-refresh:hover { background: #dcd0b2; }
 
 .setting-menu-refresh .nav-icon {
     font-size: 20px !important;
@@ -269,9 +279,10 @@ body.sepia-mode {
     font-weight: bold;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     text-align: center;
-    
+    transition: 0.2s;
     /* Blur (ဝါးခြင်း) ကို လုံးဝဖြုတ်လိုက်ပါပြီ */
 }
+.toc-toggle-btn:hover { background: rgba(68, 51, 0, 1) !important; }
 
 
 
@@ -360,7 +371,9 @@ body.sepia-mode {
     padding: 12px 0;
     border-bottom: 1px solid #d4c5a0;
     font-weight: bold;
+    transition: 0.2s;
 }
+.toc-list li a:hover { color: #b38b00 !important; }
 
 /* နှိပ်ပြီးသား Link များကိုလည်း အပြာရောင်/ခရမ်းရောင် မပြောင်းစေရန် */
 .toc-list li a:visited {
@@ -425,6 +438,7 @@ body.sepia-mode {
     justify-content: center;
     z-index: 2000; 
     transition: 0.3s;}
+.fullscreen-round-btn:hover { background: rgba(234, 222, 188, 0.8); }
 
 /* Focus Mode အသက်ဝင်ချိန် */
 body.focus-mode .top-controls .back-link,
@@ -517,7 +531,9 @@ body.focus-mode .top-controls {
     cursor: pointer;
     padding: 5px;
     width: 100%;
+    transition: 0.2s;
 }
+.spinner-box button:hover { background: #eadebc; }
 
 .spinner-box span {
     font-size: 1.3rem;
@@ -570,7 +586,9 @@ article {
 
 .preset-btn:hover,
 .adjust-group button:hover {
-    transform: translateY(-1px);}
+    transform: translateY(-1px);
+    background: #eadebc;
+}
 
 .preset-btn.active-preset {
     background: #443300;
@@ -639,7 +657,9 @@ article {
     font-size: 22px;
     font-weight: bold;
     cursor: pointer;
+    transition: 0.2s;
 }
+.font-size-control button:hover { background: #eadebc; }
 
 #font-size-display {
     min-width: 50px;
