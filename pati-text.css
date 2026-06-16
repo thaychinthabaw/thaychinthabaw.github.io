@@ -85,16 +85,18 @@ body.sepia-mode {
 }
 
 
+
 /* ညာဘက်က ခလုတ်စုစည်းမှု (Layout မှန်စေရန်) */
 .right-controls {
     display: flex;
     align-items: center;
     color: #443300;
-    gap: 8px; /* ခလုတ်တွေကြား အကွာအဝေး */
+    gap: 10px; /* 🌟 ခလုတ်နှစ်ခု စပ်ကပ်မနေစေရန် အကွာအဝေးကို 8px မှ 20px သို့ တိုးမြှင့်ထားပါသည် */
     font-size: 20px !important;
     /* အရှင်ဘုရား လိုချင်သည့်အတိုင်း ဘယ်ဘက်သို့ တိုးရန် */
     margin-right: 35px; /* ညာဘက်အစွန်းမှ ခပ်ခွာခွာဖြစ်အောင် နေရာချခြင်း */
 }
+
 
 
 /* ⚙️ Setting ခလုတ်နှင့် Font ခလုတ်များ (ပထမပုံက ဆိုဒ်အတိုင်း) */
@@ -132,6 +134,8 @@ body.sepia-mode {
     cursor: pointer;
     font-weight: bold;
     transition: 0.2s;
+/* 🌟 ⚙️ ခလုတ်တစ်ခုတည်းကို ☀️ ခလုတ်ဆီကနေ ဘယ်ဘက်သို့ ခွာပြီး တိုးထွက်သွားစေရန် */
+    margin-right: 15px !important; 
 }
 .setting-btn:hover { background: #eadebc; }
 
