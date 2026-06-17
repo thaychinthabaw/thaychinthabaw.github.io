@@ -123,10 +123,10 @@ body.sepia-mode {
     display: inline-flex !important;
     align-items: center;
     justify-content: center;
-    width: 30px;            /* +,- ခလုတ်နဲ့ အတူတူ ဖြစ်စေရန် */
-    height: 30px;
+    width: 38px;            /* +,- ခလုတ်နဲ့ အတူတူ ဖြစ်စေရန် */
+    height: 38px;
     color: #443300;
-    font-size: 24px !important; /* ဂီယာသင်္ကေတကို ကြီးစေရန် */
+    font-size: 26px !important; /* ဂီယာသင်္ကေတကို ကြီးစေရန် */
     padding: 0 !important;
     background: #f4ecd8;
     border: 1px solid #443300;
