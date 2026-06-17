@@ -87,24 +87,8 @@ body {
   z-index: 9999;
   pointer-events: none;
 }
-/* 🌗 MODE TOGGLE BUTTON */
-#modeToggle {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  background: transparent;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  z-index: 9999;
-  transition: transform 0.2s ease;
-}
-#modeToggle:hover {
-  transform: scale(1.1);
-}
-#modeToggle:active {
-  transform: scale(0.9);
-}
+
+
 /* 📝 MAIN CONTAINER */
 main {
   padding: 5rem 0.5rem 5rem;
