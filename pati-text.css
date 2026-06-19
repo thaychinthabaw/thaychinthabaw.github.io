@@ -48,8 +48,8 @@ body.sepia-mode {
     /* +,- ခလုတ်တွေရဲ့ ပုံစံအတိုင်း border ထည့်ခြင်း */
     background: #f4ecd8;                /* ခလုတ်နောက်ခံအရောင် */
     border: 1px solid #443300 !important; /* အညိုရောင် ဘောင် */
-    width: 70px;              /* အကျယ် 60px */
-    height: 30px;             /* အမြင့် 30px */                  /* အတွင်းနေရာလွတ် */
+    width: 75px;              /* အကျယ် 60px */
+    height: 35px;             /* အမြင့် 30px */                  /* အတွင်းနေရာလွတ် */
     border-radius: 50px;                 /* ထောင့်ဝိုင်း */
     cursor: pointer;                    /* လက်ညှိုးပုံစံ */
     font-weight: bold;                  /* စာသားအထူ */
@@ -62,7 +62,7 @@ body.sepia-mode {
     font-weight: 900 !important;
     line-height: 1 !important;
     display: inline-block;
-    margin-top: -4px; font-weight: bold;    /* လိုအပ်ပါက အပေါ်ကို 2px လောက် တိုးမြှင့်ပေးပါသည် */
+    margin-top: -4px;    /* လိုအပ်ပါက အပေါ်ကို 2px လောက် တိုးမြှင့်ပေးပါသည် */
 }
 
 .nav-text {
@@ -70,20 +70,6 @@ body.sepia-mode {
     font-weight: bold;
     line-height: 1;         /* စာသား၏ line-height ကို 1 ထားမှ တည့်ပါမည် */
 }
-
-
-/* Icon (⌂) အတွက် သီးသန့် ဆိုဒ် */
-.nav-icon {
-    font-size: 28px !important; /* Icon ကို ပိုကြီးအောင် လုပ်ထားပါသည် */
-    line-height: 1; font-weight: 900 !important;  
-}
-
-/* စာသား (ပင်မ) အတွက် သီးသန့် ဆိုဒ် */
-.nav-text {
-    font-size: 18px !important; /* စာသားဆိုဒ်ကို သတ်မှတ်ပါသည် */
-    font-weight: bold;
-}
-
 
 
 /* ညာဘက်က ခလုတ်စုစည်းမှု (Layout မှန်စေရန်) */
