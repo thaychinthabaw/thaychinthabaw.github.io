@@ -48,8 +48,8 @@ body.sepia-mode {
     /* +,- ခလုတ်တွေရဲ့ ပုံစံအတိုင်း border ထည့်ခြင်း */
     background: #f4ecd8;                /* ခလုတ်နောက်ခံအရောင် */
     border: 1px solid #443300 !important; /* အညိုရောင် ဘောင် */
-    width: 70px;              /* အကျယ် 60px */
-    height: 30px;             /* အမြင့် 30px */                  /* အတွင်းနေရာလွတ် */
+    width: 75px;              /* အကျယ် 60px */
+    height: 35px;             /* အမြင့် 30px */                  /* အတွင်းနေရာလွတ် */
     border-radius: 50px;                 /* ထောင့်ဝိုင်း */
     cursor: pointer;                    /* လက်ညှိုးပုံစံ */
     font-weight: bold;                  /* စာသားအထူ */
