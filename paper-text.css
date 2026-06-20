@@ -285,15 +285,15 @@ body.sepia-mode {
 .top-btn {
     background: #443300;
     color: #f4ecd8;
-    width: 35px;  
-    height: 35px; 
+    width: 40px;  
+    height: 40px; 
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%; 
     text-decoration: none;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 20px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     opacity: 0.8; 
     transition: 0.3s;
