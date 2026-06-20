@@ -265,8 +265,11 @@ body.sepia-mode {
     border: none;
     width: 45px;  
     height: 45px; 
+     /* ဖြည့်စွက်ရမည့်အပိုင်း - အလယ်ကွက်တိကျစေရန် */
     display: flex;
-    
+    align-items: center;     /* အထက်အောက် အလယ်ညှိပေးတာ */
+    justify-content: center;
+    font-size: 26px;
     border-radius: 50%; 
     cursor: pointer;
     font-weight: bold;
