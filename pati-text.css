@@ -263,8 +263,14 @@ body.sepia-mode {
     
     color: #f4ecd8;
     border: none;
-    padding: 12px 20px;
-    border-radius: 50px; 
+    width: 45px;  
+    height: 45px; 
+     /* ဖြည့်စွက်ရမည့်အပိုင်း - အလယ်ကွက်တိကျစေရန် */
+    display: flex;
+    align-items: center;     /* အထက်အောက် အလယ်ညှိပေးတာ */
+    justify-content: center;
+    font-size: 26px;
+    border-radius: 50%; 
     cursor: pointer;
     font-weight: bold;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
@@ -279,15 +285,15 @@ body.sepia-mode {
 .top-btn {
     background: #443300;
     color: #f4ecd8;
-    width: 35px;  
-    height: 35px; 
+    width: 40px;  
+    height: 40px; 
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%; 
     text-decoration: none;
     font-weight: bold;
-    font-size: 16px;
+    font-size: 20px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
     opacity: 0.8; 
     transition: 0.3s;
@@ -413,14 +419,15 @@ body.sepia-mode {
 
 /* Fullscreen ခလုတ် Style */
 .fullscreen-round-btn {
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     border: 1px solid #443300;
     background: rgba(234, 222, 188, 0.4);
     color: #443300;
     cursor: pointer;
     position: fixed; 
+    font-size: 20px; 
     top: 80px;
     left: 20px;
     display: flex;
@@ -703,7 +710,7 @@ article {
     height: 42px;
     border: none;
     border-radius: 50%;
-    font-size: 18px;
+    font-size: 20px;
     cursor: pointer;
     transition: transform 0.2s ease;
 }
