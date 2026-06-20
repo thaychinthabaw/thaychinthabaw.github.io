@@ -264,7 +264,7 @@ body.sepia-mode {
     color: #f4ecd8;
     border: none;
     padding: 12px 20px;
-    border-radius: 50px; 
+    border-radius: 50%; 
     cursor: pointer;
     font-weight: bold;
     box-shadow: 0 4px 10px rgba(0,0,0,0.2);
