@@ -263,7 +263,10 @@ body.sepia-mode {
     
     color: #f4ecd8;
     border: none;
-    padding: 12px 20px;
+    width: 45px;  
+    height: 45px; 
+    display: flex;
+    align-items: center;
     border-radius: 50%; 
     cursor: pointer;
     font-weight: bold;
