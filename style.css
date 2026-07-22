@@ -99,7 +99,7 @@ main {
   padding: 3px 7px;      /* ဘေးအနည်းငယ် ပိုချဲ့ပေးထားပါတယ် */
   
   /* Telegram ပုံစံ အနားဝိုင်း */
-  border-radius: 20px;    
+  border-radius: 9999px;    
   
   /* အနားသတ် အဝါရောင် ပါးပါးလေး */
   border: 1px solid rgba(255, 215, 0, 0.3); 
